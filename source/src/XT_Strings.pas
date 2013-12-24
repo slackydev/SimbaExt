@@ -56,7 +56,7 @@ end;
 
 
 {*
- Returns all positions of the given pattern/substring.
+ Returns first position of the given pattern/substring.
 *}
 function StrPos(const Text: String; const SubStr:String): Integer;
 var
