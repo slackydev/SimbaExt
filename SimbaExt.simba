@@ -1,0 +1,39 @@
+type
+  XT_MatchAlgo = (LAB, LCH, RGB); 
+
+{*
+  I got tiered of writing IntToBox..
+*}
+{$IFDEF LAPE}
+function ToBox(x1,y1,x2,y2: Integer): TBox; overload;
+begin
+  Result := IntToBox(x1,y1,x2,y2);
+end;
+
+function ToBox(TopLeft, BtmRight:TPoint): TBox; overload;
+begin
+  Result := IntToBox(TopLeft.x, TopLeft.y, BtmRight.x, BtmRight.y);
+end;
+
+{$ELSE}
+function ToBox(x1,y1,x2,y2: Integer): TBox;
+begin
+  Result := IntToBox(x1,y1,x2,y2);
+end;
+{$ENDIF}
+
+
+
+{$include_once SimbaExt_Math.pas}
+{$include_once SimbaExt_Numeric.pas}
+{$include_once SimbaExt_Sorting.pas}
+{$include_once SimbaExt_Finder.pas}
+//{$include_once SimbaExt_SimpleOCR.pas}
+//{$include_once SimbaExt_DensityMap.pas}
+{$include_once SimbaExt_Points.pas}
+{$include_once SimbaExt_Matrix.pas}
+{$include_once SimbaExt_Imaging.pas}
+{$include_once SimbaExt_Randomize.pas}
+{$include_once SimbaExt_Strings.pas}
+
+{$include_once TRafikiBitmap.pas}
