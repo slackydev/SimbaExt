@@ -153,53 +153,6 @@ begin
 end;
 
 
-procedure TRafBitmap.Resize(NewWidth, NewHeight:Integer);
-begin
-  ResizeBitmapEx(Self.Bitmap, RM_Nearest, NewWidth, NewHeight);
-  Self.Width := NewWidth;
-  Self.Height := NewHeight;
-end;
-
-
-procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TBmpResizeMethod);
-begin
-  ResizeBitmapEx(Self.Bitmap, Resampler, NewWidth, NewHeight);
-  Self.Width := NewWidth;
-  Self.Height := NewHeight;
-end;
-
-
-function TRafBitmap.Rotate(Degrees:Extended): TRafBitmap;
-var 
-  Angle:Extended;
-begin
-  Angle := Radians(Degrees);
-  Result.Bitmap := RotateBitmap(Self.Bitmap, Angle);
-  GetBitmapSize(Result.Bitmap, Result.Width, Result.Height);
-  Result.Loaded := True;
-end;
-
-
-function TRafBitmap.Flip(Horizontal:Boolean): TRafBitmap;
-var 
-  Method: TBmpMirrorStyle;
-begin
-  case Horizontal of
-    True: Method := MirrorWidth;
-    False:Method := MirrorHeight;
-  end;
-  Result.Bitmap := CreateMirroredBitmapEx(Self.Bitmap, Method);
-  GetBitmapSize(Result.Bitmap, Result.Width, Result.Height);
-  Result.Loaded := True;
-end;
-
-
-procedure TRafBitmap.Invert();
-begin
-  InvertBitmap(Self.Bitmap);
-end;
-
-
 function TRafBitmap.GetPixels(TPA:TPointArray): TIntegerArray;
 begin
   Result := FastGetPixels(Self.Bitmap, TPA);
@@ -258,10 +211,12 @@ begin
   if Self.Loaded then
   begin
     DrawMatrixBitmap(Self.Bitmap, Matrix);
+    GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
   end else
   begin
     Self.Create(1,1);
     DrawMatrixBitmap(Self.Bitmap, Matrix);
+    GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
   end;
 end;
 
@@ -285,7 +240,7 @@ begin
   Tmp := Self.Clone();
   Tmp.Crop(Area.x1,Area.y1,Area.x2,Area.y2);
   Img := Tmp.ToMatrix();
-  Result := XT_ImFindColorTolEx(Img, TPA, Color, Tolerance);
+  Result := se_ImFindColorTolEx(Img, TPA, Color, Tolerance);
   SetLength(Img, 0);
   if not(Result) then Exit;
   if (Area.X1=0) and (Area.Y1 = 0) then Exit;
@@ -306,6 +261,92 @@ begin
 end;
 
 
+
+(*=============================================================================|
+ Transformations
+|=============================================================================*)
+procedure TRafBitmap.Resize(NewWidth, NewHeight:Integer);
+begin
+  ResizeBitmapEx(Self.Bitmap, RM_Nearest, NewWidth, NewHeight);
+  Self.Width := NewWidth;
+  Self.Height := NewHeight;
+end;
+
+
+procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TxResizeMethod);
+var
+  Matrix:T2DIntegerArray;
+begin
+  Matrix := Self.ToMatrix();
+  se_ImResize(Matrix, NewWidth, NewHeight, Resampler);
+  Self.FromMatrix(Matrix); 
+end;
+
+
+function TRafBitmap.Rotate(Degrees:Extended): TRafBitmap;
+var 
+  Angle:Extended;
+begin
+  Angle := Radians(Degrees);
+  Result.Bitmap := RotateBitmap(Self.Bitmap, Angle);
+  GetBitmapSize(Result.Bitmap, Result.Width, Result.Height);
+  Result.Loaded := True;
+end;
+
+
+function TRafBitmap.Flip(Horizontal:Boolean): TRafBitmap;
+var 
+  Method: TBmpMirrorStyle;
+begin
+  case Horizontal of
+    True: Method := MirrorWidth;
+    False:Method := MirrorHeight;
+  end;
+  Result.Bitmap := CreateMirroredBitmapEx(Self.Bitmap, Method);
+  GetBitmapSize(Result.Bitmap, Result.Width, Result.Height);
+  Result.Loaded := True;
+end;
+
+
+procedure TRafBitmap.Invert();
+begin
+  InvertBitmap(Self.Bitmap);
+end;
+
+
+procedure TRafBitmap.Blur(BlurSize: Integer);
+var
+  Matrix:T2DIntegerArray;
+begin
+  Matrix := Self.ToMatrix();
+  Matrix := se_ImBlurFilter(Matrix, BlurSize);
+  Self.FromMatrix(Matrix); 
+end;
+
+
+procedure TRafBitmap.Median(MedianSize: Integer);
+var
+  Matrix:T2DIntegerArray;
+begin
+  Matrix := Self.ToMatrix();
+  Matrix := se_ImMedianFilter(Matrix, MedianSize);
+  Self.FromMatrix(Matrix); 
+end;
+
+
+procedure TRafBitmap.Brightness(Amount:Extended; Legacy:Boolean);
+var
+  Matrix:T2DIntegerArray;
+begin
+  Matrix := Self.ToMatrix();
+  Matrix := se_ImBrighten(Matrix, Amount, Legacy);
+  Self.FromMatrix(Matrix);
+end;
+
+
+(*=============================================================================|
+ Other functinality
+|=============================================================================*)
 procedure TRafBitmap.Debug();
 begin
   if Self.Loaded then

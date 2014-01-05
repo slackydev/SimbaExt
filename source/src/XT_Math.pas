@@ -16,12 +16,14 @@ uses
   
 function Radians(Dgrs: Extended): Extended; Inline;
 function Degrees(Rads: Extended): Extended; Inline;
-function Modulo(X,Y:Extended): Extended; Inline; 
+function Modulo(X,Y:Extended): Extended; Inline;
+function IModulo(X,Y:Integer): Integer;  Inline;
 function DeltaAngle(DegA,DegB:Extended): Extended; Inline; 
 function DistManhattan(const pt1,pt2: TPoint): Extended; Inline; 
 function DistEuclidean(const pt1,pt2: TPoint): Extended; Inline; 
 function DistChebyshev(const pt1,pt2: TPoint): Extended; Inline; 
-function DistOctagonal(const pt1,pt2: TPoint): Extended; Inline; 
+function DistOctagonal(const pt1,pt2: TPoint): Extended; Inline;
+function DistToLine(Pt, sA, sB: TPoint): Extended; Inline;
 function InCircle(const  Pt,Center:TPoint; Radius: Integer): Boolean; Inline; 
 function InEllipse(const Pt,Center:TPoint; YRad, XRad: Integer): Boolean; Inline; 
 function InRect(const Pt:TPoint; const A,B,C,D:TPoint): Boolean; Inline; 
@@ -55,6 +57,14 @@ var d: Single;
 begin
   d := X / Y;
   Result := (d - floor(d)) * Y;
+end;
+
+
+function IModulo(X,Y:Integer): Integer; Inline;
+var d: Single;
+begin
+  d := X / Y;
+  Result := Round((d - floor(d)) * Y);
 end;
 
 
@@ -112,6 +122,28 @@ begin
   if dx >= dy then Result := dx + (dy * 0.414213562)
   else Result := dy + (dx * 0.414213562);
 end;
+
+
+{*
+ Distance from Pt to the line-segment defined by sA-sB.
+*}
+function DistToLine(Pt, sA, sB: TPoint): Extended; Inline;
+var
+  dx,dy,d:integer;
+  f: Single;
+  qt:TPoint;
+begin
+  dx := sB.x - sA.x;
+  dy := sB.y - sA.y;
+  d := dx*dx + dy*dy;
+  if (d = 0) then Exit(DistEuclidean(pt, sA));
+  f := ((pt.x - sA.x) * (dx) + (pt.y - sA.y) * (dy)) / d;
+  if (f < 0) then Exit(DistEuclidean(pt, sA));
+  if (f > 1) then Exit(DistEuclidean(pt, sB));
+  qt.x := Round(sA.x + f * dx);
+  qt.y := Round(sA.y + f * dy);
+  Result := DistEuclidean(pt, qt);
+end; 
 
 
 //============================================================================\\

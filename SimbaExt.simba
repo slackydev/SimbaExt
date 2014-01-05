@@ -1,26 +1,32 @@
+{$loadlib \..\includes\simbaext\simbaext.dll}
 type
-  XT_MatchAlgo = (LAB, LCH, RGB); 
+  TIntArray = TIntegerArray;
+  TExtArray = TExtendedArray;
+  TPtArray  = TPointArray;
+  TxMatchAlgo = (LAB, LCH, RGB);
 
-{*
-  I got tiered of writing IntToBox..
-*}
 {$IFDEF LAPE}
+//I got tiered of writing IntToBox..
 function ToBox(x1,y1,x2,y2: Integer): TBox; overload;
 begin
   Result := IntToBox(x1,y1,x2,y2);
 end;
+
 
 function ToBox(TopLeft, BtmRight:TPoint): TBox; overload;
 begin
   Result := IntToBox(TopLeft.x, TopLeft.y, BtmRight.x, BtmRight.y);
 end;
 
-{$ELSE}
-function ToBox(x1,y1,x2,y2: Integer): TBox;
+
+//For boolean case-statements.
+function BoolEval(x:Boolean): Boolean;
 begin
-  Result := IntToBox(x1,y1,x2,y2);
-end;
-{$ENDIF}
+  if not(x) then
+    Result := False
+  else
+    Result := True;
+end; 
 
 
 
@@ -35,5 +41,7 @@ end;
 {$include_once SimbaExt_Imaging.pas}
 {$include_once SimbaExt_Randomize.pas}
 {$include_once SimbaExt_Strings.pas}
-
+{$IFNDEF NO_EXTRA} {$include_once SimbaExt_Extra.pas} {$ENDIF}
 {$include_once TRafikiBitmap.pas}
+
+{$ENDIF}

@@ -19,6 +19,7 @@ type
   TPointArray = array of TPoint;
   T2DPointArray = array of TPointArray;
   T3DPointArray = array of T2DPointArray;
+  TPtArr = TPointArray;
 
   TFPoint = Packed record X,Y:Extended; end;
   TFPointArray = Array of TFPoint;
@@ -26,6 +27,7 @@ type
   TIntArray = array of Integer;
   T2DIntArray = array of TIntArray;
   T3DIntArray = array of T2DIntArray;
+  TIntArr = TIntArray;
 
   TByteArray = array of Byte;
   T2DByteArray = array of TByteArray;
@@ -38,7 +40,8 @@ type
   TExtArray = array of Extended;
   T2DExtArray = array of TExtArray;
   T3DExtArray = array of T2DExtArray;
-  
+  TExtArr = TExtArray;
+
   TStrArray = array of String;
   TCharArray= array of Char;
   

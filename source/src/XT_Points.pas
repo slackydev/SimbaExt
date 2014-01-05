@@ -825,6 +825,7 @@ var
   i, j: Integer;
   Area: TBox;
 begin
+  if (High(TPA1) = -1) or (High(TPA2) = -1) then Exit;
   SetLength(Result, High(TPA1) + High(TPA2) + 2);
   Move(TPA1[Low(TPA1)], Result[Low(Result)], Length(TPA1)*SizeOf(TPA1[0]));
   Move(TPA2[Low(TPA2)], Result[High(TPA1)+1], Length(TPA2)*SizeOf(TPA2[0]));

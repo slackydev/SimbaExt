@@ -12,6 +12,8 @@ uses
   SysUtils, XT_Types;
 
 function StrPosEx(const Text, SubStr:String): TIntArray;
+function StrPosL(const Text: String; const SubStr:String): Integer;
+function StrPosR(const Text: String; const SubStr:String): Integer;
 function StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;
 function StrExplode(const Text, Sep: String): TStrArray;
 
@@ -24,31 +26,32 @@ implementation
 *}
 function StrPosEx(const Text: String; const SubStr:String): TIntArray;
 var
-  hits,maxhits,h,q,i: Integer;
+  HitPos,LenSub,h,q,i: Integer;
 begin
-  MaxHits := Length(SubStr);
-  Hits := 1;
+  LenSub := Length(SubStr);
+  if LenSub = 0 then Exit;
+  HitPos := 1;
   h := 0;
   q := 1;
   SetLength(Result, q);
   for i:=1 to Length(Text) do
   begin
-    if Text[i] = SubStr[Hits] then
+    if Text[i] = SubStr[HitPos] then
     begin
-      Inc(Hits);
-      if (Hits > MaxHits) then
+      if (HitPos = LenSub) then
       begin
         if q <= h  then
         begin
           q := q+q;
           SetLength(Result, q);
         end;
-        Result[h] := (i - Hits) + 1;
+        Result[h] := (i - HitPos) + 1;
         Inc(h);
-        Hits := 1;
+        HitPos := 1;
       end;
+      Inc(HitPos);
     end else
-      Hits := 1;
+      HitPos := 1;
   end;
   SetLength(Result, h);
 end;
@@ -56,23 +59,48 @@ end;
 
 
 {*
- Returns first position of the given pattern/substring.
+ Returns first position of the given pattern/substring from left.
 *}
-function StrPos(const Text: String; const SubStr:String): Integer;
+function StrPosL(const Text: String; const SubStr:String): Integer;
 var
-  hits,maxhits,i: Integer;
+  HitPos,LenSub,i: Integer;
 begin
-  MaxHits := Length(SubStr);
-  Hits := 1;
+  LenSub := Length(SubStr);
+  if LenSub = 0 then Exit(-1);
+  HitPos := 1;
   for i:=1 to Length(Text) do
   begin
-    if Text[i] = SubStr[Hits] then
+    if Text[i] = SubStr[HitPos] then
     begin
-      Inc(Hits);
-      if (Hits > MaxHits) then
-        Exit((i - Hits) + 1);
+      if (HitPos = LenSub) then
+        Exit((i - HitPos) + 1);
+      Inc(HitPos);
     end else
-      Hits := 1;
+      HitPos := 1;
+  end;
+  Exit(-1);
+end;
+
+
+{*
+ Returns first position of the given pattern/substring from right.
+*}
+function StrPosR(const Text: String; const SubStr:String): Integer;
+var
+  HitPos,LenSub,i: Integer;
+begin
+  LenSub := Length(SubStr);
+  if LenSub = 0 then Exit(-1);
+  HitPos := LenSub;
+  for i:=Length(Text) downto 1 do
+  begin
+    if Text[i] = SubStr[HitPos] then
+    begin
+      if (HitPos = LenSub) then
+        Exit((i - HitPos) + 1);
+      Dec(HitPos);
+    end else
+      HitPos := LenSub;
   end;
   Exit(-1);
 end;
@@ -80,7 +108,7 @@ end;
 
 
 {*
- Fast string replace.
+ Return a copy of string `Text` with all occurrences of `substr` replaced by `RepStr`.
 *}
 function StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;
 var
@@ -110,24 +138,24 @@ begin
       for i:=0 to High(Subs) do
       begin
         Curr := Subs[i];
-        j := (Curr-Prev) + 1;
+        j := (Curr-Prev);
         Move(Text[Prev], Result[k], j);
         k := k + j;
         Move(RepStr[1], Result[k], HiRep);
         k := k+HiRep;
-        Prev := Curr + HiSub + 1;
+        Prev := Curr + HiSub;
       end;
       Move(Text[Prev], Result[k], Hi-Prev+1);
     end;
   False:
     begin
       Curr := Subs[0];
-      j := (Curr-Prev) + 1;
+      j := (Curr-Prev);
       Move(Text[Prev], Result[k], j);
       k := k + j;
       Move(RepStr[1], Result[k], HiRep);
       k := k+HiRep;
-      Prev := Curr + HiSub + 1;
+      Prev := Curr + HiSub;
       Move(Text[Prev], Result[k], Hi-Prev+1);
       SetLength(Result, k+(Hi-Prev)+1);
     end;
@@ -136,6 +164,10 @@ end;
 
 
 
+{*
+ StrExplode lets you take a string and blow it up into smaller pieces, at each
+ occurance of the given seperator `Sep`. 
+*}
 function StrExplode(const Text, Sep: String): TStrArray;
 var
   Subs:TIntArray;
@@ -157,7 +189,7 @@ begin
   SetLength(Result, Length(Subs));
   for i:=0 to High(Subs) do
   begin
-    Curr := Subs[i]+1;
+    Curr := Subs[i];
     Result[i] := Copy(Text, Prev, (Curr-Prev));
     Prev := Curr+HiSep;
   end;

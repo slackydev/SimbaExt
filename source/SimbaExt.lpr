@@ -33,7 +33,8 @@ uses
   XT_Morphology,
   XT_DensityMap,
   XT_TPAExtShape,
-  XT_Strings;
+  XT_Strings,
+  XT_Array;
 
 //Include Simba Wrapper
 {$I ExportWrap.pas}
@@ -72,7 +73,9 @@ begin
   AddCommand(@exp_DistEuclidean,	'function exp_DistEuclidean(pt1,pt2: TPoint): Extended;');
   AddCommand(@exp_DistChebyshev,	'function exp_DistChebyshev(pt1,pt2: TPoint): Extended;');
   AddCommand(@exp_DistOctagonal,	'function exp_DistOctagonal(pt1,pt2: TPoint): Extended;');
+  AddCommand(@exp_DistToLine,       'function exp_DistToLine(Pt, sA, sB: TPoint): Extended;'); 
   AddCommand(@exp_Modulo,	'function exp_Modulo(X,Y:Extended): Extended;');
+  AddCommand(@exp_IModulo,	'function exp_IModulo(X,Y:Integer): Integer;');
   AddCommand(@exp_InCircle,	'function exp_InCircle(const Pt, Center: TPoint; Radius: Integer): Boolean;');
   AddCommand(@exp_InEllipse,	'function exp_InEllipse(const Pt,Center:TPoint; YRad, XRad: Integer): Boolean;');
   AddCommand(@exp_InRect,	'function exp_InRect(const Pt:TPoint; const A,B,C,D:TPoint): Boolean;');
@@ -101,7 +104,7 @@ begin
   
   
   // Finder.pas
-  AddCommand(@exp_ImFindColorTolEx,	'function exp_ImFindColorTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, Tol:Integer): Boolean;');
+  AddCommand(@exp_ImFindColorTolEx,	    'function exp_ImFindColorTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, Tol:Integer): Boolean;');
   AddCommand(@exp_ImFindColorsTolEx,	'function exp_ImFindColorsTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;');
   AddCommand(@exp_ImFindColorTolExLCH,	'function exp_ImFindColorTolExLCH(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;');
   AddCommand(@exp_ImFindColorTolExLAB,	'function exp_ImFindColorTolExLAB(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;');
@@ -109,14 +112,14 @@ begin
   
   // Points.pas and replated
   AddCommand(@exp_ScalePoint,	'function exp_ScalePoint(const Center, Pt:TPoint; Radius:Integer): TPoint;');
-  AddCommand(@exp_SumTPA,	'function exp_SumTPA(const TPA: TPointArray): TPoint;');
+  AddCommand(@exp_SumTPA,	    'function exp_SumTPA(const TPA: TPointArray): TPoint;');
   AddCommand(@exp_TPASplitAxis,	'procedure exp_TPASplitAxis(const TPA: TPointArray; var X:TIntegerArray; var Y:TIntegerArray);');
   AddCommand(@exp_TPAJoinAxis,	'procedure exp_TPAJoinAxis(const X:TIntegerArray; const Y:TIntegerArray; var TPA:TPointArray);');
   AddCommand(@exp_TPAFilter,	'procedure exp_TPAFilter(var TPA: TPointArray; const Shape:TPointArray; const TopLeft:TPoint);');
   AddCommand(@exp_TPAFilterBounds,	'procedure exp_TPAFilterBounds(var TPA: TPointArray; x1,y1,x2,y2:Integer);');
   AddCommand(@exp_ATPAFilter,	'procedure exp_ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:Boolean);');
   AddCommand(@exp_TPAExtremes,	'procedure exp_TPAExtremes(const TPA:TPointArray; var Result:TPointArray);');
-  AddCommand(@exp_TPABBox,	'procedure exp_TPABBox(const TPA:TPointArray; var Result:TPointArray);');
+  AddCommand(@exp_TPABBox,	    'procedure exp_TPABBox(const TPA:TPointArray; var Result:TPointArray);');
   AddCommand(@exp_TPACenter,	'function exp_TPACenter(const TPA: TPointArray; Method: TxCenterMethod; Inside:Boolean): TPoint;');
   AddCommand(@exp_GetAdjacent,	'procedure exp_GetAdjacent(var adj:TPointArray; n:TPoint; EightWay:Boolean);');
   AddCommand(@exp_TPACircularity,	'function exp_TPACircularity(const TPA: TPointArray): Extended;');
@@ -127,10 +130,10 @@ begin
   AddCommand(@exp_InvertTPA,	'procedure exp_InvertTPA(const TPA:TPointArray; var Result:TPointArray);');
   AddCommand(@exp_RotateTPAEx,	'procedure exp_RotateTPAEx(const TPA: TPointArray; const Center:TPoint; Radians: Extended; var Result:TPointArray);');
   AddCommand(@exp_TPAPartition,	'procedure exp_TPAPartition(const TPA:TPointArray; BoxWidth, BoxHeight:Integer; var Result:T2DPointArray);');
-  AddCommand(@exp_AlignTPA,	'procedure exp_AlignTPA(const TPA:TPointArray; Method: TxAlignMethod; var Angle:Extended; var Result:TPointArray);');
+  AddCommand(@exp_AlignTPA,	    'procedure exp_AlignTPA(const TPA:TPointArray; Method: TxAlignMethod; var Angle:Extended; var Result:TPointArray);');
   AddCommand(@exp_CleanSortTPA,	'procedure exp_CleanSortTPA(const TPA: TPointArray; var Result:TPointArray);');
-  AddCommand(@exp_UniteTPA,	'procedure exp_UniteTPA(const TPA1, TPA2: TPointArray; RemoveDupes:Boolean; var Result: TPointArray);');
-  AddCommand(@exp_TPALine,	'procedure exp_TPALine(var TPA:TPointArray; const P1:TPoint; const P2: TPoint);');
+  AddCommand(@exp_UniteTPA,	    'procedure exp_UniteTPA(const TPA1, TPA2: TPointArray; RemoveDupes:Boolean; var Result: TPointArray);');
+  AddCommand(@exp_TPALine,	    'procedure exp_TPALine(var TPA:TPointArray; const P1:TPoint; const P2: TPoint);');
   AddCommand(@exp_ConnectTPA,	'procedure exp_ConnectTPA(const TPA:TPointArray; var Result:TPointArray);');
   AddCommand(@exp_ConnectTPAEx,	'procedure exp_ConnectTPAEx(TPA:TPointArray; Tension:Extended; var Result: TPointArray);');
   AddCommand(@exp_XagonPoints,	'procedure exp_XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint; var Result:TPointArray);');
@@ -145,7 +148,7 @@ begin
   AddCommand(@exp_FloodFillPolygon,	'procedure exp_FloodFillPolygon(const Poly:TPointArray; EightWay:Boolean; var Result:TPointArray);');
   AddCommand(@exp_ClusterTPAEx,	'procedure exp_ClusterTPAEx(const TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean; var Result:T2DPointArray);');
   AddCommand(@exp_ClusterTPA,	'procedure exp_ClusterTPA(const TPA: TPointArray; Distance: Integer; EightWay:Boolean; var Result:T2DPointArray);');
-  AddCommand(@exp_TPAEdges,	'procedure exp_TPAEdges(const TPA: TPointArray; var Result:TPointArray);');
+  AddCommand(@exp_TPAEdges,	    'procedure exp_TPAEdges(const TPA: TPointArray; var Result:TPointArray);');
   AddCommand(@exp_TPASkeleton,	'procedure exp_TPASkeleton(const TPA:TPointArray; FMin,FMax:Integer; var Result:TPointArray);');
   AddCommand(@exp_TPAReduce,	'procedure exp_TPAReduce(const TPA:TPointArray; FMin,FMax, Iterations:Integer; var Result:TPointArray);');
   AddCommand(@exp_TPAExpand,	'procedure exp_TPAExpand(const TPA:TPointArray; Iterations:Integer; var Result:TPointArray);');
@@ -155,7 +158,7 @@ begin
   AddCommand(@exp_NewMatrixEx,	'procedure exp_NewMatrixEx(W,H, Init:Integer; var Result:T2DIntegerArray);');
   AddCommand(@exp_NewMatrix,	'procedure exp_NewMatrix(W,H:Integer; var Result:T2DIntegerArray);');
   AddCommand(@exp_MatrixSetTPA,	'procedure exp_MatrixSetTPA(var Matrix:T2DIntegerArray; const TPA:TPointArray; Value:Integer; const Offset:TPoint);');
-  AddCommand(@exp_TPAToMatrixEx,	'procedure exp_TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean; var Result:T2DIntegerArray);');
+  AddCommand(@exp_TPAToMatrixEx,'procedure exp_TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean; var Result:T2DIntegerArray);');
   AddCommand(@exp_TPAToMatrix,	'procedure exp_TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean; var Result:T2DIntegerArray);');
   AddCommand(@exp_NormalizeMat,	'procedure exp_NormalizeMat(const Mat:T2DIntegerArray; Alpha, Beta:Integer; var Result:T2DIntegerArray);');
   AddCommand(@exp_MatGetValues,	'procedure exp_MatGetValues(const Mat:T2DIntegerArray; const Indices:TPointArray; var Result:TIntegerArray);');
@@ -178,8 +181,8 @@ begin
   AddCommand(@exp_ImThreshold,	'procedure exp_ImThreshold(const ImgArr:T2DIntegerArray; Threshold, Alpha, Beta:Byte; Invert:Boolean; var Result: T2DIntegerArray);');
   AddCommand(@exp_ImThresholdAdaptive,	'procedure exp_ImThresholdAdaptive(const ImgArr:T2DIntegerArray; Alpha, Beta: Byte; Invert:Boolean; Method:TxThreshMethod; C:Integer; var Result: T2DIntegerArray);');
   AddCommand(@exp_ImFindContours,	'procedure exp_ImFindContours(const ImgArr:T2DIntegerArray; Outlines:Boolean; var Result: T2DPointArray);');
-  AddCommand(@exp_ImCEdges,	'procedure exp_ImCEdges(const ImgArr: T2DIntegerArray; MinDiff: Integer; var Result: TPointArray);');
-  AddCommand(@exp_ImResize,	'procedure exp_ImResize(var ImgArr:T2DIntegerArray; NewW, NewH: Integer; Method:TxResizeMethod);');
+  AddCommand(@exp_ImCEdges,	    'procedure exp_ImCEdges(const ImgArr: T2DIntegerArray; MinDiff: Integer; var Result: TPointArray);');
+  AddCommand(@exp_ImResize,	    'procedure exp_ImResize(var ImgArr:T2DIntegerArray; NewW, NewH: Integer; Method:TxResizeMethod);');
   
   
   //Randomize.pas
@@ -189,11 +192,19 @@ begin
 
 
   //Strings.pas
-  AddCommand(@exp_StrPosEx,	'procedure exp_StrPosEx(const Text, SubStr:String; var Result:TIntegerArray);');
+  AddCommand(@exp_StrPosEx,	    'procedure exp_StrPosEx(const Text, SubStr:String; var Result:TIntegerArray);');
+  AddCommand(@exp_StrPosL,	    'function exp_StrPosL(const Text, SubStr: String): Integer;');
+  AddCommand(@exp_StrPosR,	    'function exp_StrPosR(const Text, SubStr: String): Integer;');
   AddCommand(@exp_StrReplace,	'function exp_StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;');
   AddCommand(@exp_StrExplode,   'procedure exp_StrExplode(const Text, Sep: String; var Result: TStringArray);');
   
-  
+
+  //Something extra..
+  AddCommand(@ChrMove,   'procedure exp_Move(const InArr:AnsiString; var DestArr:AnsiString; source, dest, size:Integer);');
+  AddCommand(@IntMove,   'procedure exp_Move(const InArr:TIntegerArray; var DestArr:TIntegerArray; source, dest, size:Integer); overload;');
+  AddCommand(@ExtMove,   'procedure exp_Move(const InArr:TExtendedArray; var DestArr:TExtendedArray; source, dest, size:Integer); overload;');
+  AddCommand(@PtMove,    'procedure exp_Move(const InArr:TPointArray; var DestArr:TPointArray; source, dest, size:Integer); overload;');
+
   CommandsLoaded := True;
 end;
 

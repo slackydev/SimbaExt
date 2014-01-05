@@ -21,9 +21,19 @@ begin
   Result := DistOctagonal(pt1,pt2);
 end;
 
+function exp_DistToLine(Pt, sA, sB: TPoint): Extended; Cdecl;
+begin
+  Result := DistToLine(Pt, sA, sB);
+end;
+
 function exp_Modulo(X,Y:Extended): Extended; Cdecl;
 begin
   Result := Modulo(X,Y);
+end;
+
+function exp_IModulo(X,Y:Integer): Integer; Cdecl;
+begin
+  Result := IModulo(X,Y);
 end;
 
 function exp_InCircle(const Pt, Center: TPoint; Radius: Integer): Boolean; Cdecl;
@@ -604,6 +614,16 @@ end;
 procedure exp_StrPosEx(const Text, SubStr:String; var Result:TIntArray); Cdecl;
 begin
   Result := StrPosEx(Text, SubStr);
+end;
+
+function exp_StrPosL(const Text, SubStr: String): Integer; Cdecl;
+begin
+  Result := StrPosL(Text, SubStr);
+end;
+
+function exp_StrPosR(const Text, SubStr: String): Integer; Cdecl;
+begin
+  Result := StrPosR(Text, SubStr);
 end;
 
 function exp_StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String; Cdecl;
