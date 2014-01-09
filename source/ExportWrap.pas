@@ -638,5 +638,23 @@ begin
 end;
 
 
-  
- 
+{*-----------------------------------------------------------------------------|
+| Corners.pas                                                                  |
+|-----------------------------------------------------------------------------*}
+procedure exp_CornerResponse(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; var Result: T2DExtArray); Cdecl;
+begin
+  Result := CornerResponse(Mat, GaussDev, KSize);
+end;
+
+procedure exp_FindCornerPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer; var Result:TPointArray); Cdecl;
+begin
+  Result := FindCornerPoints(Mat, GaussDev, KSize, Thresh, MinDist);
+end;
+
+procedure exp_FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer; var Result:TPointArray); Cdecl;
+begin
+  Result := FindCornerMidPoints(Mat, GaussDev, KSize, Thresh, MinDist);
+end;
+
+
+

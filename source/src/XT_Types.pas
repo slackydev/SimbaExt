@@ -45,7 +45,7 @@ type
   TStrArray = array of String;
   TCharArray= array of Char;
   
-  (* TBox is not SCAR compatible - Don't export functions that returns this *)
+  
   TBox = packed record
     X1: LongInt;
     Y1: LongInt;
@@ -67,10 +67,10 @@ type
   TxThreshMethod = (TM_Mean, TM_MinMax);
   TxCenterMethod = (CM_Bounds, CM_BBox, CM_Mean, CM_Median);
   TxResizeMethod = (RM_Nearest, RM_Bilinear, RM_Bicubic);
-  
-  TChars = Array of T2DIntArray;  
+
+  TChars = Array of T2DIntArray;
   TCharsArray = Array of TChars;
-  
+
   {
   TCharNew = record 
     Pts: TPointArray;
@@ -154,5 +154,6 @@ begin
     Result[i].y := TPA[i].y;
   end;
 end;
+ 
 
 end.

@@ -6,6 +6,7 @@ Should only be used under the Lape-interpreter.
 
 Download latest include
 --------
-http://www.speedyshare.com/Uv85V/SimbaExt.rar
-> Just extract it in Simba "Includes"-folder.
+loc1: http://speedy.sh/9uhg7/SimbaExt.rar  
+loc2: http://slackworld.net/downloads/SimbaExt.rar (Alternative location) 
 
+> Just extract it in Simba "Includes"-folder.

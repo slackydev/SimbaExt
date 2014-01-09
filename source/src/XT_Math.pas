@@ -17,6 +17,8 @@ uses
 function Radians(Dgrs: Extended): Extended; Inline;
 function Degrees(Rads: Extended): Extended; Inline;
 function Modulo(X,Y:Extended): Extended; Inline;
+function DModulo(X,Y:Double): Double;  Inline;
+function FModulo(X,Y:Single): Single;  Inline;
 function IModulo(X,Y:Integer): Integer;  Inline;
 function DeltaAngle(DegA,DegB:Extended): Extended; Inline; 
 function DistManhattan(const pt1,pt2: TPoint): Extended; Inline; 
@@ -49,22 +51,29 @@ begin Result := Dgrs * (Pi/180); end;
 function Degrees(Rads: Extended): Extended; Inline;
 begin Result := Rads * (180/Pi); end;
 
+
 {*
  "Real" modulus function as seen in: WolframAlpha, MatLab and Python, and many more modern programming languages.
+ No overload due to inlineing, and (possibly) exporting.
 *}
 function Modulo(X,Y:Extended): Extended; Inline; 
-var d: Single;
 begin
-  d := X / Y;
-  Result := (d - floor(d)) * Y;
+  Result := X - Floor(X / Y) * Y;
 end;
 
+function DModulo(X,Y:Double): Double; Inline;
+begin
+  Result := X - Floor(X / Y) * Y;
+end;
+
+function FModulo(X,Y:Single): Single; Inline;
+begin
+  Result := X - Floor(X / Y) * Y;
+end;
 
 function IModulo(X,Y:Integer): Integer; Inline;
-var d: Single;
 begin
-  d := X / Y;
-  Result := Round((d - floor(d)) * Y);
+  Result := X - Floor(X / Y) * Y;
 end;
 
 

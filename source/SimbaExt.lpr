@@ -34,7 +34,8 @@ uses
   XT_DensityMap,
   XT_TPAExtShape,
   XT_Strings,
-  XT_Array;
+  XT_Array,
+  XT_Corners;
 
 //Include Simba Wrapper
 {$I ExportWrap.pas}
@@ -204,6 +205,13 @@ begin
   AddCommand(@IntMove,   'procedure exp_Move(const InArr:TIntegerArray; var DestArr:TIntegerArray; source, dest, size:Integer); overload;');
   AddCommand(@ExtMove,   'procedure exp_Move(const InArr:TExtendedArray; var DestArr:TExtendedArray; source, dest, size:Integer); overload;');
   AddCommand(@PtMove,    'procedure exp_Move(const InArr:TPointArray; var DestArr:TPointArray; source, dest, size:Integer); overload;');
+
+
+  //Corners.pas
+  AddCommand(@exp_CornerResponse,        'procedure exp_CornerResponse(const Mat:T2DIntegerArray; GaussDev:Extended; KSize:Integer; var Result: T2DExtendedArray);');
+  AddCommand(@exp_FindCornerPoints,      'procedure exp_FindCornerPoints(const Mat:T2DIntegerArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer; var Result:TPointArray);');
+  AddCommand(@exp_FindCornerMidPoints,   'procedure exp_FindCornerMidPoints(const Mat:T2DIntegerArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer; var Result:TPointArray);');
+
 
   CommandsLoaded := True;
 end;

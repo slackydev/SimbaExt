@@ -31,7 +31,6 @@ begin
   exp_ImThresholdAdaptive(ImgArr, Alpha, Beta, Invert, Method, C, Result);
 end;
 
-
 function se_ImFindContours(const ImgArr:T2DIntegerArray; Outlines:Boolean):  T2DPointArray;  
 begin
   exp_ImFindContours(ImgArr,Outlines, Result);
@@ -46,3 +45,48 @@ procedure se_ImResize(var ImgArr:T2DIntegerArray; NewW, NewH: Integer; Method:Tx
 begin
   exp_ImResize(ImgArr, NewW, NewH, Method);
 end;
+
+
+
+{*=========================================================================================|
+| Corners.pas                                                    [placing it hear for now] |
+|=========================================================================================*}
+function se_CornerResponse(const ImgArr:T2DIntegerArray; GaussDev:Extended; KSize:Integer): T2DExtendedArray;  
+begin
+  exp_CornerResponse(ImgArr, GaussDev, KSize, Result);
+end;
+
+function se_FindCornerPoints(var ImgArr:T2DIntegerArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer): TPointArray;  
+begin
+  exp_FindCornerPoints(ImgArr, GaussDev, KSize, Thresh, MinDist, Result);
+end;
+
+{$IFDEF LAPE}
+function se_FindCornerPoints(var ImgArr:T2DIntegerArray; Thresh:Extended; MinDist:Integer): TPointArray; overload; 
+begin
+  exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, MinDist, Result);
+end;
+
+function se_FindCornerPoints(var ImgArr:T2DIntegerArray; Thresh:Extended): TPointArray; overload;   
+begin
+  exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, 7, Result);
+end;
+{$ENDIF}
+
+function se_FindCornerMidPoints(var ImgArr:T2DIntegerArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer): TPointArray;  
+begin
+  exp_FindCornerMidPoints(ImgArr, GaussDev, KSize, Thresh, MinDist, Result);
+end;
+
+
+{$IFDEF LAPE}
+function se_FindCornerMidPoints(var ImgArr:T2DIntegerArray; Thresh:Extended; MinDist:Integer): TPointArray; overload; 
+begin
+  exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, MinDist, Result);
+end;
+
+function se_FindCornerMidPoints(var ImgArr:T2DIntegerArray; Thresh:Extended): TPointArray; overload;   
+begin
+  exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, 3, Result);
+end;
+{$ENDIF}

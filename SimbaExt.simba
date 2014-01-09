@@ -1,7 +1,10 @@
 {$loadlib \..\includes\simbaext\simbaext.dll}
 type
   TIntArray = TIntegerArray;
+  TMatrix = T2DIntegerArray;
+  
   TExtArray = TExtendedArray;
+  T2DExtArray = T2DExtendedArray;
   TPtArray  = TPointArray;
   TxMatchAlgo = (LAB, LCH, RGB);
 
@@ -17,16 +20,6 @@ function ToBox(TopLeft, BtmRight:TPoint): TBox; overload;
 begin
   Result := IntToBox(TopLeft.x, TopLeft.y, BtmRight.x, BtmRight.y);
 end;
-
-
-//For boolean case-statements.
-function BoolEval(x:Boolean): Boolean;
-begin
-  if not(x) then
-    Result := False
-  else
-    Result := True;
-end; 
 
 
 

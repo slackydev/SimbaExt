@@ -20,8 +20,8 @@ end;
 //gives the center of the box
 function TBox.seCenter(): TPoint;
 begin
-  Result.X := Self.X1 + (Self.seWidth() div 2);
-  Result.Y := Self.Y1 + (Self.seHeight() div 2);
+  Result.X := Self.X1 + (Self.seWidth() shr 1);
+  Result.Y := Self.Y1 + (Self.seHeight() shr 1);
 end;
 
 //expand/(shrink if negative) the TBox by sizechange.
@@ -46,6 +46,15 @@ begin
   Result:= (self.x2 > other.x1) and (self.x1 < other.x2) and
            (self.y1 < other.y2) and (self.y2 > other.y1);
 end;
+
+//Combine two boxes - Lazy (does not expand on current)
+function TBox.seCombine(Other:TBox): TBox;
+begin
+  Result := ToBox(Min(Min(Other.X1, Other.X2), Min(Self.X1, Self.X2)),
+                  Min(Min(Other.Y1, Other.Y2), Min(Self.Y1, Self.Y2)),
+                  Max(Max(Other.X1, Other.X2), Max(Self.X1, Self.X2)),
+                  Max(Max(Other.Y1, Other.Y2), Max(Self.Y1, Self.Y2)));
+end;  
 
 //Return a TPA of the corner points (clockwise).
 function TBox.seToCoords(): TPointArray;
