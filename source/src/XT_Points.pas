@@ -1066,8 +1066,11 @@ end;
  point given by `SimplePolyPoints`. So we get a "proper polygon".
 *}
 procedure TPASimplePoly(var TPA:TPointArray; const Center:TPoint; Sides:Integer; const Dir:TPoint);//StdCall;
+var Pt:TPoint;
 begin
-  TPA := ConnectTPA(XagonPoints(Center, Sides, Dir));
+  Pt.x := Center.x + Dir.x;
+  Pt.y := Center.y + Dir.y;
+  TPA := ConnectTPA(XagonPoints(Center, Sides, Pt));
 end;
 
 
