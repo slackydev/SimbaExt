@@ -1,12 +1,18 @@
 {$loadlib \..\includes\simbaext\simbaext.dll}
 type
   TIntArray = TIntegerArray;
-  TMatrix = T2DIntegerArray;
+  TMatrix   = T2DIntegerArray;
   
-  TExtArray = TExtendedArray;
+  TExtArray   = TExtendedArray;
   T2DExtArray = T2DExtendedArray;
-  TPtArray  = TPointArray;
+  TPtArray    = TPointArray;
   TxMatchAlgo = (LAB, LCH, RGB);
+  
+  Float = Single;
+  TFloatArray = Array of Float;
+  T2DFloatArray = Array of TFloatArray;
+  
+  
 
 {$IFDEF LAPE}
 //I got tiered of writing IntToBox..

@@ -15,6 +15,7 @@ function CornerResponse(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer)
 function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer): TPointArray;
 function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist: Integer): TPointArray;
 
+
 //-----------------------------------------------------------------------
 implementation
 uses
@@ -103,7 +104,7 @@ end;
 (*=============================================================================|
  Convert Matrix to byte values (0-255) aka gray-scale
 |=============================================================================*)
-function GrayScale(const Mat:T2DIntArray):T2DIntArray;
+function GrayScale(const Mat:T2DIntArray): T2DIntArray;
 var
   x,y,W,H,color:Integer;
 begin
@@ -180,29 +181,29 @@ end;
 (*=============================================================================|
  Gassuian blur and related functions
 |=============================================================================*)
-function Gaussian(X,Mu,Sigma:Extended): Extended; Inline;
-begin
-  Result := Exp(-(Sqr(((X-Mu) / Sigma))) / 2.0);
-end;
-
 function GaussKernel(KernelRadius:Integer; Sigma:Extended): T2DExtArray;
 var
-  Sum: Extended;
-  S,col,row:Integer;
+  hkernel:TExtArray;
+  Size,i,x,y:Integer;
+  sum:Extended;
 begin
-  S := (KernelRadius * 2);
-  SetLength(Result, S+1, S+1);
-  Sum := 0;
-  for col := 0 to S do
-    for row := 0 to S do
+  Size := 2*KernelRadius+1;
+  SetLength(hkernel, Size);
+  for i:=0 to Size-1 do
+    hkernel[i] := Exp(-(Sqr((i-KernelRadius) / Sigma)) / 2.0);
+
+  SetLength(Result, Size, Size);
+  sum:=0;
+  for y:=0 to Size-1 do
+    for x:=0 to Size-1 do
     begin
-      Result[row][col] := Sqr(Gaussian(col, KernelRadius, Sigma));
-      sum := sum + Result[row][col];
+      Result[y][x] := hkernel[x]*hkernel[y];
+      Sum := Sum + Result[y][x];
     end;
 
-  for col := 0 to S do
-    for row := 0 to S do
-      Result[row][col] := Result[row][col] / sum;
+  for y := 0 to Size-1 do
+    for x := 0 to Size-1 do
+      Result[y][x] := Result[y][x] / sum;
 end; 
 
 function GaussianBlur(Mat:T2DIntArray; Sigma:Extended; KernelSize:Integer): T2DIntArray;
