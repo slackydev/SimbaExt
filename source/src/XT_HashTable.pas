@@ -11,9 +11,9 @@ uses
 
 type
   ColorLAB = Record
-    L: Single;
-    A: Single;
-    B: Single;
+    L: Double;
+    A: Double;
+    B: Double;
   end;
 
   ColorLABEntry = Record

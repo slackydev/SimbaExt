@@ -12,6 +12,9 @@ interface
 uses
   XT_Types, Math, SysUtils;
 
+function MatchColor(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; Cdecl;
+function MatchColorXYZ(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; Cdecl;
+function MatchColorLAB(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; Cdecl;
 
 function ImFindColorTolEx(const ImgArr:T2DIntArray; var TPA:TPointArray; Color, Tol:Integer): Boolean; Cdecl;
 function ImFindColorsTolEx(const ImgArr:T2DIntArray; var TPA:TPointArray; Colors:TIntArray; Tol:Integer): Boolean; Cdecl;
@@ -23,7 +26,148 @@ function ImFindColorTolExLAB(const ImgArr:T2DIntArray; var TPA:TPointArray; Colo
 implementation
 
 uses
-  XT_HashTable, XT_ColorMath, XT_Math, XT_TPointList;
+  XT_HashTable, XT_ColorMath, XT_Math, XT_TPointList, MatrixMath;
+
+
+
+// Cross correlate a color with an image in RGB-Space
+function MatchColor(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; Cdecl;
+var
+  W,H,X,Y:Integer;
+  R,G,B,R1,G1,B1:Byte;
+  Diff: Single;
+begin
+  W := High(ImgArr[0]);
+  H := High(ImgArr);
+  SetLength(Result, H+1,W+1);
+  ColorToRGB(Color, R,G,B);
+
+  // If we want euclidean distance correlation
+  if CCMode in [CC_Euclid, CC_EuclidSquared, CC_EuclidNormed] then
+  begin
+    for Y:=0 to H do
+      for X:=0 to W do
+      begin
+        ColorToRGB(ImgArr[Y][X], R1,G1,B1);
+        Result[y][x] := Sqr(R1-R) + Sqr(G1-G) + Sqr(B1-B);
+      end;
+    if (CCMode = CC_Euclid) then
+      Result := fSqrt(Result)
+    else if (CCMode = CC_EuclidNormed) then
+    begin
+      diff := Sqrt(Sqr(255) * 3);
+      Result := 1 - (fSqrt(Result) / diff);
+    end;
+  end;
+
+  // if we want chebyshev distance correlation
+  if CCMode in [CC_Cheb, CC_ChebNormed] then
+  begin
+    for Y:=0 to H do
+      for X:=0 to W do
+      begin
+        ColorToRGB(ImgArr[Y][X], R1,G1,B1);
+        Result[y][x] := Abs(R1-R) + Abs(G1-G) + Abs(B1-B);
+      end;
+    if (CCMode = CC_ChebNormed) then
+      Result := 1 - (Result / 765.0);
+  end;
+end;
+
+
+// Cross correlate a color with an image in XYZ-Space
+function MatchColorXYZ(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; Cdecl;
+var
+  W,H,X,Y:Integer;
+  X0,Y0,Z0,X1,Y1,Z1:Single;
+  diff: Single;
+begin
+  W := High(ImgArr[0]);
+  H := High(ImgArr);
+  SetLength(Result, H+1,W+1);
+  ColorToXYZ(Color, X0,Y0,Z0);
+
+  // If we want euclidean distance correlation
+  if CCMode in [CC_Euclid, CC_EuclidSquared, CC_EuclidNormed] then
+  begin
+    for Y:=0 to H do
+      for X:=0 to W do
+      begin
+        ColorToXYZ(ImgArr[Y][X], X1,Y1,Z1);
+        Result[y][x] := Sqr(X1-X0) + Sqr(Y1-Y0) + Sqr(Z1-Z0);
+      end;
+    if (CCMode = CC_Euclid) then
+      Result := fSqrt(Result)
+    else if (CCMode = CC_EuclidNormed) then
+    begin
+      diff := Sqrt(Sqr(255) * 3);
+      Result := 1 - (fSqrt(Result) / diff);
+    end;
+  end;
+
+  // if we want chebyshev distance correlation
+  if CCMode in [CC_Cheb, CC_ChebNormed] then
+  begin
+    for Y:=0 to H do
+      for X:=0 to W do
+      begin
+        ColorToXYZ(ImgArr[Y][X], X1,Y1,Z1);
+        Result[y][x] := Abs(X1-X0) + Abs(Y1-Y0) + Abs(Z1-Z0);
+      end;
+    if (CCMode = CC_ChebNormed) then
+      Result := 1 - (Result / 765.0);
+  end;
+end;
+
+
+
+// Cross correlate a color with an image in LAB-Space
+function MatchColorLAB(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; Cdecl;
+var
+  W,H,X,Y:Integer;
+  L0,A0,B0,L1,A1,B1:Single;
+  diff: Single;
+begin
+  W := High(ImgArr[0]);
+  H := High(ImgArr);
+  SetLength(Result, H+1,W+1);
+  ColorToLAB(Color, L0,A0,B0);
+
+  // If we want euclidean distance correlation
+  if CCMode in [CC_Euclid, CC_EuclidSquared, CC_EuclidNormed] then
+  begin
+    for Y:=0 to H do
+      for X:=0 to W do
+      begin
+        ColorToLAB(ImgArr[Y][X], L1,A1,B1);
+        Result[y][x] := Sqr(L1-L0) + Sqr(A1-A0) + Sqr(B1-B0);
+      end;
+    if (CCMode = CC_Euclid) then
+      Result := fSqrt(Result)
+    else if (CCMode = CC_EuclidNormed) then
+    begin
+      diff := Sqrt(70000);
+      Result := 1 - (fSqrt(Result) / diff);
+    end;
+  end;
+
+  // if we want chebyshev distance correlation
+  if CCMode in [CC_Cheb, CC_ChebNormed] then
+  begin
+    for Y:=0 to H do
+      for X:=0 to W do
+      begin
+        ColorToLAB(ImgArr[Y][X], L1,A1,B1);
+        Result[y][x] := Abs(L1-L0) + Abs(A1-A0) + Abs(B1-B0);
+      end;
+    if (CCMode = CC_ChebNormed) then
+      Result := 1 - (Result / 415.0);
+  end;
+end;
+
+
+
+
 
   
 // Find multiple matches of specified color.
