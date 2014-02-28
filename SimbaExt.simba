@@ -1,17 +1,23 @@
-{$loadlib \..\includes\simbaext\simbaext.dll}
+//Define types used in SimbaExt
 type
   TIntArray = TIntegerArray;
-  TMatrix   = T2DIntegerArray;
   
   TExtArray   = TExtendedArray;
   T2DExtArray = T2DExtendedArray;
-  TPtArray    = TPointArray;
-  TxMatchAlgo = (LAB, LCH, RGB);
   
   Float = Single;
-  TFloatArray = Array of Float;
+  TFloatArray   = Array of Single;
   T2DFloatArray = Array of TFloatArray;
   
+  TDoubleArray   = Array of Double;
+  T2DDoubleArray = Array of TDoubleArray;
+  
+  TPtArray    = TPointArray;
+  
+  TxMatchAlgo = (LAB, LCH, RGB);
+
+//LoadLibrary from current folder 
+{$loadlib \..\includes\simbaext\simbaext.dll}
   
 
 {$IFDEF LAPE}
@@ -33,7 +39,6 @@ end;
 {$include_once SimbaExt_Numeric.pas}
 {$include_once SimbaExt_Sorting.pas}
 {$include_once SimbaExt_Finder.pas}
-//{$include_once SimbaExt_SimpleOCR.pas}
 //{$include_once SimbaExt_DensityMap.pas}
 {$include_once SimbaExt_Points.pas}
 {$include_once SimbaExt_Matrix.pas}
@@ -42,5 +47,6 @@ end;
 {$include_once SimbaExt_Strings.pas}
 {$IFNDEF NO_EXTRA} {$include_once SimbaExt_Extra.pas} {$ENDIF}
 {$include_once TRafikiBitmap.pas}
+{$include_once SimbaExt_SimpleOCR.pas}
 
 {$ENDIF}

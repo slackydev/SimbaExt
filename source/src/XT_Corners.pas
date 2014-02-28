@@ -9,96 +9,17 @@ unit XT_Corners;
 interface
 
 uses
-  SysUtils, Math, XT_TPointList, XT_Types;
+  SysUtils, Math, XT_TPointList, XT_Types, MatrixMath;
 
-function CornerResponse(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer): T2DExtArray;
-function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer): TPointArray;
-function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist: Integer): TPointArray;
+function CornerResponse(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer): T2DFloatArray;
+function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;
+function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist: Integer): TPointArray;
 
 
 //-----------------------------------------------------------------------
 implementation
 uses
   XT_Points;
-
-(*=============================================================================|
- Matrix operations (shortcut functions)
-|=============================================================================*)
-function MatToExtended(const mat:T2DIntArray): T2DExtArray;
-var W,H,x,y:Integer;
-begin
-  W := high(mat[0]);
-  H := high(mat);
-  SetLength(Result, H+1,W+1);
-  for y:=0 to H do
-    for x:=0 to W do
-      Result[y][x] := mat[y][x];
-end;
-
-
-function _IMul(const a,b:T2DIntArray): T2DIntArray;
-var W,H,x,y:Integer;
-begin
-  W := high(a[0]);
-  H := high(a);
-  SetLength(Result, H+1,W+1);
-  for y:=0 to H do
-    for x:=0 to W do
-      Result[y][x] := (a[y][x] * b[y][x]);
-end;
-
-
-function _Mul(const a,b:T2DExtArray): T2DExtArray;
-var W,H,x,y:Integer;
-begin
-  W := high(a[0]);
-  H := high(a);
-  SetLength(Result, H+1,W+1);
-  for y:=0 to H do
-    for x:=0 to W do
-      Result[y][x] := (a[y][x] * b[y][x]);
-end;
-
-
-function _Div(const a, b:T2DExtArray): T2DExtArray;
-var W,H,x,y:Integer;
-begin
-  W := high(a[0]);
-  H := high(a);
-  SetLength(Result, H+1,W+1);
-  for y:=0 to H do
-    for x:=0 to W do
-    begin
-      if b[y][x] = 0 then
-        Result[y][x] := 0
-      else
-        Result[y][x] := (a[y][x] / b[y][x]);
-    end;
-end;
-
-
-function _Add(const a,b:T2DExtArray): T2DExtArray;
-var W,H,x,y:Integer;
-begin
-  W := high(a[0]);
-  H := high(a);
-  SetLength(Result, H+1,W+1);
-  for y:=0 to H do
-    for x:=0 to W do
-      Result[y][x] := (a[y][x] + b[y][x]);
-end;
-
-
-function _Sub(const a,b:T2DExtArray): T2DExtArray;
-var W,H,x,y:Integer;
-begin
-  W := high(a[0]);
-  H := high(a);
-  SetLength(Result, H+1,W+1);
-  for y:=0 to H do
-    for x:=0 to W do
-      Result[y][x] := (a[y][x] - b[y][x]);
-end;
 
 
 (*=============================================================================|
@@ -118,7 +39,6 @@ begin
       Result[y][x] := Trunc((0.299 * (Color and $FF)) +
                             (0.587 * ((Color shr 8) and $FF)) +
                             (0.114 * ((Color shr 16) and $FF)));
-
     end;
 end;
 
@@ -127,11 +47,11 @@ end;
  2D Convolution.
  I can't find any way to speed it up :|
 |=============================================================================*)
-function Convolve(const Source:T2DIntArray; Mask:T2DExtArray): T2DIntArray;
+function Convolve(const Source:T2DIntArray; Mask:T2DFloatArray): T2DIntArray;
 var
   W,H,x,y,yy,xx: Integer;
   mW,mH,mid:Integer;
-  val: Extended;
+  val: Single;
 begin
   W := High(source[0]);
   H := High(source);
@@ -161,7 +81,7 @@ end;
 |=============================================================================*)
 function Sobel(const Mat:T2DIntArray; Axis:Char): T2DIntArray;
 var
-  xmask, ymask: T2DExtArray;
+  xmask, ymask: T2DFloatArray;
 begin
   SetLength(xmask, 3,3);
   xmask[0][0] := -1; xmask[0][1] := 0; xmask[0][2] := 1;
@@ -181,11 +101,11 @@ end;
 (*=============================================================================|
  Gassuian blur and related functions
 |=============================================================================*)
-function GaussKernel(KernelRadius:Integer; Sigma:Extended): T2DExtArray;
+function GaussKernel(KernelRadius:Integer; Sigma:Single): T2DFloatArray;
 var
   hkernel:TExtArray;
   Size,i,x,y:Integer;
-  sum:Extended;
+  sum:Single;
 begin
   Size := 2*KernelRadius+1;
   SetLength(hkernel, Size);
@@ -206,7 +126,7 @@ begin
       Result[y][x] := Result[y][x] / sum;
 end; 
 
-function GaussianBlur(Mat:T2DIntArray; Sigma:Extended; KernelSize:Integer): T2DIntArray;
+function GaussianBlur(Mat:T2DIntArray; Sigma:Single; KernelSize:Integer): T2DIntArray;
 begin
   Result := Convolve(Mat, GaussKernel(KernelSize, Sigma));
 end;
@@ -215,30 +135,35 @@ end;
 (*=============================================================================|
  Computing harris response of grayscale (0-255) matrix.
 |=============================================================================*)
-function CornerResponse(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer): T2DExtArray;
+function CornerResponse(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer): T2DFloatArray;
 var
   blur,imx,imy:T2DIntArray;
-  wxx,wyy,wxy:T2DExtArray;
+  wxx,wyy,wxy:T2DIntArray;
 begin
   blur := GaussianBlur(GrayScale(Mat), GaussDev, KSize);
   imx := Sobel(blur, 'x');
   imy := Sobel(blur, 'y');
 
-  Wxx := MatToExtended(GaussianBlur(_imul(imx,imx), 3.0, 1));
-  Wyy := MatToExtended(GaussianBlur(_imul(imy,imy), 3.0, 1));
-  Wxy := MatToExtended(GaussianBlur(_imul(imx,imy), 3.0, 1));
-
-  Result := _div(_sub(_mul(Wxx,Wyy), _mul(Wxy,Wxy)), _add(Wxx,Wyy));
+  //Wxx := ToFloat(GaussianBlur(_imul(imx,imx), 3.0, 1));
+  //Wyy := ToFloat(GaussianBlur(_imul(imy,imy), 3.0, 1));
+  //Wxy := ToFloat(GaussianBlur(_imul(imx,imy), 3.0, 1));
+  
+  Wxx := GaussianBlur(imx * imx, 3.0, 1);
+  Wyy := GaussianBlur(imy * imy, 3.0, 1);
+  Wxy := GaussianBlur(imx * imy, 3.0, 1);
+  
+  Result := ((Wxx * Wyy) - (Wxy * Wxy)) / ToFloat(Wxx + Wyy);
+  //Result := _div(_sub(_mul(Wxx,Wyy), _mul(Wxy,Wxy)), _add(Wxx,Wyy));
 end; 
 
 
 (*=============================================================================|
  Peak extraction (Dirty)...
 |=============================================================================*)
-function LocalPeaks(const Mat:T2DExtArray; Footprint:Integer; Thresh:Extended): TPointArray;
+function LocalPeaks(const Mat:T2DFloatArray; Footprint:Integer; Thresh:Single): TPointArray;
 var
   W,H,x,y,xx,yy,yl,xl,step:Integer;
-  vTresh, vMax, lMax:Extended;
+  vTresh, vMax, lMax:Single;
   TPL:TPointList;
 begin
   W := High(Mat[0]);
@@ -288,8 +213,8 @@ end;
 (*=============================================================================|
  Tries to extract the peak points of the neighborhood covering MinDist.
 |=============================================================================*)
-function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer): TPointArray;
-var Mat2:T2DExtArray;
+function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;
+var Mat2:T2DFloatArray;
 begin
   MinDist := Max(1,MinDist);
   Mat2 := CornerResponse(Mat, GaussDev, KSize);
@@ -301,11 +226,11 @@ end;
 (*=============================================================================|
  Clusters each group of points and returns the mean point of that group.
 |=============================================================================*)
-function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist: Integer): TPointArray;
+function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist: Integer): TPointArray;
 var
   W,H,x,y:Integer;
-  aMax,aTresh:Extended;
-  Mat2:T2DExtArray;
+  aMax,aTresh:Single;
+  Mat2:T2DFloatArray;
   TPL:TPointList;
   ATPA:T2DPointArray;
 begin

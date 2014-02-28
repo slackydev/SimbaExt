@@ -161,6 +161,22 @@ end;
 {*-----------------------------------------------------------------------------|
 | Finder.pas                                                                   |
 |-----------------------------------------------------------------------------*}
+procedure exp_MatchColor(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; var Result:T2DFloatArray); Cdecl;
+begin
+  Result := MatchColor(ImgArr, Color, CCMode);
+end;
+
+procedure exp_MatchColorXYZ(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; var Result:T2DFloatArray); Cdecl;
+begin
+  Result := MatchColorXYZ(ImgArr, Color, CCMode);
+end;
+
+procedure exp_MatchColorLAB(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; var Result:T2DFloatArray); Cdecl;
+begin
+  Result := MatchColorLAB(ImgArr, Color, CCMode);
+end;
+
+
 function exp_ImFindColorTolEx(const ImgArr:T2DIntArray; var TPA:TPointArray; Color, Tol:Integer): Boolean; Cdecl;
 begin
   Result := ImFindColorTolEx(ImgArr, TPA, Color, Tol);
@@ -187,7 +203,11 @@ end;
 {*-----------------------------------------------------------------------------|
 | SimpleOCR.pas                                                                |
 |-----------------------------------------------------------------------------*}
-//Another day..
+function exp_ImGetText(ImgArr:T2DIntArray; Font:TChars; MinCharSpace, MinSpace, TextPixTol: Integer; Range:AnsiString): AnsiString; Cdecl;
+begin
+  Result := ImGetText(ImgArr, Font, MinCharSpace, MinSpace, TextPixTol, Range);
+end;
+
 
 
 {*-----------------------------------------------------------------------------|
@@ -400,8 +420,10 @@ begin
   Result := TPAEdges(TPA);
 end;
 
-
-
+function exp_TPADistance(const p, q:TPointArray): Extended; Cdecl;
+begin
+  Result := TPADistance(p, q);
+end;
 
 
 {*-----------------------------------------------------------------------------|
@@ -455,9 +477,9 @@ begin
   Result := NewMatrix(W,H);
 end;
 
-procedure exp_MatrixSetTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer; const Offset:TPoint); Cdecl;
+procedure exp_MatInsertTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer); Cdecl;
 begin
-  MatrixSetTPA(Matrix,TPA, Value, Offset);
+  MatInsertTPA(Matrix,TPA, Value);
 end;
 
 procedure exp_TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean; var Result:T2DIntArray); Cdecl;
@@ -478,11 +500,6 @@ end;
 procedure exp_MatGetValues(const Mat:T2DIntArray; const Indices:TPointArray; var Result:TIntArray); Cdecl;
 begin
   Result := MatGetValues(Mat, Indices);
-end;
-
-procedure exp_MatCombine(var Mat:T2DIntArray; const Mat2:T2DIntArray; Value:Integer); Cdecl;
-begin
-  MatCombine(Mat, Mat2, Value);
 end;
 
 procedure exp_MatGetCol(const Mat:T2DIntArray; Column:Integer; var Result:TIntArray); Cdecl;
@@ -520,9 +537,9 @@ begin
   PadMatrix(Matrix,HPad,WPad);
 end;
 
-procedure exp_FloodFillMatrixEx(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean; var Result:TPointArray); Cdecl;
+procedure exp_FloodFillMatrix(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean; var Result:TPointArray); Cdecl;
 begin
-  Result := FloodFillMatrixEx(ImgArr, Start, EightWay);
+  Result := FloodFillMatrix(ImgArr, Start, EightWay);
 end;
 
 
@@ -572,6 +589,11 @@ end;
 procedure exp_ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer; var Result: TPointArray); Cdecl;
 begin
   Result := ImCEdges(ImgArr, MinDiff);
+end;
+
+procedure exp_ImSobel(const ImgArr: T2DIntArray; var Result:T2DIntArray); Cdecl;
+begin
+  Result := ImSobel(ImgArr); 
 end;
 
 procedure exp_ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TxResizeMethod); Cdecl;
@@ -641,20 +663,180 @@ end;
 {*-----------------------------------------------------------------------------|
 | Corners.pas                                                                  |
 |-----------------------------------------------------------------------------*}
-procedure exp_CornerResponse(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; var Result: T2DExtArray); Cdecl;
+procedure exp_CornerResponse(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; var Result: T2DFloatArray); Cdecl;
 begin
   Result := CornerResponse(Mat, GaussDev, KSize);
 end;
 
-procedure exp_FindCornerPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer; var Result:TPointArray); Cdecl;
+procedure exp_FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer; var Result:TPointArray); Cdecl;
 begin
   Result := FindCornerPoints(Mat, GaussDev, KSize, Thresh, MinDist);
 end;
 
-procedure exp_FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer; var Result:TPointArray); Cdecl;
+procedure exp_FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer; var Result:TPointArray); Cdecl;
 begin
   Result := FindCornerMidPoints(Mat, GaussDev, KSize, Thresh, MinDist);
 end;
 
 
+
+
+
+
+
+{*-----------------------------------------------------------------------------|
+| SRC\Matrix\xxx.pas                                                           |
+|-----------------------------------------------------------------------------*}
+{$I Src/Matrix/_Indices.pas}
+procedure exp_IndicesI(const Mat:T2DIntArray; Value: Integer; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, Value, Comparator);
+end;
+
+procedure exp_IndicesE(const Mat:T2DExtArray; Value: Extended; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, Value, Comparator);
+end;
+
+procedure exp_IndicesD(const Mat:T2DDoubleArray; Value: Double; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, Value, Comparator);
+end;
+
+procedure exp_IndicesF(const Mat:T2DFloatArray; Value: Single; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, Value, Comparator);
+end;
+
+
+{-------| Extended version of Indices |-------}
+procedure exp_IndicesExI(const Mat:T2DIntArray; B:TBox; Value: Integer; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, B, Value, Comparator);
+end;
+
+procedure exp_IndicesExE(const Mat:T2DExtArray; B:TBox; Value: Extended; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, B, Value, Comparator);
+end;
+
+procedure exp_IndicesExD(const Mat:T2DDoubleArray; B:TBox; Value: Double; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, B, Value, Comparator);
+end;
+
+procedure exp_IndicesExF(const Mat:T2DFloatArray; B:TBox; Value: Single; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, B, Value, Comparator);
+end;
+
+
+{$I Src/Matrix/_MinMax.pas}
+procedure exp_MinMaxI(Mat:T2DIntArray; var Min, Max:Integer); Cdecl;
+begin
+  MinMax(Mat, Min, Max);
+end;
+
+procedure exp_MinMaxE(Mat:T2DExtArray; var Min, Max:Extended); Cdecl;
+begin
+  MinMax(Mat, Min, Max);
+end;
+
+procedure exp_MinMaxD(Mat:T2DDoubleArray; var Min, Max:Double); Cdecl;
+begin
+  MinMax(Mat, Min, Max);
+end;
+
+procedure exp_MinMaxF(Mat:T2DFloatArray; var Min, Max:Single); Cdecl;
+begin
+  MinMax(Mat, Min, Max);
+end;
+
+
+{$I Src/Matrix/_ArgMinMax.pas}
+//argmax
+function exp_ArgMaxI(Mat:T2DIntArray): TPoint; Cdecl;
+begin
+  Result := ArgMax(Mat);
+end;
+
+function exp_ArgMaxE(Mat:T2DExtArray): TPoint; Cdecl; 
+begin
+  Result := ArgMax(Mat);
+end;
+
+function exp_ArgMaxD(Mat:T2DDoubleArray): TPoint; Cdecl;
+begin
+  Result := ArgMax(Mat);
+end;
+
+function exp_ArgMaxF(Mat:T2DFloatArray): TPoint; Cdecl;
+begin
+  Result := ArgMax(Mat);
+end;
+
+//argmin
+function exp_ArgMinI(Mat:T2DIntArray): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat);
+end;
+
+function exp_ArgMinE(Mat:T2DExtArray): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat);
+end;
+
+function exp_ArgMinD(Mat:T2DDoubleArray): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat);
+end;
+
+function exp_ArgMinF(Mat:T2DFloatArray): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat);
+end;
+
+
+{-------| Extended version of argmin/max |-------}
+//argmax
+function exp_ArgMaxExI(Mat:T2DIntArray; B:TBox): TPoint; Cdecl;
+begin
+  Result := ArgMax(Mat,B);
+end;
+
+function exp_ArgMaxExE(Mat:T2DExtArray; B:TBox): TPoint; Cdecl; 
+begin
+  Result := ArgMax(Mat,B);
+end;
+
+function exp_ArgMaxExD(Mat:T2DDoubleArray; B:TBox): TPoint; Cdecl;
+begin
+  Result := ArgMax(Mat,B);
+end;
+
+function exp_ArgMaxExF(Mat:T2DFloatArray; B:TBox): TPoint; Cdecl;
+begin
+  Result := ArgMax(Mat,B);
+end;
+
+//argmin
+function exp_ArgMinExI(Mat:T2DIntArray; B:TBox): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat,B);
+end;
+
+function exp_ArgMinExE(Mat:T2DExtArray; B:TBox): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat,B);
+end;
+
+function exp_ArgMinExD(Mat:T2DDoubleArray; B:TBox): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat,B);
+end;
+
+function exp_ArgMinExF(Mat:T2DFloatArray; B:TBox): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat,B);
+end;
 
