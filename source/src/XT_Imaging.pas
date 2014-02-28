@@ -21,7 +21,6 @@ function ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Inve
 function ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TxThreshMethod; C:Integer): T2DIntArray; 
 function ImFindContours(const ImgArr:T2DIntArray; Outlines:Boolean): T2DPointArray; 
 function ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray; 
-function ImSobel(const ImgArr: T2DIntArray): T2DIntArray; 
 procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TxResizeMethod); 
 
 
@@ -140,7 +139,7 @@ end;
 function ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean): T2DIntArray; 
 var
   W,H,x,y,R,G,B,AmountL:Integer;
-  cH,cS,cV:Single;
+  cH,cS,cV:Extended;
 begin
   W := Length(ImgArr[0]);
   H := Length(ImgArr);
@@ -150,14 +149,13 @@ begin
   Dec(H);
   case Legacy of
    False:
-    //This has shown to be not as stable as I tought.
     for y:=0 to H do
       for x:=0 to W do
       begin
         ColorToHSV(ImgArr[y][x], cH,cS,cV);
-        cV := cV+(Amount*100);
+        cV := cV+Amount;
         if (cV < 0.0) then cV := 0
-        else if (cV > 100) then cV := 100;
+        else if (cV > 1.0) then cV := 1.0;
         HSVToRGB(cH,cS,cV, R,G,B);
         Result[y][x] := (R) or (G shl 8) or (B shl 16);
       end;
@@ -437,59 +435,6 @@ begin
     end;
 
   SetLength(Result, Len);
-end;
-
-
-
-
-{*
- Returns a sobel (edge) version of the image.
- //Incorrect.
-*}
-function ImSobel(const ImgArr: T2DIntArray): T2DIntArray; 
-var
-  gx,gy: Single;
-  x,y,W,H,color:Integer;
-  Gray:T2DByteArray;
-begin
-  W := High(ImgArr[0]);
-  H := High(ImgArr);
-  SetLength(Gray, H+1, W+1);
-  for y:=0 to H do
-    for x:=0 to W do
-    begin
-      color := ImgArr[y][x];
-      Gray[y][x] := Trunc((0.299 * (Color and $FF)) + (0.587 * ((Color shr 8) and $FF)) + (0.114 * ((Color shr 16) and $FF)));
-    end;
-
-  SetLength(Result, H+1,W+1);
-  W := W-1;
-  H := H-1;
-  for y:=1 to H do
-    for x:=1 to W do
-    begin
-      gx := Gray[y-1][x-1] * -1 + 
-            Gray[y-0][x-1] * -2 +
-            Gray[y+1][x-1] * -1 + 
-            Gray[y-1][x-0] + 
-            Gray[y-0][x-0] +
-            Gray[y+1][x-0] + 
-            Gray[y-1][x+1] * +1 + 
-            Gray[y-0][x+1] * +2 +
-            Gray[y+1][x+1] * +1;
-      
-      gy := Gray[y-1][x-1] * -1 + 
-            Gray[y-0][x-1] +
-            Gray[y+1][x-1] * +1 + 
-            Gray[y-1][x-0] * -2 + 
-            Gray[y-0][x-0] +
-            Gray[y+1][x-0] * +2 + 
-            Gray[y-1][x+1] * -1 + 
-            Gray[y-0][x+1] +
-            Gray[y+1][x+1] * +1;
-      
-      Result[y][x] := Trunc(Min(255.0, Max(0.0, Sqrt(gx*gx + gy*gy))));
-  end;
 end;
 
 

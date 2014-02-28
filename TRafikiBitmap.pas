@@ -51,7 +51,6 @@ procedure TRafBitmap.FromClient();
 var 
   W,H:Integer;
 begin
-  if Self.Loaded then Self.Free();
   GetClientDimensions(W,H);
   Self.Bitmap := BitmapFromClient(0,0,W-1,H-1); 
   GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
@@ -231,7 +230,7 @@ begin
   if not(Self.Loaded) then Exit;
   
   if (Area.X2 >= Self.Width) then Area.X2 := Self.Width - 1
-  else if (Area.X2 <= -1) then Area.X2 := Self.Width - Area.x2;
+  else if (Area.X2 <= -1) then Area.X2 := Self.Width-Area.x2;
   
   if (Area.Y2 >= Self.Height) then Area.Y2 := Self.Height - 1
   else if (Area.Y2 <= -1) then Area.Y2 := Self.Height - Area.y2;
@@ -258,7 +257,7 @@ end;
 
 function TRafBitmap.FindColor(var TPA:TPointArray; Color:Integer): Boolean; overload;
 begin
-  Result := Self.FindColorTol(TPA, Color, IntToBox(0,0,self.width,self.height), 0);
+  Result := Self.FindColorTol(TPA, Color, IntToBox(0,0,-1,-1), 0);
 end;
 
 

@@ -57,7 +57,6 @@ function FloodFillPolygon(const Poly:TPointArray; EightWay:Boolean): TPointArray
 function ClusterTPAEx(const TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean): T2DPointArray;//StdCall;
 function ClusterTPA(const TPA: TPointArray; Distance: Integer; EightWay:Boolean): T2DPointArray;//StdCall;
 function TPAEdges(const TPA: TPointArray): TPointArray;//StdCall;
-function TPADistance(const p, q:TPointArray): Extended;//StdCall;
 
 
 //--------------------------------------------------
@@ -1584,57 +1583,6 @@ begin
   
   Result := List.Clone;
   List.Free;
-end;
-
-
-{*
- This is an expensive operation, don't use this with large sets of data.
- A future version should use a QuadTree to reduce intensity.
- Returns the (location sensitive) differance between `p` and `q`.
-*}
-function TPADistance(const p, q:TPointArray): Extended;
-var
-  sizeA,sizeB,i,j:Integer;
-  DistAB, TmpDist, DistBA, m: Extended;
-begin
-  sizeA := High(p);
-  sizeB := High(q);
-
-  DistAB := 0;
-  for i:=0 to sizeA do
-  begin
-    m := $FFFFFFFF;
-    for j:=0 to sizeB do
-    begin
-      TmpDist := Sqr(p[i].x - q[j].x) + Sqr(p[i].y - q[j].y);
-      if (tmpDist < m) then
-      begin
-        m := tmpDist;
-        if m = 0 then Break;
-      end;
-    end;
-    DistAB := DistAB + Sqrt(m);
-  end;
-
-  DistBA := 0;
-  for i:=0 to sizeB do
-  begin
-    m := $FFFFFFFF;
-    for j:=0 to sizeA do
-    begin
-      tmpDist := Sqr((q[i].x - p[j].x)) + Sqr(q[i].y - p[j].y);
-      if (tmpDist < m) then
-      begin
-        m := tmpDist;
-        if m = 0 then Break;
-      end;
-    end;
-    DistBA := DistBA + Sqrt(m);
-  end;
-
-  Result := DistAB;
-  if  DistBA > DistAB then
-    Result := DistBA
 end;
 
 end.

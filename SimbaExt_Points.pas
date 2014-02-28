@@ -203,10 +203,7 @@ begin
   exp_TPAEdges(TPA, Result);
 end;
 
-function se_TPADistance(const p, q:TPointArray): Extended;
-begin
-  Result := exp_TPADistance(p, q);
-end;
+
 
 
 

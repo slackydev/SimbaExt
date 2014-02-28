@@ -15,53 +15,33 @@ uses
   SysUtils;
 
 type
-  //TPoint
   TPoint = packed record X,Y: LongInt; end;
   TPointArray = array of TPoint;
   T2DPointArray = array of TPointArray;
   T3DPointArray = array of T2DPointArray;
   TPtArr = TPointArray;
 
-  //TPoint of Float
-  TFPoint = Packed record X,Y:Double; end;
+  TFPoint = Packed record X,Y:Extended; end;
   TFPointArray = Array of TFPoint;
-
-  //Int
+  
   TIntArray = array of Integer;
   T2DIntArray = array of TIntArray;
   T3DIntArray = array of T2DIntArray;
   TIntArr = TIntArray;
 
-  //Byte
   TByteArray = array of Byte;
   T2DByteArray = array of TByteArray;
   T3DByteArray = array of T2DByteArray;  
-
-  //Bool
+  
   TBoolArray = array of Boolean;
   T2DBoolArray = array of TBoolArray;
   T3DBoolArray = array of T2DBoolArray;
-
-  //Extended
+  
   TExtArray = array of Extended;
   T2DExtArray = array of TExtArray;
   T3DExtArray = array of T2DExtArray;
   TExtArr = TExtArray;
 
-  //Double
-  TDoubleArray = array of Double;
-  T2DDoubleArray = array of TDoubleArray;
-  T3DDoubleArray = array of T2DDoubleArray;
-
-  //Float (aka single)
-  TFloatArray = array of Single;
-  T2DFloatArray = array of TFloatArray;
-  T3DFloatArray = array of T2DFloatArray;
-
-
-
-
-  //String+Char
   TStrArray = array of String;
   TCharArray= array of Char;
   
@@ -88,12 +68,6 @@ type
   TxCenterMethod = (CM_Bounds, CM_BBox, CM_Mean, CM_Median);
   TxResizeMethod = (RM_Nearest, RM_Bilinear, RM_Bicubic);
 
-  //Cross correlation algorithm
-  TCCorrMode = (CC_Euclid, CC_EuclidNormed, CC_EuclidSquared, CC_Cheb, CC_ChebNormed);
-  
-  //Comperison operator
-  TComparator = (__LT__, __GT__, __EQ__, __NE__, __GE__, __LE__);
-  
   TChars = Array of T2DIntArray;
   TCharsArray = Array of TChars;
 

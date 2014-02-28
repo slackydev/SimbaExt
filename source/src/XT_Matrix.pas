@@ -17,8 +17,9 @@ function NewMatrix(W,H:Integer): T2DIntArray;
 function NewMatrixEx(W,H,Init:Integer): T2DIntArray; 
 function TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean): T2DIntArray; 
 function TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray; 
-procedure MatInsertTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer); 
+procedure MatrixSetTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer; const Offset:TPoint); 
 function NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray; 
+procedure MatCombine(var Mat:T2DIntArray; const Mat2:T2DIntArray; Value:Integer); 
 function MatGetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; 
 function MatGetCol(const Mat:T2DIntArray; Column:Integer): TIntArray; 
 function MatGetRow(const Mat:T2DIntArray; Row:Integer): TIntArray; 
@@ -27,7 +28,7 @@ function MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer): T2DIntArray;
 function MatGetArea(const Mat:T2DIntArray; x1,y1,x2,y2:Integer): T2DIntArray; 
 function MatFromTIA(const TIA:TIntArray; Width,Height:Integer): T2DIntArray; 
 procedure PadMatrix(var Matrix:T2DIntArray; HPad, WPad:Integer); 
-function FloodFillMatrix(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean): TPointArray; 
+function FloodFillMatrixEx(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean): TPointArray; 
 procedure DrawMatrixLine(var Mat:T2DIntArray; P1, P2: TPoint; Val:Integer); Inline;
 
 
@@ -36,8 +37,8 @@ implementation
 
 uses 
   XT_Points, XT_TPointList;
-  
-  
+
+
 {*
  Quickly create a integer matrix of the size given my W,H.
 *}
@@ -58,7 +59,6 @@ begin
     for X:=0 to W-1 do
       Result[Y][X] := Init;
 end;
-
 
 
 {*
@@ -87,10 +87,13 @@ begin
       end;
     False:
       begin
-        SetLength(Result, Area.Y2+1, Area.X2+1);
+        SetLength(Result, Area.Y2+1);
         for Y:=0 to Area.Y2 do
+        begin
+          SetLength(Result[Y], Area.X2+1);
           for X:=0 to Area.X2 do
             Result[Y][X] := Init;
+        end;
         for i:=0 to H do
           Result[TPA[i].y][TPA[i].x] := Value;
       end;
@@ -99,6 +102,7 @@ end;
 
 {*
  Quickly create a integer matrix filled with the points given by TPA, align the points to [0][0] if needed.
+ Initalizes it with "nil".
 *}
 function TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean): T2DIntArray; 
 var
@@ -128,16 +132,16 @@ begin
   end;
 end;
 
-
 {*
- Set the matrix coords that match the given TPoints to `Value`...
+ Set the matrix coords that match the given TPoints (minus `Align`) to `Value`...
 *}
-procedure MatInsertTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer); 
+procedure MatrixSetTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer; const Offset:TPoint); 
 var i: Integer;
 begin
   for i := 0 to High(TPA) do
-    Matrix[TPA[i].y][TPA[i].x] := Value;
+    Matrix[(TPA[i].y-Offset.y)][(TPA[i].x-Offset.x)] := Value;
 end;
+
 
 
 {*
@@ -165,6 +169,21 @@ begin
   for y:=0 to H do
     for x:=0 to W do
       Result[y][x] := Alpha + Round(Mat[y][x]*k);
+end;
+
+
+{*
+ ...
+*}
+procedure MatCombine(var Mat:T2DIntArray; const Mat2:T2DIntArray; Value:Integer); 
+var x,y,W,H:Integer;
+begin
+  W := Min(High(Mat[0]), High(Mat2[0])); 
+  H := Min(High(Mat), High(Mat2)); 
+  for y:=0 to H do
+    for x:=0 to W do
+      if (Mat[y][x] = Value) then
+        Mat[y][x] := Mat2[y][x];
 end;
 
 
@@ -313,7 +332,7 @@ end;
 {*
  FloodFills the ImgArr, and returns the floodfilled points.
 *}
-function FloodFillMatrix(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean): TPointArray; 
+function FloodFillMatrixEx(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean): TPointArray; 
 var
   color,i,x,y,W,H,fj:Integer;
   face:TPointArray;

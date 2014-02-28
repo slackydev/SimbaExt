@@ -48,46 +48,44 @@ end;
 
 
 
-
 {*=========================================================================================|
 | Corners.pas                                                    [placing it hear for now] |
-| Update: Replaced Exteded with Single :: Resulted in ~2x speedup                          |
 |=========================================================================================*}
-function se_CornerResponse(const ImgArr:T2DIntegerArray; GaussDev:Single; KSize:Integer): T2DFloatArray;  
+function se_CornerResponse(const ImgArr:T2DIntegerArray; GaussDev:Extended; KSize:Integer): T2DExtendedArray;  
 begin
   exp_CornerResponse(ImgArr, GaussDev, KSize, Result);
 end;
 
-function se_FindCornerPoints(var ImgArr:T2DIntegerArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;  
+function se_FindCornerPoints(var ImgArr:T2DIntegerArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer): TPointArray;  
 begin
   exp_FindCornerPoints(ImgArr, GaussDev, KSize, Thresh, MinDist, Result);
 end;
 
 {$IFDEF LAPE}
-function se_FindCornerPoints(var ImgArr:T2DIntegerArray; Thresh:Single; MinDist:Integer): TPointArray; overload; 
+function se_FindCornerPoints(var ImgArr:T2DIntegerArray; Thresh:Extended; MinDist:Integer): TPointArray; overload; 
 begin
   exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, MinDist, Result);
 end;
 
-function se_FindCornerPoints(var ImgArr:T2DIntegerArray; Thresh:Single): TPointArray; overload;   
+function se_FindCornerPoints(var ImgArr:T2DIntegerArray; Thresh:Extended): TPointArray; overload;   
 begin
   exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, 7, Result);
 end;
 {$ENDIF}
 
-function se_FindCornerMidPoints(var ImgArr:T2DIntegerArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;  
+function se_FindCornerMidPoints(var ImgArr:T2DIntegerArray; GaussDev:Extended; KSize:Integer; Thresh:Extended; MinDist:Integer): TPointArray;  
 begin
   exp_FindCornerMidPoints(ImgArr, GaussDev, KSize, Thresh, MinDist, Result);
 end;
 
 
 {$IFDEF LAPE}
-function se_FindCornerMidPoints(var ImgArr:T2DIntegerArray; Thresh:Single; MinDist:Integer): TPointArray; overload; 
+function se_FindCornerMidPoints(var ImgArr:T2DIntegerArray; Thresh:Extended; MinDist:Integer): TPointArray; overload; 
 begin
   exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, MinDist, Result);
 end;
 
-function se_FindCornerMidPoints(var ImgArr:T2DIntegerArray; Thresh:Single): TPointArray; overload;   
+function se_FindCornerMidPoints(var ImgArr:T2DIntegerArray; Thresh:Extended): TPointArray; overload;   
 begin
   exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, 3, Result);
 end;
