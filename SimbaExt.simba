@@ -1,4 +1,5 @@
 //Define types used in SimbaExt
+{$IFDEF LAPE}
 type
   TIntArray = TIntegerArray;
   
@@ -12,25 +13,22 @@ type
   TDoubleArray   = Array of Double;
   T2DDoubleArray = Array of TDoubleArray;
   
-  TPtArray    = TPointArray;
-  
-  TxMatchAlgo = (LAB, LCH, RGB);
+  TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
 
 //LoadLibrary from current folder 
 {$loadlib \..\includes\simbaext\simbaext.dll}
-  
 
-{$IFDEF LAPE}
-//I got tiered of writing IntToBox..
+
+// IntToBox is to long, and [x1,y1,x2,y2] does not always work..
 function ToBox(x1,y1,x2,y2: Integer): TBox; overload;
 begin
-  Result := IntToBox(x1,y1,x2,y2);
+  Result := [x1,y1,x2,y2];
 end;
 
 
 function ToBox(TopLeft, BtmRight:TPoint): TBox; overload;
 begin
-  Result := IntToBox(TopLeft.x, TopLeft.y, BtmRight.x, BtmRight.y);
+  Result := [TopLeft.x, TopLeft.y, BtmRight.x, BtmRight.y];
 end;
 
 
@@ -40,12 +38,12 @@ end;
 {$include_once SimbaExt_Sorting.pas}
 {$include_once SimbaExt_Finder.pas}
 //{$include_once SimbaExt_DensityMap.pas}
-{$include_once SimbaExt_Points.pas}
-{$include_once SimbaExt_Matrix.pas}
+{$include_once SimbaExt_PointTools.pas}
+{$include_once SimbaExt_MatrixTools.pas}
 {$include_once SimbaExt_Imaging.pas}
 {$include_once SimbaExt_Randomize.pas}
-{$include_once SimbaExt_Strings.pas}
-{$IFNDEF NO_EXTRA} {$include_once SimbaExt_Extra.pas} {$ENDIF}
+{$include_once SimbaExt_StringTools.pas}
+{$IFNDEF NO_MISC} {$include_once SimbaExt_Misc.pas} {$ENDIF}
 {$include_once TRafikiBitmap.pas}
 {$include_once SimbaExt_SimpleOCR.pas}
 

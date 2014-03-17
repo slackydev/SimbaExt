@@ -9,7 +9,7 @@ end;
 
 function se_RandomCenterTPA(Amount:Integer; CX,CY,RadX,RadY:Integer): TPointArray; 
 begin
-  exp_RandomTPA(Amount,CX,CY,RadX,RadY, Result);
+  exp_RandomCenterTPA(Amount,CX,CY,RadX,RadY, Result);
 end;
 
 

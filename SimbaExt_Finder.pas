@@ -1,6 +1,19 @@
 {*=========================================================================================|
 | Finder.pas                                                                               |
 |=========================================================================================*}
+function se_MatchColor(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; MatchAlgo:TMatchAlgo): T2DFloatArray;
+begin
+  case MatchAlgo of
+    _RGB_: exp_MatchColorRGB(ImgArr, Color, CCMode, Result);
+    _XYZ_: exp_MatchColorXYZ(ImgArr, Color, CCMode, Result);
+    _LAB_: exp_MatchColorLAB(ImgArr, Color, CCMode, Result);
+    _LCH_: exp_MatchColorLCH(ImgArr, Color, CCMode, Result);
+  end;
+end;
+
+
+
+
 function se_ImFindColorTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, Tol:Integer): Boolean;
 begin
   Result := exp_ImFindColorTolEx(ImgArr, TPA, Color, Tol);
@@ -27,10 +40,11 @@ end;
   LCH which is LAB-color measured another way should also be fast.
   RGB might not be as fast, most likely slower then Simba-CTS(1)
 *}
-function se_FindColorTolEx(var TPA:TPointArray; Color:Integer; Area:TBox; ColorTol, LightTol:Integer; MatchAlgo: TxMatchAlgo): Boolean;
+function se_FindColorTol(var TPA:TPointArray; Color:Integer; Area:TBox; Similarity:Single; MatchAlgo: TMatchAlgo): Boolean;
 var 
   W,H:Integer;
-  Img:T2DIntegerArray;
+  Img:T2DIntArray;
+  Corr: T2DFloatArray;
   Bmp:Integer;
 begin
   Result := False;
@@ -43,13 +57,16 @@ begin
   Bmp := BitmapFromClient(Area.X1,Area.Y1,Area.X2,Area.Y2); 
   Img := BitmapToMatrix(Bmp);
   FreeBitmap(bmp);
+
   case MatchAlgo of   
-    RGB: Result := se_ImFindColorTolEx(Img, TPA, Color, ColorTol);
-    LAB: Result := se_ImFindColorTolExLAB(Img, TPA, Color, ColorTol, LightTol);
-    LCH: Result := se_ImFindColorTolExLCH(Img, TPA, Color, ColorTol, LightTol);
+    _RGB_: exp_MatchColorRGB(Img, Color, CC_ChebNormed, Corr);
+    _XYZ_: exp_MatchColorXYZ(Img, Color, CC_ChebNormed, Corr);
+    _LAB_: exp_MatchColorLAB(Img, Color, CC_ChebNormed, Corr);
+    _LCH_: exp_MatchColorLCH(Img, Color, CC_EuclidNormed, Corr);
   end;
+  TPA := Corr.Indices(Similarity, __GE__);      
   SetLength(Img, 0);
-  if not(Result) then Exit;
+  if (Length(TPA) < 0) then Exit;
   if (Area.X1=0) and (Area.Y1 = 0) then Exit;
   OffsetTPA(TPA, Point(Area.X1, Area.Y1));
 end;
