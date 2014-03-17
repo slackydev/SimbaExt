@@ -36,9 +36,17 @@ end;
 
 
 {*
-  LAB should be very fast compared to CTS(3) in simba. I assume around 8-11x faster in general.
-  LCH which is LAB-color measured another way should also be fast.
-  RGB might not be as fast, most likely slower then Simba-CTS(1)
+  Serach for a spesific color on your screen with a tolerance.
+  
+  LAB should be very fast compared to CTS(3) in simba. I assume around 8-10x faster in general.
+  LCH which is LAB-color measured another way should also be "fast enough".
+  
+  @params:
+    TPA:        The resulting points
+    Color:      The color to search for
+    Area:       A Tbox of where to search.
+    Similarity: 0.0 to 1.0 where 1.0 should be exact match.    
+    MatchAlgo:  How we measure color difference: _RGB_, _XYZ_, _LAB_ and _LCH_ 
 *}
 function se_FindColorTol(var TPA:TPointArray; Color:Integer; Area:TBox; Similarity:Single; MatchAlgo: TMatchAlgo): Boolean;
 var 
@@ -64,6 +72,7 @@ begin
     _LAB_: exp_MatchColorLAB(Img, Color, CC_ChebNormed, Corr);
     _LCH_: exp_MatchColorLCH(Img, Color, CC_EuclidNormed, Corr);
   end;
+  
   TPA := Corr.Indices(Similarity, __GE__);      
   SetLength(Img, 0);
   if (Length(TPA) < 0) then Exit;
