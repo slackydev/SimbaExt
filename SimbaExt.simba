@@ -14,6 +14,7 @@ type
   T2DDoubleArray = Array of TDoubleArray;
   
   TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
+  TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
 
 //LoadLibrary from current folder 
 {$loadlib \..\includes\simbaext\simbaext.dll}
@@ -29,6 +30,33 @@ end;
 function ToBox(TopLeft, BtmRight:TPoint): TBox; overload;
 begin
   Result := [TopLeft.x, TopLeft.y, BtmRight.x, BtmRight.y];
+end;
+
+
+procedure RaiseWarning(WarningMessage:String; Warn: TWarningType);
+begin
+  {$IFNDEF ERR_HIDE_ALL}
+  case Warn of
+    ERR_DEPRECATED: 
+      begin
+        {$IFNDEF ERR_HIDE_DEPRECATED}
+        WriteLn('DEPRECATED: ' + WarningMessage);
+        {$ENDIF}
+      end;
+    ERR_WARNING: 
+      begin
+        {$IFNDEF ERR_HIDE_WARNINGS}
+        WriteLn('WARNING: ' + WarningMessage);
+        {$ENDIF}
+      end;
+    ERR_NOTICE:  
+      begin    
+        {$IFNDEF ERR_HIDE_NOTICE}
+        WriteLn('NOTICE: ' + WarningMessage);
+        {$ENDIF}
+      end;
+  end;
+  {$ENDIF}
 end;
 
 

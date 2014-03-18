@@ -16,21 +16,25 @@ end;
 
 function se_ImFindColorTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, Tol:Integer): Boolean;
 begin
+  RaiseWarning('ImFindColorTol is deprecated and will be removed', ERR_DEPRECATED);
   Result := exp_ImFindColorTolEx(ImgArr, TPA, Color, Tol);
 end;
 
 function se_ImFindColorsTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
 begin
+  RaiseWarning('ImFindColorsTol is deprecated and will be removed', ERR_DEPRECATED);
   Result := exp_ImFindColorsTolEx(ImgArr, TPA, Colors, Tol);
 end;
 
 function se_ImFindColorTolExLCH(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
 begin
+  RaiseWarning('ImFindColorTolLCH is deprecated and will be removed', ERR_DEPRECATED);
   Result := exp_ImFindColorTolExLCH(ImgArr, TPA, Color, ColorTol, LightTol);
 end;
 
 function se_ImFindColorTolExLAB(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
 begin
+  RaiseWarning('ImFindColorTolLAB is deprecated and will be removed', ERR_DEPRECATED);
   Result := exp_ImFindColorTolExLAB(ImgArr, TPA, Color, ColorTol, LightTol);
 end;
 
