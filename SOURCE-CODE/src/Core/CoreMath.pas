@@ -16,10 +16,10 @@ uses
   
 function Radians(Dgrs: Extended): Extended; Inline;
 function Degrees(Rads: Extended): Extended; Inline;
-function Modulo(X,Y:Extended): Extended; Inline;
-function DModulo(X,Y:Double): Double; Inline;
-function FModulo(X,Y:Single): Single; Inline;
-function IModulo(X,Y:Integer): Integer; Inline;
+function Modulo(X,Y:Extended): Extended; Inline; overload;
+function Modulo(X,Y:Double):  Double;  Inline; overload;
+function Modulo(X,Y:Single):  Single;  Inline; overload;
+function Modulo(X,Y:Integer): Integer; Inline; overload;
 function DeltaAngle(DegA,DegB:Extended): Extended; Inline; 
 function DistManhattan(const pt1,pt2: TPoint): Extended; Inline; 
 function DistEuclidean(const pt1,pt2: TPoint): Extended; Inline; 
@@ -35,6 +35,8 @@ function InPolyW(x,y:Integer; const Poly:TPointArray): Boolean; Inline;
 function InBox(const Pt:TPoint; X1,Y1, X2,Y2: Integer): Boolean; Inline;
 function InTriangle(const Pt, v1, v2, v3:TPoint): Boolean; Inline;
 function IsPrime(n: Integer): Boolean; Inline;
+function NextPrime(n: Integer): Integer; inline;
+function PrevPrime(n: Integer): Integer; inline;
 
 
 //--------------------------------------------------
@@ -55,25 +57,25 @@ begin Result := Rads * (180/Pi); end;
 
 
 {*
- "Real" modulus function as seen in: WolframAlpha, MatLab and Python, and many more modern programming languages.
+ "Real" modulus function as seen in: WolframAlpha, MatLab and Python, and many more "modern" programming languages.
  No overload due to inlineing, and (possibly) exporting.
 *}
-function Modulo(X,Y:Extended): Extended; Inline; 
+function Modulo(X,Y:Extended): Extended; Inline; overload;
 begin
   Result := X - Floor(X / Y) * Y;
 end;
 
-function DModulo(X,Y:Double): Double; Inline;
+function Modulo(X,Y:Double): Double; Inline; overload;
 begin
   Result := X - Floor(X / Y) * Y;
 end;
 
-function FModulo(X,Y:Single): Single; Inline;
+function Modulo(X,Y:Single): Single; Inline; overload;
 begin
   Result := X - Floor(X / Y) * Y;
 end;
 
-function IModulo(X,Y:Integer): Integer; Inline;
+function Modulo(X,Y:Integer): Integer; Inline; overload;
 begin
   Result := X - Floor(X / Y) * Y;
 end;
@@ -333,6 +335,23 @@ begin
     i := i + 2;
   end;
   Result := True;
+end;
+
+function NextPrime(n: Integer): Integer; inline;
+begin
+  Inc(n);
+  while Not(IsPrime(n)) do
+    Inc(n);
+  Result := n;
+end;
+
+
+function PrevPrime(n: Integer): Integer; inline;
+begin
+  Dec(n);
+  while Not(IsPrime(n)) do
+    Dec(n);
+  Result := n;
 end;
 
 end.

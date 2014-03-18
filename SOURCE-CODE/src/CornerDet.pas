@@ -199,7 +199,7 @@ begin
         for yy:=y to yl do
           for xx:=x to xl do
             if (Mat[yy][xx] >= lMax) then
-              TPL.AppendXY(xx,yy);
+              TPL.Append(xx,yy);
       x += Step;
     end;
     y += Step;
@@ -248,7 +248,7 @@ begin
   for y:=0 to H do
     for x:=0 to W do
       if (Mat2[y][x] > aTresh) then
-        TPL.appendXY(x,y);
+        TPL.Append(x,y);
 
   ATPA := ClusterTPA(TPL.Clone(), MinDist, True);
   SetLength(Result, Length(ATPA));

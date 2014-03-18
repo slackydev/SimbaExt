@@ -124,7 +124,7 @@ type
     (*
      Appends the item to the last position in the array. Resizes if needed.
     *)
-    procedure AppendXY(const X,Y: Integer); Inline;
+    procedure Append(const X,Y: Integer); Inline; overload;
     
     
     (*
@@ -368,7 +368,7 @@ begin
 end;
 
 
-procedure TPointList.AppendXY(const X,Y: Integer); 
+procedure TPointList.Append(const X,Y: Integer);
 begin
   Inc(_High);
   CheckResizeHigh(_High);

@@ -30,3 +30,13 @@ procedure se_SortTPAByColumn(var Arr: TPointArray);
 begin
   exp_SortTPAByColumn(Arr);
 end;
+
+procedure se_SortTPAByX(var Arr: TPointArray);  
+begin
+  exp_SortTPAByX(Arr);
+end;
+
+procedure se_SortTPAByY(var Arr: TPointArray);  
+begin
+  exp_SortTPAByY(Arr);
+end;

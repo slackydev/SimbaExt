@@ -249,7 +249,7 @@ begin
         ColorToRGB(Colors[i], R,G,B);
         if ((Sqr(R1 - R) + Sqr(G1 - G) + Sqr(B1 - B)) <= Tol) then
         begin
-          TPS.AppendXY(X,Y);
+          TPS.Append(X,Y);
           Break;
         end;
       end;
@@ -280,7 +280,7 @@ begin
     begin
       ColorToRGB(ImgArr[Y][X], R1,G1,B1);
       if ((Sqr(R1 - R) + Sqr(G1 - G) + Sqr(B1 - B)) <= Tol) then
-        TPS.AppendXY(X,Y);
+        TPS.Append(X,Y);
     end;
 
   if TPS.GetHigh=0 then Exit(False);
@@ -329,7 +329,7 @@ begin
         DeltaHue := Modulo((H1 - HH + 180), 360) - 180;
         //Within Hue tolerance? (180 = tolmax)
         if (Abs(DeltaHue) <= ColorTol) then
-          TPS.AppendXY(X,y);
+          TPS.Append(X,y);
       end;
     end;
 
@@ -374,7 +374,7 @@ begin
       if ((Sqr(LAB.A - A) + Sqr(LAB.B - B)) <= ColorTol) then
         //Within Lightness tolerance? (100 = tolmax)
         if (Abs(L-LAB.L) <= LightTol) then
-          TPS.AppendXY(X,Y);
+          TPS.Append(X,Y);
     end;
 
   LABDict.Destroy;

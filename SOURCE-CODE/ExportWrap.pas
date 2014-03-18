@@ -33,7 +33,7 @@ end;
 
 function exp_IModulo(X,Y:Integer): Integer; Cdecl;
 begin
-  Result := IModulo(X,Y);
+  Result := Modulo(X,Y);
 end;
 
 function exp_InCircle(const Pt, Center: TPoint; Radius: Integer): Boolean; Cdecl;
@@ -475,7 +475,7 @@ end;
 
 procedure exp_TPAReduce(const TPA:TPointArray; FMin,FMax, Iterations:Integer; var Result:TPointArray); Cdecl;
 begin
-  Result := TPASkeleton(TPA,FMin,FMax);
+  Result := TPAReduce(TPA,FMin,FMax,Iterations);
 end;
 
 procedure exp_TPAExpand(const TPA:TPointArray; Iterations:Integer; var Result:TPointArray); Cdecl;

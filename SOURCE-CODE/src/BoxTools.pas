@@ -17,10 +17,10 @@ uses CoreMath;
 
 procedure WrapAroundBox(var B: TBox; W,H: Integer); Inline;
 begin
-  B.x1 := IModulo(B.x1, W);
-  B.y1 := IModulo(B.y1, H);
-  B.x2 := IModulo(B.x2, W);
-  B.y2 := IModulo(B.y2, H);
+  B.x1 := Modulo(B.x1, W);
+  B.y1 := Modulo(B.y1, H);
+  B.x2 := Modulo(B.x2, W);
+  B.y2 := Modulo(B.y2, H);
 end;
 
 

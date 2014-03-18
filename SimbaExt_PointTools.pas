@@ -225,7 +225,7 @@ end;
 
 function se_TPAReduce(const TPA:TPointArray; FMin,FMax, Iterations:Integer): TPointArray;  
 begin
-  exp_TPASkeleton(TPA,FMin,FMax, Result);
+  exp_TPAReduce(TPA,FMin,FMax,Iterations,Result);
 end;
 
 function se_TPAExpand(const TPA:TPointArray; Iterations:Integer): TPointArray;  

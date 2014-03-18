@@ -46,14 +46,7 @@ procedure MinMax(Mat:T2DFloatArray; var Min, Max:Single); overload;
 //-----------------------------------------------------------------------
 implementation
 
-uses BoxTools;
-
-function IncA(var i: Integer): Integer; Inline;
-begin
-  Result := i;
-  i += 1;
-end;
-
+uses BoxTools, CoreMisc; //WrapAround from Box, and Inc/Dec from CoreMisc
 
 {$I Src/Core/Matrix/_ArgMinMax.pas}
 {$I Src/Core/Matrix/_MinMax.pas}

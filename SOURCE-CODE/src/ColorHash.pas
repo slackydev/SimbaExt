@@ -46,8 +46,7 @@ uses
 constructor ColorDict.Create(Size:Integer);
 begin
   inherited Create;
-  Size := Trunc(Size*1.2);
-  while Not(IsPrime(Size)) do Inc(Size);
+  Size := NextPrime( Trunc(Size*1.2) );
   SetLength(Table, Size);
   Len := Size;
 end;
@@ -79,7 +78,7 @@ begin
 end;
 
 
-//Adds a color to the fictionary at the given key
+//Adds a color to the dictionary at the given key
 function ColorDict.Add(Key:Integer; Value:ColorLAB): Boolean;
 var
   Hash,i:Integer;
@@ -94,7 +93,7 @@ begin
   end;
   
   if ((Table[Hash].Key <> Key) and (Table[Hash].Isset=True)) then 
-    Exit(False); //The hashmap is filled... 
+    Exit(False); //The hashmap is filled :| ...
   
   Table[Hash].Value := Value;
   if (Table[Hash].Isset=False) then

@@ -20,7 +20,7 @@ uses
   CoreMisc,
   MatrixMath,
   MatrixOps,
-  //PointList,
+  PointList,
   Sorting,
   MatrixTools,
   ColorMath,
