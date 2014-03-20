@@ -22,6 +22,7 @@ function ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert
 function ImFindContours(const ImgArr:T2DIntArray; Outlines:Boolean): T2DPointArray; 
 function ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray; 
 function ImSobel(const ImgArr: T2DIntArray): T2DIntArray; 
+function ImFilterGray(const ImArr:T2DIntArray; MinDark, MaxDark:Byte; Replace, Tol:Integer): T2DIntArray;
 procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TxResizeMethod); 
 
 
@@ -490,6 +491,34 @@ begin
       
       Result[y][x] := Trunc(Min(255.0, Max(0.0, Sqrt(gx*gx + gy*gy))));
   end;
+end;
+
+
+
+{*
+ Replace all colors which are grayish with the given "replace"-color.
+ How grayish is determined by tolerance (Tol), and "MinDark, MaxDark" (How dark, and how bright a color is allowed to be)
+*}
+function ImFilterGray(const ImArr:T2DIntArray; MinDark, MaxDark:Byte; Replace, Tol:Integer): T2DIntArray;
+var
+  w,h,x,y: Int32;
+  r,g,b:Byte;
+  intensity: Int32;
+begin
+  H := High(ImArr);
+  W := High(ImArr[0]);
+  SetLength(Result, H+1, W+1);
+  for y:=0 to H do
+    for x:=0 to W do
+    begin
+      ColorToRGB(ImArr[y][x], R,G,B);
+      Intensity := (R+B+G) div 3;
+      if (Max(Max(R,G),B) - Min(Min(R,G),B) <= Tol) and
+         (InRange(Intensity, MinDark, MaxDark)) then
+        Result[y][x] := Replace
+      else
+        Result[y][x] := ImArr[y][x];
+    end;
 end;
 
 

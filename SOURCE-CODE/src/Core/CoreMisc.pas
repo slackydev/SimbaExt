@@ -39,32 +39,33 @@ procedure Move(const InArr:TPointArray; var DestArr:TPointArray; source, dest, s
 //-----------------------------------------------------------------------
 implementation
 
-
-(* 
-  Escalate the value (value+1), returning the current value
-*)
-function Dec(var i: Integer): Integer; Inline; //i++
-begin Result := i;  i := i+1; end;
- 
-function Dec(var i: uInt32): uInt32; Inline; //i++
-begin Result := i;  i := i+1; end;
-
-function Dec(var i: Int64): Int64; Inline; //i++
-begin Result := i;  i := i+1; end;
- 
  
 (* 
-  Descendent of the value (value-1), returning the current value
+  Increase of the value (value+1), returning the current value
 *)
-function Inc(var i: Integer): Integer; Inline; //i--
+function Inc(var i: Integer): Integer; Inline; //i++
+begin Result := i;  i := i+1; end;
+
+function Inc(var i: uInt32): uInt32; Inline; //i++
+begin Result := i;  i := i+1; end;
+
+function Inc(var i: Int64): Int64; Inline; //i++
+begin Result := i;  i := i+1; end;
+
+
+(* 
+  Decrease the value (value+1), returning the current value
+*)
+function Dec(var i: Integer): Integer; Inline; //i--
+begin Result := i;  i := i-1; end;
+ 
+function Dec(var i: uInt32): uInt32; Inline; //i--
 begin Result := i;  i := i-1; end;
 
-function Inc(var i: uInt32): uInt32; Inline; //i--
+function Dec(var i: Int64): Int64; Inline; //i--
 begin Result := i;  i := i-1; end;
-
-function Inc(var i: Int64): Int64; Inline; //i--
-begin Result := i;  i := i-1; end;
-
+ 
+ 
 
 (* 
   Swapping values

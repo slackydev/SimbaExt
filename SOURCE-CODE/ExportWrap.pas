@@ -394,19 +394,24 @@ begin
   Result := XagonPoints(Center, Sides, Dir);
 end;
 
-procedure exp_TPAEllipse(var TPA:TPointArray; const Center: TPoint; RadX,RadY:Integer); Cdecl;
+procedure exp_TPAEllipseBase(const Center: TPoint; RadiusX, RadiusY:Integer; var Result:TPointArray); Cdecl;
 begin
-  TPAEllipse(TPA,Center,RadX,RadY);
+  Result := TPAEllipseBase(Center, RadiusX, RadiusY);
 end;
 
-procedure exp_TPACircle(var TPA:TPointArray; const Center: TPoint; Radius:Integer); Cdecl;
+procedure exp_TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean; var Result:TPointArray); Cdecl;
 begin
-  TPACircle(TPA,Center,Radius);
+  Result := TPAEllipse(Center, RadX,RadY, Filled);
 end;
 
-procedure exp_TPASimplePoly(var TPA:TPointArray; const Center:TPoint; Sides:Integer; const Dir:TPoint); Cdecl;
+procedure exp_TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean; var Result:TPointArray); Cdecl;
 begin
-  TPASimplePoly(TPA, Center, Sides, Dir);
+  Result := TPACircle(Center, Radius, Filled);
+end;
+
+procedure exp_TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint; var Result:TPointArray); Cdecl;
+begin
+  Result := TPASimplePoly(Center, Sides, Dir);
 end;
 
 procedure exp_ConvexHull(const TPA:TPointArray; var Result: TPointArray); Cdecl;

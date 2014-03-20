@@ -184,7 +184,7 @@ var
 begin
   X := Pt.X - Center.X;
   Y := Pt.Y - Center.Y;
-  Result := (X*X*YRad*YRad)+(Y*Y*XRad*XRad) <= (YRad*YRad*XRad*XRad);
+  Result := (Sqr(X)*Sqr(YRad))+(Sqr(Y)*Sqr(XRad)) <= (Sqr(YRad)*Sqr(XRad));
 end; 
 
 

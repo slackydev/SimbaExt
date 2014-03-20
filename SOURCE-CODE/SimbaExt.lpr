@@ -145,11 +145,12 @@ begin
   AddCommand(@exp_ConnectTPA,	'procedure exp_ConnectTPA(const TPA:TPointArray; var Result:TPointArray);');
   AddCommand(@exp_ConnectTPAEx,	'procedure exp_ConnectTPAEx(TPA:TPointArray; Tension:Extended; var Result: TPointArray);');
   AddCommand(@exp_XagonPoints,	'procedure exp_XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint; var Result:TPointArray);');
-  AddCommand(@exp_TPAEllipse,	'procedure exp_TPAEllipse(var TPA:TPointArray; const Center: TPoint; RadX,RadY:Integer);');
-  AddCommand(@exp_TPACircle,	'procedure exp_TPACircle(var TPA:TPointArray; const Center: TPoint; Radius:Integer);');
-  AddCommand(@exp_TPASimplePoly,	'procedure exp_TPASimplePoly(var TPA:TPointArray; const Center:TPoint; Sides:Integer; const Dir:TPoint);');
+  AddCommand(@exp_TPAEllipseBase,	'procedure exp_TPAEllipseBase(const Center: TPoint; RadiusX, RadiusY:Integer; var Result:TPointArray);');
+  AddCommand(@exp_TPAEllipse,	'procedure exp_TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean; var Result:TPointArray);');
+  AddCommand(@exp_TPACircle,	'procedure exp_TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean;     var Result:TPointArray);');
+  AddCommand(@exp_TPASimplePoly,'procedure exp_TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint; var Result:TPointArray);');
   AddCommand(@exp_ConvexHull,	'procedure exp_ConvexHull(const TPA:TPointArray; var Result: TPointArray);');
-  AddCommand(@exp_FloodFillTPAEx,	'procedure exp_FloodFillTPAEx(const TPA:TPointArray; const Start:TPoint; EightWay, KeepEdges:Boolean; var Result: TPointArray);');
+  AddCommand(@exp_FloodFillTPAEx,'procedure exp_FloodFillTPAEx(const TPA:TPointArray; const Start:TPoint; EightWay, KeepEdges:Boolean; var Result: TPointArray);');
   AddCommand(@exp_FloodFillTPA,	'procedure exp_FloodFillTPA(const TPA:TPointArray; const Start:TPoint; EightWay:Boolean; var Result:TPointArray);');
   AddCommand(@exp_TPAOutline,	'procedure exp_TPAOutline(const TPA:TPointArray; var Result:TPointArray);');
   AddCommand(@exp_TPABorder,	'procedure exp_TPABorder(const TPA:TPointArray; var Result:TPointArray);');

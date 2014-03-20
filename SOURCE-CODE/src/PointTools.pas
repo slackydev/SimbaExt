@@ -18,36 +18,41 @@ procedure GetAdjacent(var adj:TPointArray; n:TPoint; EightWay:Boolean); Inline;/
 procedure RotatingAdjecent(var Adj:TPointArray;const Curr:TPoint; const Prev:TPoint); Inline;
 function ScalePoint(const Center, Pt:TPoint; Radius:Integer): TPoint; Inline;//StdCall;
 function SumTPA(const Arr: TPointArray): TPoint; Inline;//StdCall;
-procedure TPASplitAxis(const TPA: TPointArray; var X:TIntArray; var Y:TIntArray);//StdCall;
-procedure TPAJoinAxis(const X:TIntArray; const Y:TIntArray; var TPA:TPointArray);//StdCall;
+procedure TPASplitAxis(const TPA: TPointArray; var X:TIntArray; var Y:TIntArray);
+procedure TPAJoinAxis(const X:TIntArray; const Y:TIntArray; var TPA:TPointArray);
 function TPAMax(const TPA: TPointArray): TPoint;
 function TPABounds(const TPA: TPointArray): TBox; Inline;
-function TPACenter(const TPA: TPointArray; Method: TxCenterMethod; Inside:Boolean): TPoint;//StdCall;
-function TPAExtremes(const TPA:TPointArray): TPointArray;//StdCall; 
-function TPABBox(const TPA:TPointArray): TPointArray;//StdCall;
-procedure TPAFilterBounds(var TPA: TPointArray; x1,y1,x2,y2:Integer);//StdCall;
-procedure TPAFilter(var TPA: TPointArray; const Shape:TPointArray; const From:TPoint);//StdCall;
-procedure ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:Boolean);//StdCall;
+function TPACenter(const TPA: TPointArray; Method: TxCenterMethod; Inside:Boolean): TPoint;
+function TPAExtremes(const TPA:TPointArray): TPointArray;
+function TPABBox(const TPA:TPointArray): TPointArray;
+procedure TPAFilterBounds(var TPA: TPointArray; x1,y1,x2,y2:Integer);
+procedure TPAFilter(var TPA: TPointArray; const Shape:TPointArray; const From:TPoint);
+procedure ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:Boolean);
 function MergeATPA(const ATPA: T2DPointArray): TPointArray;
 function TPACircularity(const TPA: TPointArray): Extended;
 function TPAConvexity(const TPA: TPointArray): Extended;
-procedure ReverseTPA(var TPA: TPointArray);//StdCall;
+procedure ReverseTPA(var TPA: TPointArray);
 procedure OffsetTPA(var TPA: TPointArray; SX,SY:Integer);
-procedure TPARemoveDupes(var TPA: TPointArray);//StdCall;
-procedure LongestPolyVector(const Poly:TPointArray; var A,B:TPoint);//StdCall;
-function InvertTPA(const TPA:TPointArray): TPointArray;//StdCall;
-function RotateTPAEx(const TPA: TPointArray; const Center:TPoint; Radians: Extended): TPointArray;//StdCall;
-function TPAPartition(const TPA:TPointArray; BoxWidth, BoxHeight:Integer): T2DPointArray;//StdCall;
-function AlignTPA(const TPA:TPointArray; Method: TxAlignMethod; var Angle:Extended): TPointArray;//StdCall;
-function CleanSortTPA(const TPA: TPointArray): TPointArray;//StdCall;
-function UniteTPA(const TPA1, TPA2: TPointArray; RemoveDupes:Boolean): TPointArray;//StdCall;
-procedure TPALine(var TPA:TPointArray; const P1:TPoint; const P2: TPoint); Inline;//StdCall;
-function ConnectTPA(const TPA:TPointArray): TPointArray; Inline;//StdCall;
-function ConnectTPAEx(TPA:TPointArray; Tension:Extended): TPointArray; Inline;//StdCall;
-function XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray; Inline;//StdCall;
-procedure TPAEllipse(var TPA:TPointArray; const Center: TPoint; RadX,RadY:Integer);//StdCall;
-procedure TPACircle(var TPA:TPointArray; const Center: TPoint; Radius:Integer);//StdCall;
-procedure TPASimplePoly(var TPA:TPointArray; const Center:TPoint; Sides:Integer; const Dir:TPoint);//StdCall;
+procedure TPARemoveDupes(var TPA: TPointArray);
+procedure LongestPolyVector(const Poly:TPointArray; var A,B:TPoint);
+function InvertTPA(const TPA:TPointArray): TPointArray;
+function RotateTPAEx(const TPA: TPointArray; const Center:TPoint; Radians: Extended): TPointArray;
+function TPAPartition(const TPA:TPointArray; BoxWidth, BoxHeight:Integer): T2DPointArray;
+function AlignTPA(const TPA:TPointArray; Method: TxAlignMethod; var Angle:Extended): TPointArray;
+function CleanSortTPA(const TPA: TPointArray): TPointArray;
+function UniteTPA(const TPA1, TPA2: TPointArray; RemoveDupes:Boolean): TPointArray;
+procedure TPALine(var TPA:TPointArray; const P1:TPoint; const P2: TPoint); Inline;
+function ConnectTPA(const TPA:TPointArray): TPointArray; Inline;
+function ConnectTPAEx(TPA:TPointArray; Tension:Extended): TPointArray; Inline;
+function XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray; Inline;
+
+function TPAEllipseBase(const Center: TPoint; RadiusX, RadiusY: Integer): TPointArray;
+function TPAEllipseFilled(const C:TPoint; RadX,RadY:Integer): TPointArray;
+function TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean): TPointArray;
+function TPACircleFilled(const C:TPoint; Rad:Integer): TPointArray;
+function TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean): TPointArray;
+function TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray;
+
 function ConvexHull(const TPA:TPointArray): TPointArray;//StdCall;
 function FloodFillTPAEx(const TPA:TPointArray; const Start:TPoint; EightWay, KeepEdges:Boolean): TPointArray;//StdCall;
 function FloodFillTPA(const TPA:TPointArray; const Start:TPoint; EightWay:Boolean): TPointArray;//StdCall;
@@ -202,7 +207,6 @@ function TPABounds(const TPA: TPointArray): TBox; Inline;
 var
   I,L : Integer;
 begin
-  FillChar(Result, SizeOf(TBox), 0);
   L := High(TPA);
   if (l < 0) then Exit;
   Result.x1 := TPA[0].x;
@@ -947,7 +951,7 @@ end;
 {*
  Creates all the points needed to define a simple polygon.
 *}
-function XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray; Inline;//StdCall;
+function XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray; Inline;
 var
   i,j: Integer;
   dx,dy,ptx,pty,SinR,CosR:Extended;  
@@ -977,79 +981,158 @@ begin
 end;
 
 
+
+
 {*
- Creates all the points needed to define a Ellipse.
- Algorithm is based on Bresenham's circle algorithm, tho might be more similr to MidPoint-Circle.
+ Creates all the points needed to define a Ellipse's cirumsphere.
+ Algorithm is based on Bresenham's circle algorithm.
 *}
-procedure TPAEllipse(var TPA:TPointArray; const Center: TPoint; RadX,RadY:Integer);//StdCall;
+function TPAEllipseBase(const Center: TPoint; RadiusX, RadiusY: Integer): TPointArray;
 var
-  RadXSQ,RadYSQ,TwoSQX,TwoSQY,p,x,y,px,py:Integer;
-  Stack: TPointList;
+  RadXSQ, RadYSQ, TwoSQX, TwoSQY, p, x, y, px, py, H: Integer;
 begin
-  RadXSQ := Sqr(RadX);
-  RadYSQ := Sqr(RadY);
-  twoSQX := 2 * RadXSQ;
-  twoSQY := 2 * RadYSQ;
-  x := 0;
-  y := RadY;
-  px := 0;
-  py := twoSQX * y;
-  
-  Stack.InitWith(TPA);
-  Stack.Append(Point(Center.x + x, Center.y + y));
-  Stack.Append(Point(Center.x - x, Center.y + y));
-  Stack.Append(Point(Center.x + x, Center.y - y));
-  Stack.Append(Point(Center.x - x, Center.y - y));
-
-  {* Region 1 *}
-  p := Round(RadYSQ - (RadXSQ * RadY) + (0.25 * RadXSQ));
-  while (px < py) do
-  begin
-    Inc(x);
-    px := px + twoSQY;
-    if (p < 0) then
-      p := p + (RadYSQ + px)
-    else begin
-      Dec(y);
-      py := py - twoSQX;
-      p := p + (RadYSQ + px - py);
+  case ((radiusX > -1) and (radiusY > -1)) of
+    True:
+    begin
+      RadXSQ := (radiusX * radiusX);
+      RadYSQ := (radiusY * radiusY);
+      TwoSQX := (2 * RadXSQ);
+      TwoSQY := (2 * RadYSQ);
+      x := 0;
+      y := radiusY;
+      px := 0;
+      py := (twoSQX * y);
+      H := 4;
+      SetLength(Result, H);
+      Result[0] := Point((center.X + x), (center.Y + y));
+      Result[1] := Point((center.X - x), (center.Y + y));
+      Result[2] := Point((center.X + x), (center.Y - y));
+      Result[3] := Point((center.X - x), (center.Y - y));
+      p := Round(RadYSQ - (RadXSQ * RadiusY) + (0.25 * RadXSQ));
+      while (px < py) do
+      begin
+        Inc(x);
+        px := (px + twoSQY);
+        case (p > -1) of
+          True:
+          begin
+            Dec(y);
+            py := (py - twoSQX);
+            p := (p + (RadYSQ + px - py));
+          end;
+          False: p := (p + (RadYSQ + px));
+        end;
+        H := (H + 4);
+        SetLength(Result, H);
+        Result[(H - 1)] := Point(center.X + x, center.Y + y);
+        Result[(H - 2)] := Point(center.X - x, center.Y + y);
+        Result[(H - 3)] := Point(center.X + x, center.Y - y);
+        Result[(H - 4)] := Point(center.X - x, center.Y - y);
+      end;
+      P := Round(RadYSQ * Sqr(x + 0.5) + RadXSQ * Sqr(y - 1) - RadXSQ * RadYSQ);
+      while (y > 0) do
+      begin
+        Dec(y);
+        py := (py - twoSQX);
+        case (p < 1) of
+          True:
+          begin
+            Inc(x);
+            px := (px + twoSQY);
+            p := (p + (RadXSQ - py + px));
+          end;
+          False: p := (p + (RadXSQ - py));
+        end;
+        H := (H + 4);
+        SetLength(Result, H);
+        Result[(H - 1)] := Point(center.X + x, center.Y + y);
+        Result[(H - 2)] := Point(center.X - x, center.Y + y);
+        Result[(H - 3)] := Point(center.X + x, center.Y - y);
+        Result[(H - 4)] := Point(center.X - x, center.Y - y);
+      end;
     end;
-    Stack.Append(Point(Center.x + x, Center.y + y));
-    Stack.Append(Point(Center.x - x, Center.y + y));
-    Stack.Append(Point(Center.x + x, Center.y - y));
-    Stack.Append(Point(Center.x - x, Center.y - y));
+    False: SetLength(Result, 0);
   end;
+end;
 
-  {* Region 2 *}
-  P := Round(RadYSQ * (x+0.5) * (x+0.5) + RadXSQ * (y-1) * (y-1) - RadXSQ * RadYSQ);
-  while (y > 0) do
-  begin
-    Dec(y);
-    py := py - twoSQX;
-    if (p > 0) then
-      p := p + (RadXSQ - py)
-    else begin
-      Inc(x);
-      px := px + twoSQY;
-      p := p + (RadXSQ - py + px);
-    end;
-    Stack.Append(Point(Center.x + x, Center.y + y));
-    Stack.Append(Point(Center.x - x, Center.y + y));
-    Stack.Append(Point(Center.x + x, Center.y - y));
-    Stack.Append(Point(Center.x - x, Center.y - y));
-  end;
-  TPA := Stack.Clone;
-  Stack.Free;
+
+
+
+{*
+ Fills the result with a ellipse of the given radius.
+*}
+function TPAEllipseFilled(const C:TPoint; RadX,RadY:Integer): TPointArray;
+var
+ x,y,i: Integer;
+ sqy,sqx,d:Single;
+ B: TBox;
+begin
+  SqY := Sqr(RadY+0.5);
+  SqX := Sqr(RadX+0.5);
+  d := SqX * SqY;
+  B := Box(C.x-RadX, C.y-RadY, C.x+RadX, C.y+RadY);
+  SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
+
+  i := 0;
+  for y:=B.y1 to B.y2 do
+    for x:=B.x1 to B.x2 do
+      if (sqr(x - c.x) * sqy) + (sqr(y - c.y) * sqx) <= d then
+      begin
+        Result[i] := Point(x,y);
+        i := i+1;
+      end;
+  SetLength(Result, i);
 end;
 
 
 {*
- Creates all the points needed to define a Circle.
- Algorithm is based on Bresenham's circle algorithm, tho might be more similr to MidPoint-Circle.
+ Creates all the points on the circumsphare of the Ellipse if Filled=False.
+ if filled = True then you get a filled ellipse.
 *}
-procedure TPACircle(var TPA:TPointArray; const Center: TPoint; Radius:Integer);//StdCall;
+function TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean): TPointArray;
 begin
-  TPAEllipse(TPA, Center, Radius, Radius);
+  if Filled then
+    Result := TPAEllipseFilled(Center, RadX,RadY)
+  else
+    Result := TPAEllipseBase(Center, RadX,RadY);
+end;
+
+
+{*
+ Fills the result with a circle of the given radius.
+*}
+function TPACircleFilled(const C:TPoint; Rad:Integer): TPointArray;
+var
+ x,y,i: Integer;
+ sqrad: single;
+ B: TBox;
+begin
+  sqrad := Sqr(Rad+0.5);
+  B := Box(C.x-Rad, C.y-Rad, C.x+Rad, C.y+Rad);
+  SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
+  WriteLn(Length(Result));
+  i := 0;
+  for y:=B.y1 to B.y2 do
+    for x:=B.x1 to B.x2 do
+      if Sqr(x-c.x) + Sqr(y-c.y) <= SqRad then
+      begin
+        Result[i] := Point(x,y);
+        i := i+1;
+      end;
+  SetLength(Result, i);
+end;
+
+
+{*
+ Creates all the points on the circumsphare of a Circle if filled = False.
+ Filled=True returns a filled circle.
+*}
+function TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean): TPointArray;
+begin
+  if Filled then
+    Result := TPACircleFilled(Center, Radius)
+  else
+    Result := TPAEllipseBase(Center, Radius,Radius);
 end;
 
 
@@ -1057,13 +1140,15 @@ end;
  Uses `SimplePolyPoints` combined with ConnectTPA to draw a line trough each
  point given by `SimplePolyPoints`. So we get a "proper polygon".
 *}
-procedure TPASimplePoly(var TPA:TPointArray; const Center:TPoint; Sides:Integer; const Dir:TPoint);//StdCall;
+function TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray;
 var Pt:TPoint;
 begin
   Pt.x := Center.x + Dir.x;
   Pt.y := Center.y + Dir.y;
-  TPA := ConnectTPA(XagonPoints(Center, Sides, Pt));
+  Result := ConnectTPA(XagonPoints(Center, Sides, Pt));
 end;
+
+
 
 
 {*

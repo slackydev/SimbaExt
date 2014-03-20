@@ -212,7 +212,7 @@ end;
 *}
 function MatGetRow(const Mat:T2DIntArray; Row:Integer): TIntArray; 
 var
-  x,W:Integer;
+  W:Integer;
 begin
   W := High(Mat[0]);
   SetLength(Result, W+1);
@@ -225,7 +225,7 @@ end;
 *}
 function MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray; 
 var
-  x,y,H,NewW:Integer;
+  y,H,NewW:Integer;
 begin
   ToCol := Min(ToCol, High(Mat[0]));
   H := High(Mat);
@@ -272,10 +272,9 @@ end;
   ...
 *}
 function MatFromTIA(const TIA:TIntArray; Width,Height:Integer): T2DIntArray; 
-var y,i:Integer;
+var y:Integer;
 begin
   SetLength(Result, Height,Width);
-  i := 0;
   for y:=0 to Height-1 do
     Move(TIA[y*width], Result[y][0], Width*SizeOf(Integer));
 end;
@@ -286,7 +285,7 @@ end;
 *}
 procedure PadMatrix(var Matrix:T2DIntArray; HPad, WPad:Integer); 
 var 
-  x,y,oldw,oldh,w,h:Integer;
+  y,oldw,oldh,w,h:Integer;
   Temp:T2DIntArray;
 begin
   OldW := Length(Matrix[0]);

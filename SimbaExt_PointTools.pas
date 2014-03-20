@@ -142,19 +142,19 @@ begin
   exp_XagonPoints(Center, Sides, Dir,Result);
 end;
 
-procedure se_TPAEllipse(var TPA:TPointArray; const Center: TPoint; RadX,RadY:Integer);  
+function se_TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean=False): TPointArray;  
 begin
-  exp_TPAEllipse(TPA,Center,RadX,RadY);
+  exp_TPAEllipse(Center,RadX,RadY,Filled,Result);
 end;
 
-procedure se_TPACircle(var TPA:TPointArray; const Center: TPoint; Radius:Integer);  
+function se_TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean=False): TPointArray;   
 begin
-  exp_TPACircle(TPA,Center,Radius);
+  exp_TPACircle(Center,Radius,Filled,Result);
 end;
 
-procedure se_TPASimplePoly(var TPA:TPointArray; const Center:TPoint; Sides:Integer; const Dir:TPoint);  
+function se_TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray;     
 begin
-  exp_TPASimplePoly(TPA, Center, Sides, Dir);
+  exp_TPASimplePoly(Center, Sides, Dir, Result);
 end;
 
 function se_ConvexHull(const TPA:TPointArray):  TPointArray;  

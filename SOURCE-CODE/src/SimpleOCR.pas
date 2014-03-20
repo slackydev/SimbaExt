@@ -22,7 +22,7 @@ function ImGetTextEx(ImgArr:T2DIntArray; Fonts:TCharsArray; MinCharSpace, MinSpa
 //--------------------------------------------------
 implementation
 uses 
-  MatrixTools, PointTools, Imaging, Finder;
+  PointTools, Imaging, Finder;
 
 var
   SpacePositions: TBoolArray;
