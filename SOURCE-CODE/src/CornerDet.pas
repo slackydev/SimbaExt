@@ -12,14 +12,14 @@ uses
   SysUtils, Math, CoreTypes;
 
 function CornerResponse(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer): T2DFloatArray;
-function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;
+function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;
 function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist: Integer): TPointArray;
 
 
 //-----------------------------------------------------------------------
 implementation
 uses
-  PointList, MatrixMath, PointTools;
+  PointList, MatrixMath, MatrixTools, PointTools;
 
 
 (*=============================================================================|
@@ -158,67 +158,41 @@ end;
 
 
 (*=============================================================================|
- Peak extraction (Dirty)...
-|=============================================================================*)
-function LocalPeaks(const Mat:T2DFloatArray; Footprint:Integer; Thresh:Single): TPointArray;
-var
-  W,H,x,y,xx,yy,yl,xl,step:Integer;
-  vTresh, vMax, lMax:Single;
-  TPL:TPointList;
-begin
-  W := High(Mat[0]);
-  H := High(Mat);
-
-  //Find highest peak
-  vMax := 0.0;
-  for y:=0 to H do
-    for x:=0 to W do
-      if Mat[y][x] > vMax then
-        vMax := Mat[y][x];
-  vTresh := vMax * Thresh;
-
-  TPL.Init();
-  Step := Footprint;
-  Dec(Footprint);
-  y := 0;
-  while (y < H) do
-  begin
-    x := 0;
-    yl := Min(y+Footprint,H);
-    while (x < W) do
-    begin
-      xl := Min(x+Footprint, W);
-      //Find local peak
-      lMax := 0.0;
-      for yy:=y to yl do
-        for xx:=x to xl do
-          if (Mat[yy][xx] > lMax) then
-            lMax := Mat[yy][xx];
-      //Append all top spikes to result.
-      if lMax > vTresh then
-        for yy:=y to yl do
-          for xx:=x to xl do
-            if (Mat[yy][xx] >= lMax) then
-              TPL.Append(xx,yy);
-      x += Step;
-    end;
-    y += Step;
-  end;
-
-  Result := TPL.Clone();
-  TPL.Free();
-end;
-
-
-(*=============================================================================|
  Tries to extract the peak points of the neighborhood covering MinDist.
 |=============================================================================*)
-function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;
-var Mat2:T2DFloatArray;
+function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;
+var
+  w,h,i,j,x,y,k: Integer;
+  CurrentMax: Single;
+  Response: T2DFloatArray;
 begin
-  MinDist := Max(1,MinDist);
-  Mat2 := CornerResponse(Mat, GaussDev, KSize);
-  Result := LocalPeaks(Mat2, MinDist, Thresh);
+  Response := CornerResponse(Mat, GaussDev, KSize);
+
+  W := High(Response[0]);
+  H := High(Response);
+  SetLength(Result, (W+1)*(H+1));
+  Response := NormalizeMat(Response, 0, 1.0);
+  k := 0;
+  for y:=footprint to H-footprint do
+    for x:=footprint to W-footprint do
+    begin
+      CurrentMax := Response[y][x];
+      for i :=-footprint to footprint do
+        for j:=-footprint to footprint do
+          if (Response[y + i][x + j] > currentMax) then
+          begin
+            CurrentMax := 0;
+            Break;
+          end;
+
+      if (CurrentMax > Thresh) then
+      begin
+        Result[k] := Point(x, y);
+        Inc(k);
+      end;
+    end;
+  SetLength(Result, k);
+  SetLength(Response, 0);
 end;
 
 

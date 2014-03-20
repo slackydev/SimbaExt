@@ -18,7 +18,8 @@ function NewMatrixEx(W,H,Init:Integer): T2DIntArray;
 function TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean): T2DIntArray; 
 function TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray; 
 procedure MatInsertTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer); 
-function NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray; 
+function NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray;   overload;
+function NormalizeMat(const Mat:T2DFloatArray; Alpha, Beta:Float): T2DFloatArray; overload;
 function MatGetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; 
 function MatGetCol(const Mat:T2DIntArray; Column:Integer): TIntArray; 
 function MatGetRow(const Mat:T2DIntArray; Row:Integer): TIntArray; 
@@ -143,7 +144,7 @@ end;
 {*
  ...
 *}
-function NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray; 
+function NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray; overload;
 var
   x,y,H,W: Integer;
   k,mx: Extended;
@@ -165,6 +166,34 @@ begin
   for y:=0 to H do
     for x:=0 to W do
       Result[y][x] := Alpha + Round(Mat[y][x]*k);
+end;
+
+
+{*
+ ...
+*}
+function NormalizeMat(const Mat:T2DFloatArray; Alpha, Beta:Float): T2DFloatArray; overload;
+var
+  x,y,H,W: Integer;
+  k,mx: Single;
+begin
+  W := High(Mat[0]);
+  H := High(Mat);
+  mx := 0;
+  for y:=0 to H do
+    for x:=0 to W do
+      if (Mat[y][x] > mx) then
+        mx := Mat[y][x];
+
+  Beta := Beta - Alpha;
+  k := 0.0;
+  if (mx > 0) then
+    k := (Beta / mx);
+
+  SetLength(Result, H+1,W+1);
+  for y:=0 to H do
+    for x:=0 to W do
+      Result[y][x] := Alpha + (Mat[y][x] * k);
 end;
 
 

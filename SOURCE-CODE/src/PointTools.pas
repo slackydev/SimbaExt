@@ -1067,8 +1067,8 @@ var
  sqy,sqx,d:Single;
  B: TBox;
 begin
-  SqY := Sqr(RadY+0.5);
-  SqX := Sqr(RadX+0.5);
+  SqY := Trunc(Sqr(RadY+0.5));
+  SqX := Trunc(Sqr(RadX+0.5));
   d := SqX * SqY;
   B := Box(C.x-RadX, C.y-RadY, C.x+RadX, C.y+RadY);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
@@ -1076,7 +1076,7 @@ begin
   i := 0;
   for y:=B.y1 to B.y2 do
     for x:=B.x1 to B.x2 do
-      if (sqr(x - c.x) * sqy) + (sqr(y - c.y) * sqx) <= d then
+      if (sqr(x - c.x) * sqy) + (sqr(y - c.y) * sqx) < d then
       begin
         Result[i] := Point(x,y);
         i := i+1;
@@ -1107,14 +1107,13 @@ var
  sqrad: single;
  B: TBox;
 begin
-  sqrad := Sqr(Rad+0.5);
+  sqrad := Trunc(Sqr(Rad+0.5));
   B := Box(C.x-Rad, C.y-Rad, C.x+Rad, C.y+Rad);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
-  WriteLn(Length(Result));
   i := 0;
   for y:=B.y1 to B.y2 do
     for x:=B.x1 to B.x2 do
-      if Sqr(x-c.x) + Sqr(y-c.y) <= SqRad then
+      if Sqr(x-c.x) + Sqr(y-c.y) < SqRad then
       begin
         Result[i] := Point(x,y);
         i := i+1;

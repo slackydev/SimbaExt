@@ -697,9 +697,9 @@ begin
   Result := CornerResponse(Mat, GaussDev, KSize);
 end;
 
-procedure exp_FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer; var Result:TPointArray); Cdecl;
+procedure exp_FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer; var Result: TPointArray); Cdecl;
 begin
-  Result := FindCornerPoints(Mat, GaussDev, KSize, Thresh, MinDist);
+  Result := FindCornerPoints(Mat, GaussDev, KSize, Thresh, Footprint);
 end;
 
 procedure exp_FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer; var Result:TPointArray); Cdecl;

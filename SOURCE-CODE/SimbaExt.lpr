@@ -225,7 +225,7 @@ begin
 
   // CornerDet.pas
   AddCommand(@exp_CornerResponse,        'procedure exp_CornerResponse(const Mat:T2DIntegerArray; GaussDev:Single; KSize:Integer; var Result: T2DFloatArray);');
-  AddCommand(@exp_FindCornerPoints,      'procedure exp_FindCornerPoints(const Mat:T2DIntegerArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer; var Result:TPointArray);');
+  AddCommand(@exp_FindCornerPoints,      'procedure exp_FindCornerPoints(const Mat:T2DIntegerArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer; var Result:TPointArray);');
   AddCommand(@exp_FindCornerMidPoints,   'procedure exp_FindCornerMidPoints(const Mat:T2DIntegerArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer; var Result:TPointArray);');
 
 
