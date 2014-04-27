@@ -6,7 +6,7 @@ type
   TExtArray   = TExtendedArray;
   T2DExtArray = T2DExtendedArray;
   
-  Float = Single;
+  //Float = Single;
   TFloatArray   = Array of Single;
   T2DFloatArray = Array of TFloatArray;
   
@@ -16,9 +16,10 @@ type
   TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
   TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
 
+  
 //LoadLibrary from current folder 
 {$loadlib \..\includes\simbaext\simbaext.dll}
-
+{$loadlib \..\includes\simbaext\seextra.dll}
 
 // IntToBox is to long, and [x1,y1,x2,y2] does not always work..
 function ToBox(x1,y1,x2,y2: Integer): TBox; overload;
@@ -46,7 +47,11 @@ begin
     ERR_WARNING: 
       begin
         {$IFNDEF ERR_HIDE_WARNINGS}
-        WriteLn('WARNING: ' + WarningMessage);
+          {$IFDEF ERR_REAL_EXCEPTION}
+            RaiseException('WARNING: ' + WarningMessage);
+          {$ELSE}
+            WriteLn('WARNING: ' + WarningMessage);
+          {$ENDIF}
         {$ENDIF}
       end;
     ERR_NOTICE:  
@@ -60,19 +65,52 @@ begin
 end;
 
 
-
-{$include_once SimbaExt_Math.pas}
-{$include_once SimbaExt_Numeric.pas}
-{$include_once SimbaExt_Sorting.pas}
-{$include_once SimbaExt_Finder.pas}
-//{$include_once SimbaExt_DensityMap.pas}
-{$include_once SimbaExt_PointTools.pas}
-{$include_once SimbaExt_MatrixTools.pas}
-{$include_once SimbaExt_Imaging.pas}
-{$include_once SimbaExt_Randomize.pas}
-{$include_once SimbaExt_StringTools.pas}
-{$IFNDEF NO_MISC} {$include_once SimbaExt_Misc.pas} {$ENDIF}
-{$include_once TRafikiBitmap.pas}
-{$include_once SimbaExt_SimpleOCR.pas}
+{$IFDEF SE_LEGACY}
+  {$include_once LegacyMode/SimbaExt_Math.pas}
+  {$include_once LegacyMode/SimbaExt_Numeric.pas}
+  {$include_once LegacyMode/SimbaExt_Sorting.pas}
+  {$include_once LegacyMode/SimbaExt_Finder.pas}
+  {$include_once LegacyMode/SimbaExt_PointTools.pas}
+  {$include_once LegacyMode/SimbaExt_MatrixTools.pas}
+  {$include_once LegacyMode/SimbaExt_Imaging.pas}
+  {$include_once LegacyMode/SimbaExt_Randomize.pas}
+  {$include_once LegacyMode/SimbaExt_StringTools.pas}
+  {$IFNDEF SE_NoMisc} {$include_once LegacyMode/SimbaExt_Misc.pas} {$ENDIF}
+  {$include_once LegacyMode/TRafikiBitmap.pas}
+  {$include_once LegacyMode/SimbaExt_SimpleOCR.pas}
+{$ELSE}
+  type 
+    //SE.***
+    SimbaExt = type Pointer;
+    //Math.***
+    TObjMath = type Pointer;
+    //Rand.***
+    TObjRandom = type Pointer;
+    //Time.***
+    TObjTime = type Pointer;
+    //OS.*** & OS.Path.***
+    TObjOSPath = type Pointer;
+    TObjOS = record path: TObjOSPath; end; 
+  var  
+    SE: SimbaExt; 
+    Math: TObjMath; 
+    Rand: TObjRandom; 
+    TimeUtils: TObjTime;
+    OS: TObjOS;
+  
+  {$include_once ObjMode/SimbaExt_Math.pas}
+  {$include_once ObjMode/SimbaExt_Numeric.pas}
+  {$include_once ObjMode/SimbaExt_Sorting.pas}
+  {$include_once ObjMode/SimbaExt_Finder.pas}
+  {$include_once ObjMode/SimbaExt_PointTools.pas}
+  {$include_once ObjMode/SimbaExt_MatrixTools.pas}
+  {$include_once ObjMode/SimbaExt_Imaging.pas}
+  {$include_once ObjMode/SimbaExt_Randomize.pas}
+  {$include_once ObjMode/SimbaExt_StringTools.pas}
+  {$include_once ObjMode/SimbaExt_Time.pas}
+  {$include_once ObjMode/SimbaExt_OS.pas}
+  {$IFNDEF SE_NoMisc} {$include_once ObjMode/SimbaExt_Misc.pas} {$ENDIF}
+  {$include_once ObjMode/TRafikiBitmap.pas}
+{$ENDIF}
 
 {$ENDIF}
