@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <Compiler Value="C:\lazarus32\fpc\2.6.2\bin\i386-win32\fpc.exe" Date="1120491560"/>
+  <Params Value=" -MObjFPC -Scghi -WR -O1 -g -gl -vewnhi -FiC:\Simba\Workspace\SE_Extra\lib\i386-win32 -FuC:\Simba\Workspace\SE_Extra\Src -FuC:\Simba\Workspace\SE_Extra\Src\Core -FuC:\Simba\Workspace\SE_Extra\Src\Core\Matrix -FuC:\lazarus32\components\lazutils\lib\i386-win32 -FuC:\lazarus32\packager\units\i386-win32 -FuC:\Simba\Workspace\SE_Extra\ -FUC:\Simba\Workspace\SE_Extra\lib\i386-win32\ -l SEExtra.lpr"/>
+</CONFIG>
