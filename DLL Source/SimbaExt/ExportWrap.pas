@@ -703,17 +703,17 @@ end;
 {*-----------------------------------------------------------------------------|
 | StringTools.pas                                                                  |
 |-----------------------------------------------------------------------------*}
-procedure exp_StrPosEx(const Text, SubStr:String; var Result:TIntArray); Cdecl;
+procedure exp_StrPosEx(const SubStr, Text:String; var Result:TIntArray); Cdecl;
 begin
-  Result := StrPosEx(Text, SubStr);
+  Result := StrPosEx(SubStr, Text);
 end;
 
-function exp_StrPosL(const Text, SubStr: String): Integer; Cdecl;
+function exp_StrPosL(const SubStr, Text: String): Integer; Cdecl;
 begin
-  Result := StrPosL(Text, SubStr);
+  Result := StrPosL(SubStr, Text);
 end;
 
-function exp_StrPosR(const Text, SubStr: String): Integer; Cdecl;
+function exp_StrPosR(const SubStr, Text: String): Integer; Cdecl;
 begin
   Result := StrPosR(Text, SubStr);
 end;

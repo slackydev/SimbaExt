@@ -168,9 +168,6 @@ begin
   AddCommand(@exp_TPAReduce,	'procedure exp_TPAReduce(const TPA:TPointArray; FMin,FMax, Iterations:Integer; var Result:TPointArray);');
   AddCommand(@exp_TPAExpand,	'procedure exp_TPAExpand(const TPA:TPointArray; Iterations:Integer; var Result:TPointArray);');
 
-  //tests
-  //AddCommand(@SplitTPA, 'function se_SplitTPA(const TPA:TPointArray; Dist:Integer): T2DPointArray;');
-  //AddCommand(@SplitTPA2, 'function se_SplitTPA2(const TPA:TPointArray; Dist:Integer): T2DPointArray;');
 
   // MatrixTools.pas
   AddCommand(@exp_NewMatrixEx,	'procedure exp_NewMatrixEx(W,H, Init:Integer; var Result:T2DIntegerArray);');
@@ -216,11 +213,11 @@ begin
 
 
   // StringTools.pas
-  AddCommand(@exp_StrPosEx,	    'procedure exp_StrPosEx(const Text, SubStr:String; var Result:TIntegerArray);');
-  AddCommand(@exp_StrPosL,	    'function exp_StrPosL(const Text, SubStr: String): Integer;');
-  AddCommand(@exp_StrPosR,	    'function exp_StrPosR(const Text, SubStr: String): Integer;');
-  AddCommand(@exp_StrReplace,	'function exp_StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;');
-  AddCommand(@exp_StrExplode,   'procedure exp_StrExplode(const Text, Sep: String; var Result: TStringArray);');
+  AddCommand(@exp_StrPosEx,	    'procedure exp_StrPosEx(const SubStr, Text:String; var Result:TIntegerArray);');
+  AddCommand(@exp_StrPosL,          'function exp_StrPosL(const SubStr, Text: String): Integer;');
+  AddCommand(@exp_StrPosR,          'function exp_StrPosR(const SubStr, Text: String): Integer;');
+  AddCommand(@exp_StrReplace,       'function exp_StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;');
+  AddCommand(@exp_StrExplode,       'procedure exp_StrExplode(const Text, Sep: String; var Result: TStringArray);');
 
 
   // Something extra..

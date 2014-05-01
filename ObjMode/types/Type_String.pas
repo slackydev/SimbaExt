@@ -79,21 +79,31 @@ end;
 
 {#DOCUMENT} {
   [method]function String.Pos(Sub:String): Int32;[/method]
-  [desc]Return the lowest index in the string where substring sub is found. -1 if not found[/desc]
+  [desc]Return the lowest index in the string where substring sub is located. -1 if not found[/desc]
 }{#END}
 function String.Pos(Sub:String): Int32;
 begin
-  Result := se.StrPosL(Self, Sub);
+  Result := se.StrPosL(Sub,Self);
 end;
 
 
 {#DOCUMENT} {
   [method]function String.rPos(Sub:String): Int32;[/method]
-  [desc]Return the highest index in the string where substring sub is found. -1 if not found[/desc]
+  [desc]Return the highest index in the string where substring sub is located. -1 if not found[/desc]
 }{#END}
 function String.rPos(Sub:String): Int32;
 begin
-  Result := se.StrPosR(Self, Sub);
+  Result := se.StrPosR(Sub,Self);
+end;
+
+
+{#DOCUMENT} {
+  [method]function String.PosMulti(Sub:String): TIntArray;[/method]
+  [desc]Return all the index in the string where substring sub is located. Empty is not found[/desc]
+}{#END}
+function String.PosMulti(Sub:String): TIntArray;
+begin
+  Result := se.StrPosEx(Sub,Self);
 end;
 
 

@@ -4,15 +4,15 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="20">
+    <Units Count="22">
       <Unit0>
         <Filename Value="SimbaExt.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SimbaExt"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="178"/>
-        <CursorPos X="93" Y="199"/>
+        <TopLine Value="210"/>
+        <CursorPos X="47" Y="220"/>
         <UsageCount Value="25"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -27,7 +27,7 @@
       <Unit2>
         <Filename Value="src\MatrixTools.pas"/>
         <UnitName Value="MatrixTools"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="331"/>
         <CursorPos X="3" Y="350"/>
@@ -37,7 +37,7 @@
       <Unit3>
         <Filename Value="src\PointTools.pas"/>
         <UnitName Value="PointTools"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="920"/>
         <CursorPos X="21" Y="939"/>
@@ -55,18 +55,17 @@
       <Unit5>
         <Filename Value="src\Imaging.pas"/>
         <UnitName Value="Imaging"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="548"/>
-        <CursorPos X="46" Y="569"/>
+        <CursorPos X="31" Y="572"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="src\Finder.pas"/>
         <UnitName Value="Finder"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="7"/>
@@ -84,7 +83,7 @@
       <Unit8>
         <Filename Value="src\CornerDet.pas"/>
         <UnitName Value="CornerDet"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="23" Y="72"/>
@@ -94,10 +93,10 @@
       <Unit9>
         <Filename Value="ExportWrap.pas"/>
         <UnitName Value="ExportWrap"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="616"/>
-        <CursorPos X="58" Y="633"/>
+        <TopLine Value="251"/>
+        <CursorPos X="29" Y="213"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -128,7 +127,7 @@
       <Unit13>
         <Filename Value="src\Core\CoreMath.pas"/>
         <UnitName Value="CoreMath"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="12"/>
         <CursorPos X="44" Y="31"/>
@@ -154,26 +153,24 @@
       <Unit16>
         <Filename Value="src\Core\CoreTypes.pas"/>
         <UnitName Value="CoreTypes"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="85"/>
-        <CursorPos X="6" Y="99"/>
+        <TopLine Value="45"/>
+        <CursorPos X="10" Y="65"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit16>
       <Unit17>
         <Filename Value="C:\lazarus32\fpc\2.6.2\source\rtl\inc\mathh.inc"/>
-        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="60"/>
         <CursorPos X="14" Y="81"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit17>
       <Unit18>
         <Filename Value="src\Core\CoreMisc.pas"/>
         <UnitName Value="CoreMisc"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="5"/>
         <CursorPos X="31" Y="105"/>
@@ -183,137 +180,158 @@
       <Unit19>
         <Filename Value="src\HashMap.pas"/>
         <UnitName Value="HashMap"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="142"/>
         <CursorPos X="24" Y="131"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit19>
+      <Unit20>
+        <Filename Value="src\Sorting.pas"/>
+        <UnitName Value="Sorting"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="666"/>
+        <CursorPos X="13" Y="696"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="src\StringTools.pas"/>
+        <UnitName Value="StringTools"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="44" Y="14"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit21>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="src\Core\CoreMisc.pas"/>
-        <Caret Line="105" Column="31" TopLine="1"/>
+        <Filename Value="ExportWrap.pas"/>
+        <Caret Line="345" Column="11" TopLine="327"/>
       </Position1>
       <Position2>
-        <Filename Value="src\Finder.pas"/>
-        <Caret Line="189" Column="19" TopLine="182"/>
+        <Filename Value="src\Core\CoreMath.pas"/>
+        <Caret Line="31" Column="44" TopLine="12"/>
       </Position2>
       <Position3>
-        <Filename Value="src\HashMap.pas"/>
-        <Caret Line="19" Column="42" TopLine="9"/>
+        <Filename Value="src\MatrixTools.pas"/>
+        <Caret Line="358" Column="52" TopLine="338"/>
       </Position3>
       <Position4>
-        <Filename Value="src\HashMap.pas"/>
-        <Caret Line="15" Column="23" TopLine="1"/>
+        <Filename Value="src\MatrixTools.pas"/>
+        <Caret Line="349" Column="3" TopLine="330"/>
       </Position4>
       <Position5>
-        <Filename Value="src\HashMap.pas"/>
-        <Caret Line="27" Column="49" TopLine="8"/>
+        <Filename Value="src\PointTools.pas"/>
+        <Caret Line="682" Column="33" TopLine="656"/>
       </Position5>
       <Position6>
-        <Filename Value="src\HashMap.pas"/>
-        <Caret Line="28" Column="46" TopLine="8"/>
+        <Filename Value="src\PointTools.pas"/>
+        <Caret Line="298" Column="26" TopLine="280"/>
       </Position6>
       <Position7>
-        <Filename Value="src\HashMap.pas"/>
-        <Caret Line="69" Column="27" TopLine="50"/>
+        <Filename Value="src\PointTools.pas"/>
+        <Caret Line="484" Column="56" TopLine="466"/>
       </Position7>
       <Position8>
-        <Filename Value="src\HashMap.pas"/>
-        <Caret Line="100" Column="17" TopLine="90"/>
+        <Filename Value="src\PointTools.pas"/>
+        <Caret Line="766" Column="29" TopLine="747"/>
       </Position8>
       <Position9>
-        <Filename Value="src\Finder.pas"/>
-        <Caret Line="292" Column="17" TopLine="284"/>
+        <Filename Value="src\PointTools.pas"/>
+        <Caret Line="906" Column="21" TopLine="887"/>
       </Position9>
       <Position10>
         <Filename Value="src\HashMap.pas"/>
-        <Caret Line="95" Column="16" TopLine="79"/>
+        <Caret Line="20" Column="19" TopLine="1"/>
       </Position10>
       <Position11>
         <Filename Value="src\HashMap.pas"/>
-        <Caret Line="73" Column="54" TopLine="41"/>
+        <Caret Line="127" Column="20" TopLine="113"/>
       </Position11>
       <Position12>
-        <Filename Value="ExportWrap.pas"/>
-        <Caret Line="345" Column="11" TopLine="327"/>
-      </Position12>
-      <Position13>
-        <Filename Value="src\Core\CoreMath.pas"/>
-        <Caret Line="31" Column="44" TopLine="12"/>
-      </Position13>
-      <Position14>
-        <Filename Value="src\MatrixTools.pas"/>
-        <Caret Line="358" Column="52" TopLine="338"/>
-      </Position14>
-      <Position15>
-        <Filename Value="src\MatrixTools.pas"/>
-        <Caret Line="349" Column="3" TopLine="330"/>
-      </Position15>
-      <Position16>
-        <Filename Value="src\PointTools.pas"/>
-        <Caret Line="682" Column="33" TopLine="656"/>
-      </Position16>
-      <Position17>
-        <Filename Value="src\PointTools.pas"/>
-        <Caret Line="298" Column="26" TopLine="280"/>
-      </Position17>
-      <Position18>
-        <Filename Value="src\PointTools.pas"/>
-        <Caret Line="484" Column="56" TopLine="466"/>
-      </Position18>
-      <Position19>
-        <Filename Value="src\PointTools.pas"/>
-        <Caret Line="766" Column="29" TopLine="747"/>
-      </Position19>
-      <Position20>
-        <Filename Value="src\PointTools.pas"/>
-        <Caret Line="906" Column="21" TopLine="887"/>
-      </Position20>
-      <Position21>
-        <Filename Value="src\HashMap.pas"/>
-        <Caret Line="20" Column="19" TopLine="1"/>
-      </Position21>
-      <Position22>
-        <Filename Value="src\HashMap.pas"/>
-        <Caret Line="127" Column="20" TopLine="113"/>
-      </Position22>
-      <Position23>
         <Filename Value="src\Imaging.pas"/>
         <Caret Line="505" Column="14" TopLine="495"/>
-      </Position23>
-      <Position24>
+      </Position12>
+      <Position13>
         <Filename Value="ExportWrap.pas"/>
         <Caret Line="632" Column="5" TopLine="609"/>
-      </Position24>
-      <Position25>
+      </Position13>
+      <Position14>
         <Filename Value="src\Imaging.pas"/>
         <Caret Line="342" Column="45" TopLine="324"/>
-      </Position25>
-      <Position26>
+      </Position14>
+      <Position15>
         <Filename Value="ExportWrap.pas"/>
         <Caret Line="854" Column="24" TopLine="831"/>
-      </Position26>
-      <Position27>
+      </Position15>
+      <Position16>
         <Filename Value="ExportWrap.pas"/>
         <Caret Line="350" Column="1" TopLine="332"/>
-      </Position27>
-      <Position28>
+      </Position16>
+      <Position17>
         <Filename Value="ExportWrap.pas"/>
         <Caret Line="636" Column="42" TopLine="612"/>
-      </Position28>
-      <Position29>
+      </Position17>
+      <Position18>
         <Filename Value="src\Imaging.pas"/>
         <Caret Line="16" Column="1" TopLine="1"/>
-      </Position29>
-      <Position30>
+      </Position18>
+      <Position19>
         <Filename Value="src\Imaging.pas"/>
         <Caret Line="26" Column="54" TopLine="1"/>
+      </Position19>
+      <Position20>
+        <Filename Value="src\Sorting.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position20>
+      <Position21>
+        <Filename Value="src\Sorting.pas"/>
+        <Caret Line="551" Column="43" TopLine="528"/>
+      </Position21>
+      <Position22>
+        <Filename Value="src\Sorting.pas"/>
+        <Caret Line="55" Column="40" TopLine="36"/>
+      </Position22>
+      <Position23>
+        <Filename Value="src\Sorting.pas"/>
+        <Caret Line="554" Column="19" TopLine="535"/>
+      </Position23>
+      <Position24>
+        <Filename Value="src\Sorting.pas"/>
+        <Caret Line="627" Column="35" TopLine="609"/>
+      </Position24>
+      <Position25>
+        <Filename Value="src\Sorting.pas"/>
+        <Caret Line="628" Column="32" TopLine="609"/>
+      </Position25>
+      <Position26>
+        <Filename Value="src\Sorting.pas"/>
+        <Caret Line="68" Column="29" TopLine="45"/>
+      </Position26>
+      <Position27>
+        <Filename Value="src\Sorting.pas"/>
+        <Caret Line="694" Column="12" TopLine="667"/>
+      </Position27>
+      <Position28>
+        <Filename Value="src\Sorting.pas"/>
+        <Caret Line="609" Column="9" TopLine="589"/>
+      </Position28>
+      <Position29>
+        <Filename Value="ExportWrap.pas"/>
+        <Caret Line="196" Column="15" TopLine="172"/>
+      </Position29>
+      <Position30>
+        <Filename Value="src\StringTools.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
