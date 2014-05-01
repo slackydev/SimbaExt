@@ -97,7 +97,7 @@ begin
   Result := exp_DirName(Loc);
 end;
 
-function TObjOSPath.Exits(Loc:String): Boolean;
+function TObjOSPath.Exists(Loc:String): Boolean;
 begin
   Result := exp_PathExists(Loc);
 end;

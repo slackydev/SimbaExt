@@ -1,6 +1,21 @@
 {*=========================================================================================|
 | math.pas                                                                                 |
 |=========================================================================================*}
+function TObjMath.Modulo(X,Y:Extended): Extended; overload; 
+begin
+  Result := exp_Modulo(X,Y);
+end;
+
+function TObjMath.Modulo(X,Y:Integer): Integer; overload;  
+begin
+  Result := exp_IModulo(X,Y);
+end;
+
+function TObjMath.DeltaAngle(x,y:Extended): Extended;  
+begin
+  Result := exp_DeltaAngle(x,y);
+end;
+
 function TObjMath.DistManhattan(pt1,pt2: TPoint): Extended;  
 begin
   Result := exp_DistManhattan(pt1,pt2);
@@ -24,16 +39,6 @@ end;
 function TObjMath.DistToLine(Pt,sA,sB:TPoint): Extended;
 begin
   Result := exp_DistToLine(Pt,sA,sB);
-end;
-
-function TObjMath.Modulo(X,Y:Extended): Extended; overload; 
-begin
-  Result := exp_Modulo(X,Y);
-end;
-
-function TObjMath.Modulo(X,Y:Integer): Integer; overload;  
-begin
-  Result := exp_IModulo(X,Y);
 end;
 
 function TObjMath.InCircle(const Pt, Center: TPoint; Radius: Integer): Boolean;  
@@ -67,7 +72,8 @@ begin
   Result := exp_InPolyW(x,y, poly);
 end;
 
-function TObjMath.DeltaAngle(DegA,DegB:Extended): Extended;  
-begin
-  Result := exp_DeltaAngle(DegA,DegB);
-end;
+
+
+
+
+

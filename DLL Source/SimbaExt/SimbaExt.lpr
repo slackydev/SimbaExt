@@ -104,6 +104,11 @@ begin
   AddCommand(@exp_SortTPAByColumn,	'procedure exp_SortTPAByColumn(var Arr: TPointArray);');
   AddCommand(@exp_SortTPAByX,	'procedure exp_SortTPAByX(var Arr: TPointArray);');
   AddCommand(@exp_SortTPAByY,	'procedure exp_SortTPAByY(var Arr: TPointArray);');
+  AddCommand(@exp_SortTSA,	'procedure exp_SortTSA(var Arr: TStringArray);');
+  AddCommand(@exp_SortATPAByLength,	'procedure exp_SortATPAByLength(var Arr:T2DPointArray);');
+  AddCommand(@exp_SortATPAByMean,	'procedure exp_SortATPAByMean(var Arr:T2DPointArray);');
+  AddCommand(@exp_SortATPAByFirst,	'procedure exp_SortATPAByFirst(var Arr:T2DPointArray);');
+  AddCommand(@exp_SortATPAByIndex,	'procedure exp_SortATPAByIndex(var Arr:T2DPointArray; index:Int32);');
 
 
   // Finder.pas

@@ -188,6 +188,34 @@ begin
 end;
 
 
+procedure exp_SortTSA(var Arr: TStringArray); Cdecl;
+begin
+  SortTSA(Arr);
+end;
+
+procedure exp_SortATPAByLength(var Arr:T2DPointArray); Cdecl;
+begin
+  SortATPAByLength(Arr);
+end;
+
+procedure exp_SortATPAByMean(var Arr:T2DPointArray); Cdecl;
+begin
+  SortATPAByMean(Arr);
+end;
+
+procedure exp_SortATPAByFirst(var Arr:T2DPointArray); Cdecl;
+begin
+  SortATPAByFirst(Arr);
+end;
+
+procedure exp_SortATPAByIndex(var Arr:T2DPointArray; index:Int32); Cdecl;
+begin
+  SortATPAByIndex(Arr, index);
+end;
+
+
+
+
 {*-----------------------------------------------------------------------------|
 | Finder.pas                                                                   |
 |-----------------------------------------------------------------------------*}

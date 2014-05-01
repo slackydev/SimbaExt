@@ -22,7 +22,9 @@ function StrExplode(const Text, Sep: String): TStrArray;
 implementation
 
 {*
- Returns all positions of the given pattern/substring.
+  Returns all positions of the given pattern/substring.
+  @note: 
+    28.apr.2014: Fixed imporant bug!
 *}
 function StrPosEx(const Text: String; const SubStr:String): TIntArray;
 var
@@ -40,7 +42,7 @@ begin
     begin
       if (HitPos = LenSub) then
       begin
-        if q <= h  then
+        if q <= h then
         begin
           q := q+q;
           SetLength(Result, q);
@@ -48,8 +50,8 @@ begin
         Result[h] := (i - HitPos) + 1;
         Inc(h);
         HitPos := 1;
-      end;
-      Inc(HitPos);
+      end else
+        Inc(HitPos);
     end else
       HitPos := 1;
   end;

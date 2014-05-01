@@ -62,6 +62,7 @@ type
 
 
   //String+Char
+  TStringArray = array of String;
   TStrArray = array of String;
   TCharArray= array of Char;
   

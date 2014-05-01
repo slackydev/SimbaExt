@@ -41,8 +41,10 @@ procedure InsSortTPA(var Arr:TPointArray; Weight:TIntArray; Left, Right:Integer)
 procedure ShellSortTIA(var Arr: TIntArray);
 procedure ShellSortTEA(var Arr: TExtArray);
 procedure ShellSortTPA(var Arr: TPointArray; Weight:TIntArray);
+
 procedure SortTIA(var Arr: TIntArray); //StdCall;
 procedure SortTEA(var Arr: TExtArray); //StdCall;
+
 procedure SortTPA(var Arr: TPointArray); //StdCall;
 procedure SortTPAFrom(var Arr: TPointArray; const From:TPoint); //StdCall;
 procedure SortTPAbyRow(var Arr: TPointArray); //StdCall;
@@ -50,12 +52,20 @@ procedure SortTPAbyColumn(var Arr: TPointArray); //StdCall;
 procedure SortTPAByY(var Arr: TPointArray); //StdCall;
 procedure SortTPAByX(var Arr: TPointArray); //StdCall;
 
+procedure SortTSA(var Arr: TStringArray); 
 
-//-----------------------------------------------------------------------
+procedure SortATPAByLength(var Arr:T2DPointArray);
+procedure SortATPAByMean(var Arr:T2DPointArray);
+procedure SortATPAByFirst(var Arr:T2DPointArray);
+procedure SortATPAByIndex(var Arr:T2DPointArray; index:Int32);
+
+
+
+//-----------------------------------------------------------------------||
 implementation
 
 uses
-  PointTools, CoreMisc;
+  PointTools, CoreMisc, Math;
 
 
 //Median of three - Integer.
@@ -93,8 +103,8 @@ begin
 end;
 
 
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------||
+//------------------------------------------------------------------------------||
 //Insertion sort bellow
 
 (*
@@ -148,8 +158,8 @@ begin
 end;
 
 
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------||
+//------------------------------------------------------------------------------||
 // ShellSort bellow (only used to ensure O(n^1.5)) in the "main" sorting algorithm.
 // Using predifined gaps (Ciura's) only resulted in slowdown.
 
@@ -218,8 +228,8 @@ end;
        
 
 
-//------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------||
+//------------------------------------------------------------------------------||
 //The main sorting algorithms are bellow.
 
 
@@ -279,6 +289,9 @@ end;
 
 
 
+
+
+
 (*
  Sorting Array of Extended!
 *)
@@ -334,6 +347,9 @@ begin
   Limit := Round(2.5 * ln(Hi + 1) / ln(2));
   __SortTEA(Arr, Low(Arr), Hi, Limit);
 end;
+
+
+
 
 
 
@@ -498,5 +514,190 @@ begin
   SetLength(Weight, 0);
 end;
 
+
+
+
+
+
+
+(*
+ Sorting Array of strings lexicographically.
+*)
+procedure __SortTSALex(var Arr:TStringArray; Left, Right:Integer);
+var
+  i,j,n,key: Integer;
+  tmp,pivot:String;
+begin
+  i:=Left;
+  j:=Right;
+  pivot := arr[(left+right) shr 1];
+  repeat
+    while pivot > Arr[i] do i:=i+1;
+    while pivot < Arr[j] do j:=j-1;
+    if i<=j then begin
+      tmp:= Arr[i];
+      Arr[i] := Arr[j];
+      Arr[j] := tmp;
+      j:=j-1;
+      i:=i+1;
+    end;
+  until (i>j);
+  if (Left < j) then __SortTSALex(Arr, Left,j);
+  if (i < Right) then __SortTSALex(Arr, i,Right);
+end; 
+
+
+//Sort TSA lexicographically.
+procedure SortTSA(var Arr: TStringArray);
+begin
+  if (High(Arr) <= 0) then Exit;
+  __SortTSALex(Arr,Low(Arr),High(Arr));
+end;
+
+
+
+
+
+
+(*
+ Sorting Array of strings using an array for weight!
+*)
+procedure __SortTSA(var Arr:TStringArray; Weight:TIntArray; Left, Right:Integer);
+var
+  i,j,n,key,pivot: Integer;
+  tmp:String;
+begin
+  i:=Left;
+  j:=Right;
+  pivot := Weight[(left+right) shr 1];
+  repeat
+    while pivot > Weight[i] do i:=i+1;
+    while pivot < Weight[j] do j:=j-1;
+    if i<=j then begin
+      tmp := Arr[i];
+      Arr[i] := Arr[j];
+      Arr[j] := tmp;
+      ExchI(Weight[i], Weight[j]);
+      j:=j-1;
+      i:=i+1;
+    end;
+  until (i>j);
+  if (Left < j) then __SortTSA(Arr, Weight, Left,j);
+  if (i < Right) then __SortTSA(Arr, Weight, i,Right);
+end; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(*
+ Sorting Array of TPA using an array for weight!
+*)
+procedure __SortATPA(var Arr:T2DPointArray; Weight:TIntArray; Left, Right:Integer);
+var
+  i,j,n,pivot: Integer;
+  tmp:TPointArray;
+begin
+  i:=Left;
+  j:=Right;
+  pivot := Weight[(left+right) shr 1];
+  repeat
+    while pivot > Weight[i] do i:=i+1;
+    while pivot < Weight[j] do j:=j-1;
+    if i<=j then begin
+      tmp:= Arr[i];
+      Arr[i] := Arr[j];
+      Arr[j] := tmp;
+      ExchI(Weight[i], Weight[j]);
+      j:=j-1;
+      i:=i+1;
+    end;
+  until (i>j);
+  if (Left < j) then __SortATPA(Arr, Weight, Left,j);
+  if (i < Right) then __SortATPA(Arr, Weight, i,Right);
+end; 
+
+
+procedure SortATPAByLength(var Arr:T2DPointArray);
+var
+  i,Hi: Integer;
+  Weight:TIntArray;
+begin
+  Hi := Length(Arr);
+  if Hi <= 1 then Exit;
+  SetLength(Weight, Hi);
+  for i := 0 to Hi-1 do Weight[i] := Length(Arr[i]);
+  __SortATPA(Arr, Weight, Low(Arr), High(Arr));
+  SetLength(Weight, 0);
+end;
+
+
+
+procedure SortATPAByMean(var Arr:T2DPointArray);
+var
+  i,Hi: Integer;
+  Weight:TIntArray;
+  M:TPoint;
+begin
+  Hi := Length(Arr);
+  if Hi <= 1 then Exit;
+  SetLength(Weight, Hi);
+  for i := 0 to Hi-1 do 
+  begin
+    M := TPACenter(Arr[i], CM_Mean, False);
+    Weight[i] := Sqr(M.x) + Sqr(M.y);
+  end;
+  __SortATPA(Arr, Weight, Low(Arr), High(Arr));
+  SetLength(Weight, 0);
+end;
+
+
+
+procedure SortATPAByFirst(var Arr:T2DPointArray);
+var
+  i,Hi: Integer;
+  Weight:TIntArray;
+begin
+  Hi := Length(Arr);
+  if Hi <= 1 then Exit;
+  SetLength(Weight, Hi);
+  for i := 0 to Hi-1 do Weight[i] := Sqr(Arr[i][0].x) + Sqr(Arr[i][0].y);
+  __SortATPA(Arr, Weight, Low(Arr), High(Arr));
+  SetLength(Weight, 0);
+end;
+
+
+
+procedure SortATPAByIndex(var Arr:T2DPointArray; index:Int32);
+var
+  i,Hi,M: Integer;
+  Weight:TIntArray;
+begin
+  Hi := Length(Arr);
+  if Hi <= 1 then Exit;
+  SetLength(Weight, Hi);
+  for i := 0 to Hi-1 do 
+  begin
+    if index <= -1 then
+      M := Max(0,High(Arr[i]) + index)
+    else
+      M := Min(High(Arr[i]), index);
+    
+    Weight[i] := Sqr(Arr[i][M].x) + Sqr(Arr[i][M].y);
+  end;
+  __SortATPA(Arr, Weight, Low(Arr), High(Arr));
+  SetLength(Weight, 0);
+end;
 
 end.
