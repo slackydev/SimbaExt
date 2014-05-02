@@ -45,9 +45,15 @@ end;
 
 
 //TSA
-procedure SimbaExt.SortTSA(var Arr: TStringArray);  
+procedure SimbaExt.SortTSA(var Arr: TStringArray; IgnoreCase:Boolean=False);  
 begin
-  exp_SortTSA(Arr);
+  exp_SortTSA(Arr,IgnoreCase);
+end;
+
+//TSA Natural sorting
+procedure SimbaExt.SortTSANatural(var Arr: TStringArray);  
+begin
+  exp_SortTSANatural(Arr);
 end;
 
 

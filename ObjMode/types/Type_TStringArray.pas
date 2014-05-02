@@ -55,30 +55,54 @@ end;
 
 
 {#DOCUMENT} {
-  [method]procedure TStringArray.Sort();[/method]
+  [method]function TStringArray.Capital(): TStringArray;[/method]
+  [desc]Return a copy of the array with each strings first character capitalized and the rest lowercased.[/desc]
+}{#END}
+function TStringArray.Capital(): TStringArray;
+var i:Int32;
+begin
+  Result := Self.Clone();
+  for i:=0 to High(Self) do
+    Capitalize(Result[i]);
+end;
+
+
+{#DOCUMENT} {
+  [method]procedure TStringArray.Sort(IgnoreCase:Boolean=False);[/method]
   [desc]
   Sorts the array 
   [note]Partial, key not supported yet[/note]    
   [/desc]
 }{#END}
-procedure TStringArray.Sort();
+procedure TStringArray.Sort(key:TSortKey=sort_Default; IgnoreCase:Boolean=False);
 begin
-  se.SortTSA(Self);
+  case key of
+    sort_default, sort_lex: se.SortTSA(Self,IgnoreCase);
+    sort_logical: se.SortTSANatural(Self);
+  else 
+    WriteLn('TSortKey not supported');
+  end;
 end;
 
 
 {#DOCUMENT} {
-  [method]function TStringArray.Sorted(): TStringArray;[/method]
+  [method]function TStringArray.Sorted(IgnoreCase:Boolean=False): TStringArray;[/method]
   [desc] 
     Sorts and returns a copy of the array.
     [note]Partial, key not supported yet[/note]    
   [/desc]
 }{#END}
-function TStringArray.Sorted(): TStringArray;
+function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
 begin
   Result := Self.Clone();
-  se.SortTSA(Result);
+  case key of
+    sort_default, sort_lex: se.SortTSA(Result,IgnoreCase);
+    sort_logical: se.SortTSANatural(Result);
+  else 
+    WriteLn('TSortKey not supported');
+  end;
 end;
+
 
 
 

@@ -188,9 +188,15 @@ begin
 end;
 
 
-procedure exp_SortTSA(var Arr: TStringArray); Cdecl;
+procedure exp_SortTSA(var Arr: TStringArray; CaseInsensitve:Boolean=False); Cdecl;
 begin
-  SortTSA(Arr);
+  SortTSA(Arr, CaseInsensitve);
+end;
+
+
+procedure exp_SortTSANatural(var Arr: TStringArray); Cdecl;
+begin
+  SortTSANatural(Arr);
 end;
 
 procedure exp_SortATPAByLength(var Arr:T2DPointArray); Cdecl;

@@ -1,5 +1,5 @@
 (*=============================================================================|
- TPoint functionality
+ String functionality
 |=============================================================================*)
 {#DOCUMENT} {
   [method]function String.StartsWith(Prefix:String): Boolean;[/method]
@@ -24,22 +24,23 @@ end;
 }{#END}
 function String.EndsWith(Suffix:String): Boolean;
 var
-  i: Int32;
+  i,l: Int32;
 begin
-  if Length(Suffix) > Length(Self) then 
+  if Length(Suffix) > Length(Self) then
     Exit(False);
   Result := True;
+  l := Length(Self);
   for i:=1 to Length(Suffix) do
-    if (Suffix[i] <> Self[Length(Self)-i+1]) then
+    if (Suffix[i] <> Self[l-Length(Suffix)+i]) then
       Exit(False);
 end;
 
 
 {#DOCUMENT} {
-  [method]function String.Captial(): String;[/method]
+  [method]function String.Capital(): String;[/method]
   [desc]Return a copy of the string with its first character capitalized and the rest lowercased.[/desc]
 }{#END}
-function String.Captial(): String;
+function String.Capital(): String;
 begin
   Result := Capitalize(Self);
 end;
@@ -125,6 +126,11 @@ begin
   Result := True;
 end;
 
+function Char.IsAlphaNum(): Boolean;
+begin
+  Result := (Self in ['A'..'Z', 'a'..'z','0'..'9']);
+end;
+
 
 {#DOCUMENT} {
   [method]function String.IsAlpha(): Boolean;[/method]
@@ -142,6 +148,11 @@ begin
     Inc(ptr);
   end;
   Result := True;
+end;
+
+function Char.IsAlpha(): Boolean;
+begin
+  Result := (Self in ['A'..'Z', 'a'..'z']);
 end;
 
 
@@ -163,6 +174,42 @@ begin
   Result := True;
 end;
 
+function Char.IsDigit(): Boolean;
+begin
+  Result := (Self in ['0'..'9']);
+end;
+
+
+
+{#DOCUMENT} {
+  [method]function String.GetNumbers(): TIntArray;[/method]
+  [desc]Returns all the numbers in the string, does not handle floating point numbers[/desc]
+}{#END}
+function String.GetNumbers(): TIntArray;
+var
+  i,j,l:Int32;
+  NextNum: Boolean;
+  Num: String;
+begin
+  j := 0;
+  num := '';
+  L := Length(Self);
+  for i:=1 to L do
+    if Self[i].IsDigit() then
+    begin
+      NextNum := False;
+      if ( i+1 <= L ) then
+        NextNum := Self[i+1].IsDigit();
+      Num := Num + Self[i];
+      if not(NextNum) then
+      begin
+        SetLength(Result, j+1);
+        Result[j] := StrToInt(num);
+        inc(j);
+        num := '';
+      end;
+    end;
+end;
 
 
 {#DOCUMENT} {

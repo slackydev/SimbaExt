@@ -33,12 +33,14 @@ type
                 {2D TPA spesific}
                 sort_Mean,
                 {TSA}
-                sort_Alpha      //Default: TStrArray Sorting
+                sort_Logical,
+                sort_Lex      //Default: TStrArray Sorting
               );
   
 //LoadLibrary from current folder 
 {$loadlib \..\includes\simbaext\simbaext.dll}
 {$loadlib \..\includes\simbaext\seextra.dll}
+
 
 // IntToBox is to long, and [x1,y1,x2,y2] does not always work..
 function ToBox(x1,y1,x2,y2: Integer): TBox; overload;

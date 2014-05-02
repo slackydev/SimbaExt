@@ -696,7 +696,7 @@ function RotateTPA(const TPA:TPointArray; Rad:Extended): TPointArray;
 var
   x,y,w,h,neww,newh,ox,oy,i: Int32;
   mid: TPoint;
-  Tmp,Mat: Array of TBoolArray;
+  Tmp: Array of TBoolArray;
   cosa,sina: Single;
   B,NewB: TBox;
   Corners : TPointArray;
