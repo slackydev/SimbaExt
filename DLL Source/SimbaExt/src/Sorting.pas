@@ -530,6 +530,9 @@ end;
 
 
 //===============================================================================\\
+(*
+ Dirty comparison method to compare two strings in a more natural manner.
+*)
 function CompareNatural(Str1, Str2: String): Int8; Inline;
 type
   TNaturalString = record
@@ -537,7 +540,8 @@ type
   end;
   TNaturalArray = array of TNaturalString;
 
-function GetNaturalString(Str: String): TNaturalArray; Inline;
+//Splits strings and numbers in to a TNaturalArray, outputing something like: ['asd',123,'cat'].
+function GetNaturalString(Str: String): TNaturalArray; Inline; 
 var
   i,l,j: Int32;
   IsStr,NextAlso: Boolean;
@@ -577,6 +581,12 @@ begin
   end;
 end;
 
+(*
+ Using the above splitting we can compare each part induvidually and by their "actual" value
+ not just by using ASCII table, but the actual values of the numbers in the string.
+ 
+ It's a bit messy...
+*)
 var
   hi,i: Int32;
   list1, list2: TNaturalArray;
@@ -622,29 +632,30 @@ end;
 
 
 (*
- Sorting Array of strings lexicographically.
+ Sorting Array of strings naturally.
 *)
 procedure __SortTSANatural(var Arr:TStringArray; Left, Right:Integer);
 var
-  i,j,n,key,pivot: Integer;
-  tmp:String;
+  lo,hi,key: Integer;
+  tmp,pivot:String;
 begin
-  i:=Left;
-  j:=Right;
-  pivot := (left+right) shr 1;
+  lo:=Left;
+  hi:=Right;
+  pivot := Arr[(left+right) div 2];
   repeat
-    while CompareNatural(arr[pivot], Arr[i]) = 1 do i:=i+1;
-    while CompareNatural(arr[pivot], Arr[j]) = -1 do j:=j-1;
-    if i<=j then begin
-      tmp := Arr[i];
-      Arr[i] := Arr[j];
-      Arr[j] := tmp;
-      j:=j-1;
-      i:=i+1;
+    while CompareNatural(Arr[lo], Pivot) < 0 do Inc(lo);
+    while CompareNatural(Arr[hi], Pivot) > 0 do Dec(hi);
+    if lo<=hi then
+    begin
+      tmp := Arr[lo];
+      Arr[lo] := Arr[hi];
+      Arr[hi] := tmp;
+      Dec(hi);
+      Inc(lo);
     end;
-  until (i>j);
-  if (Left < j) then __SortTSANatural(Arr, Left,j);
-  if (i < Right) then __SortTSANatural(Arr, i,Right);
+  until lo > hi;
+  if (Left < hi) then __SortTSANatural(Arr, Left,hi);
+  if (lo < Right) then __SortTSANatural(Arr, lo,Right);
 end;
 
 
@@ -663,7 +674,7 @@ end;
 
 
 (*
- Sorting Array of strings lexicographically but comparing in uppercase (a = A).
+ Sorting Array of strings lexicographically but comparison is case-insesitive.
 *)
 procedure __SortTSALexUp(var Arr:TStringArray; Left, Right:Integer);
 var
