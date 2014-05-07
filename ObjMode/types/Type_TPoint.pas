@@ -70,7 +70,7 @@ function TPoint.Compare(Pt:TPoint): TComparator;
 begin
   if (Self.x = PT.x) and (Self.y = PT.y) then
     Exit(__EQ__);
-  if (Self.X <= PT.X) and (Self.Y <= PT.Y); then
+  if (Self.X <= PT.X) and (Self.Y <= PT.Y) then
     Exit(__LT__) 
   else
     Exit(__GT__);

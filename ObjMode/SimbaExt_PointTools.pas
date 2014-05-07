@@ -95,12 +95,12 @@ begin
 end;
 
 {!DOCREF} {
-  @method: function se.TPACenter(TPA: TPointArray; @method: TxCenter@method; Inside:Boolean): TPoint; 
+  @method: function se.TPACenter(TPA: TPointArray; @method: TxCenterMethod; Inside:Boolean): TPoint;
   @desc: ...
 }
-function SimbaExt.TPACenter(TPA: TPointArray; @method: TxCenter@method; Inside:Boolean): TPoint;  
+function SimbaExt.TPACenter(TPA: TPointArray; method: TxCenterMethod; Inside:Boolean): TPoint;
 begin
-  Result := exp_TPACenter(TPA, @method, Inside);
+  Result := exp_TPACenter(TPA, method, Inside);
 end;
 
 {!DOCREF} {
@@ -187,12 +187,12 @@ begin
 end;
 
 {!DOCREF} {
-  @method: function se.AlignTPA(TPA:TPointArray; @method: TxAlign@method; var Angle:Extended): TPointArray;
+  @method: function se.AlignTPA(TPA:TPointArray; method: TxAlignMethod; var Angle:Extended): TPointArray;
   @desc: Tries to align the TPA horizontally so that the longest side is faced downwards.
 }
-function SimbaExt.AlignTPA(TPA:TPointArray; @method: TxAlign@method; var Angle:Extended): TPointArray;  
+function SimbaExt.AlignTPA(TPA:TPointArray; method: TxAlignMethod; var Angle:Extended): TPointArray;
 begin
-  exp_AlignTPA(TPA, @method, Angle,Result);
+  exp_AlignTPA(TPA, method, Angle,Result);
 end;
 
 {!DOCREF} {

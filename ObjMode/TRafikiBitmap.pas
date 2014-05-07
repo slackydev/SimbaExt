@@ -377,10 +377,10 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TxResize@method);
+  @method: procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TxResizeMethod);
   @desc: Allows you to resize the bitmap by not just using nearest neighbor, but also BICUBIC, and BILINEAR interpolation
 }
-procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TxResize@method);
+procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TxResizeMethod);
 var
   Matrix:T2DIntegerArray;
 begin
@@ -426,14 +426,14 @@ end;
 }
 function TRafBitmap.Flip(Horizontal:Boolean): TRafBitmap;
 var 
-  @method: TBmpMirrorStyle;
+  method: TBmpMirrorStyle;
 begin
   if not(Self.IsLoaded('TRafBitmap.Flip()')) then Exit;
   case Horizontal of
-    True: @method := MirrorWidth;
-    False:@method := MirrorHeight;
+    True: method := MirrorWidth;
+    False:method := MirrorHeight;
   end;
-  Result.Bitmap := CreateMirroredBitmapEx(Self.Bitmap, @method);
+  Result.Bitmap := CreateMirroredBitmapEx(Self.Bitmap, method);
   GetBitmapSize(Result.Bitmap, Result.Width, Result.Height);
   Result.Loaded := True;
 end;
