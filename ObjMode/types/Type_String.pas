@@ -1,10 +1,61 @@
 (*=============================================================================|
  String functionality
 |=============================================================================*)
-{#DOCUMENT} {
-  [method]function String.StartsWith(Prefix:String): Boolean;[/method]
-  [desc]Returns True if the string starts with Prefix.[/desc]
-}{#END}
+{!DOCTOPIC} { 
+  Type » String
+}
+
+{!DOCREF} {
+  @method:
+    function String.Clone(): String;
+  @desc:
+    Returns a copy of the array 
+}
+function String.Clone(): String;
+begin
+  Result := Copy(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function String.Len(): Int32;
+  @desc:   Returns the length of the String. Same as c'Length(Str)'
+}
+function String.Len(): Int32;
+begin
+  Result := Length(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function String.StrLen(): Int32;
+  @desc:   Returns the null-terinated length of the String.
+}
+function String.StrLen(): Int32;
+var
+  P: PChar;
+Begin
+  P := @Self[1];
+  while (P^ <> #0) do Inc(P);
+  Result := Integer(P) - Integer(@Self[1]);
+end;
+
+
+{!DOCREF} {
+  @method: function String.Slice(Start, Stop: Int32): String;
+  @desc:   Returns a slice of the string
+}
+function String.Slice(Start,Stop: Int32): String;
+begin
+  if Start = 0 then Start := 1
+  else if Stop <= 0 then Stop := Length(Self)+Stop;
+  Result := Copy(Self, Start, Stop-Start);
+end;
+
+{!DOCREF} {
+  @method: function String.StartsWith(Prefix:String): Boolean;
+  @desc:   Returns True if the string starts with c'Prefix'.
+}
 function String.StartsWith(Prefix:String): Boolean;
 var
   i: Int32;
@@ -18,10 +69,10 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.EndsWith(Suffix:String): Boolean;[/method]
-  [desc]Returns True if the string ends with Suffix.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.EndsWith(Suffix:String): Boolean;
+  @desc:   Returns True if the string ends with c'Suffix'.
+}
 function String.EndsWith(Suffix:String): Boolean;
 var
   i,l: Int32;
@@ -36,82 +87,70 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.Capital(): String;[/method]
-  [desc]Return a copy of the string with its first character capitalized and the rest lowercased.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.Capital(): String;
+  @desc:   Return a copy of the string with its first character capitalized and the rest lowercased.
+}
 function String.Capital(): String;
 begin
   Result := Capitalize(Self);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.Upper(): String;[/method]
-  [desc]Return a copy of the string with all the chars converted to uppercase.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.Upper(): String;
+  @desc:   Return a copy of the string with all the chars converted to uppercase.
+}
 function String.Upper(): String;
 begin
   Result := Uppercase(Self);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.Lower(): String;[/method]
-  [desc]Return a copy of the string with all the chars converted to lowercase.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.Lower(): String;
+  @desc:   Return a copy of the string with all the chars converted to lowercase.
+}
 function String.Lower(): String;
 begin
   Result := Lowercase(Self);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.Slice(Start, Stop: Int32): String;[/method]
-  [desc]Returns a slice of the string[/desc]
-}{#END}
-function String.Slice(Start,Stop: Int32): String;
-begin
-  if Start = 0 then Start := 1
-  else if Stop <= 0 then Stop := Length(Self)+Stop;
-  Result := Copy(Self, Start, Stop);
-end;
-
-
-{#DOCUMENT} {
-  [method]function String.Pos(Sub:String): Int32;[/method]
-  [desc]Return the lowest index in the string where substring sub is located. -1 if not found[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.Pos(Sub:String): Int32;
+  @desc:   Return the lowest index in the string where substring c'Sub' is located. -1 if not found
+}
 function String.Pos(Sub:String): Int32;
 begin
   Result := se.StrPosL(Sub,Self);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.rPos(Sub:String): Int32;[/method]
-  [desc]Return the highest index in the string where substring sub is located. -1 if not found[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.rPos(Sub:String): Int32;
+  @desc:   Return the highest index in the string where substring c'Sub' is located. -1 if not found
+}
 function String.rPos(Sub:String): Int32;
 begin
   Result := se.StrPosR(Sub,Self);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.PosMulti(Sub:String): TIntArray;[/method]
-  [desc]Return all the index in the string where substring sub is located. Empty is not found[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.PosMulti(Sub:String): TIntArray;
+  @desc:   Return all the index in the string where substring c'Sub' is located. Empty is not found
+}
 function String.PosMulti(Sub:String): TIntArray;
 begin
   Result := se.StrPosEx(Sub,Self);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.IsAlphaNum(): Boolean;[/method]
-  [desc]Return true if all characters in the string are alphabetic or numerical and there is at least one character, false otherwise.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.IsAlphaNum(): Boolean;
+  @desc:   Return true if all characters in the string are alphabetic or numerical and there is at least one character, false otherwise.
+}
 function String.IsAlphaNum(): Boolean;
 var ptr: PChar;
 begin
@@ -132,10 +171,10 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.IsAlpha(): Boolean;[/method]
-  [desc]Return true if all characters in the string are alphabetic and there is at least one character, false otherwise.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.IsAlpha(): Boolean;
+  @desc:   Return true if all characters in the string are alphabetic and there is at least one character, false otherwise.
+}
 function String.IsAlpha(): Boolean;
 var ptr: PChar;
 begin
@@ -156,10 +195,10 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.IsDigit(): Boolean;[/method]
-  [desc]Return true if all characters in the string are digits and there is at least one character, false otherwise.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.IsDigit(): Boolean;
+  @desc:   Return true if all characters in the string are digits and there is at least one character, false otherwise.
+}
 function String.IsDigit(): Boolean;
 var ptr: PChar;
 begin
@@ -181,10 +220,10 @@ end;
 
 
 
-{#DOCUMENT} {
-  [method]function String.GetNumbers(): TIntArray;[/method]
-  [desc]Returns all the numbers in the string, does not handle floating point numbers[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.GetNumbers(): TIntArray;
+  @desc:   Returns all the numbers in the string, does not handle floating point numbers
+}
 function String.GetNumbers(): TIntArray;
 var
   i,j,l:Int32;
@@ -212,66 +251,64 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.Strip(): String;[/method]
-  [desc]Strips all white-spaces at the beginning and ending of a string.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.Strip(): String;
+  @desc:   Strips all white-spaces at the beginning and ending of a string.
+}
 function String.Strip(): String;
 begin
   Result := Trim(Self);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.Strip(): String;[/method]
-  [desc]Strips all white-spaces at the beginning and ending of a string.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.lStrip(): String;
+  @desc:   Strips all white-spaces at the beginning of a string.
+}
 function String.lStrip(): String;
 begin
   Result := TrimLeft(Self);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.rStrip(): String;[/method]
-  [desc]Strips all white-spaces at the beginning and ending of a string.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.rStrip(): String;
+  @desc:   Strips all white-spaces at the beginning and ending of a string.
+}
 function String.rStrip(): String;
 begin
   Result := TrimRight(Self);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.Replace(old, new:String; Flags:TReplaceFlags): String;[/method]
-  [desc]Return a copy of the string with all occurrences of substring old replaced by new.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.Replace(old, new:String; Flags:TReplaceFlags): String;
+  @desc:   Return a copy of the string with all occurrences of substring old replaced by new.
+}
 function String.Replace(old, new:String; Flags:TReplaceFlags): String;
 begin
   Result := se.StrReplace(Self, old, new, Flags);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.Split(sep:String): TStringArray;[/method]
-  [desc]
+{!DOCREF} {
+  @method: function String.Split(sep:String): TStringArray;
+  @desc: 
     Return an array of the words in the string, using 'sep' as the delimiter string.
-    [Note]Lightning fast![/note]
-  [/desc]
-}{#END}
+    [note]Lightning fast!![/note]
+}
 function String.Split(Sep:String): TStringArray;
 begin
   Result := se.StrExplode(self,sep);
 end;
 
 
-{#DOCUMENT} {
-  [method]function String.Join(TSA:TStringArray): String;[/method]
-  [desc]
-  Return a string which is the concatenation of the strings in the array 'TSA'. 
-  The separator between elements is the string providing this method. 
-  [/desc]
-}{#END}
+{!DOCREF} {
+  @method: function String.Join(TSA:TStringArray): String;
+  @desc: 
+    Return a string which is the concatenation of the strings in the array 'TSA'. 
+    The separator between elements is the string providing this method. 
+}
 function String.Join(TSA:TStringArray): String;
 begin
   Result := Implode(Self, TSA);

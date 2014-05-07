@@ -1,10 +1,11 @@
-(*=============================================================================|
- TStringArray functionality
-|=============================================================================*)
-{#DOCUMENT} {
-  [method]function TStringArray.Clone(): TStringArray;[/method]
-  [desc]Returns a copy of the array[desc]
-}{#END}
+{!DOCTOPIC}{ 
+  Type » TStringArray
+}
+
+{!DOCREF} {
+  @method: function TStringArray.Clone(): TStringArray;
+  @desc: Returns a copy of the array
+}
 function TStringArray.Clone(): TStringArray;
 var
   i:Int32;
@@ -15,10 +16,30 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]procedure TStrngArray.Append(const Str:String);[/method]
-  [desc]Add another string to the array[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function TStringArray.Len(): Int32;
+  @desc: Returns the length of the array. Same as c'Length(arr)'
+}
+function TStringArray.Len(): Int32;
+begin
+  Result := Length(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function TStringArray.IsEmpty(): Boolean;
+  @desc: Returns True if the array is empty. Same as c'Length(arr) = 0'
+}
+function TStringArray.IsEmpty(): Boolean;
+begin
+  Result := Length(Self) = 0;
+end;
+
+
+{!DOCREF} {
+  @method: procedure TStrngArray.Append(const Str:String);
+  @desc: Add another string to the array
+}
 procedure TStringArray.Append(const Str:String);
 var
   l:Int32;
@@ -29,10 +50,10 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]function TStringArray.Pop(): String;[/method]
-  [desc]Removes and returns the last item in the array[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function TStringArray.Pop(): String;
+  @desc: Removes and returns the last item in the array
+}
 function TStringArray.Pop(): String;
 var
   H:Int32;
@@ -43,10 +64,10 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]function TStringArray.Slice(Start, Stop: Int32): TStringArray;[/method]
-  [desc]Returns a slice of the array[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function TStringArray.Slice(Start, Stop: Int32): TStringArray;
+  @desc: Returns a slice of the array
+}
 function TStringArray.Slice(Start,Stop: Int32): TStringArray;
 begin
   if Stop <= -1 then Stop := Length(Self)+Stop;
@@ -54,10 +75,10 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]function TStringArray.Capital(): TStringArray;[/method]
-  [desc]Return a copy of the array with each strings first character capitalized and the rest lowercased.[/desc]
-}{#END}
+{!DOCREF} {
+  @method: function TStringArray.Capital(): TStringArray;
+  @desc: Return a copy of the array with each strings first character capitalized and the rest lowercased.
+}
 function TStringArray.Capital(): TStringArray;
 var i:Int32;
 begin
@@ -67,13 +88,10 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]procedure TStringArray.Sort(IgnoreCase:Boolean=False);[/method]
-  [desc]
-  Sorts the array 
-  [note]Partial, key not supported yet[/note]    
-  [/desc]
-}{#END}
+{!DOCREF} {
+  @method: procedure TStringArray.Sort(key:TSortKey=sort_Default; IgnoreCase:Boolean=False);
+  @desc: Sorts the array
+}
 procedure TStringArray.Sort(key:TSortKey=sort_Default; IgnoreCase:Boolean=False);
 begin
   case key of
@@ -85,13 +103,12 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]function TStringArray.Sorted(IgnoreCase:Boolean=False): TStringArray;[/method]
-  [desc] 
+{!DOCREF} {
+  @method: function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
+  @desc:  
     Sorts and returns a copy of the array.
-    [note]Partial, key not supported yet[/note]    
-  [/desc]
-}{#END}
+    [note]Partial, key not supported fully yet[/note]
+}
 function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
 begin
   Result := Self.Clone();
@@ -106,12 +123,12 @@ end;
 
 
 
-{#DOCUMENT} {
-  [method]function TStringArray.Reversed(): TStringArray;[/method]
-  [desc] 
+{!DOCREF} {
+  @method: function TStringArray.Reversed(): TStringArray;
+  @desc:  
     Creates a reversed copy of the array
-  [/desc]
-}{#END}
+  
+}
 function TStringArray.Reversed(): TStringArray;
 var hi,i:Int32;
 begin
@@ -122,12 +139,12 @@ begin
 end;
 
 
-{#DOCUMENT} {
-  [method]procedure TStringArray.Reverse();[/method]
-  [desc] 
+{!DOCREF} {
+  @method: procedure TStringArray.Reverse();
+  @desc:  
     Reverses the array  
-  [/desc]
-}{#END}
+  
+}
 procedure TStringArray.Reverse();
 var
   i, Hi, Mid: Integer;

@@ -9,3 +9,8 @@ Download latest include
 http://slackworld.net/downloads/SimbaExt.rar
 
 > Just extract it in Simba "Includes"-folder.
+
+
+Documentation
+--------
+http://slackworld.net/docs/

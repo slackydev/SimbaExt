@@ -1,6 +1,6 @@
-{*=========================================================================================|
-| Imaging.pas                                                                              |
-|=========================================================================================*}
+{!DOCTOPIC}{ 
+  Imaging functions
+}
 function SimbaExt.GaussKernel(Radius: Integer; Sigma:Single): T2DFloatArray;  
 begin
   exp_GaussKernel(Radius, Sigma, Result);

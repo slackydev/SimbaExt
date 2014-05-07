@@ -14,28 +14,15 @@ type
   T2DDoubleArray = Array of TDoubleArray;
   
   TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
+
   TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
   
-  //Sorting methods
-  TSortKey  = ( sort_Default,   //Default to what ever type.
-                //sort_Weight,
-                {TPA}
-                sort_Magnitude, //Default: Sqr(A.x) + Sqr(A.y)
-                sort_ByPoint,
-                sort_ByColumn,
-                sort_ByRow,
-                sort_ByX,
-                sort_ByY,
-                {2D - including TSA}
-                sort_Length,    //Default: Array length used in 2D-sorting
-                sort_First,
-                sort_Index,
-                {2D TPA spesific}
-                sort_Mean,
-                {TSA}
-                sort_Logical,
-                sort_Lex      //Default: TStrArray Sorting
-              );
+  TSortKey  = ( 
+    sort_Default, sort_Magnitude, sort_ByPoint, sort_ByColumn, sort_ByRow, sort_ByX,
+    sort_ByY, sort_Length, sort_First, sort_Index, sort_Mean, sort_Lex, sort_Logical
+  );
+  
+  
   
 //LoadLibrary from current folder 
 {$loadlib \..\includes\simbaext\simbaext.dll}
@@ -55,6 +42,10 @@ begin
 end;
 
 
+{!DOCREF} {
+  @method: procedure RaiseWarning(WarningMessage:String; Warn: TWarningType);
+  @desc: Used internally to raise a warning-message
+}
 procedure RaiseWarning(WarningMessage:String; Warn: TWarningType);
 begin
   {$IFNDEF ERR_HIDE_ALL}
@@ -135,3 +126,93 @@ end;
 {$ENDIF}
 
 {$ENDIF}
+
+
+
+
+// - Documentation:
+{!DOCREF} {
+  @method: type SimbaExt = type Pointer;
+  @desc: Needed for the global c'var SE.'
+}
+
+{!DOCREF} {
+  @method: type TObjMath = type Pointer;
+  @desc: Needed for the global c'var Math.'
+}
+
+{!DOCREF} {
+  @method:type TObjRandom = type Pointer;
+  @desc: Needed for the global c'var Rand.'
+}
+
+{!DOCREF} {
+  @method: type TObjTime = type Pointer;
+  @desc: Needed for the global c'var TimeUtils.'
+}
+
+{!DOCREF} {
+  @method:type TObjOS = record path: TObjOSPath; end;
+  @desc: Needed for the global c'var OS.', also holds another var: c'OS.Path.'
+}
+
+{!DOCREF} {
+  @method: type TObjPath = type Pointer;
+  @desc: Needed for the global c'var OS.Path.'
+}
+
+{!DOCREF} {
+  @method:Global variables
+  @desc:
+    [code=php]
+    SE        =>  SimbaExt; 
+    Math      =>  TObjMath; 
+    Rand      =>  TObjRandom; 
+    TimeUtils =>  TObjTime;
+    OS        =>  TObjOS;
+    OS.Path   =>  TObjOSPath;
+    [/code]
+}
+
+
+
+{!DOCREF} {
+  @method: type TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
+  @desc: Choise of color correlation algorithm
+}
+
+{!DOCREF} {
+  @method: type TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
+  @desc: Used in RaiseWarning()
+}
+
+{!DOCREF} {
+  @method: type TSortKey = ...;
+  @desc:
+    Sorting keys, all sorting functions will support it.
+    [code=pascal]
+      sort_Default,         //Default to what ever type
+      - TPA
+      sort_Magnitude,       //Default: Sqr(A.x) + Sqr(A.y)
+      sort_ByPoint,
+      sort_ByColumn,
+      sort_ByRow,
+      sort_ByX,
+      sort_ByY,
+      - 2D including TSA
+      sort_Length,          //Default: Array length used in 2D-sorting
+      sort_First,
+      sort_Index,
+      - 2D TPA spesific
+      sort_Mean,
+      - TSA
+      sort_Lex              //Default: TStrArray Sorting
+      sort_Logical,
+    [/code]
+}
+
+
+{!DOCREF} {
+  @method: type TComparator = (__LT__, __GT__, __EQ__, __NE__, __GE__, __LE__);
+  @desc: Choise of comperator.
+}

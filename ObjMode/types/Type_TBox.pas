@@ -1,25 +1,41 @@
-(*=============================================================================|
- TBox functionality
-|=============================================================================*)
+{!DOCTOPIC}{ 
+  Type » TBox
+}
+
+{!DOCREF} {
+  @method: function TBox.Width(): Int32;
+  @desc: Returns the width of the TBox
+}
 function TBox.Width(): Int32;
 begin
   Result := (X2-X1+1);
 end;
 
+
+{!DOCREF} {
+  @method: function TBox.Height(): Int32;
+  @desc: Returns the height of the TBox
+}
 function TBox.Height(): Int32;
 begin
   Result := (Y2-Y1+1);
 end;
 
 
-//gives the area the box covers
+{!DOCREF} {
+  @method: function TBox.Area(): Integer;
+  @desc: Returns the area the TBox covers
+}
 function TBox.Area(): Integer;
 begin
   Result := Self.Width() * Self.Height();
 end;
 
 
-//gives the center of the box
+{!DOCREF} {
+  @method: function TBox.Center(): TPoint;
+  @desc: Returns the center of the TBox
+}
 function TBox.Center(): TPoint;
 begin
   Result.X := Self.X1 + (Self.Width() shr 1);
@@ -27,7 +43,10 @@ begin
 end;
 
 
-//expand/(shrink if negative) the TBox by sizechange.
+{!DOCREF} {
+  @method: procedure TBox.Expand(const SizeChange: Integer);
+  @desc: Expand (shrink if negative) the TBox by 'sizechange'.
+}
 procedure TBox.Expand(const SizeChange: Integer);
 begin
   Self.X1 := Self.X1 - SizeChange;
@@ -37,7 +56,10 @@ begin
 end;
 
 
-//Return true if a point is inside the rectangle.
+{!DOCREF} {
+  @method: function TBox.Contains(Pt:TPoint): Boolean;
+  @desc: Returns True if the point 'Pt' is inside the TBox.
+}
 function TBox.Contains(Pt:TPoint): Boolean;
 begin
   Result := (self.x1 <= pt.x) and (pt.x <= self.x2) and
@@ -45,7 +67,10 @@ begin
 end;  
   
   
-//Return true if a this box overlaps the other box.
+{!DOCREF} {
+  @method: function TBox.Overlaps(Other:TBox): Boolean;
+  @desc: Return True if a this box overlaps the other TBox.
+}
 function TBox.Overlaps(Other:TBox): Boolean;
 begin
   Result:= (self.x2 > other.x1) and (self.x1 < other.x2) and
@@ -53,7 +78,10 @@ begin
 end;
 
 
-//Combine two boxes - Lazy (does not expand on current)
+{!DOCREF} {
+  @method: function TBox.Combine(Other:TBox): TBox;
+  @desc: Combine two boxes - Lazy (does not expand on current)
+}
 function TBox.Combine(Other:TBox): TBox;
 begin
   Result := ToBox(Min(Min(Other.X1, Other.X2), Min(Self.X1, Self.X2)),
@@ -63,7 +91,10 @@ begin
 end;  
 
 
-//Return a TPA of the corner points (clockwise).
+{!DOCREF} {
+  @method: function TBox.ToCoords(): TPointArray;
+  @desc: Return a TPA of the corner points (clockwise).
+}
 function TBox.ToCoords(): TPointArray;
 begin
   Result := [Point(self.x1,self.y1), Point(self.x2,self.y1), 
@@ -71,8 +102,22 @@ begin
 end;
 
 
-//Offsets the box, returns new box.
+{!DOCREF} {
+  @method: function TBox.Offset(offx,offy:Int32): TBox;
+  @desc: Offsets the TBox, returns a new box.
+}
 function TBox.Offset(offx,offy:Int32): TBox;
 begin
   Result := [self.x1+offx, self.y1+offy, self.x2+offx, self.y2+offy];
+end;
+
+
+{!DOCREF} {
+  @method: function TBox.Equals(Box:TBox): Boolean;
+  @desc: Compares equal
+}
+function TBox.Equals(Box:TBox): Boolean;
+begin
+  Result := (self.x1=box.x1) and (self.y1=box.y1) and 
+            (self.x2=box.x2) and (self.y2=box.y2);
 end;

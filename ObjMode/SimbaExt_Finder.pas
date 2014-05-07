@@ -1,6 +1,11 @@
-{*=========================================================================================|
-| Finder.pas                                                                               |
-|=========================================================================================*}
+{!DOCTOPIC} {
+  Finder functions 
+}
+
+{!DOCREF} {
+  @method: function se.MatchColor(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; MatchAlgo:TMatchAlgo): T2DFloatArray;
+  @desc: Correlates the color with the given image. Returns a match-array
+}
 function SimbaExt.MatchColor(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; MatchAlgo:TMatchAlgo): T2DFloatArray;
 begin
   case MatchAlgo of
@@ -13,25 +18,40 @@ end;
 
 
 
-
+{!DOCREF} {
+  @method: function se.ImFindColorTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, Tol:Integer): Boolean;
+  @desc: Deprecated
+}
 function SimbaExt.ImFindColorTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, Tol:Integer): Boolean;
 begin
   RaiseWarning('ImFindColorTol is deprecated and will be removed', ERR_DEPRECATED);
   Result := exp_ImFindColorTolEx(ImgArr, TPA, Color, Tol);
 end;
 
+{!DOCREF} {
+  @method: function se.ImFindColorsTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
+  @desc: Deprecated
+}
 function SimbaExt.ImFindColorsTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
 begin
   RaiseWarning('ImFindColorsTol is deprecated and will be removed', ERR_DEPRECATED);
   Result := exp_ImFindColorsTolEx(ImgArr, TPA, Colors, Tol);
 end;
 
+{!DOCREF} {
+  @method: function se.ImFindColorsTolExLCH(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
+  @desc: Deprecated
+}
 function SimbaExt.ImFindColorTolExLCH(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
 begin
   RaiseWarning('ImFindColorTolLCH is deprecated and will be removed', ERR_DEPRECATED);
   Result := exp_ImFindColorTolExLCH(ImgArr, TPA, Color, ColorTol, LightTol);
 end;
 
+{!DOCREF} {
+  @method: function se.ImFindColorsTolExLAB(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
+  @desc: Deprecated
+}
 function SimbaExt.ImFindColorTolExLAB(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
 begin
   RaiseWarning('ImFindColorTolLAB is deprecated and will be removed', ERR_DEPRECATED);
@@ -39,19 +59,21 @@ begin
 end;
 
 
-{*
-  Serach for a spesific color on your screen with a tolerance.
-  
-  LAB should be very fast compared to CTS(3) in simba. I assume around 8-10x faster in general.
-  LCH which is LAB-color measured another way should also be "fast enough".
-  
-  @params:
-    TPA:        The resulting points
-    Color:      The color to search for
-    Area:       A Tbox of where to search.
-    Similarity: 0.0 to 1.0 where 1.0 should be exact match.    
-    MatchAlgo:  How we measure color difference: _RGB_, _XYZ_, _LAB_ and _LCH_ 
-*}
+{!DOCREF} {
+  @method: function se.FindColorTolEx(var TPA:TPointArray; Color:Integer; Area:TBox; Similarity:Single; MatchAlgo: TMatchAlgo): Boolean;
+  @desc:
+    Serach for a spesific color on your screen with a tolerance.
+    
+    LAB should be very fast compared to CTS(3) in simba. I assume around 8-10x faster in general.
+    LCH which is LAB-color measured another way should also be "fast enough".
+    
+    @params:
+      TPA:        The resulting points
+      Color:      The color to search for
+      Area:       A Tbox of where to search.
+      Similarity: 0.0 to 1.0 where +/-1.0 should be exact match.    
+      MatchAlgo:  How we measure color difference: _RGB_, _XYZ_, _LAB_ and _LCH_ 
+}
 function SimbaExt.FindColorTolEx(var TPA:TPointArray; Color:Integer; Area:TBox; Similarity:Single; MatchAlgo: TMatchAlgo): Boolean;
 var 
   W,H:Integer;
