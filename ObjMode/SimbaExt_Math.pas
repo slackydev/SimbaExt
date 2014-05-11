@@ -3,6 +3,12 @@
 } 
 
 {!DOCREF} {
+  @method: var Math = TObjMath;
+  @desc: This module provides you with a few math-related functions.
+}
+
+
+{!DOCREF} {
   @method: function Math.Modulo(X,Y:Extended): Extended; overload;
   @desc: "Real" modulus function as seen in: WolframAlpha, MatLab and Python, and many more "modern" programming languages.
 }

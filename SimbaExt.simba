@@ -2,19 +2,19 @@
 {$IFDEF LAPE}
 type
   TIntArray = TIntegerArray;
-  
   TExtArray   = TExtendedArray;
   T2DExtArray = T2DExtendedArray;
-  
-  //Float = Single;
   TFloatArray   = Array of Single;
   T2DFloatArray = Array of TFloatArray;
-  
   TDoubleArray   = Array of Double;
   T2DDoubleArray = Array of TDoubleArray;
   
+  TIntMatrix    = T2DIntArray;
+  TExtMatrix    = T2DExtArray;
+  TFloatMatrix  = T2DFloatArray;
+  TDoubleMatrix = T2DDoubleArray;
+ 
   TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
-
   TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
   
   TSortKey  = ( 
@@ -215,4 +215,20 @@ end;
 {!DOCREF} {
   @method: type TComparator = (__LT__, __GT__, __EQ__, __NE__, __GE__, __LE__);
   @desc: Choise of comperator.
+}
+
+
+{!DOCREF} {
+  @method: TMatrix
+  @desc: 
+    TMatrix = a 2D array of any given type, unlike EG: T2DIntArray each column in a TMatrix should
+    be the same length. So it's always W*H in size. It's resized using c'SetLength(Matrix, H,W)';
+    
+    Supported matrix types:
+    [code=pascal]
+      TIntMatrix    = T2DIntArray;
+      TExtMatrix    = T2DExtArray;
+      TFloatMatrix  = T2DFloatArray;
+      TDoubleMatrix = T2DDoubleArray;
+    [/code]
 }

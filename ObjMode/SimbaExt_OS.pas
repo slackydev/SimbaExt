@@ -1,11 +1,11 @@
 {!DOCTOPIC}{ 
-  Miscellaneous OS functions
+  OS module
 }
 
 {!DOCREF} {
   @method: var OS = TObjOS;
   @desc: 
-    This module provides you with a few operating system dependent functions.
+    This module provides you with a miscellaneous operating system dependent functions.
     
     [note]Note that SimbaExt is so far only build for Windows. This module will be modified to be cross-platform if linux ever where to be supported.[/note]
 }

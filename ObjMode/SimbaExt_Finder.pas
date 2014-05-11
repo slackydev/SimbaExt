@@ -3,10 +3,10 @@
 }
 
 {!DOCREF} {
-  @method: function se.MatchColor(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; MatchAlgo:TMatchAlgo): T2DFloatArray;
+  @method: function se.MatchColor(const ImgArr:TIntMatrix; Color:Integer; CCMode:TCCorrMode; MatchAlgo:TMatchAlgo): T2DFloatArray;
   @desc: Correlates the color with the given image. Returns a match-array
 }
-function SimbaExt.MatchColor(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; MatchAlgo:TMatchAlgo): T2DFloatArray;
+function SimbaExt.MatchColor(const ImgArr:TIntMatrix; Color:Integer; CCMode:TCCorrMode; MatchAlgo:TMatchAlgo): T2DFloatArray;
 begin
   case MatchAlgo of
     _RGB_: exp_MatchColorRGB(ImgArr, Color, CCMode, Result);
@@ -19,42 +19,42 @@ end;
 
 
 {!DOCREF} {
-  @method: function se.ImFindColorTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, Tol:Integer): Boolean;
+  @method: function se.ImFindColorTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, Tol:Integer): Boolean;
   @desc: Deprecated
 }
-function SimbaExt.ImFindColorTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, Tol:Integer): Boolean;
+function SimbaExt.ImFindColorTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, Tol:Integer): Boolean;
 begin
-  RaiseWarning('ImFindColorTol is deprecated and will be removed', ERR_DEPRECATED);
+  RaiseWarning('ImFindColorTolEx is deprecated and will be removed, use "se.FindColorTolEx', ERR_DEPRECATED);
   Result := exp_ImFindColorTolEx(ImgArr, TPA, Color, Tol);
 end;
 
 {!DOCREF} {
-  @method: function se.ImFindColorsTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
+  @method: function se.ImFindColorsTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
   @desc: Deprecated
 }
-function SimbaExt.ImFindColorsTolEx(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
+function SimbaExt.ImFindColorsTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
 begin
-  RaiseWarning('ImFindColorsTol is deprecated and will be removed', ERR_DEPRECATED);
+  RaiseWarning('ImFindColorsTolEx is deprecated and will be removed, use "se.FindColorTolEx', ERR_DEPRECATED);
   Result := exp_ImFindColorsTolEx(ImgArr, TPA, Colors, Tol);
 end;
 
 {!DOCREF} {
-  @method: function se.ImFindColorsTolExLCH(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
+  @method: function se.ImFindColorsTolExLCH(const ImgArr:TIntMatrix; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
   @desc: Deprecated
 }
-function SimbaExt.ImFindColorTolExLCH(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
+function SimbaExt.ImFindColorTolExLCH(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
 begin
-  RaiseWarning('ImFindColorTolLCH is deprecated and will be removed', ERR_DEPRECATED);
+  RaiseWarning('ImFindColorTolExLCH is deprecated and will be removed, use "se.FindColorTolEx', ERR_DEPRECATED);
   Result := exp_ImFindColorTolExLCH(ImgArr, TPA, Color, ColorTol, LightTol);
 end;
 
 {!DOCREF} {
-  @method: function se.ImFindColorsTolExLAB(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
+  @method: function se.ImFindColorsTolExLAB(const ImgArr:TIntMatrix; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
   @desc: Deprecated
 }
-function SimbaExt.ImFindColorTolExLAB(const ImgArr:T2DIntegerArray; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
+function SimbaExt.ImFindColorTolExLAB(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
 begin
-  RaiseWarning('ImFindColorTolLAB is deprecated and will be removed', ERR_DEPRECATED);
+  RaiseWarning('ImFindColorTolExLAB is deprecated and will be removed, use "se.FindColorTolEx"', ERR_DEPRECATED);
   Result := exp_ImFindColorTolExLAB(ImgArr, TPA, Color, ColorTol, LightTol);
 end;
 
@@ -77,8 +77,8 @@ end;
 function SimbaExt.FindColorTolEx(var TPA:TPointArray; Color:Integer; Area:TBox; Similarity:Single; MatchAlgo: TMatchAlgo): Boolean;
 var 
   W,H:Integer;
-  Img:T2DIntArray;
-  Corr: T2DFloatArray;
+  Img:TIntMatrix;
+  Corr: TFloatMatrix;
   Bmp:Integer;
 begin
   Result := False;

@@ -33,7 +33,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function SimbaExt.StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;
+  @method: function se.StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;
   @desc: 
     This function returns a string or an array with all occurrences of 'SubStr' in 'Text' replaced with the given replace value 'RepStr'.
     This version is a lot faster then the one in Simba, at least when we are working with large amount of text.
@@ -45,7 +45,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function SimbaExt.StrExplode(const Text, Sep: String): TStringArray;
+  @method: function se.StrExplode(const Text, Sep: String): TStringArray;
   @desc: Returns an array of strings, each of which is a substring of 'Text' formed by splitting it on boundaries formed by the string separator 'sep'.
 }
 function SimbaExt.StrExplode(const Text, Sep: String): TStringArray;

@@ -272,10 +272,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TRafBitmap.ToMatrix(): T2DIntArray;
+  @method: function TRafBitmap.ToMatrix(): TIntMatrix;
   @desc: Returns a 2D matrix-representation of the image
 }
-function TRafBitmap.ToMatrix(): T2DIntArray;
+function TRafBitmap.ToMatrix(): TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.ToMatrix()')) then Exit;
   Result := BitmapToMatrix(Self.Bitmap);
@@ -283,10 +283,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TRafBitmap.ToMatrix(): T2DIntArray;
+  @method: procedure TRafBitmap.FromMatrix(Matrix: TIntMatrix);
   @desc: Copys the data from the 2D matrix and writes it to the image
 }
-procedure TRafBitmap.FromMatrix(Matrix: T2DIntegerArray);
+procedure TRafBitmap.FromMatrix(Matrix: TIntMatrix);
 begin
   if Self.Loaded then
   begin
@@ -310,7 +310,7 @@ end;
 }
 function TRafBitmap.FindColorTol(var TPA:TPointArray; Color:Integer; Area:TBox; Tolerance:Integer): Boolean;
 var 
-  Matrix: T2DIntArray;
+  Matrix: TIntMatrix;
 begin
   Result := False;
   if not(Self.IsLoaded('TRafBitmap.FindColorTol()')) then Exit;
@@ -338,7 +338,6 @@ end;
   @desc: 
     Searches for the given 'color' in the bitmap.
     [note]@method is using a deprecated function. Disable warnings might be preferable '$DEFINE ERR_HIDE_ALL'[/note]  
-  
 }
 function TRafBitmap.FindColor(var TPA:TPointArray; Color:Integer; Area:TBox): Boolean;
 begin
@@ -457,7 +456,7 @@ end;
 procedure TRafBitmap.Blur(BlurSize: Integer; Iter:Integer=0);
 var
   i:Int32;
-  Matrix:T2DIntArray;
+  Matrix:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.Blur()')) then Exit;
   if (BlurSize < 3) or (BlurSize mod 2 = 0) then
@@ -483,7 +482,7 @@ end;
 }
 procedure TRafBitmap.Median(MedianSize: Integer);
 var
-  Matrix:T2DIntArray;
+  Matrix:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.Median()')) then Exit;
   if (Mediansize < 3) or (Mediansize mod 2 = 0) then
@@ -508,7 +507,7 @@ end;
 }
 procedure TRafBitmap.Brightness(Amount:Extended; Legacy:Boolean);
 var
-  Matrix:T2DIntegerArray;
+  Matrix:TIntMatrix;
 begin
   Matrix := Self.ToMatrix();
   Matrix := se.ImBrighten(Matrix, Amount, Legacy);
