@@ -169,6 +169,7 @@ begin
   AddCommand(@exp_TPAReduce,	'procedure exp_TPAReduce(const TPA:TPointArray; FMin,FMax, Iterations:Integer; var Result:TPointArray);');
   AddCommand(@exp_TPAExpand,	'procedure exp_TPAExpand(const TPA:TPointArray; Iterations:Integer; var Result:TPointArray);');
 
+  AddCommand(@exp_Spline,	'procedure exp_Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean; var Result: TPointArray);');
 
   // MatrixTools.pas
   AddCommand(@exp_NewMatrixEx,	'procedure exp_NewMatrixEx(W,H, Init:Integer; var Result:T2DIntegerArray);');

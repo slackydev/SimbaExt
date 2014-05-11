@@ -243,16 +243,6 @@ end;
 
 
 {!DOCREF} {
-  @method: function TPointArray.Sum(): TPoint;
-  @desc: Sum of the TPA
-}
-function TPointArray.Sum(): TPoint;
-begin
-  Result := se.SumTPA(Self);
-end;
-
-
-{!DOCREF} {
   @method: function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
   @desc: Sorts a copy of the TPA
 }
@@ -305,4 +295,14 @@ end;
 procedure TPointArray.Sort(From:TPoint); overload;
 begin
   se.SortTPAFrom(Self, From)
+end;
+
+
+{!DOCREF} {
+  @method: function TPointArray.Sum(): TPoint;
+  @desc: Adds up the array and returns the sum from each axis
+}
+function TPointArray.Sum(): TPoint;
+begin
+  Result := se.SumTPA(Self);
 end;

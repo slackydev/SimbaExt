@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<CONFIG>
-  <Compiler Value="C:\lazarus\fpc\2.6.2\bin\i386-win32\fpc.exe" Date="1120491560"/>
-  <Params Value=" -MObjFPC -Scghi -WR -O1 -g -gl -vewnhi -FiC:\Simba\Workspace\SimbaExt\lib\i386-win32 -FuC:\Simba\Workspace\SimbaExt\Src -FuC:\Simba\Workspace\SimbaExt\Src\Core -FuC:\Simba\Workspace\SimbaExt\Src\Core\Matrix -FuC:\Simba\Workspace\SimbaExt\ -FUC:\Simba\Workspace\SimbaExt\lib\i386-win32\ -l SimbaExt.lpr"/>
-</CONFIG>

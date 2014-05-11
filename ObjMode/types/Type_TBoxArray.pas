@@ -129,7 +129,7 @@ end;
 procedure TBoxArray.Reverse();
 var
   i, Hi, Mid: Integer;
-  tmp:TBox;
+  tmp: TBox ;
 begin
   Hi := High(Self);
   if (Hi < 0) then Exit;

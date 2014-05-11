@@ -533,7 +533,7 @@ end;
 (*
  Dirty comparison method to compare two strings in a more natural manner.
 *)
-function CompareNatural(Str1, Str2: String): Int8; Inline;
+function CompareNatural(Str1, Str2: String): Int8;
 type
   TNaturalString = record
      s: String; i:Int32; IsString:Boolean;
@@ -541,7 +541,7 @@ type
   TNaturalArray = array of TNaturalString;
 
 //Splits strings and numbers in to a TNaturalArray, outputing something like: ['asd',123,'cat'].
-function GetNaturalString(Str: String): TNaturalArray; Inline; 
+function GetNaturalString(Str: String): TNaturalArray;
 var
   i,l,j: Int32;
   IsStr,NextAlso: Boolean;
@@ -636,7 +636,7 @@ end;
 *)
 procedure __SortTSANatural(var Arr:TStringArray; Left, Right:Integer);
 var
-  lo,hi,key: Integer;
+  lo,hi: Integer;
   tmp,pivot:String;
 begin
   lo:=Left;
@@ -678,7 +678,7 @@ end;
 *)
 procedure __SortTSALexUp(var Arr:TStringArray; Left, Right:Integer);
 var
-  i,j,n,key: Integer;
+  i,j: Integer;
   tmp,pivot:String;
 begin
   i:=Left;
@@ -705,7 +705,7 @@ end;
 *)
 procedure __SortTSALex(var Arr:TStringArray; Left, Right:Integer);
 var
-  i,j,n,key: Integer;
+  i,j: Integer;
   tmp,pivot:String;
 begin
   i:=Left;
@@ -748,7 +748,7 @@ end;
 *)
 procedure __SortTSA(var Arr:TStringArray; Weight:TIntArray; Left, Right:Integer);
 var
-  i,j,n,pivot: Integer;
+  i,j,pivot: Integer;
   tmp:String;
 begin
   i:=Left;

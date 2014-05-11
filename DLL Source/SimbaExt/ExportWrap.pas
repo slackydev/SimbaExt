@@ -497,9 +497,12 @@ end;
 
 
 {*-----------------------------------------------------------------------------|
-| Spline.pas                                                                  |
+| Spline.pas                                                                   |
 |-----------------------------------------------------------------------------*}
-//Another day..
+procedure exp_Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean; var Result: TPointArray); Cdecl;
+begin
+  Result := CSpline(TPA, Tension, Connect);
+end;
 
 
 

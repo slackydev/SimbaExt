@@ -6,8 +6,8 @@
 }
 
 {!DOCREF} {
-  @method: TimeUtils - Miscellaneous time functionality
-  desc: This module provides you with a few time related functions.
+  @method: var TimeUtils = TObjTime;
+  @desc: Miscellaneous time related functions
 }
 
 {!DOCREF} {

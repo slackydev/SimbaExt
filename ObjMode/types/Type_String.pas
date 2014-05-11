@@ -295,7 +295,7 @@ end;
   @method: function String.Split(sep:String): TStringArray;
   @desc: 
     Return an array of the words in the string, using 'sep' as the delimiter string.
-    [note]Lightning fast!![/note]
+    [note]Should be notable faster then Simbas c'Explode(...)' whenever the string is more then a few sentences[/note]
 }
 function String.Split(Sep:String): TStringArray;
 begin

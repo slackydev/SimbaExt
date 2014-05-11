@@ -403,3 +403,13 @@ function SimbaExt.TPAExpand(TPA:TPointArray; Iterations:Integer): TPointArray;
 begin
   exp_TPAExpand(TPA,Iterations, Result);
 end;
+
+
+{!DOCREF} {
+  @method: function se.Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean=False): TPointArray; 
+  @desc: [warning]Not working, yet[/warning]
+}
+function SimbaExt.Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean=False): TPointArray;  
+begin
+  exp_Spline(TPA, Tension, Connect, Result);
+end;

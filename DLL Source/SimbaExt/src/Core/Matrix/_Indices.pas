@@ -14,7 +14,7 @@ var
 begin
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
   i := 0;
   for Y:=B.y1 to B.y2 do
@@ -38,7 +38,7 @@ var
 begin
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
   i := 0;
   for Y:=B.y1 to B.y2 do
@@ -61,7 +61,7 @@ var
 begin
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
   i := 0;
   for Y:=B.y1 to B.y2 do
@@ -85,7 +85,7 @@ var
 begin
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
   i := 0;
   for Y:=B.y1 to B.y2 do

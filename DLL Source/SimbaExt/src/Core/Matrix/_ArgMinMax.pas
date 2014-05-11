@@ -164,10 +164,10 @@ function ArgMax(Mat:T2DIntArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;
 begin
-  Result := Point(0,0);
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       if Mat[Y][X] > Mat[Result.y][Result.x] then
@@ -182,10 +182,10 @@ function ArgMax(Mat:T2DExtArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;
 begin
-  Result := Point(0,0);
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       if Mat[Y][X] > Mat[Result.y][Result.x] then
@@ -200,10 +200,10 @@ function ArgMax(Mat:T2DDoubleArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;
 begin
-  Result := Point(0,0);
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       if Mat[Y][X] > Mat[Result.y][Result.x] then
@@ -218,10 +218,10 @@ function ArgMax(Mat:T2DFloatArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;
 begin
-  Result := Point(0,0);
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       if Mat[Y][X] > Mat[Result.y][Result.x] then
@@ -240,10 +240,10 @@ function ArgMin(Mat:T2DIntArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;
 begin
-  Result := Point(0,0);
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       if Mat[Y][X] < Mat[Result.y][Result.x] then
@@ -258,10 +258,10 @@ function ArgMin(Mat:T2DExtArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;
 begin
-  Result := Point(0,0);
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       if Mat[Y][X] < Mat[Result.y][Result.x] then
@@ -276,10 +276,10 @@ function ArgMin(Mat:T2DDoubleArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;
 begin
-  Result := Point(0,0);
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       if Mat[Y][X] < Mat[Result.y][Result.x] then
@@ -294,10 +294,10 @@ function ArgMin(Mat:T2DFloatArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;
 begin
-  Result := Point(0,0);
   H := High(Mat);
   W := High(Mat[0]);
-  WrapAroundBox(B, W,H);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       if Mat[Y][X] < Mat[Result.y][Result.x] then

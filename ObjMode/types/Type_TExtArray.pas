@@ -1,42 +1,42 @@
 {!DOCTOPIC}{ 
-  Type » TIntArray
+  Type » TExtArray
 }
 
 {!DOCREF} {
-  @method: function TIntArray.Clone(): TIntArray;
+  @method: function TExtArray.Clone(): TExtArray;
   @desc: Returns a copy of the array
 }
-function TIntArray.Clone(): TIntArray;
+function TExtArray.Clone(): TExtArray;
 begin
   Result := Copy(Self);
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Len(): Int32;
+  @method: function TExtArray.Len(): Int32;
   @desc: Returns the length of the array. Same as 'Length(arr)'
 }
-function TIntArray.Len(): Int32;
+function TExtArray.Len(): Int32;
 begin
   Result := Length(Self);
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.IsEmpty(): Boolean;
+  @method: function TExtArray.IsEmpty(): Boolean;
   @desc: Returns True if the array is empty. Same as 'Length(arr) = 0'
 }
-function TIntArray.IsEmpty(): Boolean;
+function TExtArray.IsEmpty(): Boolean;
 begin
   Result := Length(Self) = 0;
 end;
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Append(const Value:Int32);
+  @method: procedure TExtArray.Append(const Value:Extended);
   @desc: Add another item to the array
 }
-procedure TIntArray.Append(const Value:Int32);
+procedure TExtArray.Append(const Value:Extended);
 var
   l:Int32;
 begin
@@ -47,10 +47,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Pop(): Int32;
+  @method: function TExtArray.Pop(): Extended;
   @desc: Removes and returns the last item in the array
 }
-function TIntArray.Pop(): Int32;
+function TExtArray.Pop(): Extended;
 var H:Int32;
 begin
   H := high(Self);
@@ -60,10 +60,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Slice(Start,Stop: Int32): TIntArray;
+  @method: function TExtArray.Slice(Start,Stop: Int32): TExtArray;
   @desc: Returns a slice of the array
 }
-function TIntArray.Slice(Start,Stop: Int32): TIntArray;
+function TExtArray.Slice(Start,Stop: Int32): TExtArray;
 begin
   if Stop <= -1 then Stop := Length(Self)+Stop;
   Result := Copy(Self, Start, Stop); 
@@ -71,13 +71,13 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Sort(key:TSortKey=sort_Default);
+  @method: procedure TExtArray.Sort(key:TSortKey=sort_Default);
   @desc: Sorts the array
 }
-procedure TIntArray.Sort(key:TSortKey=sort_Default);
+procedure TExtArray.Sort(key:TSortKey=sort_Default);
 begin
   case key of
-    sort_default: se.SortTIA(Self);
+    sort_default: se.SortTEA(Self);
   else 
     WriteLn('TSortKey not supported');
   end;
@@ -85,14 +85,14 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Sorted(key:TSortKey=sort_Default): TIntArray;
+  @method: function TExtArray.Sorted(key:TSortKey=sort_Default): TExtArray;
   @desc:  Sorts and returns a copy of the array.
 }
-function TIntArray.Sorted(Key:TSortKey=sort_Default): TIntArray;
+function TExtArray.Sorted(Key:TSortKey=sort_Default): TExtArray;
 begin
   Result := Copy(Self);
   case key of
-    sort_default: se.SortTIA(Result);
+    sort_default: se.SortTEA(Result);
   else 
     WriteLn('TSortKey not supported');
   end;
@@ -102,12 +102,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Reversed(): TIntArray;
+  @method: function TExtArray.Reversed(): TExtArray;
   @desc:  
     Creates a reversed copy of the array
   
 }
-function TIntArray.Reversed(): TIntArray;
+function TExtArray.Reversed(): TExtArray;
 var hi,i:Int32;
 begin
   hi := High(Self);
@@ -118,12 +118,13 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Reverse();
+  @method: procedure TExtArray.Reverse();
   @desc: Reverses the array
 }
-procedure TIntArray.Reverse();
+procedure TExtArray.Reverse();
 var
-  i, Hi, Mid, tmp: Integer;
+  i,Hi,Mid: Integer;
+  tmp:Extended;
 begin
   Hi := High(Self);
   if (Hi < 0) then Exit;
@@ -137,31 +138,32 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Sum(): Int32;
-  @desc: Adds up the TIA and returns the sum
+  @method: function TExtArray.Sum(): Extended;
+  @desc: Adds up the TEA and returns the sum
 }
-function TIntArray.Sum(): Int32;
+function TExtArray.Sum(): Extended;
 begin
-  Result := se.SumTIA(Self);
-end;
-
-
-{!DOCREF} {
-  @method: function TIntArray.Avg(): Extended;
-  @desc:Returns the mean value of the array. Use round, trunc or floor to get an c'Int' value.
-}
-function TIntArray.Avg(): Extended;
-begin
-  Result := se.SumTIA(Self) / Length(Self);
+  Result := se.SumTEA(Self);
 end;
 
 
 
 {!DOCREF} {
-  @method: function TIntArray.Stdev(): Extended;
+  @method: function TExtArray.Avg(): Extended;
+  @desc:Returns the mean value of the array
+}
+function TExtArray.Avg(): Extended;
+begin
+  Result := se.SumTEA(Self) / Length(Self);
+end;
+
+
+
+{!DOCREF} {
+  @method: function TExtArray.Stdev(): Extended;
   @desc: Returns the standard deviation of the array
 }
-function TIntArray.Stdev(): Extended;
+function TExtArray.Stdev(): Extended;
 var
   i:Int32;
   mean:Extended;
@@ -174,30 +176,31 @@ begin
 end;
 
 
-
 {!DOCREF} {
-  @method: function TIntArray.Mode(): Int32;
+  @method: function TExtArray.Mode(Eps:Extended=0.000001): Extended;
   @desc:
-    Returns the sample mode of the array, which is the most frequently occurring value in the array.
+    Returns the sample mode of the array, which is the [u]most frequently occurring value[/u] in the array.
     When there are multiple values occurring equally frequently, mode returns the smallest of those values.
+    Takes an extra parameter c'Eps', can be used to allow some tolerance in the floating point comparison.
 }
-function TIntArray.Mode(): Int32;
+function TExtArray.Mode(Eps:Extended=0.0000001): Extended;
 var
-  arr:TIntArray;
-  i,cur,hits,best: Int32;
+  arr:TExtArray;
+  i,hits,best: Int32;
+  cur:Extended;
 begin
   arr := self.sorted();
-  cur := arr[0]-1;
+  cur := arr[0] - 1.0;
   hits := 0;
   best := 0;
   for i := 0 to High(Arr) do
   begin
-    if (cur <> arr[i]) then
+    if (arr[i]-cur > eps) then //arr[i] <> cur
     begin
       if (hits > best) then
       begin
         best := hits;
-        Result := cur;
+        Result := (Cur+Arr[i-1]) / 2; //Eps fix
       end;
       hits := 0;
       cur := Arr[I];
@@ -207,106 +210,88 @@ begin
 end;
 
 
-
 {!DOCREF} {
-  @method: function TIntArray.Min(): Int32;
+  @method: function TExtArray.Min(): Extended;
   @desc: Returns the minimum value in the array
 }
-function TIntArray.Min(): Int32;
-var _:Int32;
+function TExtArray.Min(): Extended;
+var _:Extended;
 begin
-  se.MinMaxTIA(Self,Result,_);
+  se.MinMaxTEA(Self,Result,_);
 end;
 
 
 
 {!DOCREF} {
-  @method: function TIntArray.Max(): Int32;
+  @method: function TExtArray.Max(): Extended;
   @desc: Returns the maximum value in the array
 }
-function TIntArray.Max(): Int32;
-var _:Int32;
+function TExtArray.Max(): Extended;
+var _:Extended;
 begin
-  se.MinMaxTIA(Self,_,Result);
+  se.MinMaxTEA(Self,_,Result);
 end;
 
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMin(): Int32;
+  @method: function TExtArray.ArgMin(): Int32;
   @desc: Returns the index containing the smallest element in the array.
 }
-function TIntArray.ArgMin(): Int32;
+function TExtArray.ArgMin(): Int32;
 var 
-  mat:T2DIntArray;
+  mat:T2DExtArray;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMinI(mat).x;
+  Result := exp_ArgMinE(mat).x;
 end;
 
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMin(Lo,Hi:int32): Int32; overload;
+  @method: function TExtArray.ArgMin(Lo,Hi:int32): Int32; overload;
   @desc: Returns the index containing the smallest element in the array within the lower and upper bounds c'lo, hi'.
 }
-function TIntArray.ArgMin(lo,hi:Int32): Int32; overload;
+function TExtArray.ArgMin(lo,hi:Int32): Int32; overload;
 var 
   B: TBox;
-  mat:T2DIntArray;
+  mat:T2DExtArray;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMinExI(mat,B).x;
+  Result := exp_ArgMinExE(mat,B).x;
 end;
 
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMax(): Int32;
+  @method: function TExtArray.ArgMax(): Int32;
   @desc: Returns the index containing the largest element in the array.
 }
-function TIntArray.ArgMax(): Int32;
+function TExtArray.ArgMax(): Int32;
 var 
-  mat:T2DIntArray;
+  mat:T2DExtArray;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMaxI(mat).x;
+  Result := exp_ArgMaxE(mat).x;
 end;
 
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMax(Lo,Hi:int32): Int32; overload;
+  @method: function TExtArray.ArgMax(Lo,Hi:int32): Int32; overload;
   @desc: Returns the index containing the largest element in the array within the lower and upper bounds c'lo, hi'.
 }
-function TIntArray.ArgMax(lo,hi:Int32): Int32; overload;
+function TExtArray.ArgMax(lo,hi:Int32): Int32; overload;
 var 
   B: TBox;
-  mat:T2DIntArray;
+  mat:T2DExtArray;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMaxExI(mat,B).x;
+  Result := exp_ArgMaxExE(mat,B).x;
 end;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
