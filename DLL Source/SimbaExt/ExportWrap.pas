@@ -100,7 +100,7 @@ end;
 {*-----------------------------------------------------------------------------|
 | Numeric.pas                                                                  |
 |-----------------------------------------------------------------------------*}
-function exp_SumTIA(const Arr: TIntArray): Integer; Cdecl;
+function exp_SumTIA(const Arr: TIntArray): Int64; Cdecl;
 begin
   Result := SumTIA(Arr);
 end;
@@ -157,6 +157,7 @@ begin
   SortTEA(Arr);
 end;
 
+//--------
 procedure exp_SortTPA(var Arr: TPointArray); Cdecl;
 begin
   SortTPA(Arr);
@@ -187,18 +188,18 @@ begin
   SortTPAByY(Arr);
 end;
 
-
+//--------
 procedure exp_SortTSA(var Arr: TStringArray; CaseInsensitve:Boolean=False); Cdecl;
 begin
   SortTSA(Arr, CaseInsensitve);
 end;
-
 
 procedure exp_SortTSANatural(var Arr: TStringArray); Cdecl;
 begin
   SortTSANatural(Arr);
 end;
 
+//--------
 procedure exp_SortATPAByLength(var Arr:T2DPointArray); Cdecl;
 begin
   SortATPAByLength(Arr);
@@ -219,6 +220,47 @@ begin
   SortATPAByIndex(Arr, index);
 end;
 
+//--------
+procedure exp_SortATIAByLength(var Arr:T2DIntArray); Cdecl;
+begin
+  SortATIAByLength(Arr);
+end;
+
+procedure exp_SortATIAByMean(var Arr:T2DIntArray); Cdecl;
+begin
+  SortATIAByMean(Arr);
+end;
+
+procedure exp_SortATIAByFirst(var Arr:T2DIntArray); Cdecl;
+begin
+  SortATIAByFirst(Arr);
+end;
+
+procedure exp_SortATIAByIndex(var Arr:T2DIntArray; index:Int32); Cdecl;
+begin
+  SortATIAByIndex(Arr, index);
+end;
+
+//--------
+procedure exp_SortATEAByLength(var Arr:T2DExtArray); Cdecl;
+begin
+  SortATEAByLength(Arr);
+end;
+
+procedure exp_SortATEAByMean(var Arr:T2DExtArray); Cdecl;
+begin
+  SortATEAByMean(Arr);
+end;
+
+procedure exp_SortATEAByFirst(var Arr:T2DExtArray); Cdecl;
+begin
+  SortATEAByFirst(Arr);
+end;
+
+procedure exp_SortATEAByIndex(var Arr:T2DExtArray; index:Int32); Cdecl;
+begin
+  SortATEAByIndex(Arr, index);
+end;
 
 
 

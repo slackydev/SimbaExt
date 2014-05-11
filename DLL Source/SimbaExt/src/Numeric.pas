@@ -12,7 +12,7 @@ interface
 uses
   CoreTypes, Math, SysUtils;
 
-function SumTIA(const Arr: TIntArray): Integer; Inline; 
+function SumTIA(const Arr: TIntArray): Int64; Inline; 
 function SumTEA(const Arr: TExtArray): Extended; Inline; 
 function TIACombinations(const Arr: TIntArray; Seq:Integer): T2DIntArray; 
 function TEACombinations(const Arr: TExtArray; Seq:Integer): T2DExtArray; 
@@ -28,7 +28,7 @@ implementation
 {*
   Sum of a TIA.
 *}
-function SumTIA(const Arr: TIntArray): Integer; Inline; 
+function SumTIA(const Arr: TIntArray): Int64; Inline; 
 var i:Integer;
 begin
   Result := 0;

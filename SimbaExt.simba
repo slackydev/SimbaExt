@@ -1,18 +1,20 @@
 //Define types used in SimbaExt
 {$IFDEF LAPE}
 type
-  TIntArray = TIntegerArray;
+  TIntArray   = TIntegerArray;
+  TFloatArray = Array of Single;
+  TDoubleArray= Array of Double;
   TExtArray   = TExtendedArray;
-  T2DExtArray = T2DExtendedArray;
-  TFloatArray   = Array of Single;
-  T2DFloatArray = Array of TFloatArray;
-  TDoubleArray   = Array of Double;
-  T2DDoubleArray = Array of TDoubleArray;
   
-  TIntMatrix    = T2DIntArray;
-  TExtMatrix    = T2DExtArray;
-  TFloatMatrix  = T2DFloatArray;
-  TDoubleMatrix = T2DDoubleArray;
+  //T2DIntArray     = Array of TIntArray;
+  T2DExtArray     = Array of TExtArray;
+  T2DFloatArray   = Array of TFloatArray;
+  T2DDoubleArray  = Array of TDoubleArray;
+  
+  TIntMatrix    = Array of TIntArray;
+  TExtMatrix    = Array of TExtArray;
+  TFloatMatrix  = Array of TFloatArray;
+  TDoubleMatrix = Array of TDoubleArray;
  
   TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
   TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);

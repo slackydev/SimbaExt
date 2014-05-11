@@ -135,3 +135,85 @@ procedure SimbaExt.SortATPAByIndex(var Arr: T2DPointArray; Index: Int32);
 begin
   exp_SortATPAByIndex(Arr, Index);
 end;
+
+
+
+
+
+
+//ATIA
+{!DOCREF} {
+  @method: procedure se.SortATIAByLength(var Arr: T2DIntArray);  
+  @desc: Sorts an 'Array of TIntArray' from low to high by array length
+}
+procedure SimbaExt.SortATIAByLength(var Arr: T2DIntArray);  
+begin
+  exp_SortATIAByLength(Arr);
+end;
+
+{!DOCREF} {
+  @method: procedure se.SortATIAByMean(var Arr: T2DIntArray);  
+  @desc: Sorts an 'Array of TIntArray' from low to high by array mean
+}
+procedure SimbaExt.SortATIAByMean(var Arr: T2DIntArray);  
+begin
+  exp_SortATIAByMean(Arr);
+end;
+
+{!DOCREF} {
+  @method: procedure se.SortATIAByFirst(var Arr: T2DIntArray);
+  @desc: Sorts an 'Array of TIntArray' from low to high by arrays first item
+}
+procedure SimbaExt.SortATIAByFirst(var Arr: T2DIntArray);  
+begin
+  exp_SortATIAByFirst(Arr);
+end;
+
+{!DOCREF} {
+  @method: procedure se.SortATIAByIndex(var Arr: T2DIntArray; Index: Int32);
+  @desc: Sorts an 'Array of TIntArray' from low to high by the selected array item
+}
+procedure SimbaExt.SortATIAByIndex(var Arr: T2DIntArray; Index: Int32);  
+begin
+  exp_SortATIAByIndex(Arr, Index);
+end;
+
+
+
+//ATEA
+{!DOCREF} {
+  @method: procedure se.SortATEAByLength(var Arr: T2DExtArray);  
+  @desc: Sorts an 'Array of TExtArray' from low to high by array length
+}
+procedure SimbaExt.SortATEAByLength(var Arr: T2DExtArray);  
+begin
+  exp_SortATEAByLength(Arr);
+end;
+
+{!DOCREF} {
+  @method: procedure se.SortATEAByMean(var Arr: T2DExtArray);  
+  @desc: Sorts an 'Array of TExtArray' from low to high by array mean
+}
+procedure SimbaExt.SortATEAByMean(var Arr: T2DExtArray);  
+begin
+  exp_SortATEAByMean(Arr);
+end;
+
+{!DOCREF} {
+  @method: procedure se.SortATEAByFirst(var Arr: T2DExtArray);
+  @desc: Sorts an 'Array of TExtArray' from low to high by arrays first item
+}
+procedure SimbaExt.SortATEAByFirst(var Arr: T2DExtArray);  
+begin
+  exp_SortATEAByFirst(Arr);
+end;
+
+{!DOCREF} {
+  @method: procedure se.SortATIAByIndex(var Arr: T2DExtArray; Index: Int32);
+  @desc: Sorts an 'Array of TExtArray' from low to high by the selected array item
+}
+procedure SimbaExt.SortATEAByIndex(var Arr: T2DExtArray; Index: Int32);  
+begin
+  exp_SortATEAByIndex(Arr, Index);
+end;
+

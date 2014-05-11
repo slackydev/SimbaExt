@@ -87,7 +87,7 @@ begin
 
 
   // Numeric.pas
-  AddCommand(@exp_SumTIA,	'function exp_SumTIA(const Arr: TIntegerArray): Integer;');
+  AddCommand(@exp_SumTIA,	'function exp_SumTIA(const Arr: TIntegerArray): Int64;');
   AddCommand(@exp_SumTEA,	'function exp_SumTEA(const Arr: TExtendedArray): Extended;');
   AddCommand(@exp_TIACombinations,	'procedure exp_TIACombinations(const Arr: TIntegerArray; Seq:Integer; var Result: T2DIntegerArray);');
   AddCommand(@exp_TEACombinations,	'procedure exp_TEACombinations(const Arr: TExtendedArray; Seq:Integer; var Result: T2DExtendedArray);');
@@ -110,6 +110,14 @@ begin
   AddCommand(@exp_SortATPAByMean,	'procedure exp_SortATPAByMean(var Arr:T2DPointArray);');
   AddCommand(@exp_SortATPAByFirst,	'procedure exp_SortATPAByFirst(var Arr:T2DPointArray);');
   AddCommand(@exp_SortATPAByIndex,	'procedure exp_SortATPAByIndex(var Arr:T2DPointArray; index:Int32);');
+  AddCommand(@exp_SortATIAByLength,	'procedure exp_SortATIAByLength(var Arr:T2DIntArray);');
+  AddCommand(@exp_SortATIAByMean,	'procedure exp_SortATIAByMean(var Arr:T2DIntArray);');
+  AddCommand(@exp_SortATIAByFirst,	'procedure exp_SortATIAByFirst(var Arr:T2DIntArray);');
+  AddCommand(@exp_SortATIAByIndex,	'procedure exp_SortATIAByIndex(var Arr:T2DIntArray; index:Int32);');
+  AddCommand(@exp_SortATEAByLength,	'procedure exp_SortATEAByLength(var Arr:T2DExtArray);');
+  AddCommand(@exp_SortATEAByMean,	'procedure exp_SortATEAByMean(var Arr:T2DExtArray);');
+  AddCommand(@exp_SortATEAByFirst,	'procedure exp_SortATEAByFirst(var Arr:T2DExtArray);');
+  AddCommand(@exp_SortATEAByIndex,	'procedure exp_SortATEAByIndex(var Arr:T2DExtArray; index:Int32);');
 
 
   // Finder.pas

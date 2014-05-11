@@ -49,7 +49,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Src;Src\Core;Src\Core\Matrix"/>
+      <OtherUnitFiles Value="Src;Src\Core;Src\Core\Matrix;Src\Sorting"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

@@ -1,0 +1,301 @@
+{!DOCTOPIC}{ 
+  Type » T2DIntArray
+}
+
+{!DOCREF} {
+  @method: function T2DIntArray.Clone(): T2DIntArray;
+  @desc: Returns a copy of the array
+}
+function T2DIntArray.Clone(): T2DIntArray;
+var i:Int32;
+begin
+  SetLength(Result, Length(Self));
+  for i:=0 to High(Self) do
+    Result[i] := Copy(Self[i]);
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Len(): Int32;
+  @desc: Returns the length of the arr. Same as c'Length(Arr)'
+}
+function T2DIntArray.Len(): Int32;
+begin
+  Result := Length(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.IsEmpty(): Boolean;
+  @desc: Returns True if the ATIA is empty. Same as c'Length(ATIA) = 0'
+}
+function T2DIntArray.IsEmpty(): Boolean;
+begin
+  Result := Length(Self) = 0;
+end;
+
+
+{!DOCREF} {
+  @method: procedure T2DIntArray.Append(const Arr:TIntArray);
+  @desc: Add another element to the array
+}
+procedure T2DIntArray.Append(const Arr:TIntArray);
+var
+  l:Int32;
+begin
+  l := Length(Self);
+  SetLength(Self, l+1);
+  Self[l] := Arr;
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Pop(): TIntArray;
+  @desc: Removes and returns the last item in the array
+}
+function T2DIntArray.Pop(): TIntArray;
+var
+  H:Int32;
+begin
+  H := high(Self);
+  Result := Self[H];
+  SetLength(Self, H);
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Slice(Start,Stop: Int32): T2DIntArray;
+  @desc: Returns a slice of the array
+}
+function T2DIntArray.Slice(Start,Stop: Int32): T2DIntArray;
+begin
+  if Stop <= -1 then Stop := Length(Self)+Stop;
+  Result := Copy(Self, Start, Stop); //hum hum
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Merge(): TIntArray;
+  @desc: Merges all the groups in the array, and return a TIA
+}
+function T2DIntArray.Merge(): TIntArray;
+var i,s,l: Integer;
+begin
+  s := 0;
+  for i:=0 to High(Self) do
+  begin
+    L := Length(Self[i]);
+    SetLength(Result, S+L);
+    MemMove(Self[i][0], Result[S], L*SizeOf(Int32));
+    S := S + L;
+  end; 
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Sorted(Key:TSortKey=sort_Default): T2DIntArray;
+  @desc: Sorts a copy of the ATIA with the given key, returns a copy
+}
+function T2DIntArray.Sorted(Key:TSortKey=sort_Default): T2DIntArray;
+begin
+  Result := Self.Clone();
+  case Key of
+    sort_Default, sort_Length: se.SortATIAByLength(Result);
+    sort_Mean: se.SortATIAByMean(Result);
+    sort_First: se.SortATIAByFirst(Result);
+  else
+    WriteLn('TSortKey not supported');
+  end;
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Sorted(Index:Integer): T2DPointArray; overload;
+  @desc: Sorts a copy of the ATIA by the given index in each group
+}
+function T2DIntArray.Sorted(Index:Integer): T2DIntArray; overload;
+begin
+  Result := Self.Clone();
+  se.SortATIAByIndex(Result, Index);
+end;
+
+
+{!DOCREF} {
+  @method: procedure T2DIntArray.Sort(Key:TSortKey=sort_Default);
+  @desc: Sorts the ATIA with the given key, returns a copy
+}
+procedure T2DIntArray.Sort(Key:TSortKey=sort_Default);
+begin
+  case Key of
+    sort_Default, sort_Length: se.SortATIAByLength(Self);
+    sort_Mean: se.SortATIAByMean(Self);
+    sort_First: se.SortATIAByFirst(Self);
+  else
+    WriteLn('TSortKey not supported');
+  end;
+end;
+
+
+{!DOCREF} {
+  @method: procedure T2DIntArray.Sort(Index:Integer); overload;
+  @desc: 
+    Sorts the ATIA by the given index in each group. If the group is not that large it will be set to the last item in that group.
+    Negative 'index' will result in counting from right to left: High(Arr[i]) - index
+  
+}
+procedure T2DIntArray.Sort(Index:Integer); overload;
+begin
+  se.SortATIAByIndex(Self, Index);
+end;
+
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Reversed(): T2DIntArray;
+  @desc: Creates a reversed copy of the array
+}
+function T2DIntArray.Reversed(): T2DIntArray;
+var hi,i:Int32;
+begin
+  hi := High(Self);
+  SetLength(Result, hi+1);
+  for i:=0 to hi do
+    Result[hi-i] := Self[i];
+end;
+
+
+{!DOCREF} {
+  @method: procedure T2DIntArray.Reverse();
+  @desc: Reverses the array  
+}
+procedure T2DIntArray.Reverse();
+var
+  i,Hi,Mid: Integer;
+  tmp:TIntArray;
+begin
+  Hi := High(Self);
+  if (Hi < 0) then Exit;
+  Mid := Hi div 2;
+  for i := 0 to Mid do begin
+    tmp := Self[Hi-i];
+    Self[Hi-i] := Self[i];
+    Self[i] := tmp;
+  end;
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Sum(): Int32;
+  @desc: Returns the sum of the 2d array (32 bit version only goes ~2,147,483,647)
+}
+function T2DIntArray.Sum(): Int32;
+var i,L: Integer;
+begin
+  for i:=0 to High(Self) do
+    Result := Result + Self[i].Sum();
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Sum64(): Int64;
+  @desc: Returns the sum of the 2d array
+}
+function T2DIntArray.Sum64(): Int64;
+var i,L: Integer;
+begin
+  for i:=0 to High(Self) do
+    Result := Result + Self[i].Sum64();
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Avg(): Extended;
+  @desc: Returns the mean of the 2d array
+}
+function T2DIntArray.Avg(): Extended;
+var i,L: Integer;
+begin
+  for i:=0 to High(Self) do
+    Result := Result + Self[i].Avg();
+  Result := Result / High(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Stdev(): Extended;
+  @desc: Returns the standard deviation of the array
+}
+function T2DIntArray.Stdev(): Extended;
+begin
+  Result := Self.Merge().Stdev();
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Mode(): Int32;
+  @desc:
+    Returns the sample mode of the array, which is the most frequently occurring value in the array.
+    When there are multiple values occurring equally frequently, mode returns the smallest of those values.
+}
+function T2DIntArray.Mode(): Int32;
+begin
+  Result := Self.Merge().Mode();
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Min(): Int32;
+  @desc: Returns the minimum value in the array
+}
+function T2DIntArray.Min(): Int32;
+var _:Int32;
+begin
+  se.MinMaxTIA(Self.Merge(),Result,_);
+end;
+
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.Max(): Int32;
+  @desc: Returns the maximum value in the array
+}
+function T2DIntArray.Max(): Int32;
+var _:Int32;
+begin
+  se.MinMaxTIA(Self.Merge(),_,Result);
+end;
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.ArgMin(): TPoint;
+  @desc: Returns the index containing the smallest element in the array
+}
+function T2DIntArray.ArgMin(): TPoint;
+var i,j:Int32;
+begin
+  Result := Point(0,0);
+  for i:=0 to High(self) do
+  begin
+    j := Self[i].ArgMin();
+    if (Self[Result.y][Result.x] > Self[i][j]) then
+      Result := Point(j,i);
+  end;  
+end;
+
+
+
+{!DOCREF} {
+  @method: function T2DIntArray.ArgMax(): TPoint;
+  @desc: Returns the index containing the largest element in the array
+}
+function T2DIntArray.ArgMax(): TPoint;
+var i,j:Int32;
+begin
+  Result := Point(0,0);
+  for i:=0 to High(self) do
+  begin
+    j := Self[i].ArgMax();
+    if (Self[Result.y][Result.x] < Self[i][j]) then
+      Result := Point(j,i);
+  end;  
+end;

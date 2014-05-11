@@ -7,3 +7,5 @@
 {$include_once Types/Type_TBoxArray.pas}
 {$include_once Types/Type_TStringArray.pas}
 {$include_once Types/Type_T2DPointArray.pas}
+{$include_once Types/Type_T2DIntArray.pas}
+{$include_once Types/Type_T2DExtArray.pas}

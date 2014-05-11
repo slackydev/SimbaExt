@@ -14,7 +14,7 @@ end;
 
 {!DOCREF} {
   @method: function T2DPointArray.Len(): Int32;
-  @desc: Returns the length of the ATPA. Same as 'Length(ATPA)'
+  @desc: Returns the length of the ATPA. Same as c'Length(ATPA)'
 }
 function T2DPointArray.Len(): Int32;
 begin
@@ -24,7 +24,7 @@ end;
 
 {!DOCREF} {
   @method: function T2DPointArray.IsEmpty(): Boolean;
-  @desc: Returns True if the ATPA is empty. Same as 'Length(ATPA) = 0'
+  @desc: Returns True if the ATPA is empty. Same as c'Length(ATPA) = 0'
 }
 function T2DPointArray.IsEmpty(): Boolean;
 begin

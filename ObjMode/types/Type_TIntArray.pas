@@ -147,12 +147,22 @@ end;
 
 
 {!DOCREF} {
+  @method: function TIntArray.Sum64(): Int64;
+  @desc: Adds up the TIA and returns the sum
+}
+function TIntArray.Sum64(): Int64;
+begin
+  Result := se.SumTIA(Self);
+end;
+
+
+{!DOCREF} {
   @method: function TIntArray.Avg(): Extended;
   @desc:Returns the mean value of the array. Use round, trunc or floor to get an c'Int' value.
 }
 function TIntArray.Avg(): Extended;
 begin
-  Result := se.SumTIA(Self) / Length(Self);
+  Result := Self.Sum64() / Length(Self);
 end;
 
 
