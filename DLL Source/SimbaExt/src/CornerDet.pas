@@ -9,7 +9,7 @@ unit CornerDet;
 interface
 
 uses
-  SysUtils, Math, CoreTypes;
+  SysUtils, CoreTypes;
 
 function CornerResponse(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer): T2DFloatArray;
 function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;

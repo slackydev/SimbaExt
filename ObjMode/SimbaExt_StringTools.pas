@@ -2,6 +2,43 @@
   StringTools
 }
 
+
+{!DOCREF} {
+  @method: function se.StrStrip(const Text:String; Chars:String=' '): String;
+  @desc: 
+    Return a copy of the string with leading and trailing characters removed. If chars is omitted, whitespace characters are removed. 
+    If chars is given, the characters in the string will be stripped from the both ends of Text.
+}
+function SimbaExt.StrStrip(const Text:String; Chars:String=' '): String;
+begin
+  Result := exp_StrStrip(Text, Chars);
+end;
+
+
+{!DOCREF} {
+  @method: function se.StrStripL(const Text:String; Chars:String=' '): String;
+  @desc: 
+    Return a copy of the string with leading removed. If chars is omitted, whitespace characters are removed. 
+    If chars is given, the characters in the string will be stripped from the beginning of Text.
+}
+function SimbaExt.StrStripL(const Text:String; Chars:String=' '): String;
+begin
+  Result := exp_StrStripL(Text, Chars);
+end;
+
+
+{!DOCREF} {
+  @method: function se.StrStripR(const Text:String; Chars:String=' '): String;
+  @desc: 
+    Return a copy of the string with trailing removed. If chars is omitted, whitespace characters are removed. 
+    If chars is given, the characters in the string will be stripped from the end of Text.
+}
+function SimbaExt.StrStripR(const Text:String; Chars:String=' '): String;
+begin
+  Result := exp_StrStripR(Text, Chars);
+end; 
+
+
 {!DOCREF} {
   @method: function se.StrPosEx(const SubStr, Text:String): TIntegerArray;
   @desc: Same as 'String.PosMulti(..)', returns all the positions where the substring was found.

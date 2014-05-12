@@ -27,7 +27,7 @@ function ImFindColorTolExLAB(const ImgArr:T2DIntArray; var TPA:TPointArray; Colo
 implementation
 
 uses
-  ColorMath, HashMap, CoreMath, PointList, MatrixMath, MatrixOps;
+  ColorMath, HashMap, CoreMath, PointList, MatrixMath;
 
 
 

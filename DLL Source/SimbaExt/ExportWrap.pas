@@ -97,6 +97,7 @@ begin
 end;
 
 
+
 {*-----------------------------------------------------------------------------|
 | Numeric.pas                                                                  |
 |-----------------------------------------------------------------------------*}
@@ -788,8 +789,23 @@ end;
 
 
 {*-----------------------------------------------------------------------------|
-| StringTools.pas                                                                  |
+| StringTools.pas                                                              |
 |-----------------------------------------------------------------------------*}
+function exp_StrStrip(const Text, Chars: String): String; Cdecl;
+begin
+  Result := StrStrip(Text,Chars);
+end;
+
+function exp_StrStripL(const Text, Chars: String): String; Cdecl;
+begin
+  Result := StrStripL(Text,Chars);
+end;
+
+function exp_StrStripR(const Text, Chars: String): String; Cdecl;
+begin
+  Result := StrStripR(Text,Chars);
+end;
+
 procedure exp_StrPosEx(const SubStr, Text:String; var Result:TIntArray); Cdecl;
 begin
   Result := StrPosEx(SubStr, Text);

@@ -252,32 +252,56 @@ end;
 
 
 {!DOCREF} {
-  @method: function String.Strip(): String;
-  @desc:   Strips all white-spaces at the beginning and ending of a string.
+  @method: function String.Strip(const Chars:String=' '): String;
+  @desc:
+    Return a copy of the string with leading and trailing characters removed. If chars is omitted, whitespace characters are removed. 
+    If chars is given, the characters in the string will be stripped from the both ends of the string this method is called on.
+    [code=pascal]
+      >>> WriteLn( '   spacious   '.Strip() );
+      'spacious'
+      >>> WriteLn( 'www.example.com'.Strip('cmow.') ); 
+      'example'
+    [/code]
 }
-function String.Strip(): String;
+function String.Strip(const Chars:String=' '): String;
 begin
-  Result := Trim(Self);
+  Result := exp_StrStrip(Self, Chars);
 end;
 
 
 {!DOCREF} {
-  @method: function String.lStrip(): String;
-  @desc:   Strips all white-spaces at the beginning of a string.
+  @method: function String.lStrip(const Chars:String=' '): String;
+  @desc: 
+    Return a copy of the string with leading removed. If chars is omitted, whitespace characters are removed. 
+    If chars is given, the characters in the string will be stripped from the beginning  of the string this method is called on.
+    [code=pascal]
+      >>> WriteLn( '   spacious   '.lStrip() );
+      'spacious   '
+      >>> WriteLn( 'www.example.com'.lStrip('cmowz.') ); 
+      'example.com'
+    [/code]
 }
-function String.lStrip(): String;
+function String.lStrip(const Chars:String=' '): String;
 begin
-  Result := TrimLeft(Self);
+  Result := exp_StrStripL(Self, Chars);
 end;
 
 
 {!DOCREF} {
-  @method: function String.rStrip(): String;
-  @desc:   Strips all white-spaces at the beginning and ending of a string.
+  @method: function String.rStrip(const Chars:String=' '): String;
+  @desc:  
+    Return a copy of the string with trailing removed. If chars is omitted, whitespace characters are removed. 
+    If chars is given, the characters in the string will be stripped from the end  of the string this method is called on.
+    [code=pascal]
+      >>> WriteLn( '   spacious   '.rStrip() );
+      '   spacious'
+      >>> WriteLn( 'mississippi'.rStrip('ipz') ); 
+      'mississ'
+    [/code]
 }
-function String.rStrip(): String;
+function String.rStrip(const Chars:String=' '): String;
 begin
-  Result := TrimRight(Self);
+  Result := exp_StrStripR(Self, Chars);
 end;
 
 

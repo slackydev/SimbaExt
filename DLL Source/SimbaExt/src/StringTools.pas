@@ -11,15 +11,61 @@ interface
 uses
   SysUtils, CoreTypes;
 
+function StrStrip(const Text, Chars:String): String;
+function StrStripL(const Text, Chars:String): String;
+function StrStripR(const Text, Chars:String): String;
+
 function StrPosEx(const SubStr, Text:String): TIntArray;
 function StrPosL(const SubStr, Text: String): Integer;
 function StrPosR(const SubStr, Text: String): Integer;
+
 function StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;
 function StrExplode(const Text, Sep: String): TStrArray;
 
 
 //-----------------------------------------------------------------------
 implementation
+
+{*
+  Return a copy of the string with leading and trailing characters removed.
+*}
+function StrStrip(const Text, Chars:String): String;
+var Lo,Hi: Int32;
+begin
+  Lo:=1;
+  Hi:=Length(Text);
+  while (Lo <= Hi) and (Pos(Text[Lo],Chars) <> 0) do Inc(Lo);
+  while (Hi >= 1)  and (Pos(Text[Hi],Chars) <> 0) do Dec(Hi);
+  Result := Copy(Text, Lo, Hi-Lo+1);
+end;  
+
+
+{*
+  Return a copy of the string with leading characters removed.
+*}
+function StrStripL(const Text, Chars:String): String;
+var Lo,Hi: Int32;
+begin
+  Lo:=1;
+  Hi:=Length(Text);
+  while (Lo <= Hi) and (Pos(Text[Lo],Chars) <> 0) do Inc(Lo);
+  Result := Copy(Text, Lo, Hi-Lo+1);
+end;  
+
+
+{*
+  Return a copy of the string with trailing characters removed.
+*}
+function StrStripR(const Text, Chars:String): String;
+var Lo,Hi: Int32;
+begin
+  Lo:=1;
+  Hi:=Length(Text);
+  while (Hi >= 1) and (Pos(Text[Hi],Chars) <> 0) do Dec(Hi);
+  Result := Copy(Text, Lo, Hi-Lo+1);
+end;  
+
+
 
 {*
   Returns all positions of the given pattern/substring.

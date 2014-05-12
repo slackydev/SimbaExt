@@ -230,6 +230,9 @@ begin
 
 
   // StringTools.pas
+  AddCommand(@exp_StrStrip,	    'function exp_StrStrip(const Text, Chars: String): String;');
+  AddCommand(@exp_StrStripL,	    'function exp_StrStripL(const Text, Chars: String): String;');
+  AddCommand(@exp_StrStripR,	    'function exp_StrStripR(const Text, Chars: String): String;');
   AddCommand(@exp_StrPosEx,	    'procedure exp_StrPosEx(const SubStr, Text:String; var Result:TIntegerArray);');
   AddCommand(@exp_StrPosL,          'function exp_StrPosL(const SubStr, Text: String): Integer;');
   AddCommand(@exp_StrPosR,          'function exp_StrPosR(const SubStr, Text: String): Integer;');
