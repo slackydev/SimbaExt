@@ -12,10 +12,12 @@ interface
 uses
   CoreTypes, Math, SysUtils;
 
+function SumTBA(const Arr: CoreTypes.TByteArray): Int64; Inline;
 function SumTIA(const Arr: TIntArray): Int64; Inline; 
 function SumTEA(const Arr: TExtArray): Extended; Inline; 
 function TIACombinations(const Arr: TIntArray; Seq:Integer): T2DIntArray; 
 function TEACombinations(const Arr: TExtArray; Seq:Integer): T2DExtArray; 
+procedure MinMaxTBA(const Arr: CoreTypes.TByteArray; var Min:Byte; var Max: Byte); Inline;
 procedure MinMaxTIA(const Arr: TIntArray; var Min:Integer; var Max: Integer); Inline; 
 procedure MinMaxTEA(const Arr: TExtArray; var Min:Extended; var Max: Extended); Inline; 
 function TIAMatches(const Arr1, Arr2:TIntArray; InPercent, Inversed:Boolean): Integer; 
@@ -23,6 +25,17 @@ function LogscaleTIA(const Freq:TIntArray; Scale: Integer): TIntArray;
 
 //--------------------------------------------------
 implementation
+
+{*
+  Sum of a TBA.
+*}
+function SumTBA(const Arr: CoreTypes.TByteArray): Int64; Inline;
+var i:Integer;
+begin
+  Result := 0;
+  for i:=Low(Arr) to High(Arr) do
+    Result := Result + Arr[i];
+end;
 
 
 {*
@@ -121,6 +134,25 @@ begin
   end;
   SetLength(Indices, 0);
 end;
+
+
+{*
+  Finds the minimum and maximum of a TBA.
+*}
+procedure MinMaxTBA(const Arr: CoreTypes.TByteArray; var Min:Byte; var Max: Byte); Inline;
+var i:Integer;
+begin
+  Min := Arr[0];
+  Max := Arr[0];
+  for i:=Low(Arr) to High(Arr) do
+  begin
+    if Arr[i] < Min then
+      Min := Arr[i]
+    else if Arr[i] > Max then
+      Max := Arr[i];
+  end;
+end;
+
 
 {*
   Finds the minimum and maximum of a TIA.

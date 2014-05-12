@@ -90,7 +90,9 @@ end;
 
 {!DOCREF} {
   @method: procedure TStringArray.Sort(key:TSortKey=sort_Default; IgnoreCase:Boolean=False);
-  @desc: Sorts the array
+  @desc: 
+    Sorts the array of strings
+    Supported keys: c'sort_Default, sort_lex, sort_logical'
 }
 procedure TStringArray.Sort(key:TSortKey=sort_Default; IgnoreCase:Boolean=False);
 begin
@@ -107,6 +109,7 @@ end;
   @method: function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
   @desc:  
     Sorts and returns a copy of the array.
+    Supports the keys: c'sort_Default, sort_lex, sort_logical'
     [note]Partial, key not supported fully yet[/note]
 }
 function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
@@ -127,7 +130,6 @@ end;
   @method: function TStringArray.Reversed(): TStringArray;
   @desc:  
     Creates a reversed copy of the array
-  
 }
 function TStringArray.Reversed(): TStringArray;
 var hi,i:Int32;
@@ -143,7 +145,6 @@ end;
   @method: procedure TStringArray.Reverse();
   @desc:  
     Reverses the array  
-  
 }
 procedure TStringArray.Reverse();
 var
@@ -158,4 +159,44 @@ begin
     Self[Hi-i] := Self[i];
     Self[i] := tmp;
   end;
+end;
+
+
+{!DOCREF} {
+  @method: function TStringArray.Mode(IgnoreCase:Boolean=True): String;
+  @desc:  
+    Returns the sample mode of the array, which is the most frequently occurring value in the array.
+    When there are multiple values occurring equally frequently, mode returns the "smallest" of those values.
+    [code=pascal]
+    var Arr: TStringArray = ['red', 'blue', 'blue', 'red', 'green', 'red', 'red'];
+    begin
+      WriteLn(Arr.Mode());
+    end.
+    [/code]
+}
+function TStringArray.Mode(IgnoreCase:Boolean=True): String;
+var
+  arr:TStringArray;
+  cur:String;
+  i,hits,best: Int32;
+begin
+  arr := self.sorted(sort_lex,IgnoreCase);
+  cur := arr[0];
+  hits := 1;
+  best := 0;
+  for i := 1 to High(Arr) do
+  begin
+    if (cur <> arr[i]) then
+    begin
+      if (hits > best) then
+      begin
+        best := hits;
+        Result := cur;
+      end;
+      hits := 0;
+      cur := Arr[I];
+    end;
+    Inc(hits);
+  end;
+  if (hits > best) then Result := cur;
 end;

@@ -244,7 +244,9 @@ end;
 
 {!DOCREF} {
   @method: function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
-  @desc: Sorts a copy of the TPA
+  @desc: 
+    Sorts a copy of the TPA
+    Supported keys: c'sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
 }
 function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
 begin
@@ -273,7 +275,9 @@ end;
 
 {!DOCREF} {
   @method: procedure TPointArray.Sort(Key:TSortKey=sort_Default);
-  @desc: Sorts the TPA
+  @desc: 
+    Sorts the TPA
+    Supported keys: c'sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
 }
 procedure TPointArray.Sort(Key:TSortKey=sort_Default);
 begin

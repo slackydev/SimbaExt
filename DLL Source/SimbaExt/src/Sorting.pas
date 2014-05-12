@@ -43,6 +43,7 @@ procedure ShellSortTIA(var Arr: TIntArray);
 procedure ShellSortTEA(var Arr: TExtArray);
 procedure ShellSortTPA(var Arr: TPointArray; Weight:TIntArray);
 
+procedure SortTBA(var Arr: CoreTypes.TByteArray);
 procedure SortTIA(var Arr: TIntArray);
 procedure SortTEA(var Arr: TExtArray);
 
@@ -61,6 +62,11 @@ procedure SortATPAByMean(var Arr:T2DPointArray);
 procedure SortATPAByFirst(var Arr:T2DPointArray);
 procedure SortATPAByIndex(var Arr:T2DPointArray; index:Int32);
 
+procedure SortATBAByLength(var Arr:T2DByteArray);
+procedure SortATBAByMean(var Arr:T2DByteArray);
+procedure SortATBAByFirst(var Arr:T2DByteArray);
+procedure SortATBAByIndex(var Arr:T2DByteArray; index:Int32);
+
 procedure SortATIAByLength(var Arr:T2DIntArray);
 procedure SortATIAByMean(var Arr:T2DIntArray);
 procedure SortATIAByFirst(var Arr:T2DIntArray);
@@ -71,6 +77,7 @@ procedure SortATEAByMean(var Arr:T2DExtArray);
 procedure SortATEAByFirst(var Arr:T2DExtArray);
 procedure SortATEAByIndex(var Arr:T2DExtArray; index:Int32);
 
+
 //-----------------------------------------------------------------------||
 implementation
 uses 
@@ -78,10 +85,12 @@ uses
 
 {$I Sorting/SortingBase.pas}
 {$I Sorting/TPASort.pas}
+{$I Sorting/TBASort.pas}
 {$I Sorting/TIASort.pas}
 {$I Sorting/TEASort.pas}
 {$I Sorting/TSASort.pas}
 {$I Sorting/ATPASort.pas}
+{$I Sorting/ATBASort.pas}
 {$I Sorting/ATIASort.pas}
 {$I Sorting/ATEASort.pas}
 

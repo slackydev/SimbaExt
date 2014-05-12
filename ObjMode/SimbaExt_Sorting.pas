@@ -3,6 +3,15 @@
 }
 
 {!DOCREF} {
+  @method: procedure se.SortTBA(var Arr: TByteArray);  
+  @desc: Sorts the TBA from low to high
+}
+procedure SimbaExt.SortTBA(var Arr: TByteArray);
+begin
+  exp_SortTBA(Arr);
+end;
+
+{!DOCREF} {
   @method: procedure se.SortTIA(var Arr: TIntArray);  
   @desc: Sorts the TIA from low to high
 }
@@ -136,6 +145,45 @@ begin
   exp_SortATPAByIndex(Arr, Index);
 end;
 
+
+
+
+//ATBA
+{!DOCREF} {
+  @method: procedure se.SortATBAByLength(var Arr: T2DByteArray);  
+  @desc: Sorts an 'Array of TByteArray' from low to high by array length
+}
+procedure SimbaExt.SortATBAByLength(var Arr: T2DByteArray);  
+begin
+  exp_SortATBAByLength(Arr);
+end;
+
+{!DOCREF} {
+  @method: procedure se.SortATIAByMean(var Arr: T2DByteArray);  
+  @desc: Sorts an 'Array of TByteArray' from low to high by array mean
+}
+procedure SimbaExt.SortATBAByMean(var Arr: T2DByteArray);  
+begin
+  exp_SortATBAByMean(Arr);
+end;
+
+{!DOCREF} {
+  @method: procedure se.SortATBAByFirst(var Arr: T2DByteArray);
+  @desc: Sorts an 'Array of TByteArray' from low to high by arrays first item
+}
+procedure SimbaExt.SortATBAByFirst(var Arr: T2DByteArray);  
+begin
+  exp_SortATBAByFirst(Arr);
+end;
+
+{!DOCREF} {
+  @method: procedure se.SortATBAByIndex(var Arr: T2DByteArray; Index: Int32);
+  @desc: Sorts an 'Array of TByteArray' from low to high by the selected array item
+}
+procedure SimbaExt.SortATBAByIndex(var Arr: T2DByteArray; Index: Int32);  
+begin
+  exp_SortATBAByIndex(Arr, Index);
+end;
 
 
 

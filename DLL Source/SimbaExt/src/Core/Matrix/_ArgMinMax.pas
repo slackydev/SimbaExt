@@ -7,6 +7,25 @@
 {*
  Find the maximum value in a matrix, returning that position.
 *}
+function ArgMax(Mat:T2DByteArray): TPoint; overload;
+var 
+  X,Y,W,H:Integer;
+begin
+  Result := Point(0,0);
+  H := High(Mat);
+  W := High(Mat[0]);
+  for Y:=0 to H do
+    for X:=0 to W do
+      if Mat[Y][X] > Mat[Result.y][Result.x] then
+      begin 
+        Result.x := x;
+        Result.y := y;
+      end;
+end;
+
+{*
+ Find the maximum value in a matrix, returning that position.
+*}
 function ArgMax(Mat:T2DIntArray): TPoint; overload;
 var 
   X,Y,W,H:Integer;
@@ -75,10 +94,26 @@ begin
 end;
 
 
-
 {*
  Find the minimum value in a matrix, returning that position.
 *}
+function ArgMin(Mat:T2DByteArray): TPoint; overload;
+var 
+  X,Y,W,H:Integer;
+begin
+  Result := Point(0,0);
+  H := High(Mat);
+  W := High(Mat[0]);
+  for Y:=0 to H do
+    for X:=0 to W do
+      if Mat[Y][X] < Mat[Result.y][Result.x] then
+      begin 
+        Result.x := x;
+        Result.y := y;
+      end;
+end;
+
+
 function ArgMin(Mat:T2DIntArray): TPoint; overload;
 var 
   X,Y,W,H:Integer;
@@ -160,6 +195,24 @@ end;
 {*
  Find the maximum value in a matrix, returning that position.
 *}
+function ArgMax(Mat:T2DByteArray; B:TBox): TPoint; overload;
+var 
+  X,Y,W,H:Integer;
+begin
+  H := High(Mat);
+  W := High(Mat[0]);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
+  for Y:=B.y1 to B.y2 do
+    for X:=B.x1 to B.x2 do
+      if Mat[Y][X] > Mat[Result.y][Result.x] then
+      begin 
+        Result.x := x;
+        Result.y := y;
+      end;
+end;
+
+
 function ArgMax(Mat:T2DIntArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;
@@ -236,6 +289,24 @@ end;
 {*
  Find the minimum value in a matrix, returning that position.
 *}
+function ArgMin(Mat:T2DByteArray; B:TBox): TPoint; overload;
+var 
+  X,Y,W,H:Integer;
+begin
+  H := High(Mat);
+  W := High(Mat[0]);
+  WrapAroundBox(B, W+1,H+1);
+  Result := Point(B.x1,B.y1);
+  for Y:=B.y1 to B.y2 do
+    for X:=B.x1 to B.x2 do
+      if Mat[Y][X] < Mat[Result.y][Result.x] then
+      begin 
+        Result.x := x;
+        Result.y := y;
+      end;
+end;
+
+
 function ArgMin(Mat:T2DIntArray; B:TBox): TPoint; overload;
 var 
   X,Y,W,H:Integer;

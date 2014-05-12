@@ -18,7 +18,7 @@
     Call GetEnviron to retrieve the value of an environment variable
     [code=pascal]
     begin
-      WriteLn(GetEnviron('PATH'));
+      WriteLn(OS.GetEnviron('PATH'));
     end.
     [/code]
 }

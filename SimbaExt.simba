@@ -11,6 +11,7 @@ type
   T2DFloatArray   = Array of TFloatArray;
   T2DDoubleArray  = Array of TDoubleArray;
   
+  TByteMatrix   = Array of TByteArray;
   TIntMatrix    = Array of TIntArray;
   TExtMatrix    = Array of TExtArray;
   TFloatMatrix  = Array of TFloatArray;
@@ -20,7 +21,7 @@ type
   TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
   
   TSortKey  = ( 
-    sort_Default, sort_Magnitude, sort_ByPoint, sort_ByColumn, sort_ByRow, sort_ByX,
+    sort_Default, sort_Magnitude, sort_ByColumn, sort_ByRow, sort_ByX,
     sort_ByY, sort_Length, sort_First, sort_Index, sort_Mean, sort_Lex, sort_Logical
   );
   
@@ -201,15 +202,14 @@ end;
       sort_ByRow,
       sort_ByX,
       sort_ByY,
-      - 2D including TSA
+      - 2D
       sort_Length,          //Default: Array length used in 2D-sorting
       sort_First,
       sort_Index,
-      - 2D TPA spesific
       sort_Mean,
       - TSA
-      sort_Lex              //Default: TStrArray Sorting
-      sort_Logical,
+      sort_Lex,              //Default: TStrArray Sorting
+      sort_Logical
     [/code]
 }
 
@@ -228,6 +228,7 @@ end;
     
     Supported matrix types:
     [code=pascal]
+      TByteMatrix    = T2DByteArray;
       TIntMatrix    = T2DIntArray;
       TExtMatrix    = T2DExtArray;
       TFloatMatrix  = T2DFloatArray;

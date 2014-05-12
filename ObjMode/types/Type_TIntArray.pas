@@ -72,7 +72,9 @@ end;
 
 {!DOCREF} {
   @method: procedure TIntArray.Sort(key:TSortKey=sort_Default);
-  @desc: Sorts the array
+  @desc: 
+    Sorts the array
+    Supports the keys: c'sort_Default'
 }
 procedure TIntArray.Sort(key:TSortKey=sort_Default);
 begin
@@ -86,7 +88,9 @@ end;
 
 {!DOCREF} {
   @method: function TIntArray.Sorted(key:TSortKey=sort_Default): TIntArray;
-  @desc:  Sorts and returns a copy of the array.
+  @desc: 
+    Sorts and returns a copy of the array.
+    Supports the keys: c'sort_Default'
 }
 function TIntArray.Sorted(Key:TSortKey=sort_Default): TIntArray;
 begin
@@ -157,10 +161,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Avg(): Extended;
+  @method: function TIntArray.Mean(): Extended;
   @desc:Returns the mean value of the array. Use round, trunc or floor to get an c'Int' value.
 }
-function TIntArray.Avg(): Extended;
+function TIntArray.Mean(): Extended;
 begin
   Result := Self.Sum64() / Length(Self);
 end;
@@ -174,14 +178,32 @@ end;
 function TIntArray.Stdev(): Extended;
 var
   i:Int32;
-  mean:Extended;
+  avg:Extended;
   square:TExtArray;
 begin
-  mean := Self.Avg();
+  avg := Self.Mean();
   SetLength(square,Length(Self));
-  for i:=0 to High(self) do Square[i] := Sqr(Self[i] - mean);
-  Result := sqrt(square.Avg());
+  for i:=0 to High(self) do Square[i] := Sqr(Self[i] - avg);
+  Result := sqrt(square.Mean());
 end;
+
+
+{!DOCREF} {
+  @method: function TIntArray.Variance(): Extended;
+  @desc: 
+    Return the sample variance. 
+    Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
+}
+function TIntArray.Variance(): Extended;
+var
+  avg:Extended;
+  i:Int32;
+begin
+  avg := Self.Mean();
+  for i:=0 to High(Self) do
+    Result := Result + Sqr(Self[i] - avg);
+  Result := Result / length(self);
+end; 
 
 
 
@@ -197,10 +219,10 @@ var
   i,cur,hits,best: Int32;
 begin
   arr := self.sorted();
-  cur := arr[0]-1;
-  hits := 0;
+  cur := arr[0];
+  hits := 1;
   best := 0;
-  for i := 0 to High(Arr) do
+  for i:=1 to High(Arr) do
   begin
     if (cur <> arr[i]) then
     begin
@@ -214,6 +236,7 @@ begin
     end;
     Inc(hits);
   end;
+  if (hits > best) then Result := cur;
 end;
 
 

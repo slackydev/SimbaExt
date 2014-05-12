@@ -100,6 +100,11 @@ end;
 {*-----------------------------------------------------------------------------|
 | Numeric.pas                                                                  |
 |-----------------------------------------------------------------------------*}
+function exp_SumTBA(const Arr: TByteArray): Int64; Cdecl;
+begin
+  Result := SumTBA(Arr);
+end;
+
 function exp_SumTIA(const Arr: TIntArray): Int64; Cdecl;
 begin
   Result := SumTIA(Arr);
@@ -118,6 +123,11 @@ end;
 procedure exp_TEACombinations(const Arr: TExtArray; Seq:Integer; var Result: T2DExtArray); Cdecl;
 begin
   Result := TEACombinations(Arr, Seq);
+end;
+
+procedure exp_MinMaxTBA(const Arr: TByteArray; var Min:Byte; var Max:Byte); Cdecl;
+begin
+  MinMaxTBA(Arr, Min,Max);
 end;
 
 procedure exp_MinMaxTIA(const Arr: TIntArray; var Min:Integer; var Max: Integer); Cdecl;
@@ -147,6 +157,11 @@ end;
 {*-----------------------------------------------------------------------------|
 | Sorting.pas                                                                  |
 |-----------------------------------------------------------------------------*}
+procedure exp_SortTBA(var Arr: CoreTypes.TByteArray); Cdecl;
+begin
+  SortTBA(Arr);
+end;
+
 procedure exp_SortTIA(var Arr: TIntArray); Cdecl;
 begin
   SortTIA(Arr);
@@ -218,6 +233,27 @@ end;
 procedure exp_SortATPAByIndex(var Arr:T2DPointArray; index:Int32); Cdecl;
 begin
   SortATPAByIndex(Arr, index);
+end;
+
+//--------
+procedure exp_SortATBAByLength(var Arr:T2DByteArray); Cdecl;
+begin
+  SortATBAByLength(Arr);
+end;
+
+procedure exp_SortATBAByMean(var Arr:T2DByteArray); Cdecl;
+begin
+  SortATBAByMean(Arr);
+end;
+
+procedure exp_SortATBAByFirst(var Arr:T2DByteArray); Cdecl;
+begin
+  SortATBAByFirst(Arr);
+end;
+
+procedure exp_SortATBAByIndex(var Arr:T2DByteArray; index:Int32); Cdecl;
+begin
+  SortATBAByIndex(Arr, index);
 end;
 
 //--------
@@ -808,6 +844,10 @@ end;
 {*-----------------------------------------------------------------------------|
 | MatrixOps.pas                                                                |
 |-----------------------------------------------------------------------------*}
+procedure exp_IndicesB(const Mat:T2DByteArray; Value: Byte; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, Value, Comparator);
+end;
 
 procedure exp_IndicesI(const Mat:T2DIntArray; Value: Integer; const Comparator:TComparator; var Result: TPointArray); Cdecl;
 begin
@@ -831,6 +871,11 @@ end;
 
 
 {-------| Extended version of Indices |-------}
+procedure exp_IndicesExB(const Mat:T2DByteArray; B:TBox; Value: Byte; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+begin
+  Result := Indices(Mat, B, Value, Comparator);
+end;
+
 procedure exp_IndicesExI(const Mat:T2DIntArray; B:TBox; Value: Integer; const Comparator:TComparator; var Result: TPointArray); Cdecl;
 begin
   Result := Indices(Mat, B, Value, Comparator);
@@ -851,6 +896,11 @@ begin
   Result := Indices(Mat, B, Value, Comparator);
 end;
 
+
+procedure exp_MinMaxB(Mat:T2DByteArray; var Min, Max:Byte); Cdecl;
+begin
+  MinMax(Mat, Min, Max);
+end;
 
 procedure exp_MinMaxI(Mat:T2DIntArray; var Min, Max:Integer); Cdecl;
 begin
@@ -874,6 +924,11 @@ end;
 
 
 //argmax
+function exp_ArgMaxB(Mat:T2DByteArray): TPoint; Cdecl;
+begin
+  Result := ArgMax(Mat);
+end;
+
 function exp_ArgMaxI(Mat:T2DIntArray): TPoint; Cdecl;
 begin
   Result := ArgMax(Mat);
@@ -895,6 +950,11 @@ begin
 end;
 
 //argmin
+function exp_ArgMinB(Mat:T2DByteArray): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat);
+end;
+
 function exp_ArgMinI(Mat:T2DIntArray): TPoint; Cdecl;
 begin
   Result := ArgMin(Mat);
@@ -918,6 +978,11 @@ end;
 
 {-------| Extended version of argmin/max |-------}
 //argmax
+function exp_ArgMaxExB(Mat:T2DByteArray; B:TBox): TPoint; Cdecl;
+begin
+  Result := ArgMax(Mat,B);
+end;
+
 function exp_ArgMaxExI(Mat:T2DIntArray; B:TBox): TPoint; Cdecl;
 begin
   Result := ArgMax(Mat,B);
@@ -939,6 +1004,11 @@ begin
 end;
 
 //argmin
+function exp_ArgMinExB(Mat:T2DByteArray; B:TBox): TPoint; Cdecl;
+begin
+  Result := ArgMin(Mat,B);
+end;
+
 function exp_ArgMinExI(Mat:T2DIntArray; B:TBox): TPoint; Cdecl;
 begin
   Result := ArgMin(Mat,B);

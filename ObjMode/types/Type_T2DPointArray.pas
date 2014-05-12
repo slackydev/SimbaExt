@@ -83,7 +83,9 @@ end;
 
 {!DOCREF} {
   @method: function T2DPointArray.Sorted(Key:TSortKey=sort_Default): T2DPointArray;
-  @desc: Sorts a copy of the ATPA with the given key, returns a copy
+  @desc: 
+    Sorts a copy of the ATPA with the given key, returns a copy
+    Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
 function T2DPointArray.Sorted(Key:TSortKey=sort_Default): T2DPointArray;
 begin
@@ -111,7 +113,9 @@ end;
 
 {!DOCREF} {
   @method: procedure T2DPointArray.Sort(Key:TSortKey=sort_Default);
-  @desc: Sorts the ATPA with the given key, returns a copy
+  @desc: 
+    Sorts the ATPA with the given key, returns a copy
+    Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
 procedure T2DPointArray.Sort(Key:TSortKey=sort_Default);
 begin

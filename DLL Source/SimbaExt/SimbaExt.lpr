@@ -87,15 +87,18 @@ begin
 
 
   // Numeric.pas
+  AddCommand(@exp_SumTBA,	'function exp_SumTBA(const Arr: TByteArray): Int64;');
   AddCommand(@exp_SumTIA,	'function exp_SumTIA(const Arr: TIntegerArray): Int64;');
   AddCommand(@exp_SumTEA,	'function exp_SumTEA(const Arr: TExtendedArray): Extended;');
   AddCommand(@exp_TIACombinations,	'procedure exp_TIACombinations(const Arr: TIntegerArray; Seq:Integer; var Result: T2DIntegerArray);');
   AddCommand(@exp_TEACombinations,	'procedure exp_TEACombinations(const Arr: TExtendedArray; Seq:Integer; var Result: T2DExtendedArray);');
+  AddCommand(@exp_MinMaxTBA,	'procedure exp_MinMaxTBA(const Arr: TByteArray; var Min:Byte; var Max:Byte);');
   AddCommand(@exp_MinMaxTIA,	'procedure exp_MinMaxTIA(const Arr: TIntegerArray; var Min:Integer; var Max: Integer);');
   AddCommand(@exp_MinMaxTEA,	'procedure exp_MinMaxTEA(const Arr: TExtendedArray; var Min:Extended; var Max: Extended);');
 
 
   // Sorting.pas
+  AddCommand(@exp_SortTBA,	'procedure exp_SortTBA(var Arr: TByteArray);');
   AddCommand(@exp_SortTIA,	'procedure exp_SortTIA(var Arr: TIntegerArray);');
   AddCommand(@exp_SortTEA,	'procedure exp_SortTEA(var Arr: TExtendedArray);');
   AddCommand(@exp_SortTPA,	'procedure exp_SortTPA(var Arr: TPointArray);');
@@ -110,6 +113,10 @@ begin
   AddCommand(@exp_SortATPAByMean,	'procedure exp_SortATPAByMean(var Arr:T2DPointArray);');
   AddCommand(@exp_SortATPAByFirst,	'procedure exp_SortATPAByFirst(var Arr:T2DPointArray);');
   AddCommand(@exp_SortATPAByIndex,	'procedure exp_SortATPAByIndex(var Arr:T2DPointArray; index:Int32);');
+  AddCommand(@exp_SortATBAByLength,	'procedure exp_SortATBAByLength(var Arr:T2DByteArray);');
+  AddCommand(@exp_SortATBAByMean,	'procedure exp_SortATBAByMean(var Arr:T2DByteArray);');
+  AddCommand(@exp_SortATBAByFirst,	'procedure exp_SortATBAByFirst(var Arr:T2DByteArray);');
+  AddCommand(@exp_SortATBAByIndex,	'procedure exp_SortATBAByIndex(var Arr:T2DByteArray; index:Int32);');
   AddCommand(@exp_SortATIAByLength,	'procedure exp_SortATIAByLength(var Arr:T2DIntArray);');
   AddCommand(@exp_SortATIAByMean,	'procedure exp_SortATIAByMean(var Arr:T2DIntArray);');
   AddCommand(@exp_SortATIAByFirst,	'procedure exp_SortATIAByFirst(var Arr:T2DIntArray);');
@@ -244,32 +251,39 @@ begin
 
 
   // MatrixOps.pas
+  AddCommand(@exp_IndicesB, 'procedure exp_IndicesB(const Mat:T2DByteArray; Value: Byte; const Comparator:TComparator; var Result: TPointArray);');
   AddCommand(@exp_IndicesI, 'procedure exp_IndicesI(const Mat:T2DIntArray; Value: Integer; const Comparator:TComparator; var Result: TPointArray);');
   AddCommand(@exp_IndicesE, 'procedure exp_IndicesE(const Mat:T2DExtArray; Value: Extended; const Comparator:TComparator; var Result: TPointArray);');
   AddCommand(@exp_IndicesD, 'procedure exp_IndicesD(const Mat:T2DDoubleArray; Value: Double; const Comparator:TComparator; var Result: TPointArray);');
   AddCommand(@exp_IndicesF, 'procedure exp_IndicesF(const Mat:T2DFloatArray; Value: Single; const Comparator:TComparator; var Result: TPointArray);');
+  AddCommand(@exp_IndicesExB, 'procedure exp_IndicesExB(const Mat:T2DByteArray; B:TBox; Value: Integer; const Comparator:TComparator; var Result: TPointArray);');
   AddCommand(@exp_IndicesExI, 'procedure exp_IndicesExI(const Mat:T2DIntArray; B:TBox; Value: Integer; const Comparator:TComparator; var Result: TPointArray);');
   AddCommand(@exp_IndicesExE, 'procedure exp_IndicesExE(const Mat:T2DExtArray; B:TBox; Value: Extended; const Comparator:TComparator; var Result: TPointArray);');
   AddCommand(@exp_IndicesExD, 'procedure exp_IndicesExD(const Mat:T2DDoubleArray; B:TBox; Value: Double; const Comparator:TComparator; var Result: TPointArray);');
   AddCommand(@exp_IndicesExF, 'procedure exp_IndicesExF(const Mat:T2DFloatArray; B:TBox; Value: Single; const Comparator:TComparator; var Result: TPointArray);');
 
+  AddCommand(@exp_MinMaxB, 'procedure exp_MinMaxB(Mat:T2DByteArray; var Min, Max:Byte);');
   AddCommand(@exp_MinMaxI, 'procedure exp_MinMaxI(Mat:T2DIntArray; var Min, Max:Integer);');
   AddCommand(@exp_MinMaxE, 'procedure exp_MinMaxE(Mat:T2DExtArray; var Min, Max:Extended);');
   AddCommand(@exp_MinMaxD, 'procedure exp_MinMaxD(Mat:T2DDoubleArray; var Min, Max:Double);');
   AddCommand(@exp_MinMaxF, 'procedure exp_MinMaxF(Mat:T2DFloatArray; var Min, Max:Single);');
 
+  AddCommand(@exp_ArgMaxB, 'function exp_ArgMaxB(Mat:T2DByteArray): TPoint;');
   AddCommand(@exp_ArgMaxI, 'function exp_ArgMaxI(Mat:T2DIntArray): TPoint;');
   AddCommand(@exp_ArgMaxE, 'function exp_ArgMaxE(Mat:T2DExtArray): TPoint;');
   AddCommand(@exp_ArgMaxD, 'function exp_ArgMaxD(Mat:T2DDoubleArray): TPoint;');
   AddCommand(@exp_ArgMaxF, 'function exp_ArgMaxF(Mat:T2DFloatArray): TPoint;');
+  AddCommand(@exp_ArgMinB, 'function exp_ArgMinB(Mat:T2DByteArray): TPoint;');
   AddCommand(@exp_ArgMinI, 'function exp_ArgMinI(Mat:T2DIntArray): TPoint;');
   AddCommand(@exp_ArgMinE, 'function exp_ArgMinE(Mat:T2DExtArray): TPoint;');
   AddCommand(@exp_ArgMinD, 'function exp_ArgMinD(Mat:T2DDoubleArray): TPoint;');
   AddCommand(@exp_ArgMinF, 'function exp_ArgMinF(Mat:T2DFloatArray): TPoint;');
+  AddCommand(@exp_ArgMaxExB, 'function exp_ArgMaxExB(Mat:T2DByteArray; B:TBox): TPoint;');
   AddCommand(@exp_ArgMaxExI, 'function exp_ArgMaxExI(Mat:T2DIntArray; B:TBox): TPoint;');
   AddCommand(@exp_ArgMaxExE, 'function exp_ArgMaxExE(Mat:T2DExtArray; B:TBox): TPoint;');
   AddCommand(@exp_ArgMaxExD, 'function exp_ArgMaxExD(Mat:T2DDoubleArray; B:TBox): TPoint;');
   AddCommand(@exp_ArgMaxExF, 'function exp_ArgMaxExF(Mat:T2DFloatArray; B:TBox): TPoint;');
+  AddCommand(@exp_ArgMinExB, 'function exp_ArgMinExB(Mat:T2DByteArray; B:TBox): TPoint;');
   AddCommand(@exp_ArgMinExI, 'function exp_ArgMinExI(Mat:T2DIntArray; B:TBox): TPoint;');
   AddCommand(@exp_ArgMinExE, 'function exp_ArgMinExE(Mat:T2DExtArray; B:TBox): TPoint;');
   AddCommand(@exp_ArgMinExD, 'function exp_ArgMinExD(Mat:T2DDoubleArray; B:TBox): TPoint;');

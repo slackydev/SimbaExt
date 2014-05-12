@@ -1,42 +1,42 @@
 {!DOCTOPIC}{ 
-  Type » TExtArray
+  Type » TByteArray
 }
 
 {!DOCREF} {
-  @method: function TExtArray.Clone(): TExtArray;
+  @method: function TByteArray.Clone(): TByteArray;
   @desc: Returns a copy of the array
 }
-function TExtArray.Clone(): TExtArray;
+function TByteArray.Clone(): TByteArray;
 begin
   Result := Copy(Self);
 end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Len(): Int32;
+  @method: function TByteArray.Len(): Int32;
   @desc: Returns the length of the array. Same as 'Length(arr)'
 }
-function TExtArray.Len(): Int32;
+function TByteArray.Len(): Int32;
 begin
   Result := Length(Self);
 end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.IsEmpty(): Boolean;
+  @method: function TByteArray.IsEmpty(): Boolean;
   @desc: Returns True if the array is empty. Same as 'Length(arr) = 0'
 }
-function TExtArray.IsEmpty(): Boolean;
+function TByteArray.IsEmpty(): Boolean;
 begin
   Result := Length(Self) = 0;
 end;
 
 
 {!DOCREF} {
-  @method: procedure TExtArray.Append(const Value:Extended);
+  @method: procedure TByteArray.Append(const Value:Byte);
   @desc: Add another item to the array
 }
-procedure TExtArray.Append(const Value:Extended);
+procedure TByteArray.Append(const Value:Byte);
 var
   l:Int32;
 begin
@@ -47,10 +47,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Pop(): Extended;
+  @method: function TByteArray.Pop(): Byte;
   @desc: Removes and returns the last item in the array
 }
-function TExtArray.Pop(): Extended;
+function TByteArray.Pop(): Byte;
 var H:Int32;
 begin
   H := high(Self);
@@ -60,10 +60,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Slice(Start,Stop: Int32): TExtArray;
+  @method: function TByteArray.Slice(Start,Stop: Int32): TByteArray;
   @desc: Returns a slice of the array
 }
-function TExtArray.Slice(Start,Stop: Int32): TExtArray;
+function TByteArray.Slice(Start,Stop: Int32): TByteArray;
 begin
   if Stop <= -1 then Stop := Length(Self)+Stop;
   Result := Copy(Self, Start, Stop); 
@@ -71,15 +71,15 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TExtArray.Sort(key:TSortKey=sort_Default);
+  @method: procedure TByteArray.Sort(key:TSortKey=sort_Default);
   @desc: 
     Sorts the array
-    Supported keys: c'sort_Default'
+    Supports the keys: c'sort_Default'
 }
-procedure TExtArray.Sort(key:TSortKey=sort_Default);
+procedure TByteArray.Sort(key:TSortKey=sort_Default);
 begin
   case key of
-    sort_default: se.SortTEA(Self);
+    sort_default: se.SortTBA(Self);
   else 
     WriteLn('TSortKey not supported');
   end;
@@ -87,16 +87,16 @@ end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Sorted(key:TSortKey=sort_Default): TExtArray;
+  @method: function TByteArray.Sorted(key:TSortKey=sort_Default): TByteArray;
   @desc: 
     Sorts and returns a copy of the array.
-    Supported keys: c'sort_Default'
+    Supports the keys: c'sort_Default'
 }
-function TExtArray.Sorted(Key:TSortKey=sort_Default): TExtArray;
+function TByteArray.Sorted(Key:TSortKey=sort_Default): TByteArray;
 begin
   Result := Copy(Self);
   case key of
-    sort_default: se.SortTEA(Result);
+    sort_default: se.SortTBA(Result);
   else 
     WriteLn('TSortKey not supported');
   end;
@@ -106,12 +106,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Reversed(): TExtArray;
+  @method: function TByteArray.Reversed(): TByteArray;
   @desc:  
     Creates a reversed copy of the array
   
 }
-function TExtArray.Reversed(): TExtArray;
+function TByteArray.Reversed(): TByteArray;
 var hi,i:Int32;
 begin
   hi := High(Self);
@@ -122,13 +122,13 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TExtArray.Reverse();
+  @method: procedure TByteArray.Reverse();
   @desc: Reverses the array
 }
-procedure TExtArray.Reverse();
+procedure TByteArray.Reverse();
 var
-  i,Hi,Mid: Integer;
-  tmp:Extended;
+  i,Hi,Mid:Int32;
+  tmp:Byte;
 begin
   Hi := High(Self);
   if (Hi < 0) then Exit;
@@ -142,32 +142,41 @@ end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Sum(): Extended;
-  @desc: Adds up the TEA and returns the sum
+  @method: function TByteArray.Sum(): Int32;
+  @desc: Adds up the TIA and returns the sum
 }
-function TExtArray.Sum(): Extended;
+function TByteArray.Sum(): Int32;
 begin
-  Result := se.SumTEA(Self);
+  Result := se.SumTBA(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function TByteArray.Sum64(): Int64;
+  @desc: Adds up the TIA and returns the sum
+}
+function TByteArray.Sum64(): Int64;
+begin
+  Result := se.SumTBA(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function TByteArray.Mean(): Extended;
+  @desc:Returns the mean value of the array. Use round, trunc or floor to get an c'Int' value.
+}
+function TByteArray.Mean(): Extended;
+begin
+  Result := Self.Sum64() / Length(Self);
 end;
 
 
 
 {!DOCREF} {
-  @method: function TExtArray.Mean(): Extended;
-  @desc:Returns the mean value of the array
-}
-function TExtArray.Mean(): Extended;
-begin
-  Result := se.SumTEA(Self) / Length(Self);
-end;
-
-
-
-{!DOCREF} {
-  @method: function TExtArray.Stdev(): Extended;
+  @method: function TByteArray.Stdev(): Extended;
   @desc: Returns the standard deviation of the array
 }
-function TExtArray.Stdev(): Extended;
+function TByteArray.Stdev(): Extended;
 var
   i:Int32;
   avg:Extended;
@@ -179,13 +188,14 @@ begin
   Result := sqrt(square.Mean());
 end;
 
+
 {!DOCREF} {
-  @method: function TExtArray.Variance(): Extended;
+  @method: function TByteArray.Variance(): Extended;
   @desc: 
     Return the sample variance. 
     Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
-function TExtArray.Variance(): Extended;
+function TByteArray.Variance(): Extended;
 var
   avg:Extended;
   i:Int32;
@@ -197,18 +207,18 @@ begin
 end; 
 
 
+
 {!DOCREF} {
-  @method: function TExtArray.Mode(Eps:Extended=0.000001): Extended;
+  @method: function TByteArray.Mode(): Byte;
   @desc:
-    Returns the sample mode of the array, which is the [u]most frequently occurring value[/u] in the array.
+    Returns the sample mode of the array, which is the most frequently occurring value in the array.
     When there are multiple values occurring equally frequently, mode returns the smallest of those values.
-    Takes an extra parameter c'Eps', can be used to allow some tolerance in the floating point comparison.
 }
-function TExtArray.Mode(Eps:Extended=0.0000001): Extended;
+function TByteArray.Mode(): Byte;
 var
-  arr:TExtArray;
+  arr:TByteArray;
+  cur:Byte;
   i,hits,best: Int32;
-  cur:Extended;
 begin
   arr := self.sorted();
   cur := arr[0];
@@ -216,12 +226,12 @@ begin
   best := 0;
   for i:=1 to High(Arr) do
   begin
-    if (arr[i]-cur > eps) then //arr[i] <> cur
+    if (cur <> arr[i]) then
     begin
       if (hits > best) then
       begin
         best := hits;
-        Result := (Cur+Arr[i-1]) / 2; //Eps fix
+        Result := cur;
       end;
       hits := 0;
       cur := Arr[I];
@@ -232,88 +242,106 @@ begin
 end;
 
 
+
 {!DOCREF} {
-  @method: function TExtArray.Min(): Extended;
+  @method: function TByteArray.Min(): Byte;
   @desc: Returns the minimum value in the array
 }
-function TExtArray.Min(): Extended;
-var _:Extended;
+function TByteArray.Min(): Byte;
+var _:Byte;
 begin
-  se.MinMaxTEA(Self,Result,_);
+  se.MinMaxTBA(Self,Result,_);
 end;
 
 
 
 {!DOCREF} {
-  @method: function TExtArray.Max(): Extended;
+  @method: function TByteArray.Max(): Byte;
   @desc: Returns the maximum value in the array
 }
-function TExtArray.Max(): Extended;
-var _:Extended;
+function TByteArray.Max(): Byte;
+var _:Byte;
 begin
-  se.MinMaxTEA(Self,_,Result);
+  se.MinMaxTBA(Self,_,Result);
 end;
 
 
 
 {!DOCREF} {
-  @method: function TExtArray.ArgMin(): Int32;
+  @method: function TByteArray.ArgMin(): Int32;
   @desc: Returns the index containing the smallest element in the array.
 }
-function TExtArray.ArgMin(): Int32;
+function TByteArray.ArgMin(): Int32;
 var 
-  mat:T2DExtArray;
+  mat:T2DByteArray;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMinE(mat).x;
+  Result := exp_ArgMinB(mat).x;
 end;
 
 
 
 {!DOCREF} {
-  @method: function TExtArray.ArgMin(Lo,Hi:int32): Int32; overload;
+  @method: function TByteArray.ArgMin(Lo,Hi:int32): Int32; overload;
   @desc: Returns the index containing the smallest element in the array within the lower and upper bounds c'lo, hi'.
 }
-function TExtArray.ArgMin(lo,hi:Int32): Int32; overload;
+function TByteArray.ArgMin(lo,hi:Int32): Int32; overload;
 var 
   B: TBox;
-  mat:T2DExtArray;
+  mat:T2DByteArray;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMinExE(mat,B).x;
+  Result := exp_ArgMinExB(mat,B).x;
 end;
 
 
 
 {!DOCREF} {
-  @method: function TExtArray.ArgMax(): Int32;
+  @method: function TByteArray.ArgMax(): Int32;
   @desc: Returns the index containing the largest element in the array.
 }
-function TExtArray.ArgMax(): Int32;
+function TByteArray.ArgMax(): Int32;
 var 
-  mat:T2DExtArray;
+  mat:T2DByteArray;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMaxE(mat).x;
+  Result := exp_ArgMaxB(mat).x;
 end;
 
 
 
 {!DOCREF} {
-  @method: function TExtArray.ArgMax(Lo,Hi:int32): Int32; overload;
+  @method: function TByteArray.ArgMax(Lo,Hi:int32): Int32; overload;
   @desc: Returns the index containing the largest element in the array within the lower and upper bounds c'lo, hi'.
 }
-function TExtArray.ArgMax(lo,hi:Int32): Int32; overload;
+function TByteArray.ArgMax(lo,hi:Int32): Int32; overload;
 var 
   B: TBox;
-  mat:T2DExtArray;
+  mat:T2DByteArray;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMaxExE(mat,B).x;
+  Result := exp_ArgMaxExB(mat,B).x;
 end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

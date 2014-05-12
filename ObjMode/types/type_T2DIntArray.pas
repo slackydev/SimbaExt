@@ -94,7 +94,9 @@ end;
 
 {!DOCREF} {
   @method: function T2DIntArray.Sorted(Key:TSortKey=sort_Default): T2DIntArray;
-  @desc: Sorts a copy of the ATIA with the given key, returns a copy
+  @desc: 
+    Sorts a copy of the ATIA with the given key, returns a copy
+    Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
 function T2DIntArray.Sorted(Key:TSortKey=sort_Default): T2DIntArray;
 begin
@@ -110,7 +112,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DIntArray.Sorted(Index:Integer): T2DPointArray; overload;
+  @method: function T2DIntArray.Sorted(Index:Integer): T2DIntArray; overload;
   @desc: Sorts a copy of the ATIA by the given index in each group
 }
 function T2DIntArray.Sorted(Index:Integer): T2DIntArray; overload;
@@ -122,7 +124,9 @@ end;
 
 {!DOCREF} {
   @method: procedure T2DIntArray.Sort(Key:TSortKey=sort_Default);
-  @desc: Sorts the ATIA with the given key, returns a copy
+  @desc: 
+    Sorts the ATIA with the given key, returns a copy
+    Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
 procedure T2DIntArray.Sort(Key:TSortKey=sort_Default);
 begin
@@ -209,14 +213,14 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DIntArray.Avg(): Extended;
+  @method: function T2DIntArray.Mean(): Extended;
   @desc: Returns the mean of the 2d array
 }
-function T2DIntArray.Avg(): Extended;
+function T2DIntArray.Mean(): Extended;
 var i,L: Integer;
 begin
   for i:=0 to High(Self) do
-    Result := Result + Self[i].Avg();
+    Result := Result + Self[i].Mean();
   Result := Result / High(Self);
 end;
 
@@ -230,6 +234,25 @@ begin
   Result := Self.Merge().Stdev();
 end;
 
+
+{!DOCREF} {
+  @method: function T2DIntArray.Variance(): Extended;
+  @desc: 
+    Return the sample variance. 
+    Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
+}
+function T2DIntArray.Variance(): Extended;
+var
+  Arr:TIntArray;
+  avg:Extended;
+  i:Int32;
+begin
+  Arr := Self.Merge();
+  avg := Arr.Mean();
+  for i:=0 to High(Arr) do
+    Result := Result + Sqr(Arr[i] - avg);
+  Result := Result / length(Arr);
+end; 
 
 {!DOCREF} {
   @method: function T2DIntArray.Mode(): Int32;

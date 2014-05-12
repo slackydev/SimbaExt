@@ -68,11 +68,11 @@ end;
     LCH which is LAB-color measured another way should also be "fast enough".
     
     @params:
-      TPA:        The resulting points
-      Color:      The color to search for
-      Area:       A Tbox of where to search.
-      Similarity: 0.0 to 1.0 where +/-1.0 should be exact match.    
-      MatchAlgo:  How we measure color difference: _RGB_, _XYZ_, _LAB_ and _LCH_ 
+    > TPA:        The resulting points
+    > Color:      The color to search for
+    > Area:       A Tbox of where to search.
+    > Similarity: 0.0 to 1.0 where +/-1.0 should be exact match.    
+    > MatchAlgo:  How we measure color difference: _RGB_, _XYZ_, _LAB_ and _LCH_ 
 }
 function SimbaExt.FindColorTolEx(var TPA:TPointArray; Color:Integer; Area:TBox; Similarity:Single; MatchAlgo: TMatchAlgo): Boolean;
 var 

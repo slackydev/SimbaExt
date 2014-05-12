@@ -40,6 +40,29 @@ end;
 
 
 {!DOCREF} {
+  @method: function TIntMatrix.Width(): Int32;
+  @desc: Retruns the width of the matrix (safly)
+}
+function TIntMatrix.Width(): Int32;
+begin
+  if Length(Self) > 0 then
+    Result := Length(Self[0])
+  else
+    Result := 0;
+end;
+
+
+{!DOCREF} {
+  @method: function TIntMatrix.Height(): Int32;
+  @desc: Retruns the height of the matrix
+}
+function TIntMatrix.Height(): Int32;
+begin
+ Result := Length(Self);
+end;
+
+
+{!DOCREF} {
   @method: procedure TIntMatrix.InsertTPA(const TPA:TPointArray; Value:Integer);  
   @desc: Adds the points to the matrix with the given value.
 }
@@ -286,6 +309,29 @@ end;
 
 
 {!DOCREF} {
+  @method: function TFloatMatrix.Width(): Int32;
+  @desc: Retruns the width of the matrix (safly)
+}
+function TFloatMatrix.Width(): Int32;
+begin
+  if Length(Self) > 0 then
+    Result := Length(Self[0])
+  else
+    Result := 0;
+end;
+
+
+{!DOCREF} {
+  @method: function TFloatMatrix.Height(): Int32;
+  @desc: Retruns the height of the matrix
+}
+function TFloatMatrix.Height(): Int32;
+begin
+ Result := Length(Self);
+end;
+
+
+{!DOCREF} {
   @method: function TFloatMatrix.ArgMax(): TPoint;
   @desc: ArgMax returns the index of the largest item
 }
@@ -380,6 +426,29 @@ end;
 procedure TDoubleMatrix.SetSize(Height,Width:Int32);
 begin
   SetLength(Self, Height,Width);
+end;
+
+
+{!DOCREF} {
+  @method: function TDobuleMatrix.Width(): Int32;
+  @desc: Retruns the width of the matrix (safly)
+}
+function TDoubleMatrix.Width(): Int32;
+begin
+  if Length(Self) > 0 then
+    Result := Length(Self[0])
+  else
+    Result := 0;
+end;
+
+
+{!DOCREF} {
+  @method: function TDlobleMatrix.Height(): Int32;
+  @desc: Retruns the height of the matrix
+}
+function TDoubleMatrix.Height(): Int32;
+begin
+ Result := Length(Self);
 end;
 
 
@@ -481,6 +550,29 @@ end;
 procedure TExtMatrix.SetSize(Height,Width:Int32);
 begin
   SetLength(Self, Height,Width);
+end;
+
+
+{!DOCREF} {
+  @method: function TExtMatrix.Width(): Int32;
+  @desc: Retruns the width of the matrix (safly)
+}
+function TExtMatrix.Width(): Int32;
+begin
+  if Length(Self) > 0 then
+    Result := Length(Self[0])
+  else
+    Result := 0;
+end;
+
+
+{!DOCREF} {
+  @method: function TExtMatrix.Height(): Int32;
+  @desc: Retruns the height of the matrix
+}
+function TExtMatrix.Height(): Int32;
+begin
+ Result := Length(Self);
 end;
 
 
