@@ -61,13 +61,21 @@ end;
 
 
 {!DOCREF} {
-  @method: function TPointArray.Slice(Start,Stop: Int32): TPointArray;
-  @desc: Returns a slice of the array
+  @method: function TPointArray.Slice(Start,Stop: Int32; Step:Int32=1): TPointArray;
+  @desc:
+    Slicing similar to slice in Python, tho goes from 'start to and including stop'
+    Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
+    You can give it negative start, and stop, then it will wrap around based on length(..)
+    
+    If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
+    
+    [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TPointArray.Slice(Start,Stop: Int32): TPointArray;
+function TPointArray.Slice(Start,Stop: Int32; Step:Int32=1): TPointArray;
 begin
-  if Stop <= -1 then Stop := Length(Self)+Stop;
-  Result := Copy(Self, Start, Stop);
+  if Step = 0 then Exit;
+  try exp_slice(Self, Start,Stop,Step,Result);
+  except end;
 end;
 
 
@@ -127,7 +135,7 @@ end;
 }
 procedure TPointArray.Reverse();
 begin
-  se.ReverseTPA(Self);
+  Self := Self.Slice(-1,0,-1);
 end; 
 
 
@@ -137,8 +145,7 @@ end;
 }
 function TPointArray.Reversed(): TPointArray;
 begin
-  Result := Self.Clone();
-  se.ReverseTPA(Result);
+  Result := Self.Slice(-1,0,-1);
 end; 
 
 

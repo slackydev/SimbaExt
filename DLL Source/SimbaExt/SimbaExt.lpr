@@ -20,6 +20,7 @@ uses
   CoreMisc,
   MatrixMath,
   MatrixOps,
+  Std,
   PointList,
   Sorting,
   MatrixTools,
@@ -95,6 +96,21 @@ begin
   AddCommand(@exp_MinMaxTBA,	'procedure exp_MinMaxTBA(const Arr: TByteArray; var Min:Byte; var Max:Byte);');
   AddCommand(@exp_MinMaxTIA,	'procedure exp_MinMaxTIA(const Arr: TIntegerArray; var Min:Integer; var Max: Integer);');
   AddCommand(@exp_MinMaxTEA,	'procedure exp_MinMaxTEA(const Arr: TExtendedArray; var Min:Extended; var Max: Extended);');
+
+
+  //Std.pas
+  AddCommand(@exp_Slice1,	'procedure exp_Slice(Arr:TIntArray; Start,Stop,Step:Int32; var Result:TIntArray);');
+  AddCommand(@exp_Slice2,	'procedure exp_Slice(Arr:TExtArray; Start,Stop,Step:Int32; var Result:TExtArray); overload;');
+  AddCommand(@exp_Slice3,	'procedure exp_Slice(Arr:TPointArray; Start,Stop,Step:Int32; var Result:TPointArray); overload;');
+  AddCommand(@exp_Slice4,	'procedure exp_Slice(Arr:TByteArray; Start,Stop,Step:Int32; var Result:TByteArray); overload;');
+  AddCommand(@exp_Slice5,	'procedure exp_Slice(Arr:TBoxArray; Start,Stop,Step:Int32; var Result:TBoxArray); overload;');
+  AddCommand(@exp_Slice6,	'procedure exp_Slice(Arr:String; Start,Stop,Step:Int32; var Result:String); overload;');
+  AddCommand(@exp_Slice7,	'procedure exp_Slice(Arr:T2DIntArray; Start,Stop,Step:Int32; var Result:T2DIntArray); overload;');
+  AddCommand(@exp_Slice8,	'procedure exp_Slice(Arr:T2DExtArray; Start,Stop,Step:Int32; var Result:T2DExtArray); overload;');
+  AddCommand(@exp_Slice9,	'procedure exp_Slice(Arr:T2DPointArray; Start,Stop,Step:Int32; var Result:T2DPointArray); overload;');
+  AddCommand(@exp_Slice10,	'procedure exp_Slice(Arr:T2DByteArray; Start,Stop,Step:Int32; var Result:T2DByteArray); overload;');
+  AddCommand(@exp_Slice11,	'procedure exp_Slice(Arr:T2DBoxArray; Start,Stop,Step:Int32; var Result:T2DBoxArray); overload;');
+  AddCommand(@exp_Slice12,	'procedure exp_Slice(Arr:TStringArray; Start,Stop,Step:Int32; var Result:TStringArray); overload;');
 
 
   // Sorting.pas
@@ -238,13 +254,6 @@ begin
   AddCommand(@exp_StrPosR,          'function exp_StrPosR(const SubStr, Text: String): Integer;');
   AddCommand(@exp_StrReplace,       'function exp_StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;');
   AddCommand(@exp_StrExplode,       'procedure exp_StrExplode(const Text, Sep: String; var Result: TStringArray);');
-
-
-  // Something extra..
-  AddCommand(@exp_MoveTSA,   'procedure exp_Move(const InArr:AnsiString; var DestArr:AnsiString; source, dest, size:Integer);');
-  AddCommand(@exp_MoveTIA,   'procedure exp_Move(const InArr:TIntegerArray; var DestArr:TIntegerArray; source, dest, size:Integer); overload;');
-  AddCommand(@exp_MoveTEA,   'procedure exp_Move(const InArr:TExtendedArray; var DestArr:TExtendedArray; source, dest, size:Integer); overload;');
-  AddCommand(@exp_MoveTPA,   'procedure exp_Move(const InArr:TPointArray; var DestArr:TPointArray; source, dest, size:Integer); overload;');
 
 
   // CornerDet.pas

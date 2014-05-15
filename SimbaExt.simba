@@ -10,6 +10,8 @@ type
   T2DExtArray     = Array of TExtArray;
   T2DFloatArray   = Array of TFloatArray;
   T2DDoubleArray  = Array of TDoubleArray;
+
+  T2DBoxArray  = Array of TBoxArray;
   
   TByteMatrix   = Array of TByteArray;
   TIntMatrix    = Array of TIntArray;

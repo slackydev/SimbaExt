@@ -32,24 +32,30 @@ end;
   @desc:   Returns the null-terinated length of the String.
 }
 function String.StrLen(): Int32;
-var
-  P: PChar;
+var P: PChar;
 Begin
   P := @Self[1];
   while (P^ <> #0) do Inc(P);
-  Result := Integer(P) - Integer(@Self[1]);
+  Result := Int32(P) - Int32(@Self[1]);
 end;
 
 
 {!DOCREF} {
-  @method: function String.Slice(Start, Stop: Int32): String;
-  @desc:   Returns a slice of the string
+  @method: function String.Slice(Start,Stop: Int32; Step:Int32=1): String;
+  @desc:
+    Slicing similar to slice in Python, tho goes from "start to and including stop"
+    Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
+    You can give it negative start, and stop, then it will wrap around based on c'length(..) + 1'
+    
+    If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
+    
+    [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function String.Slice(Start,Stop: Int32): String;
+function String.Slice(Start,Stop: Int32; Step:Int32=1): String;
 begin
-  if Start = 0 then Start := 1
-  else if Stop <= 0 then Stop := Length(Self)+Stop;
-  Result := Copy(Self, Start, Stop-Start);
+  if (Step = 0) then Exit;
+  try exp_slice(Self, Start,Stop,Step,Result);
+  except end;
 end;
 
 {!DOCREF} {
@@ -119,7 +125,7 @@ end;
 
 {!DOCREF} {
   @method: function String.Pos(Sub:String): Int32;
-  @desc:   Return the lowest index in the string where substring c'Sub' is located. -1 if not found
+  @desc:   Return the lowest index in the string where substring c'Sub' is located. 0 if not found
 }
 function String.Pos(Sub:String): Int32;
 begin
@@ -129,7 +135,7 @@ end;
 
 {!DOCREF} {
   @method: function String.rPos(Sub:String): Int32;
-  @desc:   Return the highest index in the string where substring c'Sub' is located. -1 if not found
+  @desc:   Return the highest index in the string where substring c'Sub' is located. 0 if not found
 }
 function String.rPos(Sub:String): Int32;
 begin
@@ -271,7 +277,7 @@ end;
 
 {!DOCREF} {
   @method: function String.lStrip(const Chars:String=' '): String;
-  @desc: 
+  @desc:
     Return a copy of the string with leading removed. If chars is omitted, whitespace characters are removed. 
     If chars is given, the characters in the string will be stripped from the beginning  of the string this method is called on.
     [code=pascal]
@@ -289,7 +295,7 @@ end;
 
 {!DOCREF} {
   @method: function String.rStrip(const Chars:String=' '): String;
-  @desc:  
+  @desc:
     Return a copy of the string with trailing removed. If chars is omitted, whitespace characters are removed. 
     If chars is given, the characters in the string will be stripped from the end  of the string this method is called on.
     [code=pascal]
@@ -306,8 +312,31 @@ end;
 
 
 {!DOCREF} {
+  @method: function String.Reversed(): String;
+  @desc: Creates a reversed copy of the string
+
+}
+function String.Reversed():string;
+begin
+  Result := Self.Slice(-1,1,-1);
+end;
+
+
+{!DOCREF} {
+  @method: procedure String.Reverse();
+  @desc: Reverses the string
+}
+procedure String.Reverse();
+begin
+  Self := Self.Slice(-1,1,-1);
+end;
+
+
+{!DOCREF} {
   @method: function String.Replace(old, new:String; Flags:TReplaceFlags): String;
-  @desc:   Return a copy of the string with all occurrences of substring old replaced by new.
+  @desc:   
+    Return a copy of the string with all occurrences of substring old replaced by new.
+    [note]Should be a much faster then Simbas c'Replace(...)'[/note]
 }
 function String.Replace(old, new:String; Flags:TReplaceFlags): String;
 begin
@@ -317,9 +346,9 @@ end;
 
 {!DOCREF} {
   @method: function String.Split(sep:String): TStringArray;
-  @desc: 
+  @desc:
     Return an array of the words in the string, using 'sep' as the delimiter string.
-    [note]Should be notable faster then Simbas c'Explode(...)' whenever the string is more then a few sentences[/note]
+    [note]Should be a tad faster then Simbas c'Explode(...)'[/note]
 }
 function String.Split(Sep:String): TStringArray;
 begin
@@ -329,7 +358,7 @@ end;
 
 {!DOCREF} {
   @method: function String.Join(TSA:TStringArray): String;
-  @desc: 
+  @desc:
     Return a string which is the concatenation of the strings in the array 'TSA'. 
     The separator between elements is the string providing this method. 
 }

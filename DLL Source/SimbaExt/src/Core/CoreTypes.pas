@@ -66,7 +66,9 @@ type
   TStrArray = array of String;
   TCharArray= array of Char;
   
-  
+
+
+
   TBox = packed record
     X1, Y1, X2, Y2: LongInt;
   private
@@ -79,7 +81,9 @@ type
     procedure Expand(const SizeChange: Integer);
   end;
   TBoxArray = Array of TBox;
-  
+  T2DBoxArray = Array of TBoxArray;
+
+
   //
   TxAlignMethod = (AM_Extremes, AM_Convex, AM_BBox);
   TxThreshMethod = (TM_Mean, TM_MinMax);

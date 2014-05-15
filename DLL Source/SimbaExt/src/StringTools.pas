@@ -26,11 +26,12 @@ function StrExplode(const Text, Sep: String): TStrArray;
 //-----------------------------------------------------------------------
 implementation
 
+
 {*
   Return a copy of the string with leading and trailing characters removed.
 *}
 function StrStrip(const Text, Chars:String): String;
-var Lo,Hi: Int32;
+var Lo,Hi: UInt32;
 begin
   Lo:=1;
   Hi:=Length(Text);
@@ -44,7 +45,7 @@ end;
   Return a copy of the string with leading characters removed.
 *}
 function StrStripL(const Text, Chars:String): String;
-var Lo,Hi: Int32;
+var Lo,Hi: UInt32;
 begin
   Lo:=1;
   Hi:=Length(Text);
@@ -57,7 +58,7 @@ end;
   Return a copy of the string with trailing characters removed.
 *}
 function StrStripR(const Text, Chars:String): String;
-var Lo,Hi: Int32;
+var Lo,Hi: UInt32;
 begin
   Lo:=1;
   Hi:=Length(Text);
@@ -74,7 +75,7 @@ end;
 *}
 function StrPosEx(const SubStr, Text:String): TIntArray;
 var
-  HitPos,LenSub,h,q,i: Integer;
+  HitPos,LenSub,h,q,i: UInt32;
 begin
   LenSub := Length(SubStr);
   if LenSub = 0 then Exit;
@@ -83,11 +84,12 @@ begin
   q := 1;
   SetLength(Result, q);
   for i:=1 to Length(Text) do
-  begin
-    if Text[i] = SubStr[HitPos] then
-    begin
-      if (HitPos = LenSub) then
-      begin
+    if Text[i] <> SubStr[HitPos] then
+      HitPos := 1
+    else begin
+      if (HitPos <> LenSub) then
+        Inc(HitPos)
+      else begin
         if q <= h then
         begin
           q := q+q;
@@ -96,11 +98,8 @@ begin
         Result[h] := (i - HitPos) + 1;
         Inc(h);
         HitPos := 1;
-      end else
-        Inc(HitPos);
-    end else
-      HitPos := 1;
-  end;
+      end;  
+    end;
   SetLength(Result, h);
 end;
 
@@ -109,24 +108,25 @@ end;
 {*
  Returns first position of the given pattern/substring from left.
 *}
+
 function StrPosL(const SubStr, Text: String): Integer;
 var
-  HitPos,LenSub,i: Integer;
+  HitPos,LenSub,i: UInt32;
 begin
   LenSub := Length(SubStr);
-  if LenSub = 0 then Exit(-1);
+  if LenSub = 0 then Exit(0);
   HitPos := 1;
   for i:=1 to Length(Text) do
   begin
     if Text[i] = SubStr[HitPos] then
     begin
       if (HitPos = LenSub) then
-        Exit((i - HitPos) + 1);
+        Exit(i - LenSub + 1);
       Inc(HitPos);
     end else
       HitPos := 1;
   end;
-  Exit(-1);
+  Exit(0);
 end;
 
 
@@ -135,22 +135,23 @@ end;
 *}
 function StrPosR(const SubStr, Text: String): Integer;
 var
-  HitPos,LenSub,i: Integer;
+  HitPos,LenSub,i: UInt32;
 begin
   LenSub := Length(SubStr);
-  if LenSub = 0 then Exit(-1);
+  if LenSub = 0 then Exit(0);
   HitPos := LenSub;
+  WriteLn(Length(Text),', ',LenSub);
   for i:=Length(Text) downto 1 do
   begin
     if Text[i] = SubStr[HitPos] then
     begin
-      if (HitPos = LenSub) then
-        Exit((i - HitPos) + 1);
+      if (HitPos = 1) then
+        Exit(i - LenSub + 1);
       Dec(HitPos);
     end else
       HitPos := LenSub;
   end;
-  Exit(-1);
+  Exit(0);
 end;
 
 
@@ -162,6 +163,71 @@ function StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): St
 var
   Hi,HiSub,HiRep,i,j,k: Integer;
   Prev,Curr:Integer;
+  Subs: TIntArray;
+begin
+  Hi := Length(Text);
+  if Hi = 0 then Exit;
+
+  HiRep := Length(RepStr);
+  HiSub := Length(SubStr);
+
+  k := 1;
+  Prev := 1;
+  case (rfReplaceAll in Flags) and True of
+  True:
+    begin
+      //If substring and replacement string is only 1 char, then it's simpler:
+      if (HiRep = 1) and (HiSub = 1) then begin
+        Result := Copy(Text,1,hi);
+        for i:=1 to Length(text) do
+          if Text[i] = SubStr[1] then
+            Result[i] := Text[i];
+        Exit();
+      end;
+
+      case (rfIgnoreCase in flags) of
+        True: Subs := StrPosEx(LowerCase(SubStr), LowerCase(Text));
+        False:Subs := StrPosEx(SubStr, Text);
+      end;
+      SetLength(Result, Hi + (Length(Subs) * (HiRep-HiSub)));
+      if Length(Subs) = 0 then Exit(Copy(Text, 1,Hi));
+      for i:=0 to High(Subs) do
+      begin
+        Curr := Subs[i];
+        j := (Curr-Prev);
+        Move(Text[Prev], Result[k], j);
+        k := k + j;
+        Move(RepStr[1], Result[k], HiRep);
+        k := k+HiRep;
+        Prev := Curr + HiSub;
+      end;
+      Move(Text[Prev], Result[k], Hi-Prev+1);
+
+    end;
+  False:
+    begin
+      SetLength(Result, Hi + (HiRep-HiSub));
+      case (rfIgnoreCase in flags) of
+        True: Curr := StrPosL(LowerCase(SubStr), LowerCase(Text));
+        False:Curr := StrPosL(SubStr, Text);
+      end;
+      if Curr = 0 then Exit(Copy(Text, 1,Hi));
+
+      Move(Text[1], Result[1], Curr-1);
+      Move(RepStr[1], Result[Curr], HiRep);
+      Move(Text[(Curr+HiSub)], Result[Curr+HiRep], Hi-(Curr+HiSub)+1);
+      SetLength(Result, Hi+(HiRep-HiSub));
+    end;
+  end;
+end;
+
+
+{OLD CODE for string replace ===================================================|
+
+function StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;
+var
+  Hi,HiSub,HiRep,i,j,k: UInt32;
+  Prev,Curr: UInt32;
   Subs: TIntArray;
 begin
   Hi := Length(Text);
@@ -209,6 +275,7 @@ begin
     end;
   end;
 end;
+|===============================================================================}
 
 
 
@@ -219,7 +286,7 @@ end;
 function StrExplode(const Text, Sep: String): TStrArray;
 var
   Subs:TIntArray;
-  Hi,i,Curr,Prev,HiSep: Integer;
+  Hi,i,Curr,Prev,HiSep: UInt32;
 begin
   Hi := Length(Text);
   if Hi = 0 then Exit;

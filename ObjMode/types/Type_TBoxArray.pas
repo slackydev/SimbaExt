@@ -7,8 +7,6 @@
   @desc: Returns a copy of the array
 }
 function TBoxArray.Clone(): TBoxArray;
-var
-  i:Int32;
 begin
   Result := Copy(Self);
 end;
@@ -63,19 +61,27 @@ end;
 
 
 {!DOCREF} {
-  @method: function TBoxArray.Slice(Start, Stop: Int32): TBoxArray;
-  @desc: Returns a slice of the array
+  @method: function TBoxArray.Slice(Start,Stop: Int32; Step:Int32=1): TBoxArray;
+  @desc:
+    Slicing similar to slice in Python, tho goes from 'start to and including stop'
+    Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
+    You can give it negative start, and stop, then it will wrap around based on length(..)
+    
+    If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
+    
+    [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TBoxArray.Slice(Start,Stop: Int32): TBoxArray;
+function TBoxArray.Slice(Start,Stop: Int32; Step:Int32=1): TBoxArray;
 begin
-  if Stop <= -1 then Stop := Length(Self)+Stop;
-  Result := Copy(Self, Start, Stop); 
+  if Step = 0 then Exit;
+  try exp_slice(Self, Start,Stop,Step,Result);
+  except end;
 end;
 
 
 {!DOCREF} {
   @method: procedure TBoxArray.Sort(key:TSortKey=sort_Default);
-  @desc: Sorts the array
+  @desc: Sorts the array [not supported]
 }
 procedure TBoxArray.Sort(key:TSortKey=sort_Default);
 begin
@@ -91,7 +97,7 @@ end;
 
 {!DOCREF} {
   @method: function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
-  @desc: Sorts and returns a copy of the array.
+  @desc: Sorts and returns a copy of the array [not supported]
 }
 function TBoxArray.Sorted(key:TSortKey=sort_Default): TStringArray;
 begin
@@ -113,12 +119,8 @@ end;
   @desc: Creates a reversed copy of the array
 }
 function TBoxArray.Reversed(): TBoxArray;
-var hi,i:Int32;
 begin
-  hi := High(Self);
-  SetLength(Result, hi+1);
-  for i:=0 to hi do
-    Result[hi-i] := Self[i];
+  Result := Self.Slice(-1,0,-1);
 end;
 
 
@@ -127,16 +129,6 @@ end;
   @desc:  Reverses the array 
 }
 procedure TBoxArray.Reverse();
-var
-  i, Hi, Mid: Integer;
-  tmp: TBox ;
 begin
-  Hi := High(Self);
-  if (Hi < 0) then Exit;
-  Mid := Hi div 2;
-  for i := 0 to Mid do begin
-    tmp := Self[Hi-i];
-    Self[Hi-i] := Self[i];
-    Self[i] := tmp;
-  end;
+  Self := Self.Slice(-1,0,-1);
 end;

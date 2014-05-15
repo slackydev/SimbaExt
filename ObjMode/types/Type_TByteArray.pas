@@ -60,13 +60,21 @@ end;
 
 
 {!DOCREF} {
-  @method: function TByteArray.Slice(Start,Stop: Int32): TByteArray;
-  @desc: Returns a slice of the array
+  @method: function TByteArray.Slice(Start,Stop: Int32; Step:Int32=1): TByteArray;
+  @desc:
+    Slicing similar to slice in Python, tho goes from 'start to and including stop'
+    Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
+    You can give it negative start, and stop, then it will wrap around based on length(..)
+    
+    If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
+    
+    [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TByteArray.Slice(Start,Stop: Int32): TByteArray;
+function TByteArray.Slice(Start,Stop: Int32; Step:Int32=1): TByteArray;
 begin
-  if Stop <= -1 then Stop := Length(Self)+Stop;
-  Result := Copy(Self, Start, Stop); 
+  if Step = 0 then Exit;
+  try exp_slice(Self, Start,Stop,Step,Result);
+  except end;
 end;
 
 
@@ -109,15 +117,10 @@ end;
   @method: function TByteArray.Reversed(): TByteArray;
   @desc:  
     Creates a reversed copy of the array
-  
 }
 function TByteArray.Reversed(): TByteArray;
-var hi,i:Int32;
 begin
-  hi := High(Self);
-  SetLength(Result, hi+1);
-  for i:=0 to hi do
-    Result[hi-i] := Self[i];
+  Result := Self.Slice(-1,0,-1);
 end;
 
 
@@ -126,18 +129,8 @@ end;
   @desc: Reverses the array
 }
 procedure TByteArray.Reverse();
-var
-  i,Hi,Mid:Int32;
-  tmp:Byte;
 begin
-  Hi := High(Self);
-  if (Hi < 0) then Exit;
-  Mid := Hi div 2;
-  for i := 0 to Mid do begin
-    tmp := Self[Hi-i];
-    Self[Hi-i] := Self[i];
-    Self[i] := tmp;
-  end;
+  Self := Self.Slice(-1,0,-1);
 end;
 
 

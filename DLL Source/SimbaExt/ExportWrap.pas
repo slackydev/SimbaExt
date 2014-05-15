@@ -74,28 +74,69 @@ end;
 
 
 {*-----------------------------------------------------------------------------|
-| CoreMisc.pas                                                                 |
+| Std.pas                                                                      |
 |-----------------------------------------------------------------------------*}
-procedure exp_MoveTSA(const InArr:AnsiString; var DestArr:AnsiString; Source, Dest, Size:Integer); Cdecl;
+
+(** Array slicing **)
+procedure exp_Slice1(Arr:TIntArray; Start,Stop,Step:Int32; var Result:TIntArray); cdecl;
 begin
-  Move(InArr, DestArr, Source, Dest, Size);
+  Result := Slice(Arr, Start,Stop,Step);
 end;
 
-procedure exp_MoveTIA(const InArr:TIntArray; var DestArr:TIntArray; Source, Dest, Size:Integer); Cdecl;
+procedure exp_Slice2(Arr:TExtArray; Start,Stop,Step:Int32; var Result:TExtArray); cdecl;
 begin
-  Move(InArr, DestArr, Source, Dest, Size);
+  Result := Slice(Arr, Start,Stop,Step);
 end;
 
-procedure exp_MoveTEA(const InArr:TExtArray; var DestArr:TExtArray; Source, Dest, Size:Integer); Cdecl;
+procedure exp_Slice3(Arr:TPointArray; Start,Stop,Step:Int32; var Result:TPointArray); cdecl;
 begin
-  Move(InArr, DestArr, Source, Dest, Size);
+  Result := Slice(Arr, Start,Stop,Step);
 end;
 
-procedure exp_MoveTPA(const InArr:TPointArray; var DestArr:TPointArray; Source, Dest, Size:Integer); Cdecl;
+procedure exp_Slice4(Arr:TByteArray; Start,Stop,Step:Int32; var Result:TByteArray); cdecl;
 begin
-  Move(InArr, DestArr, Source, Dest, Size);
+  Result := Slice(Arr, Start,Stop,Step);
 end;
 
+procedure exp_Slice5(Arr:TBoxArray; Start,Stop,Step:Int32; var Result:TBoxArray); cdecl;
+begin
+  Result := Slice(Arr, Start,Stop,Step);
+end;
+
+procedure exp_Slice6(Arr:String; Start,Stop,Step:Int32; var Result:String); cdecl;
+begin
+  Result := Slice(Arr, Start,Stop,Step);
+end;
+
+procedure exp_Slice7(Arr:T2DIntArray; Start,Stop,Step:Int32; var Result:T2DIntArray); cdecl;
+begin
+  Result := Slice(Arr, Start,Stop,Step);
+end;
+
+procedure exp_Slice8(Arr:T2DExtArray; Start,Stop,Step:Int32; var Result:T2DExtArray); cdecl;
+begin
+  Result := Slice(Arr, Start,Stop,Step);
+end;
+
+procedure exp_Slice9(Arr:T2DPointArray; Start,Stop,Step:Int32; var Result:T2DPointArray); cdecl;
+begin
+  Result := Slice(Arr, Start,Stop,Step);
+end;
+
+procedure exp_Slice10(Arr:T2DByteArray; Start,Stop,Step:Int32; var Result:T2DByteArray); cdecl;
+begin
+  Result := Slice(Arr, Start,Stop,Step);
+end;
+
+procedure exp_Slice11(Arr:T2DBoxArray; Start,Stop,Step:Int32; var Result:T2DBoxArray); cdecl;
+begin
+  Result := Slice(Arr, Start,Stop,Step);
+end;
+
+procedure exp_Slice12(Arr:TStringArray; Start,Stop,Step:Int32; var Result:TStringArray); cdecl;
+begin
+  Result := Slice(Arr, Start,Stop,Step);
+end;
 
 
 {*-----------------------------------------------------------------------------|
@@ -818,7 +859,7 @@ end;
 
 function exp_StrPosR(const SubStr, Text: String): Integer; Cdecl;
 begin
-  Result := StrPosR(Text, SubStr);
+  Result := StrPosR(SubStr, Text);
 end;
 
 function exp_StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String; Cdecl;
