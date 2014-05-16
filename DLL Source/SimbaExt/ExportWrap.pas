@@ -79,64 +79,80 @@ end;
 
 (** Array slicing **)
 procedure exp_Slice1(Arr:TIntArray; Start,Stop,Step:Int32; var Result:TIntArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice2(Arr:TExtArray; Start,Stop,Step:Int32; var Result:TExtArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice3(Arr:TPointArray; Start,Stop,Step:Int32; var Result:TPointArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin  Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice4(Arr:TByteArray; Start,Stop,Step:Int32; var Result:TByteArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice5(Arr:TBoxArray; Start,Stop,Step:Int32; var Result:TBoxArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice6(Arr:String; Start,Stop,Step:Int32; var Result:String); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice7(Arr:T2DIntArray; Start,Stop,Step:Int32; var Result:T2DIntArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice8(Arr:T2DExtArray; Start,Stop,Step:Int32; var Result:T2DExtArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice9(Arr:T2DPointArray; Start,Stop,Step:Int32; var Result:T2DPointArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice10(Arr:T2DByteArray; Start,Stop,Step:Int32; var Result:T2DByteArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice11(Arr:T2DBoxArray; Start,Stop,Step:Int32; var Result:T2DBoxArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
 
 procedure exp_Slice12(Arr:TStringArray; Start,Stop,Step:Int32; var Result:TStringArray); cdecl;
-begin
-  Result := Slice(Arr, Start,Stop,Step);
-end;
+begin Result := Slice(Arr, Start,Stop,Step); end;
+
+(* *)
+function exp_Find1(Arr:TIntArray; Seq:TIntArray): Int32; cdecl;
+begin Result := Find(Arr,Seq); end;
+
+function exp_Find2(Arr:TExtArray; Seq:TExtArray): Int32; cdecl;
+begin Result := Find(Arr,Seq); end;
+
+function exp_Find3(Arr:TPointArray; Seq:TPointArray): Int32; cdecl;
+begin Result := Find(Arr,Seq); end;
+
+function exp_Find4(Arr:TByteArray; Seq:TByteArray): Int32; cdecl;
+begin Result := Find(Arr,Seq); end;
+
+function exp_Find5(Arr:TBoxArray; Seq:TBoxArray): Int32; cdecl;
+begin Result := Find(Arr,Seq); end;
+
+function exp_Find6(Arr:String; Seq:String): Int32; cdecl;
+begin Result := Find(Arr,Seq); end;
+
+
+(* *)
+procedure exp_FindAll1(Arr:TIntArray; Seq:TIntArray; var Result: TIntArray); cdecl;
+begin Result := FindAll(Arr,Seq); end;
+
+procedure exp_FindAll2(Arr:TExtArray; Seq:TExtArray; var Result: TIntArray); cdecl;
+begin Result := FindAll(Arr,Seq); end;
+
+procedure exp_FindAll3(Arr:TPointArray; Seq:TPointArray; var Result: TIntArray); cdecl;
+begin Result := FindAll(Arr,Seq); end;
+
+procedure exp_FindAll4(Arr:TByteArray; Seq:TByteArray; var Result: TIntArray); cdecl;
+begin Result := FindAll(Arr,Seq); end;
+
+procedure exp_FindAll5(Arr:TBoxArray; Seq:TBoxArray; var Result: TIntArray); cdecl;
+begin Result := FindAll(Arr,Seq); end;
+
+procedure exp_FindAll6(Arr:String; Seq:String; var Result: TIntArray); cdecl;
+begin Result := FindAll(Arr,Seq); end;
+
 
 
 {*-----------------------------------------------------------------------------|

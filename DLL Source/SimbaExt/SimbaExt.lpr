@@ -112,6 +112,20 @@ begin
   AddCommand(@exp_Slice11,	'procedure exp_Slice(Arr:T2DBoxArray; Start,Stop,Step:Int32; var Result:T2DBoxArray); overload;');
   AddCommand(@exp_Slice12,	'procedure exp_Slice(Arr:TStringArray; Start,Stop,Step:Int32; var Result:TStringArray); overload;');
 
+  AddCommand(@exp_Find1,	'function exp_Find(Arr:TIntArray; Seq:TIntArray): Int32;');
+  AddCommand(@exp_Find2,	'function exp_Find(Arr:TExtArray; Seq:TExtArray): Int32; overload;');
+  AddCommand(@exp_Find3,	'function exp_Find(Arr:TPointArray; Seq:TPointArray): Int32; overload;');
+  AddCommand(@exp_Find4,	'function exp_Find(Arr:TByteArray; Seq:TByteArray): Int32; overload;');
+  AddCommand(@exp_Find5,	'function exp_Find(Arr:TBoxArray; Seq:TBoxArray): Int32; overload;');
+  AddCommand(@exp_Find6,	'function exp_Find(Arr:String; Seq:String): Int32; overload;');
+
+  AddCommand(@exp_FindAll1,	'procedure exp_FindAll(Arr:TIntArray; Seq:TIntArray; var Result: TIntArray);');
+  AddCommand(@exp_FindAll2,	'procedure exp_FindAll(Arr:TExtArray; Seq:TExtArray; var Result: TIntArray); overload;');
+  AddCommand(@exp_FindAll3,	'procedure exp_FindAll(Arr:TPointArray; Seq:TPointArray; var Result: TIntArray); overload;');
+  AddCommand(@exp_FindAll4,	'procedure exp_FindAll(Arr:TByteArray; Seq:TByteArray; var Result: TIntArray); overload;');
+  AddCommand(@exp_FindAll5,	'procedure exp_FindAll(Arr:TBoxArray; Seq:TBoxArray; var Result: TIntArray); overload;');
+  AddCommand(@exp_FindAll6,	'procedure exp_FindAll(Arr:String; Seq:String; var Result: TIntArray); overload;');
+  
 
   // Sorting.pas
   AddCommand(@exp_SortTBA,	'procedure exp_SortTBA(var Arr: TByteArray);');

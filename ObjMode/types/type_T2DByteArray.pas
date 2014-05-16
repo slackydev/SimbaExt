@@ -64,6 +64,17 @@ end;
 
 
 {!DOCREF} {
+  @method: function T2DByteArray.PopLeft(): TByteArray;
+  @desc: Removes and returns the first item in the array
+}
+function T2DByteArray.PopLeft(): TByteArray;
+begin
+  Result := Self[0];
+  Self := Self.Slice(1,-1);
+end;
+
+
+{!DOCREF} {
   @method: function T2DByteArray.Slice(Start,Stop: Int32; Step:Int32=1): T2DByteArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
@@ -80,6 +91,24 @@ begin
   try exp_slice(Self, Start,Stop,Step,Result);
   except end;
 end;
+
+
+{!DOCREF} {
+  @method: procedure T2DByteArray.Extend(Arr:T2DByteArray);
+  @desc: Extends the 2d-array with a 2d-array
+}
+procedure T2DByteArray.Extend(Arr:T2DByteArray);
+var L,i:Int32;
+begin
+  L := Length(Self);
+  SetLength(Self, Length(Arr) + L);
+  for i:=L to High(Self) do
+  begin
+    SetLength(Self[i],Length(Arr[i-L]));
+    MemMove(Arr[i-L][0], Self[i][0], Length(Arr[i-L])*SizeOf(Byte));
+  end;
+end; 
+
 
 
 {!DOCREF} {
@@ -180,6 +209,19 @@ procedure T2DByteArray.Reverse();
 begin
   Self := Self.Slice(-1,0,-1);
 end;
+
+
+
+
+{=============================================================================}
+// The functions below this line is not in the standard array functionality
+//
+// By "standard array functionality" I mean, functions that all standard
+// array types should have.
+{=============================================================================}
+
+
+
 
 
 {!DOCREF} {

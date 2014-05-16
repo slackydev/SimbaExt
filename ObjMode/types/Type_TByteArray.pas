@@ -60,6 +60,18 @@ end;
 
 
 {!DOCREF} {
+  @method: function TByteArray.PopLeft(): Byte;
+  @desc: Removes and returns the first item in the array
+}
+function TByteArray.PopLeft(): Byte;
+begin
+  Result := Self[0];
+  MemMove(Self[1], Self[0], SizeOf(Byte)*Length(Self));
+  SetLength(Self, High(self));
+end;
+
+
+{!DOCREF} {
   @method: function TByteArray.Slice(Start,Stop: Int32; Step:Int32=1): TByteArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
@@ -75,6 +87,79 @@ begin
   if Step = 0 then Exit;
   try exp_slice(Self, Start,Stop,Step,Result);
   except end;
+end;
+
+
+{!DOCREF} {
+  @method: procedure TByteArray.Extend(Arr:TByteArray);
+  @desc: Extends the array with an array
+}
+procedure TByteArray.Extend(Arr:TByteArray);
+var L:Int32;
+begin
+  L := Length(Self);
+  SetLength(Self, Length(Arr) + L);
+  MemMove(Arr[0],Self[L],Length(Arr)*SizeOf(Byte));
+end; 
+
+
+{!DOCREF} {
+  @method: function TByteArray.Find(Value:Byte): Int32; 
+  @desc: Searces for the given value and returns the first position from the left.
+}
+function TByteArray.Find(Value:Byte): Int32; 
+begin
+  Result := exp_Find(Self,TByteArray([Value]));
+end;
+
+
+{!DOCREF} {
+  @method: function TByteArray.Find(Sequence:TByteArray): Int32; overload;
+  @desc: Searces for the given sequence and returns the first position from the left.
+}
+function TByteArray.Find(Sequence:TByteArray): Int32; overload;
+begin
+  Result := exp_Find(Self,Sequence);
+end;
+
+
+{!DOCREF} {
+  @method: function TByteArray.FindAll(Value:Byte): TIntArray; 
+  @desc: Searces for the given value and returns all the position where it was found.
+}
+function TByteArray.FindAll(Value:Byte): TIntArray; 
+begin
+  exp_FindAll(Self,TByteArray([value]),Result);
+end;
+
+
+{!DOCREF} {
+  @method: function TByteArray.FindAll(Sequence:TByteArray): TIntArray; overload;
+  @desc: Searces for the given sequence and returns all the position where it was found.
+}
+function TByteArray.FindAll(Sequence:TByteArray): TIntArray; overload;
+begin
+  exp_FindAll(Self,sequence,Result);
+end;
+
+
+{!DOCREF} {
+  @method: function TByteArray.Contains(val:Byte): Boolean;
+  @desc: Checks if the arr contains the given value c'val'
+}
+function TByteArray.Contains(val:Byte): Boolean;
+begin
+  Result := Self.Find(val) <> -1;
+end;
+
+
+{!DOCREF} {
+  @method: function TByteArray.Count(val:Byte): Int32;
+  @desc: Counts all the occurances of val
+}
+function TByteArray.Count(val:Byte): Int32;
+begin
+  Result := Length(Self.FindAll(val));
 end;
 
 
@@ -112,7 +197,6 @@ end;
 
 
 
-
 {!DOCREF} {
   @method: function TByteArray.Reversed(): TByteArray;
   @desc:  
@@ -132,6 +216,19 @@ procedure TByteArray.Reverse();
 begin
   Self := Self.Slice(-1,0,-1);
 end;
+
+
+
+
+{=============================================================================}
+// The functions below this line is not in the standard array functionality
+//
+// By "standard array functionality" I mean, functions that all standard
+// array types should have.
+{=============================================================================}
+
+
+
 
 
 {!DOCREF} {

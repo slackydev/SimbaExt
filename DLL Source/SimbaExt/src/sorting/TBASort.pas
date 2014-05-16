@@ -3,7 +3,7 @@
  All rights reserved.
  For more info see: Copyright.txt
 [=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
-function FastSortTBA(var Arr:CoreTypes.TByteArray): Int32;
+procedure FastSortTBA(var Arr:CoreTypes.TByteArray);
 var
   i,j,c:Int32;
   Lookup:TIntArray;
@@ -22,7 +22,6 @@ end;
 
 
 procedure SortTBA(var Arr: CoreTypes.TByteArray);
-var limit,hi: Integer;
 begin
   FastSortTBA(Arr);
 end;

@@ -61,6 +61,18 @@ end;
 
 
 {!DOCREF} {
+  @method: function TPointArray.PopLeft(): TPoint;
+  @desc: Removes and returns the first item in the array
+}
+function TPointArray.PopLeft(): TPoint;
+begin
+  Result := Self[0];
+  MemMove(Self[1], Self[0], SizeOf(TPoint)*Length(Self));
+  SetLength(Self, High(self));
+end;
+
+
+{!DOCREF} {
   @method: function TPointArray.Slice(Start,Stop: Int32; Step:Int32=1): TPointArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
@@ -87,6 +99,161 @@ procedure TPointArray.Extend(TPA:TPointArray);
 begin
   Self := se.UniteTPA(Self, TPA, False);
 end; 
+
+
+{!DOCREF} {
+  @method: function TPointArray.Find(Value:TPoint): Int32;
+  @desc: Searces for the given value and returns the first position from the left.
+}
+function TPointArray.Find(Value:TPoint): Int32;
+begin
+  Result := exp_Find(Self,[Value]);
+end;
+
+
+{!DOCREF} {
+  @method: function TPointArray.Find(Sequence:TPointArray): Int32; overload;
+  @desc: Searces for the given sequence and returns the first position from the left.
+}
+function TPointArray.Find(Sequence:TPointArray): Int32; overload;
+begin
+  Result := exp_Find(Self,Sequence);
+end;
+
+
+{!DOCREF} {
+  @method: function TPointArray.FindAll(Value:TPoint): TIntArray;
+  @desc: Searces for the given value and returns all the position where it was found.
+}
+function TPointArray.FindAll(Value:TPoint): TIntArray;
+begin
+  exp_FindAll(Self,[Value],Result);
+end;
+
+
+{!DOCREF} {
+  @method: function TPointArray.FindAll(Sequence:TPointArray): TIntArray; overload;
+  @desc: Searces for the given sequence and returns all the position where it was found.
+}
+function TPointArray.FindAll(Sequence:TPointArray): TIntArray; overload;
+begin
+  exp_FindAll(Self,sequence,Result);
+end;
+
+
+{!DOCREF} {
+  @method: function TPointArray.Contains(Pt:TPoint): Boolean;
+  @desc: Checks if the TPA contains the given TPoint c'PT'
+}
+function TPointArray.Contains(Pt:TPoint): Boolean;
+begin
+  Result := Self.Find(PT) <> -1;
+end;
+
+
+{!DOCREF} {
+  @method: function TPointArray.Count(Pt:TPoint): Boolean;
+  @desc: Checks if the TPA contains the given TPoint c'PT'
+}
+function TPointArray.Count(Pt:TPoint): Boolean;
+begin
+  Result := Length(Self.FindAll(PT));
+end;
+
+
+{!DOCREF} {
+  @method: function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
+  @desc: 
+    Sorts a copy of the TPA
+    Supported keys: c'sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
+}
+function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
+begin
+  Result := Self.Clone();
+  case Key of
+    sort_Default, sort_Magnitude: se.SortTPA(Result);
+    sort_ByRow: se.SortTPAByRow(Result);
+    sort_ByColumn: se.SortTPAByColumn(Result);
+    sort_ByX: se.SortTPAByX(Result);
+    sort_ByY: se.SortTPAByY(Result);
+  else 
+    WriteLn('TSortKey not supported');
+  end;
+end;
+
+{!DOCREF} {
+  @method: function TPointArray.Sorted(From:TPoint): TPointArray; overload;
+  @desc: Sorts a copy of the TPA from ..
+}
+function TPointArray.Sorted(From:TPoint): TPointArray; overload;
+begin
+  Result := Self.Clone();
+  se.SortTPAFrom(Result, From)
+end;
+
+
+{!DOCREF} {
+  @method: procedure TPointArray.Sort(Key:TSortKey=sort_Default);
+  @desc: 
+    Sorts the TPA
+    Supported keys: c'sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
+}
+procedure TPointArray.Sort(Key:TSortKey=sort_Default);
+begin
+  case Key of
+    sort_Default, sort_Magnitude: se.SortTPA(Self);
+    sort_ByRow: se.SortTPAByRow(Self);
+    sort_ByColumn: se.SortTPAByColumn(Self);
+    sort_ByX: se.SortTPAByX(Self);
+    sort_ByY: se.SortTPAByY(Self);
+  else 
+    WriteLn('TSortKey not supported');
+  end;
+end;
+
+{!DOCREF} {
+  @method: procedure TPointArray.Sort(From:TPoint); overload;
+  @desc: Sorts the TPA from ..
+}
+procedure TPointArray.Sort(From:TPoint); overload;
+begin
+  se.SortTPAFrom(Self, From)
+end;
+
+
+{!DOCREF} {
+  @method: procedure TPointArray.Reverse();
+  @desc: Reverses the TPA
+}
+procedure TPointArray.Reverse();
+begin
+  Self := Self.Slice(-1,0,-1);
+end; 
+
+
+{!DOCREF} {
+  @method: function TPointArray.Reversed(): TPointArray;
+  @desc: Returns a reversed copy of the TPA
+}
+function TPointArray.Reversed(): TPointArray;
+begin
+  Result := Self.Slice(-1,0,-1);
+end; 
+
+
+
+
+
+
+{=============================================================================}
+// The functions below this line is not in the standard array functionality
+//
+// By "standard array functionality" I mean, functions that all standard
+// array types should have.
+{=============================================================================}
+
+
+
 
 
 {!DOCREF} {
@@ -130,26 +297,6 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TPointArray.Reverse();
-  @desc: Reverses the TPA
-}
-procedure TPointArray.Reverse();
-begin
-  Self := Self.Slice(-1,0,-1);
-end; 
-
-
-{!DOCREF} {
-  @method: function TPointArray.Reversed(): TPointArray;
-  @desc: Returns a reversed copy of the TPA
-}
-function TPointArray.Reversed(): TPointArray;
-begin
-  Result := Self.Slice(-1,0,-1);
-end; 
-
-
-{!DOCREF} {
   @method: function TPointArray.Invert(): TPointArra
   @desc: Inverts the TPA based on the bounds of the TPA, so each point within the bounds, but not in the TPA is returned
 }
@@ -157,16 +304,6 @@ function TPointArray.Invert(): TPointArray;
 begin
   Result := se.InvertTPA(self);
 end; 
-
-
-{!DOCREF} {
-  @method: function TPointArray.Contains(Pt:TPoint): Boolean;
-  @desc: Checks if the TPA contains the given TPoint c'PT'
-}
-function TPointArray.Contains(Pt:TPoint): Boolean;
-begin
-  Result := PointInTPA(Pt, Self);
-end;
 
  
 {!DOCREF} {
@@ -246,66 +383,6 @@ end;
 procedure TPointArray.Offset(OffX,OffY: Int32);
 begin
   OffsetTPA(Self, Point(OffX, OffY));
-end;
-
-
-{!DOCREF} {
-  @method: function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
-  @desc: 
-    Sorts a copy of the TPA
-    Supported keys: c'sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
-}
-function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
-begin
-  Result := Self.Clone();
-  case Key of
-    sort_Default, sort_Magnitude: se.SortTPA(Result);
-    sort_ByRow: se.SortTPAByRow(Result);
-    sort_ByColumn: se.SortTPAByColumn(Result);
-    sort_ByX: se.SortTPAByX(Result);
-    sort_ByY: se.SortTPAByY(Result);
-  else 
-    WriteLn('TSortKey not supported');
-  end;
-end;
-
-{!DOCREF} {
-  @method: function TPointArray.Sorted(From:TPoint): TPointArray; overload;
-  @desc: Sorts a copy of the TPA from ..
-}
-function TPointArray.Sorted(From:TPoint): TPointArray; overload;
-begin
-  Result := Self.Clone();
-  se.SortTPAFrom(Result, From)
-end;
-
-
-{!DOCREF} {
-  @method: procedure TPointArray.Sort(Key:TSortKey=sort_Default);
-  @desc: 
-    Sorts the TPA
-    Supported keys: c'sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
-}
-procedure TPointArray.Sort(Key:TSortKey=sort_Default);
-begin
-  case Key of
-    sort_Default, sort_Magnitude: se.SortTPA(Self);
-    sort_ByRow: se.SortTPAByRow(Self);
-    sort_ByColumn: se.SortTPAByColumn(Self);
-    sort_ByX: se.SortTPAByX(Self);
-    sort_ByY: se.SortTPAByY(Self);
-  else 
-    WriteLn('TSortKey not supported');
-  end;
-end;
-
-{!DOCREF} {
-  @method: procedure TPointArray.Sort(From:TPoint); overload;
-  @desc: Sorts the TPA from ..
-}
-procedure TPointArray.Sort(From:TPoint); overload;
-begin
-  se.SortTPAFrom(Self, From)
 end;
 
 

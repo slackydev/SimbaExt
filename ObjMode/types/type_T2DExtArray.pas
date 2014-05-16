@@ -83,6 +83,23 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure T2DExtArray.Extend(Arr:T2DExtArray);
+  @desc: Extends the 2d-array with a 2d-array
+}
+procedure T2DExtArray.Extend(Arr:T2DExtArray);
+var L,i:Int32;
+begin
+  L := Length(Self);
+  SetLength(Self, Length(Arr) + L);
+  for i:=L to High(Self) do
+  begin
+    SetLength(Self[i],Length(Arr[i-L]));
+    MemMove(Arr[i-L][0], Self[i][0], Length(Arr[i-L])*SizeOf(Extended));
+  end;
+end; 
+
+
+{!DOCREF} {
   @method: function T2DExtArray.Merge(): TExtArray;
   @desc: Merges all the groups in the array, and return a TIA
 }
@@ -180,6 +197,19 @@ procedure T2DExtArray.Reverse();
 begin
   Self := Self.Slice(-1,0,-1);
 end;
+
+
+
+
+{=============================================================================}
+// The functions below this line is not in the standard array functionality
+//
+// By "standard array functionality" I mean, functions that all standard
+// array types should have.
+{=============================================================================}
+
+
+
 
 
 {!DOCREF} {

@@ -61,6 +61,18 @@ end;
 
 
 {!DOCREF} {
+  @method: function TBoxArray.PopLeft(): TBox;
+  @desc: Removes and returns the first item in the array
+}
+function TBoxArray.PopLeft(): TBox;
+begin
+  Result := Self[0];
+  MemMove(Self[1], Self[0], SizeOf(Int32)*Length(Self));
+  SetLength(Self, High(self));
+end;
+
+
+{!DOCREF} {
   @method: function TBoxArray.Slice(Start,Stop: Int32; Step:Int32=1): TBoxArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
@@ -77,6 +89,81 @@ begin
   try exp_slice(Self, Start,Stop,Step,Result);
   except end;
 end;
+
+
+{!DOCREF} {
+  @method: procedure TBoxArray.Extend(Arr:TBoxArray);
+  @desc: Extends the array with an array
+}
+procedure TBoxArray.Extend(Arr:TBoxArray);
+var L:Int32;
+begin
+  L := Length(Self);
+  SetLength(Self, Length(Arr) + L);
+  MemMove(Arr[0],Self[L],Length(Arr)*SizeOf(TBox));
+end;  
+
+
+{!DOCREF} {
+  @method: function TBoxArray.Find(Value:TBox): Int32;
+  @desc: Searces for the given value and returns the first position from the left.
+}
+function TBoxArray.Find(Value:TBox): Int32;
+begin
+  Result := exp_Find(Self,[Value]);
+end;
+
+
+{!DOCREF} {
+  @method: function TBoxArray.Find(Sequence:TBoxArray): Int32; overload;
+  @desc: Searces for the given sequence and returns the first position from the left.
+}
+function TBoxArray.Find(Sequence:TBoxArray): Int32; overload;
+begin
+  Result := exp_Find(Self,Sequence);
+end;
+
+
+
+{!DOCREF} {
+  @method: function TBoxArray.FindAll(Value:TBox): TIntArray;
+  @desc: Searces for the given value and returns all the position where it was found.
+}
+function TBoxArray.FindAll(Value:TBox): TIntArray;
+begin
+  exp_FindAll(Self,[value],Result);
+end;
+
+
+{!DOCREF} {
+  @method: function TBoxArray.FindAll(Sequence:TBoxArray): TIntArray; overload;
+  @desc: Searces for the given sequence and returns all the position where it was found.
+}
+function TBoxArray.FindAll(Sequence:TBoxArray): TIntArray; overload;
+begin
+  exp_FindAll(Self,sequence,Result);
+end;
+
+
+{!DOCREF} {
+  @method: function TBoxArray.Contains(val:TBox): Boolean;
+  @desc: Checks if the arr contains the given value c'val'
+}
+function TBoxArray.Contains(val:TBox): Boolean;
+begin
+  Result := Self.Find(val) <> -1;
+end;
+
+
+{!DOCREF} {
+  @method: function TBoxArray.Count(val:TBox): Int32;
+  @desc: Counts all the occurances of the given value c'val'
+}
+function TBoxArray.Count(val:TBox): Int32;
+begin
+  Result := Length(Self.FindAll(val));
+end;
+
 
 
 {!DOCREF} {
@@ -132,3 +219,18 @@ procedure TBoxArray.Reverse();
 begin
   Self := Self.Slice(-1,0,-1);
 end;
+
+
+
+
+{=============================================================================}
+// The functions below this line is not in the standard array functionality
+//
+// By "standard array functionality" I mean, functions that all standard
+// array types should have.
+{=============================================================================}
+
+
+
+
+

@@ -60,6 +60,18 @@ end;
 
 
 {!DOCREF} {
+  @method: function TExtArray.PopLeft(): Extended;
+  @desc: Removes and returns the first item in the array
+}
+function TExtArray.PopLeft(): Extended;
+begin
+  Result := Self[0];
+  MemMove(Self[1], Self[0], SizeOf(Extended)*Length(Self));
+  SetLength(Self, High(self));
+end;
+
+
+{!DOCREF} {
   @method: function TExtArray.Slice(Start,Stop: Int32; Step:Int32=1): TExtArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
@@ -75,6 +87,79 @@ begin
   if Step = 0 then Exit;
   try exp_slice(Self, Start,Stop,Step,Result);
   except end;
+end;
+
+
+{!DOCREF} {
+  @method: procedure TExtArray.Extend(Arr:TExtArray);
+  @desc: Extends the array with an array
+}
+procedure TExtArray.Extend(Arr:TExtArray);
+var L:Int32;
+begin
+  L := Length(Self);
+  SetLength(Self, Length(Arr) + L);
+  MemMove(Arr[0],Self[L],Length(Arr)*SizeOf(Extended));
+end; 
+
+
+{!DOCREF} {
+  @method: function TExtArray.Find(Value:Extended): Int32;
+  @desc: Searces for the given value and returns the first position from the left.
+}
+function TExtArray.Find(Value:Extended): Int32;
+begin
+  Result := exp_Find(Self,[Value]);
+end;
+
+
+{!DOCREF} {
+  @method: function TExtArray.Find(Sequence:TExtArray): Int32; overload;
+  @desc: Searces for the given sequence and returns the first position from the left.
+}
+function TExtArray.Find(Sequence:TExtArray): Int32; overload;
+begin
+  Result := exp_Find(Self,Sequence);
+end;
+
+
+{!DOCREF} {
+  @method: function TExtArray.FindAll(Value:Extended): TIntArray;
+  @desc: Searces for the given value and returns all the position where it was found.
+}
+function TExtArray.FindAll(Value:Extended): TIntArray;
+begin
+  exp_FindAll(Self,[value],Result);
+end;
+
+
+{!DOCREF} {
+  @method: function TExtArray.FindAll(Sequence:TExtArray): TIntArray; overload;
+  @desc: Searces for the given sequence and returns all the position where it was found.
+}
+function TExtArray.FindAll(Sequence:TExtArray): TIntArray; overload;
+begin
+  exp_FindAll(Self,sequence,Result);
+end;
+
+
+{!DOCREF} {
+  @method: function TExtArray.Contains(val:Extended): Boolean;
+  @desc: Checks if the arr contains the given value c'val'
+}
+function TExtArray.Contains(val:Extended): Boolean;
+begin
+  Result := Self.Find(val) <> -1;
+end;
+
+
+{!DOCREF} {
+  @method: function TExtArray.Count(val:Extended): Int32;
+  @desc: Counts all the occurances of the given value c'val'
+}
+function TExtArray.Count(val:Extended): Int32;
+begin
+  Result := Length(Self.FindAll(val));
 end;
 
 
@@ -111,8 +196,6 @@ begin
 end;
 
 
-
-
 {!DOCREF} {
   @method: function TExtArray.Reversed(): TExtArray;
   @desc:  
@@ -133,6 +216,19 @@ procedure TExtArray.Reverse();
 begin
   Self := Self.Slice(-1,0,-1);
 end;
+
+
+
+
+{=============================================================================}
+// The functions below this line is not in the standard array functionality
+//
+// By "standard array functionality" I mean, functions that all standard
+// array types should have.
+{=============================================================================}
+
+
+
 
 
 {!DOCREF} {

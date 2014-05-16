@@ -61,6 +61,17 @@ end;
 
 
 {!DOCREF} {
+  @method: function T2DPointArray.PopLeft(): TPointArray;
+  @desc: Removes and returns the first item in the array
+}
+function T2DPointArray.PopLeft(): TPointArray;
+begin
+  Result := Self[0];
+  Self := Self.Slice(1,-1);
+end;
+
+
+{!DOCREF} {
   @method: function T2DPointArray.Slice(Start,Stop: Int32; Step:Int32=1): T2DPointArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
@@ -77,6 +88,23 @@ begin
   try exp_slice(Self, Start,Stop,Step,Result);
   except end;
 end;
+
+
+{!DOCREF} {
+  @method: procedure T2DPointArray.Extend(Arr:T2DPointArray);
+  @desc: Extends the 2d-array with a 2d-array
+}
+procedure T2DPointArray.Extend(Arr:T2DPointArray);
+var L,i:Int32;
+begin
+  L := Length(Self);
+  SetLength(Self, Length(Arr) + L);
+  for i:=L to High(Self) do
+  begin
+    SetLength(Self[i],Length(Arr[i-L]));
+    MemMove(Arr[i-L][0], Self[i][0], Length(Arr[i-L])*SizeOf(TPoint));
+  end;
+end;  
 
 
 {!DOCREF} {
@@ -171,3 +199,18 @@ procedure T2DPointArray.Reverse();
 begin
   Self := Self.Slice(-1,0,-1);
 end;
+
+
+
+
+
+{=============================================================================}
+// The functions below this line is not in the standard array functionality
+//
+// By "standard array functionality" I mean, functions that all standard
+// array types should have.
+{=============================================================================}
+
+
+
+

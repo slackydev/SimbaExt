@@ -60,6 +60,18 @@ end;
 
 
 {!DOCREF} {
+  @method: function TIntArray.PopLeft(): Int32;
+  @desc: Removes and returns the first item in the array
+}
+function TIntArray.PopLeft(): Int32;
+begin
+  Result := Self[0];
+  MemMove(Self[1], Self[0], SizeOf(Int32)*Length(Self));
+  SetLength(Self, High(self));
+end;
+
+
+{!DOCREF} {
   @method: function TIntArray.Slice(Start,Stop: Int32; Step:Int32=1): TIntArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
@@ -85,6 +97,82 @@ begin
   try exp_slice(Self, Start,Stop,Step,Result);
   except end;
 end;
+
+
+{!DOCREF} {
+  @method: procedure TIntArray.Extend(Arr:TIntArray);
+  @desc: Extends the array with an array
+}
+procedure TIntArray.Extend(Arr:TIntArray);
+var L:Int32;
+begin
+  L := Length(Self);
+  SetLength(Self, Length(Arr) + L);
+  MemMove(Arr[0],Self[L],Length(Arr)*SizeOf(Int32));
+end;  
+
+
+{!DOCREF} {
+  @method: function TIntArray.Find(Value:Int32): Int32;
+  @desc: Searces for the given value and returns the first position from the left.
+}
+function TIntArray.Find(Value:Int32): Int32;
+begin
+  Result := exp_Find(Self,[Value]);
+end;
+
+
+{!DOCREF} {
+  @method: function TIntArray.Find(Sequence:TIntArray): Int32; overload;
+  @desc: Searces for the given sequence and returns the first position from the left.
+}
+function TIntArray.Find(Sequence:TIntArray): Int32; overload;
+begin
+  Result := exp_Find(Self,Sequence);
+end;
+
+
+
+{!DOCREF} {
+  @method: function TIntArray.FindAll(Value:Int32): TIntArray;
+  @desc: Searces for the given value and returns all the position where it was found.
+}
+function TIntArray.FindAll(Value:Int32): TIntArray; overload;
+begin
+  exp_FindAll(Self,[value],Result);
+end;
+
+
+{!DOCREF} {
+  @method: function TIntArray.FindAll(Sequence:TIntArray): TIntArray; overload;
+  @desc: Searces for the given sequence and returns all the position where it was found.
+}
+function TIntArray.FindAll(Sequence:TIntArray): TIntArray; overload;
+begin
+  exp_FindAll(Self,sequence,Result);
+end;
+
+
+
+{!DOCREF} {
+  @method: function TIntArray.Contains(val:Int32): Boolean;
+  @desc: Checks if the arr contains the given value c'val'
+}
+function TIntArray.Contains(val:Int32): Boolean;
+begin
+  Result := Self.Find(val) <> -1;
+end;
+
+
+{!DOCREF} {
+  @method: function TIntArray.Count(val:Int32): Int32;
+  @desc: Counts all the occurances of the given value c'val'
+}
+function TIntArray.Count(val:Int32): Int32;
+begin
+  Result := Length(Self.FindAll(val));
+end;
+
 
 
 {!DOCREF} {
@@ -120,8 +208,6 @@ begin
 end;
 
 
-
-
 {!DOCREF} {
   @method: function TIntArray.Reversed(): TIntArray;
   @desc:  
@@ -141,6 +227,20 @@ procedure TIntArray.Reverse();
 begin
   Self := Self.Slice(-1,0,-1);
 end;
+
+
+
+
+{=============================================================================}
+// The functions below this line is not in the standard array functionality
+//
+// By "standard array functionality" I mean, functions that all standard
+// array types should have.
+{=============================================================================}
+
+
+
+
 
 
 {!DOCREF} {

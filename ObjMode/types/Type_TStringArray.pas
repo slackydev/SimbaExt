@@ -65,6 +65,17 @@ end;
 
 
 {!DOCREF} {
+  @method: function TStringArray.PopLeft(): String;
+  @desc: Removes and returns the first item in the array
+}
+function TStringArray.PopLeft(): String;
+begin
+  Result := Self[0];
+  Self := Self.Slice(1,-1);
+end;
+
+
+{!DOCREF} {
   @method: function TStringArray.Slice(Start,Stop: Int32; Step:Int32=1): TStringArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
@@ -84,16 +95,17 @@ end;
 
 
 {!DOCREF} {
-  @method: function TStringArray.Capital(): TStringArray;
-  @desc: Return a copy of the array with each strings first character capitalized and the rest lowercased.
+  @method: procedure TStringArray.Extend(Arr:TStringArray);
+  @desc: Extends the TSA with another TSA
 }
-function TStringArray.Capital(): TStringArray;
-var i:Int32;
+procedure TStringArray.Extend(Arr:TStringArray);
+var L,i:Int32;
 begin
-  Result := Self.Clone();
-  for i:=0 to High(Self) do
-    Capitalize(Result[i]);
-end;
+  L := Length(Self);
+  SetLength(Self, Length(Arr) + L);
+  for i:=L to High(Self) do
+    Self[i] := Copy(Arr[i-L]);
+end; 
 
 
 {!DOCREF} {
@@ -153,6 +165,33 @@ end;
 procedure TStringArray.Reverse();
 begin
   Self := Self.Slice(-1,0,-1);
+end;
+
+
+
+
+{=============================================================================}
+// The functions below this line is not in the standard array functionality
+//
+// By "standard array functionality" I mean, functions that all standard
+// array types should have.
+{=============================================================================}
+
+
+
+
+
+
+{!DOCREF} {
+  @method: function TStringArray.Capital(): TStringArray;
+  @desc: Return a copy of the array with each strings first character capitalized and the rest lowercased.
+}
+function TStringArray.Capital(): TStringArray;
+var i:Int32;
+begin
+  Result := Self.Clone();
+  for i:=0 to High(Self) do
+    Capitalize(Result[i]);
 end;
 
 

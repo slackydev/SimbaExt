@@ -58,6 +58,65 @@ begin
   except end;
 end;
 
+
+{!DOCREF} {
+  @method: procedure String.Extend(Str:String);
+  @desc: Extends the string with a string
+}
+procedure String.Extend(Str:String);
+var L:Int32;
+begin
+  L := Length(Self);
+  Self := Self + Str;
+end; 
+
+
+{!DOCREF} {
+  @method: function String.Find(Value:String): Int32;
+  @desc: 
+    Searces for the given value and returns the first position from the left.
+    [note] Same as String.Pos(..) [/note]
+}
+function String.Find(Value:String): Int32;
+begin
+  Result := exp_Find(Self,Value);
+end;
+
+
+{!DOCREF} {
+  @method: function String.FindAll(Value:String): TIntArray; overload;
+  @desc: 
+    Searces for the given value and returns all the position where it was found.
+    [note] Same as String.PosMulti(..) [/note]
+}
+function String.FindAll(Value:String): TIntArray; overload;
+begin
+  exp_FindAll(Self,Value,Result);
+end;
+
+
+
+{!DOCREF} {
+  @method: function String.Contains(val:String): Boolean;
+  @desc: Checks if the arr contains the given value c'val'
+}
+function String.Contains(val:String): Boolean;
+begin
+  Result := Self.Find(val) <> 0;
+end;
+
+
+{!DOCREF} {
+  @method: function String.Count(val:String): Int32;
+  @desc: Counts all the occurances of the given value c'val'
+}
+function String.Count(val:String): Int32;
+begin
+  Result := Length(Self.FindAll(val));
+end;
+
+
+
 {!DOCREF} {
   @method: function String.StartsWith(Prefix:String): Boolean;
   @desc:   Returns True if the string starts with c'Prefix'.
