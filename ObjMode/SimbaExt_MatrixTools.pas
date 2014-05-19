@@ -354,7 +354,9 @@ end;
   @desc: ArgMin returns the index of the smallest item.
 }
 function TFloatMatrix.ArgMin(): TPoint; 
-begin Result := exp_ArgMinF(Self); 
+begin
+  if Length(Self) > 0 then
+    Result := exp_ArgMinF(Self);
 end;
 
 
@@ -363,7 +365,9 @@ end;
   @desc: ArgMin returns the index of the smallest item within the given bounds c'B'.
 }
 function TFloatMatrix.ArgMin(B:TBox): TPoint; overload;
-begin Result := exp_ArgMinExF(Self, B);
+begin
+  if Length(Self) > 0 then
+    Result := exp_ArgMinExF(Self, B);
 end;
 
 
@@ -374,7 +378,9 @@ end;
     EG: c'Matrix.Indices(10, __LT__)' would return all the items which are less then 10.
 }
 function TFloatMatrix.Indices(Value: Single; const Comparator:TComparator): TPointArray;
-begin exp_IndicesF(Self, Value, Comparator, Result); 
+begin
+  if Length(Self) > 0 then
+    exp_IndicesF(Self, Value, Comparator, Result);
 end;   
 
 

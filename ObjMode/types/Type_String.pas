@@ -64,12 +64,39 @@ end;
   @desc: Extends the string with a string
 }
 procedure String.Extend(Str:String);
-var L:Int32;
 begin
-  L := Length(Self);
   Self := Self + Str;
 end; 
 
+
+{!DOCREF} {
+  @method: function String.Pos(Sub:String): Int32;
+  @desc:   Return the lowest index in the string where substring c'Sub' is located. 0 if not found
+}
+function String.Pos(Sub:String): Int32;
+begin
+  Result := se.StrPosL(Sub,Self);
+end;
+
+
+{!DOCREF} {
+  @method: function String.rPos(Sub:String): Int32;
+  @desc:   Return the highest index in the string where substring c'Sub' is located. 0 if not found
+}
+function String.rPos(Sub:String): Int32;
+begin
+  Result := se.StrPosR(Sub,Self);
+end;
+
+
+{!DOCREF} {
+  @method: function String.PosMulti(Sub:String): TIntArray;
+  @desc:   Return all the index in the string where substring c'Sub' is located. Empty is not found
+}
+function String.PosMulti(Sub:String): TIntArray;
+begin
+  Result := se.StrPosEx(Sub,Self);
+end;
 
 {!DOCREF} {
   @method: function String.Find(Value:String): Int32;
@@ -87,7 +114,7 @@ end;
   @method: function String.FindAll(Value:String): TIntArray; overload;
   @desc: 
     Searces for the given value and returns all the position where it was found.
-    [note] Same as String.PosMulti(..) [/note]
+    [note]Same Result as String.PosMulti(..) but less optimized for the task[/note]
 }
 function String.FindAll(Value:String): TIntArray; overload;
 begin
@@ -112,7 +139,7 @@ end;
 }
 function String.Count(val:String): Int32;
 begin
-  Result := Length(Self.FindAll(val));
+  Result := Length(Self.PosMulti(val));
 end;
 
 
@@ -181,35 +208,6 @@ begin
   Result := Lowercase(Self);
 end;
 
-
-{!DOCREF} {
-  @method: function String.Pos(Sub:String): Int32;
-  @desc:   Return the lowest index in the string where substring c'Sub' is located. 0 if not found
-}
-function String.Pos(Sub:String): Int32;
-begin
-  Result := se.StrPosL(Sub,Self);
-end;
-
-
-{!DOCREF} {
-  @method: function String.rPos(Sub:String): Int32;
-  @desc:   Return the highest index in the string where substring c'Sub' is located. 0 if not found
-}
-function String.rPos(Sub:String): Int32;
-begin
-  Result := se.StrPosR(Sub,Self);
-end;
-
-
-{!DOCREF} {
-  @method: function String.PosMulti(Sub:String): TIntArray;
-  @desc:   Return all the index in the string where substring c'Sub' is located. Empty is not found
-}
-function String.PosMulti(Sub:String): TIntArray;
-begin
-  Result := se.StrPosEx(Sub,Self);
-end;
 
 
 {!DOCREF} {

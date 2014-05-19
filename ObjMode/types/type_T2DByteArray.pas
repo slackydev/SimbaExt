@@ -303,10 +303,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DByteArray.Min(): Byte;
+  @method: function T2DByteArray.VarMin(): Byte;
   @desc: Returns the minimum value in the array
 }
-function T2DByteArray.Min(): Byte;
+function T2DByteArray.VarMin(): Byte;
 var _:Byte;
 begin
   se.MinMaxTBA(Self.Merge(),Result,_);
@@ -315,10 +315,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DByteArray.Max(): Byte;
+  @method: function T2DByteArray.VarMax(): Byte;
   @desc: Returns the maximum value in the array
 }
-function T2DByteArray.Max(): Byte;
+function T2DByteArray.VarMax(): Byte;
 var _:Byte;
 begin
   se.MinMaxTBA(Self.Merge(),_,Result);

@@ -76,6 +76,16 @@ end;
 
 
 {!DOCREF} {
+  @method: function TPoint.Flip(): TPoint;
+  @desc: x->y, y->x
+}
+function TPoint.Flip(): TPoint;
+begin
+  Result := Point(Self.y,Self.x);
+end;
+
+
+{!DOCREF} {
   @method: function TPoint.Equals(Pt:TPoint): Boolean;
   @desc: Compares equal
 }

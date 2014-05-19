@@ -46,13 +46,41 @@ begin
 end;
 
 
+
+{!DOCREF} {
+  @method: procedure TPointArray.Del(idx:Int32);
+  @desc: Removes the element at the given index c'idx'
+}
+procedure TPointArray.Del(idx:Int32);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (l <= idx) or (idx < 0) then 
+    Exit();
+  if (L-1 <> idx) then
+    MemMove(Self[idx+1], self[idx], (L-Idx)*SizeOf(TPoint));
+  SetLength(Self, l-1);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TPointArray.Remove(Value:TPoint);
+  @desc: Removes the first element from left which is equal to c'Value'
+}
+procedure TPointArray.Remove(Value:TPoint);
+begin
+  Self.Del( Self.Find(Value) );
+end;
+
+
+
+
 {!DOCREF} {
   @method: function TPointArray.Pop(): TPoint;
   @desc: Removes and returns the last item in the array
 }
 function TPointArray.Pop(): TPoint;
-var
-  H:Int32;
+var H:Int32;
 begin
   H := high(Self);
   Result := Self[H];
@@ -357,8 +385,10 @@ end;
 
 
 {!DOCREF} {
-  method: function TPointArray.Rotate(Angle:Extended): TPointArray;
-  desc: Rotates the TPA
+  @method: function TPointArray.Rotate(Angle:Extended): TPointArray;
+  @desc: 
+    Rotates the TPA
+    [note][b]Not[/b] the same as RotatePoints in Simba![/note]
 }
 function TPointArray.Rotate(Angle:Extended): TPointArray;
 begin
@@ -368,7 +398,9 @@ end;
 
 {!DOCREF} {
   @method: function TPointArray.RotatePts(Angle:Extended; CX,CY: Int32): TPointArray;
-  @desc: Rotates the TPA, but each point is threated "induvidually"
+  @desc: 
+    Rotates the TPA, but each point is threated "induvidually"
+    [note]The same as RotatePoints in Simba![/note]
 }
 function TPointArray.RotatePts(Angle:Extended; CX,CY: Int32): TPointArray;
 begin

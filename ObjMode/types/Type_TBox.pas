@@ -2,13 +2,14 @@
   Type » TBox
 }
 
+{$IfNDef AeroLib}
 {!DOCREF} {
   @method: function TBox.Width(): Int32;
   @desc: Returns the width of the TBox
 }
 function TBox.Width(): Int32;
 begin
-  Result := (X2-X1+1);
+  Result := (Self.X2 - Self.X1 + 1);
 end;
 
 
@@ -18,8 +19,9 @@ end;
 }
 function TBox.Height(): Int32;
 begin
-  Result := (Y2-Y1+1);
+  Result := (Self.Y2 - Self.Y1 + 1);
 end;
+{$endif}
 
 
 {!DOCREF} {
@@ -38,8 +40,8 @@ end;
 }
 function TBox.Center(): TPoint;
 begin
-  Result.X := Self.X1 + (Self.Width() shr 1);
-  Result.Y := Self.Y1 + (Self.Height() shr 1);
+  Result.X := (Self.X1 + Self.X2) div 2;
+  Result.Y := (Self.Y1 + Self.Y2) div 2;
 end;
 
 
@@ -74,7 +76,7 @@ end;
 function TBox.Overlaps(Other:TBox): Boolean;
 begin
   Result:= (self.x2 > other.x1) and (self.x1 < other.x2) and
-          (self.y1 < other.y2) and (self.y2 > other.y1);
+           (self.y1 < other.y2) and (self.y2 > other.y1);
 end;
 
 
@@ -88,6 +90,19 @@ begin
                   Min(Min(Other.Y1, Other.Y2), Min(Self.Y1, Self.Y2)),
                   Max(Max(Other.X1, Other.X2), Max(Self.X1, Self.X2)),
                   Max(Max(Other.Y1, Other.Y2), Max(Self.Y1, Self.Y2)));
+end; 
+
+
+{!DOCREF} {
+  @method: function TBox.Merge(Other:TBox): TBox;
+  @desc: Merge two boxes (expands on current)
+}
+function TBox.Merge(Other:TBox): TBox;
+begin
+  Self := ToBox(Min(Min(Other.X1, Other.X2), Min(Self.X1, Self.X2)),
+                Min(Min(Other.Y1, Other.Y2), Min(Self.Y1, Self.Y2)),
+                Max(Max(Other.X1, Other.X2), Max(Self.X1, Self.X2)),
+                Max(Max(Other.Y1, Other.Y2), Max(Self.Y1, Self.Y2)));
 end;  
 
 

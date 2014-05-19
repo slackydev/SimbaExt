@@ -47,12 +47,37 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure TBoxArray.Del(idx:Int32);
+  @desc: Removes the element at the given index c'idx'
+}
+procedure TBoxArray.Del(idx:Int32);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (l <= idx) or (idx < 0) then 
+    Exit();
+  if (L-1 <> idx) then
+    MemMove(Self[idx+1], self[idx], (L-Idx)*SizeOf(TBox));
+  SetLength(Self, l-1);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TBoxArray.Remove(Value:TBox);
+  @desc: Removes the first element from left which is equal to c'Value'
+}
+procedure TBoxArray.Remove(Value:TBox);
+begin
+  Self.Del( Self.Find(Value) );
+end;
+
+
+{!DOCREF} {
   @method: function TBoxArray.Pop(): TBox;
   @desc: Removes and returns the last item in the array
 }
 function TBoxArray.Pop(): TBox;
-var
-  H:Int32;
+var H:Int32;
 begin
   H := high(Self);
   Result := Self[H];

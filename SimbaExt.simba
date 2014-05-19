@@ -1,24 +1,53 @@
 //Define types used in SimbaExt
 {$IFDEF LAPE}
 type
-  TIntArray   = TIntegerArray;
-  TFloatArray = Array of Single;
-  TDoubleArray= Array of Double;
-  TExtArray   = TExtendedArray;
+  Float32 = Single;
+  Float64 = Double;
+  Float80 = Extended;
+
+  PFloat32 = ^Single;
+  PFloat64 = ^Double;
+  PFloat80 = ^Extended;
   
-  //T2DIntArray     = Array of TIntArray;
+  Complex64  = record re,im: Float64; end;
+  ComplexPtr =^Complex64;
+  Complex    = Complex64;
+  
+  //Arr
+  TComplexArray= Array of Complex64;
+  TIntArray    = TIntegerArray;
+  TFloatArray  = Array of Float32;
+  TDoubleArray = Array of Float64;
+  TExtArray    = Array of Float80;
+  
+  
+  //Spesific names
+  TInt8Array   = Array of Int8;
+  TInt16Array  = Array of Int16;
+  TInt32Array  = Array of Int32;
+  TInt64Array  = Array of Int64;
+  TFloat32Array  = Array of Float32;
+  TFloat64Array  = Array of Float64;
+  TFloat80Array  = Array of Float80;
+  
+  
+  //Array of Array ..
+  (*T2DIntArray     = Array of TIntArray;*)
   T2DExtArray     = Array of TExtArray;
   T2DFloatArray   = Array of TFloatArray;
   T2DDoubleArray  = Array of TDoubleArray;
-
-  T2DBoxArray  = Array of TBoxArray;
+  T2DBoxArray     = Array of TBoxArray;
   
+  
+  //Matrix ..
   TByteMatrix   = Array of TByteArray;
   TIntMatrix    = Array of TIntArray;
   TExtMatrix    = Array of TExtArray;
   TFloatMatrix  = Array of TFloatArray;
   TDoubleMatrix = Array of TDoubleArray;
- 
+
+  
+  //Other ..
   TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
   TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
   
@@ -28,18 +57,18 @@ type
   );
   
   
-  
 //LoadLibrary from current folder 
 {$loadlib \..\includes\simbaext\simbaext.dll}
 {$loadlib \..\includes\simbaext\seextra.dll}
 
 
-// IntToBox is to long, and [x1,y1,x2,y2] does not always work..
+{$IfNDef AeroLib}
+// IntToBox is to long, and [x1,y1,x2,y2] fails whenever used with a overloaded method..
 function ToBox(x1,y1,x2,y2: Integer): TBox; overload;
 begin
   Result := [x1,y1,x2,y2];
 end;
-
+{$endif}
 
 function ToBox(TopLeft, BtmRight:TPoint): TBox; overload;
 begin

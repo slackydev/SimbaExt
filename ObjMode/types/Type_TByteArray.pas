@@ -47,6 +47,33 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure TByteArray.Del(idx:Int32);
+  @desc: Removes the element at the given index c'idx'
+}
+procedure TByteArray.Del(idx:Int32);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (l <= idx) or (idx < 0) then 
+    Exit();
+  if (L-1 <> idx) then
+    MemMove(Self[idx+1], self[idx], (L-Idx)*SizeOf(Byte));
+  SetLength(Self, l-1);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TByteArray.Remove(Value:Byte);
+  @desc: Removes the first element from left which is equal to c'Value'
+}
+procedure TByteArray.Remove(Value:Byte);
+begin
+  Self.Del( Self.Find(Value) );
+end;
+
+
+
+{!DOCREF} {
   @method: function TByteArray.Pop(): Byte;
   @desc: Removes and returns the last item in the array
 }
@@ -334,10 +361,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TByteArray.Min(): Byte;
+  @method: function TByteArray.VarMin(): Byte;
   @desc: Returns the minimum value in the array
 }
-function TByteArray.Min(): Byte;
+function TByteArray.VarMin(): Byte;
 var _:Byte;
 begin
   se.MinMaxTBA(Self,Result,_);
@@ -346,10 +373,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TByteArray.Max(): Byte;
+  @method: function TByteArray.VarMax(): Byte;
   @desc: Returns the maximum value in the array
 }
-function TByteArray.Max(): Byte;
+function TByteArray.VarMax(): Byte;
 var _:Byte;
 begin
   se.MinMaxTBA(Self,_,Result);

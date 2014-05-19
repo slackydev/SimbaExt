@@ -281,10 +281,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DExtArray.Min(): Extended;
+  @method: function T2DExtArray.VarMin(): Extended;
   @desc: Returns the minimum value in the array
 }
-function T2DExtArray.Min(): Extended;
+function T2DExtArray.VarMin(): Extended;
 var _:Extended;
 begin
   se.MinMaxTEA(Self.Merge(),Result,_);
@@ -293,10 +293,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DExtArray.Max(): Extended;
+  @method: function T2DExtArray.VarMax(): Extended;
   @desc: Returns the maximum value in the array
 }
-function T2DExtArray.Max(): Extended;
+function T2DExtArray.VarMax(): Extended;
 var _:Extended;
 begin
   se.MinMaxTEA(Self.Merge(),_,Result);

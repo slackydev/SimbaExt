@@ -47,6 +47,32 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure TExtArray.Del(idx:Int32);
+  @desc: Removes the element at the given index c'idx'
+}
+procedure TExtArray.Del(idx:Int32);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (l <= idx) or (idx < 0) then 
+    Exit();
+  if (L-1 <> idx) then
+    MemMove(Self[idx+1], self[idx], (L-Idx)*SizeOf(Extended));
+  SetLength(Self, l-1);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TExtArray.Remove(Value:Extended);
+  @desc: Removes the first element from left which is equal to c'Value'
+}
+procedure TExtArray.Remove(Value:Extended);
+begin
+  Self.Del( Self.Find(Value) );
+end;
+
+
+{!DOCREF} {
   @method: function TExtArray.Pop(): Extended;
   @desc: Removes and returns the last item in the array
 }
@@ -323,10 +349,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Min(): Extended;
+  @method: function TExtArray.VarMin(): Extended;
   @desc: Returns the minimum value in the array
 }
-function TExtArray.Min(): Extended;
+function TExtArray.VarMin(): Extended;
 var _:Extended;
 begin
   se.MinMaxTEA(Self,Result,_);
@@ -335,10 +361,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Max(): Extended;
+  @method: function TExtArray.VarMax(): Extended;
   @desc: Returns the maximum value in the array
 }
-function TExtArray.Max(): Extended;
+function TExtArray.VarMax(): Extended;
 var _:Extended;
 begin
   se.MinMaxTEA(Self,_,Result);

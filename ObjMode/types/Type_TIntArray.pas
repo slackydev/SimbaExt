@@ -47,6 +47,32 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure TIntArray.Del(idx:Int32);
+  @desc: Removes the element at the given index c'idx'
+}
+procedure TIntArray.Del(idx:Int32);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (l <= idx) or (idx < 0) then 
+    Exit();
+  if (L-1 <> idx) then
+    MemMove(Self[idx+1], self[idx], (L-Idx)*SizeOf(Int32));
+  SetLength(Self, l-1);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TIntArray.Remove(Value:Int32);
+  @desc: Removes the first element from left which is equal to c'Value'
+}
+procedure TIntArray.Remove(Value:Int32);
+begin
+  Self.Del( Self.Find(Value) );
+end;
+
+
+{!DOCREF} {
   @method: function TIntArray.Pop(): Int32;
   @desc: Removes and returns the last item in the array
 }
@@ -345,10 +371,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Min(): Int32;
+  @method: function TIntArray.VarMin(): Int32;
   @desc: Returns the minimum value in the array
 }
-function TIntArray.Min(): Int32;
+function TIntArray.VarMin(): Int32;
 var _:Int32;
 begin
   se.MinMaxTIA(Self,Result,_);
@@ -357,10 +383,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Max(): Int32;
+  @method: function TIntArray.VarMax(): Int32;
   @desc: Returns the maximum value in the array
 }
-function TIntArray.Max(): Int32;
+function TIntArray.VarMax(): Int32;
 var _:Int32;
 begin
   se.MinMaxTIA(Self,_,Result);

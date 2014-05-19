@@ -304,10 +304,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DIntArray.Min(): Int32;
+  @method: function T2DIntArray.VarMin(): Int32;
   @desc: Returns the minimum value in the array
 }
-function T2DIntArray.Min(): Int32;
+function T2DIntArray.VarMin(): Int32;
 var _:Int32;
 begin
   se.MinMaxTIA(Self.Merge(),Result,_);
@@ -316,10 +316,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DIntArray.Max(): Int32;
+  @method: function T2DIntArray.VarMax(): Int32;
   @desc: Returns the maximum value in the array
 }
-function T2DIntArray.Max(): Int32;
+function T2DIntArray.VarMax(): Int32;
 var _:Int32;
 begin
   se.MinMaxTIA(Self.Merge(),_,Result);
