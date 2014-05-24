@@ -36,8 +36,8 @@ uses
   Morphology,
   DensityMap,
   StringTools,
-  CornerDet;
-  //_Tests;
+  CornerDet,
+  _Tests;
 
 //Include Simba Wrapper
 {$I ExportWrap.pas}
@@ -249,7 +249,9 @@ begin
   AddCommand(@exp_ImSobel,	    'procedure exp_ImSobel(const ImgArr: T2DIntArray; var Result:T2DIntArray);');
   AddCommand(@exp_ImConvolve,	  'procedure exp_ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray; var Result:T2DIntArray);');
   AddCommand(@exp_ImGaussBlur,  'procedure exp_ImGaussBlur(const ImgArr: T2DIntArray; Radius: Integer; Sigma: Single; var Result:T2DIntArray);');
+  //AddCommand(@exp_ImBlend,      'procedure exp_ImBlend(Img1,Img2: T2DIntArray; Alpha: Single; var Result:T2DIntArray);');
   AddCommand(@exp_ImResize,	    'procedure exp_ImResize(var ImgArr:T2DIntegerArray; NewW, NewH: Integer; Method:TResizeAlgo);');
+
 
   // SimpleOCR.pas
   AddCommand(@exp_ImGetText,     'function exp_ImGetText(ImgArr:T2DIntegerArray; Font:TChars; MinCharSpace, MinSpace, TextPixTol: Integer; Range:AnsiString): AnsiString;');

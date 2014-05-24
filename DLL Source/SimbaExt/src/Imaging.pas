@@ -12,7 +12,8 @@ interface
 uses
   Math, CoreTypes, CoreMisc;
 
-
+procedure ImGetRGB(Img: T2DIntArray; out R,G,B:T2DByteArray);
+function ImMergeRGB(R,G,B:T2DByteArray): T2DIntArray;  
 function GaussKernel(KernelRadius:Integer; Sigma:Single): T2DFloatArray;
 function ImBlurFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; 
 function ImMedianFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; 
@@ -25,6 +26,7 @@ function ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray;
 function ImSobel(const ImgArr: T2DIntArray): T2DIntArray; 
 function ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;
 function ImGaussBlur(const ImgArr:T2DIntArray; Radius: Integer; Sigma: Single): T2DIntArray;
+function ImBlend(Img1, Img2: T2DIntArray; Alpha:Single=0.5): T2DIntArray; //not exported yet..
 function ImFilterGray(const ImgArr:T2DIntArray; MinDark, MaxDark:Byte; Replace, Tol:Integer): T2DIntArray;
 procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);
 
@@ -33,8 +35,46 @@ procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAl
 implementation
 
 uses
-  PointTools, ColorMath;
+  PointTools, ColorMath, MatrixMath;
 
+ 
+{*
+ Converts the ImMatrix to separate arrays for each channel (R,G,B).
+*} 
+procedure ImGetRGB(Img: T2DIntArray; out R,G,B:T2DByteArray); 
+var W,H,x,y:Int32;
+begin
+  H := High(Img);
+  if H < 0 then Exit;
+  W := High(Img[0]);
+  SetLength(R, H+1, W+1);
+  SetLength(G, H+1, W+1);
+  SetLength(B, H+1, W+1);
+  for y:=0 to H do
+    for x:=0 to W do begin
+      R[y][x] := Img[y][x] and $FF;
+      G[y][x] := Img[y][x] shr 8 and $FF;
+      B[y][x] := Img[y][x] shr 16 and $FF;
+    end;
+end;
+
+
+{*
+ Takes three channels (R,G,B), one for each color, merges them in to a Image-matrix.
+*} 
+function ImMergeRGB(R,G,B:T2DByteArray): T2DIntArray; 
+var W,H,x,y:Int32;
+begin
+  H := High(R);
+  if H < 0 then Exit;
+  W := High(R[0]);
+  SetLength(Result, H+1, W+1);
+  for y:=0 to H do
+    for x:=0 to W do
+      Result[y][x] := R[y][x] or G[y][x] shl 8 or B[y][x] shl 16;
+end;
+  
+  
 {*
  Generates a gaussian filter. 
 *}
@@ -222,6 +262,7 @@ end;
 {*
  Enhances colors in the image by a given value.
  @params:
+
    Enhancement: How much to substraact or add to the color.
    C: Based on the "mid"-value (127), if color is bellow then it gets weakened,
       if it's above then it gets enhanced.
@@ -540,15 +581,14 @@ var
   mW,mH,mid:Integer;
   valR,valG,valB: Single;
 
-procedure ForceInBounds(const x,y, Wid,Hig: Int32; out cx,cy: Int32); Inline;
-begin
-  cx := x;
-  cy := y;
-  if cx >= Wid then   cx := Wid-1
-  else if cx < 0 then cx := 0;
-  if cy >= Hig then   cy := Hig-1
-  else if cy < 0 then cy := 0;
-end;
+  procedure ForceInBounds(const x,y, Wid,Hig: Int32; out cx,cy: Int32); Inline;
+  begin
+    cx := x; cy := y;
+    if cx >= Wid then   cx := Wid-1
+    else if cx < 0 then cx := 0;
+    if cy >= Hig then   cy := Hig-1
+    else if cy < 0 then cy := 0;
+  end;
 
 begin
   W := Length(ImgArr[0]);
@@ -574,9 +614,9 @@ begin
           valG := valG + (mask[yy][xx] * ((ImgArr[cy][cx] shr 8) and $FF));
           valB := valB + (mask[yy][xx] * ((ImgArr[cy][cx] shr 16) and $FF));
         end;
-      Result[y][x] :=(Trunc(valR)) or 
-                     (Trunc(valG) shl 8) or 
-                     (Trunc(valB) shl 16);
+      Result[y][x] := (Round(valR)) or 
+                      (Round(valG) shl 8) or 
+                      (Round(valB) shl 16);
   end;
 end;
 
@@ -591,6 +631,28 @@ function ImGaussBlur(const ImgArr:T2DIntArray; Radius: Integer; Sigma: Single): 
 begin
   Result := ImConvolve(ImgArr, GaussKernel(Radius,Sigma));
 end;
+
+
+{*
+ Blends the two images in to a single image. Both images must be the same size.
+*}
+function ImBlend(Img1, Img2: T2DIntArray; Alpha:Single=0.5): T2DIntArray;
+var
+  R1,G1,B1,R2,G2,B2:T2DByteArray;
+  wA,wB:Single;
+begin
+  if (Length(Img1) <> Length(Img2)) then Exit();
+  wA := Min(Max(Alpha, 0), 1.0);
+  wB := 1.0-wA;
+  ImGetRGB(Img1,R1,G1,B1);
+  ImGetRGB(Img2,R2,G2,B2);
+
+  Result := ImMergeRGB(
+              ToByte((R1 * wA) + (R2 * wB)),
+              ToByte((G1 * wA) + (G2 * wB)),
+              ToByte((B1 * wA) + (B2 * wB))
+            );
+end; 
 
 
 {*

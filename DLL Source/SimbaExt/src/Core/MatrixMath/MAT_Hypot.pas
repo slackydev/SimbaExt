@@ -13,7 +13,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -29,7 +30,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -45,7 +47,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -61,7 +64,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -77,7 +81,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -93,7 +98,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -109,7 +115,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -125,7 +132,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -141,7 +149,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -157,7 +166,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -173,7 +183,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -189,7 +200,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -205,7 +217,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -221,7 +234,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -237,7 +251,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -253,7 +268,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -269,7 +285,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -281,7 +298,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -293,7 +311,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -305,7 +324,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -317,7 +337,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -329,7 +350,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -341,7 +363,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -353,7 +376,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -365,7 +389,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -377,7 +402,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -393,7 +419,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -409,7 +436,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -425,7 +453,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -441,7 +470,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -457,7 +487,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -473,7 +504,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -489,7 +521,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -505,7 +538,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -517,7 +551,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -529,7 +564,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -541,7 +577,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -553,7 +590,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -565,7 +603,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -577,7 +616,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -589,7 +629,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -601,7 +642,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -613,7 +655,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -629,7 +672,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -645,7 +689,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -661,7 +706,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -677,7 +723,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -693,7 +740,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -709,7 +757,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -725,7 +774,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -741,7 +791,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -753,7 +804,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -765,7 +817,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -777,7 +830,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -789,7 +843,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -801,7 +856,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -813,7 +869,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -825,7 +882,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -837,7 +895,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -849,7 +908,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -865,7 +925,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -881,7 +942,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -897,7 +959,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -913,7 +976,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -929,7 +993,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -945,7 +1010,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -961,7 +1027,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -977,7 +1044,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -989,7 +1057,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1001,7 +1070,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1013,7 +1083,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1025,7 +1096,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1037,7 +1109,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1049,7 +1122,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1061,7 +1135,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1073,7 +1148,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1085,7 +1161,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1101,7 +1178,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1117,7 +1195,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1133,7 +1212,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1149,7 +1229,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1165,7 +1246,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1181,7 +1263,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1197,7 +1280,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1213,7 +1297,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1225,7 +1310,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1237,7 +1323,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1249,7 +1336,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1261,7 +1349,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1273,7 +1362,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1285,7 +1375,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1297,7 +1388,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1309,7 +1401,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1321,7 +1414,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1337,7 +1431,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1353,7 +1448,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1369,7 +1465,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1385,7 +1482,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1401,7 +1499,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1417,7 +1516,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1433,7 +1533,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1449,7 +1550,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1461,7 +1563,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1473,7 +1576,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1485,7 +1589,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1497,7 +1602,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1509,7 +1615,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1521,7 +1628,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1533,7 +1641,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1545,7 +1654,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1557,7 +1667,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1573,7 +1684,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1589,7 +1701,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1605,7 +1718,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1621,7 +1735,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1637,7 +1752,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1653,7 +1769,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1669,7 +1786,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1685,7 +1803,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1697,7 +1816,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1709,7 +1829,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1721,7 +1842,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1733,7 +1855,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1745,7 +1868,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1757,7 +1881,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1769,7 +1894,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1781,7 +1907,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1793,7 +1920,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1809,7 +1937,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1825,7 +1954,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1841,7 +1971,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1857,7 +1988,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1873,7 +2005,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1889,7 +2022,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1905,7 +2039,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1921,7 +2056,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -1933,7 +2069,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1945,7 +2082,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1957,7 +2095,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1969,7 +2108,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1981,7 +2121,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -1993,7 +2134,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2005,7 +2147,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2017,7 +2160,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2029,7 +2173,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2045,7 +2190,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -2061,7 +2207,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -2077,7 +2224,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -2093,7 +2241,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -2109,7 +2258,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -2125,7 +2275,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -2141,7 +2292,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -2157,7 +2309,8 @@ begin
   SetLength(Result, Hl+1,Wl+1);
   for i:=0 to Hl do
     for j:=0 to Wl do
-      Result[i][j] := Hypot(l[i][j],r[i][j]);end;
+      Result[i][j] := Hypot(l[i][j],r[i][j]);
+end;
 
 
 
@@ -2169,7 +2322,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2181,7 +2335,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2193,7 +2348,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2205,7 +2361,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2217,7 +2374,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2229,7 +2387,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2241,7 +2400,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2253,7 +2413,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2265,7 +2426,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l[i][j],r);end;
+      Result[i][j] := Hypot(l[i][j],r);
+end;
 
 
 
@@ -2277,7 +2439,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2289,7 +2452,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2301,7 +2465,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2313,7 +2478,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2325,7 +2491,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2337,7 +2504,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2349,7 +2517,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2361,7 +2530,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2373,7 +2543,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2385,7 +2556,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2397,7 +2569,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2409,7 +2582,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2421,7 +2595,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2433,7 +2608,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2445,7 +2621,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2457,7 +2634,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2469,7 +2647,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2481,7 +2660,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2493,7 +2673,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2505,7 +2686,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2517,7 +2699,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2529,7 +2712,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2541,7 +2725,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2553,7 +2738,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2565,7 +2751,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2577,7 +2764,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2589,7 +2777,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2601,7 +2790,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2613,7 +2803,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2625,7 +2816,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2637,7 +2829,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2649,7 +2842,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2661,7 +2855,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2673,7 +2868,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2685,7 +2881,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2697,7 +2894,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2709,7 +2907,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2721,7 +2920,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2733,7 +2933,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2745,7 +2946,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2757,7 +2959,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2769,7 +2972,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2781,7 +2985,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2793,7 +2998,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2805,7 +3011,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2817,7 +3024,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2829,7 +3037,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2841,7 +3050,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2853,7 +3063,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2865,7 +3076,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2877,7 +3089,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2889,7 +3102,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2901,7 +3115,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2913,7 +3128,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2925,7 +3141,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2937,7 +3154,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2949,7 +3167,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2961,7 +3180,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2973,7 +3193,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2985,7 +3206,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -2997,7 +3219,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3009,7 +3232,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3021,7 +3245,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3033,7 +3258,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3045,7 +3271,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3057,7 +3284,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3069,7 +3297,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3081,7 +3310,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3093,7 +3323,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3105,7 +3336,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3117,7 +3349,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3129,7 +3362,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3141,7 +3375,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3153,7 +3388,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3165,7 +3401,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3177,7 +3414,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3189,7 +3427,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3201,7 +3440,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3213,7 +3453,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3225,7 +3466,8 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 
 
@@ -3237,6 +3479,7 @@ begin
   SetLength(Result, H+1,W+1);
   for i:=0 to H do
     for j:=0 to W do
-      Result[i][j] := Hypot(l,r[i][j]);end;
+      Result[i][j] := Hypot(l,r[i][j]);
+end;
 
 

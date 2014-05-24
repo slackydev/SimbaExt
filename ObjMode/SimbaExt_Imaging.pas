@@ -20,14 +20,16 @@ begin
   exp_ImBlurFilter(ImgArr, Block, Result);
 end;
 
+
 {!DOCREF} {
   @method: function se.ImMedianFilter(ImgArr: T2DIntArray; Block:Integer):  T2DIntArray;  
-  @desc: Applies a median filter to the image.
+  @desc: Applies a median filter. Picks the median pixel value in a window with the given size c'Block'.
 }
 function SimbaExt.ImMedianFilter(ImgArr: T2DIntArray; Block:Integer):  T2DIntArray;  
 begin
   exp_ImMedianFilter(ImgArr, Block, Result);
 end;
+
 
 {!DOCREF} {
   @method: function se.ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean):  T2DIntArray;  
@@ -38,18 +40,26 @@ begin
   exp_ImBrighten(ImgArr, Amount, Legacy, Result);
 end;
 
+
 {!DOCREF} {
-  @method: function se.ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended):  T2DIntArray;  
+  @method: function se.ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended=0):  T2DIntArray;  
   @desc: Enhances R,G,B levels.
 }
-function SimbaExt.ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended):  T2DIntArray;  
+function SimbaExt.ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended=0):  T2DIntArray;  
 begin
  exp_ImEnhance(ImgArr, Enhancement, C, Result);
 end;
 
+
 {!DOCREF} {
   @method: function se.ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Invert:Boolean=False):  T2DIntArray;  
-  @desc: A simple threshold function. Anything above Threshold = Beta, and bellow = Alpha. Swaps Alpha and beta if Invert=True
+  @desc: 
+    A simple threshold function. Anything above Threshold = Beta, and bellow = Alpha. Swaps Alpha and beta if Invert=True
+    [params]
+      ImgArr:     A 2D matrix representation of an image.
+      Alpha,Beta: Lower and upper result colors (0-255).
+      Invert:     Invert the result
+    [/params]
 }
 function SimbaExt.ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Invert:Boolean=False):  T2DIntArray;  
 begin
@@ -61,12 +71,13 @@ end;
   @method: function se.ImThresholdAdaptive(const ImgArr:T2DIntegerArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Int32=0):  T2DIntArray;  
   @desc: 
     Threshold function which first calculates the average color of the image, then turns anything above Mean = Beta, and bellow = Alpha.
-    @params:
+    [params]
       ImgArr:     A 2D matrix representation of an image.
       Alpha,Beta: Lower and upper result colors (0-255).
       Invert:     Invert the result
       C:          Modiefier to mean. Negative C substracts from mean, positive C adds to mean.
       Method:     TA_MEAN | TA_MINMAX
+    [/params]
 }
 function SimbaExt.ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Int32=0):  T2DIntArray;  
 begin
@@ -110,11 +121,11 @@ end;
     [code=pascal]
     var Im:TRafBitmap;
     begin
-      Im.Open('test.png');
-      Im.FromMatrix(  se.Convolve(Im.ToMatrix(), se.GaussKernel(5,2))  ); 
+      Im.Open('lena.png');
+      Im.FromMatrix(  se.ImConvolve(Im.ToMatrix(), se.GaussKernel(5,3))  );
       Im.Debug();
       Im.Free();
-    end;
+    end;  
     [/code]
 }
 function SimbaExt.ImConvolve(const ImgArr:T2DIntArray; Mask:T2DFloatArray): T2DIntArray;  
@@ -125,7 +136,7 @@ end;
 
 {!DOCREF} {
   @method: function se.ImGaussBlur(const ImgArr:T2DIntArray; Radius: Int32; Sigma:Single): T2DIntArray;  
-  @desc: Applies a gaussion blur to the image.
+  @desc: Applies a gaussian blur to the image. 
 }
 function SimbaExt.ImGaussBlur(const ImgArr:T2DIntArray; Radius: Int32; Sigma:Single): T2DIntArray;  
 begin
@@ -141,6 +152,7 @@ procedure SimbaExt.ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:
 begin
   exp_ImResize(ImgArr, NewW, NewH, Method);
 end;
+
 
 
 
@@ -162,13 +174,21 @@ end;
 {!DOCREF} {
   @method: function se.FindCornerPoints(var ImgArr:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;  
   @desc: 
-    Locates all the corner points in the image.
+    Locates all the corner points in the image.[br] 
     
-    A few c'overloads', to simplify your life:
+    A few c'overloads' to simplify your life:
     [code=pascal]
     > function se.FindCornerPoints(var ImgArr:T2DIntArray; Thresh:Single; Footprint:Integer): TPointArray; overload; 
     > function se.FindCornerPoints(var ImgArr:T2DIntArray; Thresh:Single): TPointArray; overload;  
     [/code]
+    
+    [params]
+      ImgArr:     A 2D matrix representation of an image.
+      GaussDev:   Guassian deviation, used when we blur the image, a value between 1-3 is normal.
+      KSize:      Size of the gaussblur filter, 1 is usually good.
+      Thresh:     This is a tolerance, anything above the threshold = result point.
+      Footprint:  The square which we check for a peak, larger is better, but also slower.
+    [/params]
 }
 function SimbaExt.FindCornerPoints(var ImgArr:T2DIntegerArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;  
 begin
@@ -192,14 +212,13 @@ end;
   @desc: 
     Locates all the corner points in the image.
     Similar to c'se.FindCornerPoints', only that this one uses ClusterTPA to find the mean of each point within the given tolerance.
-    So if two points are within the given MinDist, they will be merged as one. 
+    So if two points are within the given MinDist, they will be merged as one.[br] 
     
-    A few c'overloads', to simplify your life:
+    A few c'overloads' to simplify your life:
     [code=delphi]
     > function se.FindCornerMidPoints(var ImgArr:T2DIntArray; Thresh:Single; MinDist:Integer): TPointArray; overload; 
     > function se.FindCornerMidPoints(var ImgArr:T2DIntArray; Thresh:Single): TPointArray; overload; 
     [/code]
-    
     
     Example:
     [code=pascal]

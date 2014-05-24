@@ -1,4 +1,4 @@
-unit XT_Tests;
+unit _Tests;
 {=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=]
  Copyright (c) 2013, Jarl K. <Slacky> Holta || http://github.com/WarPie
  All rights reserved.
@@ -8,13 +8,96 @@ interface
 
 uses CoreTypes, Sysutils;
 
-function SplitTPA(const TPA:TPointArray; Dist:Integer): T2DPointArray; Cdecl;
-function SplitTPA2(const TPA:TPointArray; Dist:Integer): T2DPointArray; Cdecl;
+
+
+function _ImBlend(ImgA, ImgB: T2DIntArray; Weight:Single=0.5): T2DIntArray; cdecl;
+
+function _SplitTPA(const TPA:TPointArray; Dist:Integer): T2DPointArray; Cdecl;
+function _SplitTPA2(const TPA:TPointArray; Dist:Integer): T2DPointArray; Cdecl;
+
+
+
 
 //-----------------------------------------------------------------------
 implementation
 
-uses  PointTools, Sorting, Math;
+uses  PointTools, Sorting, Math, MatrixMath;
+
+procedure ImGetRGB(Img: T2DIntArray; out R,G,B:T2DByteArray); cdecl;
+var W,H,x,y:Int32;
+begin
+  H := High(Img);
+  if H < 0 then Exit;
+  W := High(Img[0]);
+  SetLength(R, H+1, W+1);
+  SetLength(G, H+1, W+1);
+  SetLength(B, H+1, W+1);
+  for y:=0 to H do
+    for x:=0 to W do begin
+      R[y][x] := (Img[y][x] and $FF);
+      G[y][x] := ((Img[y][x] shr 8) and $FF);
+      B[y][x] := ((Img[y][x] shr 16) and $FF);
+    end;
+end;
+
+
+function ImMergeRGB(R,G,B:T2DByteArray): T2DIntArray; cdecl;
+var W,H,x,y:Int32;
+begin
+  H := High(R);
+  if H < 0 then Exit;
+  W := High(R[0]);
+  SetLength(Result, H+1, W+1);
+  for y:=0 to H do
+    for x:=0 to W do
+      Result[y][x] := (R[y][x]) or (G[y][x] shl 8) or (B[y][x] shl 16);
+end;
+
+
+function _ImBlend(ImgA, ImgB: T2DIntArray; Weight:Single=0.5): T2DIntArray; cdecl;
+var
+  R0,G0,B0,R1,G1,B1:T2DByteArray;
+  wA,wB:Single;
+begin
+  if (Length(ImgA) <> Length(ImgB)) then Exit();
+  wA := Min(Max(Weight, 0), 1.0);
+  wB := 1.0-wA;
+  ImGetRGB(ImgA,R0,G0,B0);
+  ImGetRGB(ImgB,R1,G1,B1);
+
+  Result := ImMergeRGB(
+              ToByte((R0*wA)+(R1*wB)),
+              ToByte((G0*wA)+(G1*wB)),
+              ToByte((B0*wA)+(B1*wB))
+            );
+end; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(**********************************************************************************************)
+(**********************************************************************************************)
+(**********************************************************************************************)
+(**********************************************************************************************)
 
 
 (*
@@ -93,7 +176,7 @@ end;
  But that would result in having to set
  Tho due to the large spread that would probably use around 70MB RAM (Row-count would be like 20mill).
 *)
-function SplitTPA(const TPA:TPointArray; Dist:Integer): T2DPointArray; Cdecl;
+function _SplitTPA(const TPA:TPointArray; Dist:Integer): T2DPointArray; Cdecl;
 var
   lo,hi,j,i,ts,c,w,jj,ii,n,sqdist,len,wid: Integer;
   Rows: T2DPointArray;
@@ -183,7 +266,7 @@ end;
 *)
 function TPARows(Arr:TPointArray): T2DPointArray;
 var
-  i,j,hi,x,rows: Integer;
+  i,j,hi,x: Integer;
   TPA:TPointArray;
 begin
   if Length(Arr) = 0 then Exit;
@@ -192,7 +275,6 @@ begin
 
   x := TPA[0].y;
   SetLength(Result, 1);
-  rows := 1;
   hi := 0;
   j := 0;
   for i:=0 to High(TPA) do
@@ -229,7 +311,7 @@ end;
 
 //Set-like TIA.. Always sorted, and duplicates is impossible.
 procedure TIAAdd(var TIA:TIntArray; val:Int32);
-var mid,lo,i,hi,l: Integer;
+var mid,lo,hi,l: Integer;
 begin
   l := high(TIA);
   if (l = -1) then begin
@@ -307,19 +389,16 @@ begin
 end;
 
 
-function SplitTPA2(const TPA:TPointArray; Dist:Integer): T2DPointArray; Cdecl;
+function _SplitTPA2(const TPA:TPointArray; Dist:Integer): T2DPointArray; Cdecl;
 var
-  hi,j,i,h,ts,c,w,jj,ii,n,sqdist,len,del_n: Integer;
+  hi,j,i,ts,c,w,jj,ii,n,sqdist,len: Integer;
   Rows: T2DPointArray;
   R: TPointArray;
   del: TIntArray;
   Curr,p,f:TPoint;
-  B: TBox;
 begin
-  B := TPABounds(TPA);
   Rows := TPARows(TPA); //Size = n
 
-  h := High(rows);
   len := Length(TPA);
   sqdist := Trunc(Sqr(Dist + 0.5));
   dist := dist + 1;
@@ -351,7 +430,6 @@ begin
       begin
         f := R[0];
         jj := 0;
-        del_n := 0;
         for ii:=0 to n-1 do
         begin
           p := R[ii];

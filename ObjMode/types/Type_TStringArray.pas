@@ -80,9 +80,9 @@ end;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
-    You can give it negative start, and stop, then it will wrap around based on length(..)
+    You can give it negative start, and stop, then it will wrap around based on `length(..)`[br]
     
-    If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
+    If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.[br]
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
@@ -148,8 +148,7 @@ end;
 
 {!DOCREF} {
   @method: function TStringArray.Reversed(): TStringArray;
-  @desc:  
-    Creates a reversed copy of the array
+  @desc: Creates a reversed copy of the array
 }
 function TStringArray.Reversed(): TStringArray;
 begin
@@ -159,8 +158,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TStringArray.Reverse();
-  @desc:  
-    Reverses the array  
+  @desc:  Reverses the array  
 }
 procedure TStringArray.Reverse();
 begin

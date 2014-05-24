@@ -1753,6 +1753,28 @@ function ToInt64(mat: T2DUInt8): T2DInt64; overload;
 function ToInt64(mat: T2DInt8): T2DInt64; overload; 
 
 
+function ToByte(mat: T2DExtended): T2DUInt8; overload; 
+function ToByte(mat: T2DDouble): T2DUInt8; overload; 
+function ToByte(mat: T2DSingle): T2DUInt8; overload; 
+function ToByte(mat: T2DUInt64): T2DUInt8; overload; 
+function ToByte(mat: T2DInt64): T2DUInt8; overload; 
+function ToByte(mat: T2DUInt32): T2DUInt8; overload; 
+function ToByte(mat: T2DInt32): T2DUInt8; overload; 
+function ToByte(mat: T2DUInt8): T2DUInt8; overload; 
+function ToByte(mat: T2DInt8): T2DUInt8; overload; 
+
+
+function ToChar(mat: T2DExtended): T2DInt8; overload; 
+function ToChar(mat: T2DDouble): T2DInt8; overload; 
+function ToChar(mat: T2DSingle): T2DInt8; overload; 
+function ToChar(mat: T2DUInt64): T2DInt8; overload; 
+function ToChar(mat: T2DInt64): T2DInt8; overload; 
+function ToChar(mat: T2DUInt32): T2DInt8; overload; 
+function ToChar(mat: T2DInt32): T2DInt8; overload; 
+function ToChar(mat: T2DUInt8): T2DInt8; overload; 
+function ToChar(mat: T2DInt8): T2DInt8; overload; 
+
+
 function ToInt(mat: T2DExtended): T2DInt32; overload; 
 function ToInt(mat: T2DDouble): T2DInt32; overload; 
 function ToInt(mat: T2DSingle): T2DInt32; overload; 
@@ -1819,15 +1841,26 @@ function CeilF(mat: T2DUInt8): T2DSingle; overload;
 function CeilF(mat: T2DInt8): T2DSingle; overload; 
 
 
-function Ceil(mat: T2DExtended): T2DExtended; overload; 
-function Ceil(mat: T2DDouble): T2DDouble; overload; 
-function Ceil(mat: T2DSingle): T2DSingle; overload; 
-function Ceil(mat: T2DUInt64): T2DInt32; overload; 
-function Ceil(mat: T2DInt64): T2DInt32; overload; 
-function Ceil(mat: T2DUInt32): T2DInt32; overload; 
+function Ceil(mat: T2DExtended): T2DInt64; overload; 
+function Ceil(mat: T2DDouble): T2DInt64; overload; 
+function Ceil(mat: T2DSingle): T2DInt64; overload; 
+function Ceil(mat: T2DUInt64): T2DInt64; overload; 
+function Ceil(mat: T2DInt64): T2DInt64; overload; 
+function Ceil(mat: T2DUInt32): T2DUInt32; overload; 
 function Ceil(mat: T2DInt32): T2DInt32; overload; 
-function Ceil(mat: T2DUInt8): T2DInt32; overload; 
-function Ceil(mat: T2DInt8): T2DInt32; overload; 
+function Ceil(mat: T2DUInt8): T2DUInt8; overload; 
+function Ceil(mat: T2DInt8): T2DInt8; overload; 
+
+
+function Floor(mat: T2DExtended): T2DInt64; overload; 
+function Floor(mat: T2DDouble): T2DInt64; overload; 
+function Floor(mat: T2DSingle): T2DInt64; overload; 
+function Floor(mat: T2DUInt64): T2DInt64; overload; 
+function Floor(mat: T2DInt64): T2DInt64; overload; 
+function Floor(mat: T2DUInt32): T2DUInt32; overload; 
+function Floor(mat: T2DInt32): T2DInt32; overload; 
+function Floor(mat: T2DUInt8): T2DUInt8; overload; 
+function Floor(mat: T2DInt8): T2DInt8; overload; 
 
 
 function FloorF(mat: T2DExtended): T2DExtended; overload; 
@@ -1852,37 +1885,15 @@ function RoundF(mat: T2DUInt8): T2DSingle; overload;
 function RoundF(mat: T2DInt8): T2DSingle; overload; 
 
 
-function Floor(mat: T2DExtended): T2DExtended; overload; 
-function Floor(mat: T2DDouble): T2DDouble; overload; 
-function Floor(mat: T2DSingle): T2DSingle; overload; 
-function Floor(mat: T2DUInt64): T2DInt32; overload; 
-function Floor(mat: T2DInt64): T2DInt32; overload; 
-function Floor(mat: T2DUInt32): T2DInt32; overload; 
-function Floor(mat: T2DInt32): T2DInt32; overload; 
-function Floor(mat: T2DUInt8): T2DInt32; overload; 
-function Floor(mat: T2DInt8): T2DInt32; overload; 
-
-
-function Round(mat: T2DExtended): T2DExtended; overload; 
-function Round(mat: T2DDouble): T2DDouble; overload; 
-function Round(mat: T2DSingle): T2DSingle; overload; 
-function Round(mat: T2DUInt64): T2DInt32; overload; 
-function Round(mat: T2DInt64): T2DInt32; overload; 
-function Round(mat: T2DUInt32): T2DInt32; overload; 
+function Round(mat: T2DExtended): T2DInt64; overload; 
+function Round(mat: T2DDouble): T2DInt64; overload; 
+function Round(mat: T2DSingle): T2DInt64; overload; 
+function Round(mat: T2DUInt64): T2DInt64; overload; 
+function Round(mat: T2DInt64): T2DInt64; overload; 
+function Round(mat: T2DUInt32): T2DUInt32; overload; 
 function Round(mat: T2DInt32): T2DInt32; overload; 
-function Round(mat: T2DUInt8): T2DInt32; overload; 
-function Round(mat: T2DInt8): T2DInt32; overload; 
-
-
-function FSqr(mat: T2DExtended): T2DExtended; overload; 
-function FSqr(mat: T2DDouble): T2DDouble; overload; 
-function FSqr(mat: T2DSingle): T2DSingle; overload; 
-function FSqr(mat: T2DUInt64): T2DExtended; overload; 
-function FSqr(mat: T2DInt64): T2DExtended; overload; 
-function FSqr(mat: T2DUInt32): T2DDouble; overload; 
-function FSqr(mat: T2DInt32): T2DDouble; overload; 
-function FSqr(mat: T2DUInt8): T2DSingle; overload; 
-function FSqr(mat: T2DInt8): T2DSingle; overload; 
+function Round(mat: T2DUInt8): T2DUInt8; overload; 
+function Round(mat: T2DInt8): T2DInt8; overload; 
 
 
 function Sqr(mat: T2DExtended): T2DExtended; overload; 
@@ -1896,26 +1907,15 @@ function Sqr(mat: T2DUInt8): T2DInt32; overload;
 function Sqr(mat: T2DInt8): T2DInt32; overload; 
 
 
-function SqrtF32(mat: T2DExtended): T2DSingle; overload; 
-function SqrtF32(mat: T2DDouble): T2DSingle; overload; 
-function SqrtF32(mat: T2DSingle): T2DSingle; overload; 
-function SqrtF32(mat: T2DUInt64): T2DSingle; overload; 
-function SqrtF32(mat: T2DInt64): T2DSingle; overload; 
-function SqrtF32(mat: T2DUInt32): T2DSingle; overload; 
-function SqrtF32(mat: T2DInt32): T2DSingle; overload; 
-function SqrtF32(mat: T2DUInt8): T2DSingle; overload; 
-function SqrtF32(mat: T2DInt8): T2DSingle; overload; 
-
-
-function SqrtF80(mat: T2DExtended): T2DExtended; overload; 
-function SqrtF80(mat: T2DDouble): T2DExtended; overload; 
-function SqrtF80(mat: T2DSingle): T2DExtended; overload; 
-function SqrtF80(mat: T2DUInt64): T2DExtended; overload; 
-function SqrtF80(mat: T2DInt64): T2DExtended; overload; 
-function SqrtF80(mat: T2DUInt32): T2DExtended; overload; 
-function SqrtF80(mat: T2DInt32): T2DExtended; overload; 
-function SqrtF80(mat: T2DUInt8): T2DExtended; overload; 
-function SqrtF80(mat: T2DInt8): T2DExtended; overload; 
+function FSqr(mat: T2DExtended): T2DExtended; overload; 
+function FSqr(mat: T2DDouble): T2DDouble; overload; 
+function FSqr(mat: T2DSingle): T2DSingle; overload; 
+function FSqr(mat: T2DUInt64): T2DExtended; overload; 
+function FSqr(mat: T2DInt64): T2DExtended; overload; 
+function FSqr(mat: T2DUInt32): T2DDouble; overload; 
+function FSqr(mat: T2DInt32): T2DDouble; overload; 
+function FSqr(mat: T2DUInt8): T2DSingle; overload; 
+function FSqr(mat: T2DInt8): T2DSingle; overload; 
 
 
 function SqrtF64(mat: T2DExtended): T2DDouble; overload; 
@@ -1940,6 +1940,39 @@ function Sqrt(mat: T2DUInt8): T2DSingle; overload;
 function Sqrt(mat: T2DInt8): T2DSingle; overload; 
 
 
+function SqrtF80(mat: T2DExtended): T2DExtended; overload; 
+function SqrtF80(mat: T2DDouble): T2DExtended; overload; 
+function SqrtF80(mat: T2DSingle): T2DExtended; overload; 
+function SqrtF80(mat: T2DUInt64): T2DExtended; overload; 
+function SqrtF80(mat: T2DInt64): T2DExtended; overload; 
+function SqrtF80(mat: T2DUInt32): T2DExtended; overload; 
+function SqrtF80(mat: T2DInt32): T2DExtended; overload; 
+function SqrtF80(mat: T2DUInt8): T2DExtended; overload; 
+function SqrtF80(mat: T2DInt8): T2DExtended; overload; 
+
+
+function SqrtF32(mat: T2DExtended): T2DSingle; overload; 
+function SqrtF32(mat: T2DDouble): T2DSingle; overload; 
+function SqrtF32(mat: T2DSingle): T2DSingle; overload; 
+function SqrtF32(mat: T2DUInt64): T2DSingle; overload; 
+function SqrtF32(mat: T2DInt64): T2DSingle; overload; 
+function SqrtF32(mat: T2DUInt32): T2DSingle; overload; 
+function SqrtF32(mat: T2DInt32): T2DSingle; overload; 
+function SqrtF32(mat: T2DUInt8): T2DSingle; overload; 
+function SqrtF32(mat: T2DInt8): T2DSingle; overload; 
+
+
+function Trunc(mat: T2DExtended): T2DInt64; overload; 
+function Trunc(mat: T2DDouble): T2DInt64; overload; 
+function Trunc(mat: T2DSingle): T2DInt64; overload; 
+function Trunc(mat: T2DUInt64): T2DInt64; overload; 
+function Trunc(mat: T2DInt64): T2DInt64; overload; 
+function Trunc(mat: T2DUInt32): T2DUInt32; overload; 
+function Trunc(mat: T2DInt32): T2DInt32; overload; 
+function Trunc(mat: T2DUInt8): T2DUInt8; overload; 
+function Trunc(mat: T2DInt8): T2DInt8; overload; 
+
+
 function TruncF(mat: T2DExtended): T2DExtended; overload; 
 function TruncF(mat: T2DDouble): T2DDouble; overload; 
 function TruncF(mat: T2DSingle): T2DSingle; overload; 
@@ -1949,17 +1982,6 @@ function TruncF(mat: T2DUInt32): T2DDouble; overload;
 function TruncF(mat: T2DInt32): T2DDouble; overload; 
 function TruncF(mat: T2DUInt8): T2DSingle; overload; 
 function TruncF(mat: T2DInt8): T2DSingle; overload; 
-
-
-function Trunc(mat: T2DExtended): T2DExtended; overload; 
-function Trunc(mat: T2DDouble): T2DDouble; overload; 
-function Trunc(mat: T2DSingle): T2DSingle; overload; 
-function Trunc(mat: T2DUInt64): T2DInt32; overload; 
-function Trunc(mat: T2DInt64): T2DInt32; overload; 
-function Trunc(mat: T2DUInt32): T2DInt32; overload; 
-function Trunc(mat: T2DInt32): T2DInt32; overload; 
-function Trunc(mat: T2DUInt8): T2DInt32; overload; 
-function Trunc(mat: T2DInt8): T2DInt32; overload; 
 
 
 
@@ -1974,6 +1996,8 @@ implementation
 {$I MatrixMath/MAT_Hypot.pas}
 {$I MatrixMath/MAT_Modulo.pas}
 {$I MatrixMath/MAT_ToInt64.pas}
+{$I MatrixMath/MAT_ToByte.pas}
+{$I MatrixMath/MAT_ToChar.pas}
 {$I MatrixMath/MAT_ToInt.pas}
 {$I MatrixMath/MAT_ToDouble.pas}
 {$I MatrixMath/MAT_ToExtended.pas}
@@ -1981,18 +2005,18 @@ implementation
 {$I MatrixMath/MAT_ArcTan.pas}
 {$I MatrixMath/MAT_CeilF.pas}
 {$I MatrixMath/MAT_Ceil.pas}
+{$I MatrixMath/MAT_Floor.pas}
 {$I MatrixMath/MAT_FloorF.pas}
 {$I MatrixMath/MAT_RoundF.pas}
-{$I MatrixMath/MAT_Floor.pas}
 {$I MatrixMath/MAT_Round.pas}
-{$I MatrixMath/MAT_FSqr.pas}
 {$I MatrixMath/MAT_Sqr.pas}
-{$I MatrixMath/MAT_SqrtF32.pas}
-{$I MatrixMath/MAT_SqrtF80.pas}
+{$I MatrixMath/MAT_FSqr.pas}
 {$I MatrixMath/MAT_SqrtF64.pas}
 {$I MatrixMath/MAT_Sqrt.pas}
-{$I MatrixMath/MAT_TruncF.pas}
+{$I MatrixMath/MAT_SqrtF80.pas}
+{$I MatrixMath/MAT_SqrtF32.pas}
 {$I MatrixMath/MAT_Trunc.pas}
+{$I MatrixMath/MAT_TruncF.pas}
 
 
 End.

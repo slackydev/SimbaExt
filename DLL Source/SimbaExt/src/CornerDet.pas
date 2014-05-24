@@ -9,7 +9,7 @@ unit CornerDet;
 interface
 
 uses
-  SysUtils, CoreTypes;
+  CoreTypes;
 
 function CornerResponse(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer): T2DFloatArray;
 function FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;
@@ -19,7 +19,7 @@ function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integ
 //-----------------------------------------------------------------------
 implementation
 uses
-  PointList, MatrixMath, MatrixTools, PointTools;
+  Windows, SysUtils, PointList, MatrixMath, MatrixTools, PointTools, Math;
 
 
 (*=============================================================================|
@@ -58,22 +58,31 @@ begin
   H := High(source);
   SetLength(Result, H+1,W+1);
   for y:=0 to H do
-    Move(Source[y][0],Result[y][0], (W+1)*SizeOf(Integer));
+    Move(Source[y][0],Result[y][0], (W+1)*SizeOf(Int32));
 
   mW := High(mask[0]);
   mH := High(mask);
   mid := (mW+1) div 2;
   W := W-mid;
   H := H-mid;
-  for y:=mid to H do
-    for x:=mid to W do
-    begin
-      val := 0;
-      for yy:=0 to mH do
-        for xx:=0 to mW do
-          val := val + (mask[yy][xx] * Source[y + yy - mid][x + xx - mid]);
-      Result[y][x] := Trunc(val);
-    end;
+  case (mid = 1) of
+   False:
+    for y:=mid to H do
+      for x:=mid to W do begin
+        val := 0;
+        for yy:=0 to mH do
+          for xx:=0 to mW do
+            val := val + (mask[yy][xx] * Source[y + yy - mid][x + xx - mid]);
+        Result[y][x] := Round(val);
+      end;
+   True:
+    for y:=mid to H do
+      for x:=mid to W do
+        Result[y][x] := Round(
+            (mask[0][0] * Source[y-1][x-1]) + (mask[1][0] * Source[y-1][x+0]) + (mask[2][0] * Source[y-1][x+1]) +
+            (mask[0][1] * Source[y][x-1])   + (mask[1][1] * Source[y][x])     + (mask[2][1] * Source[y][x+1])   +
+            (mask[0][2] * Source[y+1][x-1]) + (mask[1][2] * Source[y+1][x+0]) + (mask[2][2] * Source[y+1][x+1]));
+  end;
 end;
 
 
@@ -134,6 +143,24 @@ begin
 end;
 
 
+function QuickBlur3(Mat:T2DIntArray): T2DFloatArray;
+var W,H,x,y:Int32;
+begin
+  W := High(Mat[0]);
+  H := High(Mat);
+  SetLength(Result, H+1,W+1);
+  for y:=0 to H do
+    Move(Mat[y][0],Result[y][0], (W+1)*SizeOf(Int32));
+  Dec(W); Dec(H);
+  for y:=1 to H do
+    for x:=1 to W do
+      Result[y][x] := (
+               Mat[y-1][x]   + Mat[y+1][x]   + Mat[y][x-1] +
+               Mat[y][x+1]   + Mat[y-1][x-1] + Mat[y+1][x+1] +
+               Mat[y-1][x+1] + Mat[y+1][x-1] + Mat[y][x]) div 9;
+end;
+
+
 (*=============================================================================|
  Computing harris response of grayscale (0-255) matrix.
 |=============================================================================*)
@@ -145,10 +172,13 @@ begin
   blur := GaussianBlur(Intesity(Mat), GaussDev, KSize);
   imx := Sobel(blur, 'x');
   imy := Sobel(blur, 'y');
-  
-  Wxx := ToSingle(GaussianBlur(imx*imx, 3.0, 1)); //Could use boxblur instead? - should shave of some time
-  Wyy := ToSingle(GaussianBlur(imy*imy, 3.0, 1));
-  Wxy := ToSingle(GaussianBlur(imx*imy, 3.0, 1));
+
+  (*Wxx := ToSingle(GaussianBlur(imx*imx, 3.0, 1));
+    Wyy := ToSingle(GaussianBlur(imy*imy, 3.0, 1));
+    Wxy := ToSingle(GaussianBlur(imx*imy, 3.0, 1));*)
+  Wxx := QuickBlur3(imx*imx);
+  Wyy := QuickBlur3(imy*imy);
+  Wxy := QuickBlur3(imx*imy);
 
   Result := ((Wxx*Wyy) - (Wxy*Wxy)) / (Wxx+Wyy);
 end; 
@@ -184,7 +214,7 @@ begin
 
       if (CurrentMax > Thresh) then
       begin
-        Result[k] := Point(x, y);
+        Result[k] := CoreTypes.Point(x, y);
         Inc(k);
       end;
     end;

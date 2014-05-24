@@ -15,6 +15,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -33,6 +34,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -51,6 +53,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -69,6 +72,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -87,6 +91,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -105,6 +110,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -123,6 +129,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -141,6 +148,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -159,6 +167,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -177,6 +186,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -195,6 +205,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -213,6 +224,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -231,6 +243,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -249,6 +262,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -267,6 +281,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -285,6 +300,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -303,6 +319,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -317,6 +334,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -331,6 +349,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -345,6 +364,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -359,6 +379,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -373,6 +394,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -387,6 +409,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -401,6 +424,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -415,6 +439,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -429,6 +454,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -447,6 +473,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -465,6 +492,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -483,6 +511,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -501,6 +530,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -519,6 +549,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -537,6 +568,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -555,6 +587,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -573,6 +606,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -587,6 +621,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -601,6 +636,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -615,6 +651,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -629,6 +666,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -643,6 +681,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -657,6 +696,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -671,6 +711,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -685,6 +726,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -699,6 +741,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -717,6 +760,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -735,6 +779,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -753,6 +798,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -771,6 +817,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -789,6 +836,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -807,6 +855,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -825,6 +874,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -843,6 +893,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -857,6 +908,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -871,6 +923,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -885,6 +938,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -899,6 +953,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -913,6 +968,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -927,6 +983,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -941,6 +998,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -955,6 +1013,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -969,6 +1028,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -987,6 +1047,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1005,6 +1066,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1023,6 +1085,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1041,6 +1104,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1059,6 +1123,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1077,6 +1142,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1095,6 +1161,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1113,6 +1180,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1127,6 +1195,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1141,6 +1210,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1155,6 +1225,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1169,6 +1240,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1183,6 +1255,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1197,6 +1270,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1211,6 +1285,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1225,6 +1300,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1239,6 +1315,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1257,6 +1334,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1275,6 +1353,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1293,6 +1372,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1311,6 +1391,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1329,6 +1410,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1347,6 +1429,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1365,6 +1448,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1383,6 +1467,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1397,6 +1482,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1411,6 +1497,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1425,6 +1512,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1439,6 +1527,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1453,6 +1542,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1467,6 +1557,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1481,6 +1572,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1495,6 +1587,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1509,6 +1602,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1527,6 +1621,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1545,6 +1640,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1563,6 +1659,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1581,6 +1678,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1599,6 +1697,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1617,6 +1716,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1635,6 +1735,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1653,6 +1754,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1667,6 +1769,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1681,6 +1784,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1695,6 +1799,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1709,6 +1814,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1723,6 +1829,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1737,6 +1844,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1751,6 +1859,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1765,6 +1874,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1779,6 +1889,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1797,6 +1908,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1815,6 +1927,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1833,6 +1946,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1851,6 +1965,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1869,6 +1984,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1887,6 +2003,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1905,6 +2022,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1923,6 +2041,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -1937,6 +2056,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1951,6 +2071,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1965,6 +2086,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1979,6 +2101,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -1993,6 +2116,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2007,6 +2131,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2021,6 +2146,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2035,6 +2161,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2049,6 +2176,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2067,6 +2195,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2085,6 +2214,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2103,6 +2233,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2121,6 +2252,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2139,6 +2271,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2157,6 +2290,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2175,6 +2309,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2193,6 +2328,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2207,6 +2343,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2221,6 +2358,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2235,6 +2373,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2249,6 +2388,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2263,6 +2403,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2277,6 +2418,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2291,6 +2433,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2305,6 +2448,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2319,6 +2463,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2337,6 +2482,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2355,6 +2501,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2373,6 +2520,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2391,6 +2539,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2409,6 +2558,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2427,6 +2577,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2445,6 +2596,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2463,6 +2615,7 @@ begin
     for j:=0 to Wl do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2477,6 +2630,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2491,6 +2645,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2505,6 +2660,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2519,6 +2675,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2533,6 +2690,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2547,6 +2705,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2561,6 +2720,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2575,6 +2735,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2589,6 +2750,7 @@ begin
     for j:=0 to W do
       if r > 0 then Continue
       else Result[i][j] := l[i][j] - Floor(l[i][j] / r) * r;
+
 end;
 
 
@@ -2603,6 +2765,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2617,6 +2780,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2631,6 +2795,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2645,6 +2810,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2659,6 +2825,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2673,6 +2840,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2687,6 +2855,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2701,6 +2870,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2715,6 +2885,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2729,6 +2900,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2743,6 +2915,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2757,6 +2930,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2771,6 +2945,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2785,6 +2960,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2799,6 +2975,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2813,6 +2990,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2827,6 +3005,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2841,6 +3020,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2855,6 +3035,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2869,6 +3050,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2883,6 +3065,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2897,6 +3080,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2911,6 +3095,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2925,6 +3110,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2939,6 +3125,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2953,6 +3140,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2967,6 +3155,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2981,6 +3170,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -2995,6 +3185,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3009,6 +3200,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3023,6 +3215,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3037,6 +3230,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3051,6 +3245,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3065,6 +3260,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3079,6 +3275,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3093,6 +3290,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3107,6 +3305,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3121,6 +3320,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3135,6 +3335,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3149,6 +3350,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3163,6 +3365,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3177,6 +3380,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3191,6 +3395,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3205,6 +3410,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3219,6 +3425,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3233,6 +3440,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3247,6 +3455,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3261,6 +3470,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3275,6 +3485,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3289,6 +3500,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3303,6 +3515,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3317,6 +3530,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3331,6 +3545,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3345,6 +3560,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3359,6 +3575,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3373,6 +3590,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3387,6 +3605,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3401,6 +3620,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3415,6 +3635,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3429,6 +3650,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3443,6 +3665,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3457,6 +3680,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3471,6 +3695,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3485,6 +3710,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3499,6 +3725,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3513,6 +3740,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3527,6 +3755,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3541,6 +3770,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3555,6 +3785,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3569,6 +3800,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3583,6 +3815,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3597,6 +3830,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3611,6 +3845,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3625,6 +3860,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3639,6 +3875,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3653,6 +3890,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3667,6 +3905,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3681,6 +3920,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3695,6 +3935,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3709,6 +3950,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 
@@ -3723,6 +3965,7 @@ begin
     for j:=0 to W do
       if r[i][j] > 0 then Continue
       else Result[i][j] := l - Floor(l / r[i][j]) * r[i][j];
+
 end;
 
 

@@ -102,12 +102,12 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.FromClient(X1,Y1,X2,Y2:Integer); overload;
+  @method: procedure TRafBitmap.FromClient(X1,Y1,X2,Y2:Int32); overload;
   @desc: 
     Loads the client bitmap in to this image. If this image is already in use it will be freed first.
     Allows you to target a box of the client.
 }
-procedure TRafBitmap.FromClient(X1,Y1,X2,Y2:Integer); overload;
+procedure TRafBitmap.FromClient(X1,Y1,X2,Y2:Int32); overload;
 var 
   W,H:Integer;
 begin
@@ -326,7 +326,7 @@ begin
   
   Matrix := Self.ToMatrix();
   Matrix := Matrix.GetArea(Area.x1,Area.y1,Area.x2,Area.y2);
-  Result := se.ImFindColorTolEx(Matrix, TPA, Color, Tolerance);
+  Result := exp_ImFindColorTolEx(Matrix, TPA, Color, Tolerance);
   SetLength(Matrix, 0);
   if not(Result) then Exit;
   if (Area.X1=0) and (Area.Y1 = 0) then Exit;
@@ -386,7 +386,7 @@ var
 begin
   if not(Self.IsLoaded('TRafBitmap.ResizeEx()')) then Exit;
   Matrix := Self.ToMatrix();
-  se.ImResize(Matrix, NewWidth, NewHeight, Resampler);
+  exp_ImResize(Matrix, NewWidth, NewHeight, Resampler);
   Self.FromMatrix(Matrix); 
 end;
 
@@ -472,7 +472,7 @@ begin
 
   Matrix := Self.ToMatrix();
   for i:=0 to Iter do
-    Matrix := se.ImBlurFilter(Matrix, BlurSize);
+    exp_ImBlurFilter(Matrix, BlurSize, Matrix);
   Self.FromMatrix(Matrix); 
 end;
 
@@ -497,7 +497,7 @@ begin
   end;
 
   Matrix := Self.ToMatrix();
-  Matrix := se.ImMedianFilter(Matrix, MedianSize);
+  exp_ImMedianFilter(Matrix, MedianSize, Matrix);
   Self.FromMatrix(Matrix); 
 end;
 
@@ -511,7 +511,8 @@ var
   Matrix:TIntMatrix;
 begin
   Matrix := Self.ToMatrix();
-  Matrix := se.ImBrighten(Matrix, Amount, Legacy);
+  
+  exp_ImBrighten(Matrix, Amount, Legacy, Matrix);
   Self.FromMatrix(Matrix);
 end;
 

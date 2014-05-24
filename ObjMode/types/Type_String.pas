@@ -19,7 +19,7 @@ end;
 
 {!DOCREF} {
   @method: function String.Len(): Int32;
-  @desc:   Returns the length of the String. Same as c'Length(Str)'
+  @desc:   Returns the length of the String. Same as `Length(Str)`
 }
 function String.Len(): Int32;
 begin
@@ -47,9 +47,9 @@ end;
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
     You can give it negative start, and stop, then it will wrap around based on c'length(..) + 1'
     
-    If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
+    If `Start >= Stop`, and `Step <= -1` it will result in reversed output.
     
-    [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
+    [note]Don't pass positive `Step`, combined with `Start > Stop`, that is undefined[/note]
 }
 function String.Slice(Start,Stop: Int32; Step:Int32=1): String;
 begin
@@ -71,7 +71,7 @@ end;
 
 {!DOCREF} {
   @method: function String.Pos(Sub:String): Int32;
-  @desc:   Return the lowest index in the string where substring c'Sub' is located. 0 if not found
+  @desc:   Return the lowest index in the string where substring `Sub` is located. 0 if not found
 }
 function String.Pos(Sub:String): Int32;
 begin
@@ -81,7 +81,7 @@ end;
 
 {!DOCREF} {
   @method: function String.rPos(Sub:String): Int32;
-  @desc:   Return the highest index in the string where substring c'Sub' is located. 0 if not found
+  @desc:   Return the highest index in the string where substring `Sub` is located. 0 if not found
 }
 function String.rPos(Sub:String): Int32;
 begin
@@ -91,7 +91,7 @@ end;
 
 {!DOCREF} {
   @method: function String.PosMulti(Sub:String): TIntArray;
-  @desc:   Return all the index in the string where substring c'Sub' is located. Empty is not found
+  @desc:   Return all the index in the string where substring `Sub` is located. Empty is not found
 }
 function String.PosMulti(Sub:String): TIntArray;
 begin
@@ -102,7 +102,7 @@ end;
   @method: function String.Find(Value:String): Int32;
   @desc: 
     Searces for the given value and returns the first position from the left.
-    [note] Same as String.Pos(..) [/note]
+    [note] Same as `String.Pos(..)` [/note]
 }
 function String.Find(Value:String): Int32;
 begin
@@ -114,7 +114,7 @@ end;
   @method: function String.FindAll(Value:String): TIntArray; overload;
   @desc: 
     Searces for the given value and returns all the position where it was found.
-    [note]Same Result as String.PosMulti(..) but less optimized for the task[/note]
+    [note]Same Result as `String.PosMulti(..)` but less optimized for the task[/note]
 }
 function String.FindAll(Value:String): TIntArray; overload;
 begin
@@ -135,7 +135,7 @@ end;
 
 {!DOCREF} {
   @method: function String.Count(val:String): Int32;
-  @desc: Counts all the occurances of the given value c'val'
+  @desc: Counts all the occurances of the given value `val`
 }
 function String.Count(val:String): Int32;
 begin
@@ -146,7 +146,7 @@ end;
 
 {!DOCREF} {
   @method: function String.StartsWith(Prefix:String): Boolean;
-  @desc:   Returns True if the string starts with c'Prefix'.
+  @desc:   Returns True if the string starts with `Prefix`.
 }
 function String.StartsWith(Prefix:String): Boolean;
 var
@@ -163,7 +163,7 @@ end;
 
 {!DOCREF} {
   @method: function String.EndsWith(Suffix:String): Boolean;
-  @desc:   Returns True if the string ends with c'Suffix'.
+  @desc:   Returns True if the string ends with `Suffix`.
 }
 function String.EndsWith(Suffix:String): Boolean;
 var

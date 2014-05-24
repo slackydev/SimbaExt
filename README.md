@@ -1,8 +1,8 @@
 SimbaExt!
 ========
-This library extension is developed for Simba, by Jarl K. Holta. It countins a large set of useful functions.
+This plugin is developed for Simba, by Jarl K. Holta. It countains a large set of useful functions.
 
-The librarys aim is to make your coding experience in Simba better, simpler, and also aid you when you are working on 
+The plugins aim is to make your coding experience in Simba better, simpler, and also aid you when you are working on 
 complex computer vision tasks.
 
 It contains stuff like corner detection, advanced color-finding techniques, a bunch of complex point-array functions, sorting functions and much more. 

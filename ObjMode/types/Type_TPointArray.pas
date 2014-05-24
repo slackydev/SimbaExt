@@ -14,7 +14,7 @@ end;
 
 {!DOCREF} {
   @method: function TPointArray.Len(): Int32;
-  @desc: Returns the length of the TPA. Same as c'Length(TPA)'
+  @desc: Returns the length of the TPA. Same as `Length(TPA)`
 }
 function TPointArray.Len(): Int32;
 begin
@@ -24,7 +24,7 @@ end;
 
 {!DOCREF} {
   @method: function TPointArray.IsEmpty(): Boolean;
-  @desc: Returns True if the TPA is empty. Same as c'Length(TPA) = 0'
+  @desc: Returns True if the TPA is empty. Same as `Length(TPA) = 0`
 }
 function TPointArray.IsEmpty(): Boolean;
 begin
@@ -49,7 +49,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TPointArray.Del(idx:Int32);
-  @desc: Removes the element at the given index c'idx'
+  @desc: Removes the element at the given index `idx`
 }
 procedure TPointArray.Del(idx:Int32);
 var i,l:Int32;
@@ -65,7 +65,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TPointArray.Remove(Value:TPoint);
-  @desc: Removes the first element from left which is equal to c'Value'
+  @desc: Removes the first element from left which is equal to `Value`
 }
 procedure TPointArray.Remove(Value:TPoint);
 begin
@@ -107,9 +107,9 @@ end;
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
     You can give it negative start, and stop, then it will wrap around based on length(..)
     
-    If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
+    If `Start >= Stop`, and `Step <= -1` it will result in reversed output.
     
-    [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
+    [note]Don't pass positive `Step`, combined with `Start > Stop`, that is undefined[/note]
 }
 function TPointArray.Slice(Start,Stop: Int32; Step:Int32=1): TPointArray;
 begin
@@ -171,7 +171,7 @@ end;
 
 {!DOCREF} {
   @method: function TPointArray.Contains(Pt:TPoint): Boolean;
-  @desc: Checks if the TPA contains the given TPoint c'PT'
+  @desc: Checks if the TPA contains the given TPoint `PT`
 }
 function TPointArray.Contains(Pt:TPoint): Boolean;
 begin
@@ -181,7 +181,7 @@ end;
 
 {!DOCREF} {
   @method: function TPointArray.Count(Pt:TPoint): Boolean;
-  @desc: Checks if the TPA contains the given TPoint c'PT'
+  @desc: Checks if the TPA contains the given TPoint `PT`
 }
 function TPointArray.Count(Pt:TPoint): Boolean;
 begin
@@ -193,7 +193,7 @@ end;
   @method: function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
   @desc: 
     Sorts a copy of the TPA
-    Supported keys: c'sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
+    Supported keys: `sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY`
 }
 function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
 begin

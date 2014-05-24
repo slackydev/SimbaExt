@@ -61,6 +61,7 @@ type
 //LoadLibrary from current folder 
 {$loadlib \..\includes\simbaext\simbaext.dll}
 {$loadlib \..\includes\simbaext\seextra.dll}
+{$loadlib \..\includes\simbaext\matchTempl.dll}
 
 
 // IntToBox is to long, and [x1,y1,x2,y2] fails whenever used with a overloaded method..
@@ -149,6 +150,7 @@ end;
     TimeUtils: TObjTime;
     OS: TObjOS;
   
+  {$include_once ObjMode/TRafikiBitmap.pas}
   {$include_once ObjMode/SimbaExt_Math.pas}
   {$include_once ObjMode/SimbaExt_Numeric.pas}
   {$include_once ObjMode/SimbaExt_Sorting.pas}
@@ -160,10 +162,7 @@ end;
   {$include_once ObjMode/SimbaExt_StringTools.pas}
   {$include_once ObjMode/SimbaExt_Time.pas}
   {$include_once ObjMode/SimbaExt_OS.pas}
-  {$IFNDEF SE_NoMisc} {$include_once ObjMode/SimbaExt_Misc.pas} {$ENDIF}
-  {$include_once ObjMode/TRafikiBitmap.pas}
-{$ENDIF}
-
+  {$include_once ObjMode/SimbaExt_Misc.pas}
 {$ENDIF}
 
 
@@ -271,3 +270,7 @@ end;
       TDoubleMatrix = T2DDoubleArray;
     [/code]
 }
+
+
+
+{$ENDIF}

@@ -1,7 +1,7 @@
 
 
 
-function Floor(mat: T2DExtended): T2DExtended; overload; 
+function Floor(mat: T2DExtended): T2DInt64; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -15,7 +15,7 @@ end;
 
 
 
-function Floor(mat: T2DDouble): T2DDouble; overload; 
+function Floor(mat: T2DDouble): T2DInt64; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -29,7 +29,7 @@ end;
 
 
 
-function Floor(mat: T2DSingle): T2DSingle; overload; 
+function Floor(mat: T2DSingle): T2DInt64; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -43,7 +43,7 @@ end;
 
 
 
-function Floor(mat: T2DUInt64): T2DInt32; overload; 
+function Floor(mat: T2DUInt64): T2DInt64; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -57,7 +57,7 @@ end;
 
 
 
-function Floor(mat: T2DInt64): T2DInt32; overload; 
+function Floor(mat: T2DInt64): T2DInt64; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -71,7 +71,7 @@ end;
 
 
 
-function Floor(mat: T2DUInt32): T2DInt32; overload; 
+function Floor(mat: T2DUInt32): T2DUInt32; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -99,7 +99,7 @@ end;
 
 
 
-function Floor(mat: T2DUInt8): T2DInt32; overload; 
+function Floor(mat: T2DUInt8): T2DUInt8; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -113,7 +113,7 @@ end;
 
 
 
-function Floor(mat: T2DInt8): T2DInt32; overload; 
+function Floor(mat: T2DInt8): T2DInt8; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
