@@ -37,7 +37,7 @@ begin
     begin
       color := Mat[y][x];
       //Result[y][x] := ((Color and $FF) + ((Color shr 8) and $FF) + ((Color shr 16) and $FF)) div 3;
-      Result[y][x] := Trunc((0.299 * (Color and $FF)) + 
+      Result[y][x] := Round((0.299 * (Color and $FF)) + 
                             (0.587 * ((Color shr 8) and $FF)) + 
                             (0.114 * ((Color shr 16) and $FF)));
     end;
@@ -127,6 +127,7 @@ begin
       Result[y][x] := Result[y][x] / sum;
 end; 
 
+
 function GaussianBlur(Mat:T2DIntArray; Sigma:Single; KernelSize:Integer): T2DIntArray;
 begin
   Result := Convolve(Mat, GaussKernel(KernelSize, Sigma));
@@ -145,9 +146,9 @@ begin
   imx := Sobel(blur, 'x');
   imy := Sobel(blur, 'y');
   
-  Wxx := ToFloat(GaussianBlur(imx*imx, 3.0, 1)); //Could use boxblur instead? - should shave of some time
-  Wyy := ToFloat(GaussianBlur(imy*imy, 3.0, 1));
-  Wxy := ToFloat(GaussianBlur(imx*imy, 3.0, 1));
+  Wxx := ToSingle(GaussianBlur(imx*imx, 3.0, 1)); //Could use boxblur instead? - should shave of some time
+  Wyy := ToSingle(GaussianBlur(imy*imy, 3.0, 1));
+  Wxy := ToSingle(GaussianBlur(imx*imy, 3.0, 1));
 
   Result := ((Wxx*Wyy) - (Wxy*Wxy)) / (Wxx+Wyy);
 end; 
@@ -223,7 +224,7 @@ begin
   ATPA := ClusterTPA(TPL.Clone(), MinDist, True);
   SetLength(Result, Length(ATPA));
   for x:=0 to High(ATPA) do
-    Result[x] := TPACenter(ATPA[x], cm_mean, False);
+    Result[x] := TPACenter(ATPA[x], CA_MEAN, False);
   TPL.Free();
 end;
 

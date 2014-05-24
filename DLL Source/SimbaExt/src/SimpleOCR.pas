@@ -35,7 +35,7 @@ var
   ATPA: T2DPointArray;
   B,PB: TBox;
 begin
-  ImgArr := ImThresholdAdaptive(ImgArr, 0, 255, False, TM_Mean, 0);
+  ImgArr := ImThresholdAdaptive(ImgArr, 0, 255, False, TA_Mean, 0);
   ImFindColorTolEx(ImgArr, TPA, 255, 1);
   ATPA := ClusterTPAEx(TPA, MinCharSpace, 2, True);
   H := High(ATPA); 

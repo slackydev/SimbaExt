@@ -19,14 +19,14 @@ function ImMedianFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray;
 function ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean): T2DIntArray; 
 function ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended): T2DIntArray; 
 function ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Invert:Boolean): T2DIntArray; 
-function ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TxThreshMethod; C:Integer): T2DIntArray; 
+function ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Integer): T2DIntArray;
 function ImFindContours(const ImgArr:T2DIntArray; Outlines:Boolean): T2DPointArray; 
 function ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray; 
 function ImSobel(const ImgArr: T2DIntArray): T2DIntArray; 
 function ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;
 function ImGaussBlur(const ImgArr:T2DIntArray; Radius: Integer; Sigma: Single): T2DIntArray;
 function ImFilterGray(const ImgArr:T2DIntArray; MinDark, MaxDark:Byte; Replace, Tol:Integer): T2DIntArray;
-procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TxResizeMethod); 
+procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);
 
 
 //--------------------------------------------------
@@ -316,7 +316,7 @@ end;
     Method: TM_Mean or TM_MinMax
     C: Substract or add to the mean.
 *}
-function ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TxThreshMethod; C:Integer): T2DIntArray; 
+function ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Integer): T2DIntArray;
 var
   W,H,x,y,i:Integer;
   Color,IMin,IMax: Byte;
@@ -338,7 +338,7 @@ begin
   Threshold := 0;
   Case Method of 
     //Find the Arithmetic Mean / Average.
-    TM_Mean:
+    TA_MEAN:
     begin
       for y:=0 to H do
       begin
@@ -356,7 +356,7 @@ begin
     end;
     
     //Mean of Min and Max values
-    TM_MinMax:
+    TA_MINMAX:
     begin
       IMin := ColorToGray(ImgArr[0][0]);
       IMax := IMin;
@@ -657,7 +657,7 @@ end;
 *)
 function ResizeMat_BILINEAR(ImgArr:T2DIntArray; NewW, NewH: Integer): T2DIntArray;
 var
-  W,H,x,y,p0,p1,p2,p3,i,j: Integer;
+  W,H,x,y,p0,p1,p2,p3,i,j: Int32;
   ratioX,ratioY,dx,dy: Single;
   R,G,B: Single;
 begin
@@ -721,7 +721,7 @@ end;
 *)
 function ResizeMat_BICUBIC(ImgArr:T2DIntArray; NewW, NewH: Integer): T2DIntArray;
 var
-  W,H,x,y,i,j,k,jj,yy,col: Integer;
+  W,H,x,y,i,j,k,jj,yy,col: Int32;
   a0,a1,a2,a3,d0,d2,d3:Single;
   ratioX,ratioY,dx,dy: Single;
   C: Array of Single;
@@ -779,12 +779,12 @@ end;
  Resize a matrix/ImArray
  @Methods: RM_NEAREST, RM_BILINEAR and RM_BICUBIC.
 *)
-procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TxResizeMethod); 
+procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);
 begin
   case Method of
-    RM_NEAREST: ImgArr := ResizeMat_NEAREST(ImgArr, NewW, NewH);
-    RM_BILINEAR:ImgArr := ResizeMat_BILINEAR(ImgArr, NewW, NewH);
-    RM_BICUBIC: ImgArr := ResizeMat_BICUBIC(ImgArr, NewW, NewH);
+    RA_NEAREST: ImgArr := ResizeMat_NEAREST(ImgArr, NewW, NewH);
+    RA_BILINEAR:ImgArr := ResizeMat_BILINEAR(ImgArr, NewW, NewH);
+    RA_BICUBIC: ImgArr := ResizeMat_BICUBIC(ImgArr, NewW, NewH);
   end;
 end;
 

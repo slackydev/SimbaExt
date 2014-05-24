@@ -22,7 +22,7 @@ procedure TPASplitAxis(const TPA: TPointArray; var X:TIntArray; var Y:TIntArray)
 procedure TPAJoinAxis(const X:TIntArray; const Y:TIntArray; var TPA:TPointArray);
 function TPAMax(const TPA: TPointArray): TPoint;
 function TPABounds(const TPA: TPointArray): TBox; Inline;
-function TPACenter(const TPA: TPointArray; Method: TxCenterMethod; Inside:Boolean): TPoint;
+function TPACenter(const TPA: TPointArray; Method: TCenterAlgo; Inside:Boolean=False): TPoint;
 function TPAExtremes(const TPA:TPointArray): TPointArray;
 function TPABBox(const TPA:TPointArray): TPointArray;
 procedure TPAFilterBounds(var TPA: TPointArray; x1,y1,x2,y2:Integer);
@@ -38,7 +38,7 @@ procedure LongestPolyVector(const Poly:TPointArray; var A,B:TPoint);
 function InvertTPA(const TPA:TPointArray): TPointArray;
 function RotateTPA(const TPA: TPointArray; Rad: Extended): TPointArray;
 function TPAPartition(const TPA:TPointArray; BoxWidth, BoxHeight:Integer): T2DPointArray;
-function AlignTPA(const TPA:TPointArray; Method: TxAlignMethod; var Angle:Extended): TPointArray;
+function AlignTPA(const TPA:TPointArray; Method: TAlignAlgo; var Angle:Extended): TPointArray;
 function CleanSortTPA(const TPA: TPointArray): TPointArray;
 function UniteTPA(const TPA1, TPA2: TPointArray; RemoveDupes:Boolean): TPointArray;
 procedure TPALine(var TPA:TPointArray; const P1:TPoint; const P2: TPoint); Inline;
@@ -260,10 +260,10 @@ end;
 {*
  Mean, Median, and two diffrent ways to define "centers"..
  @params
- | Method: CM_Mean | CM_Median | CM_Bounds | CM_BBox.
- | Inside: True | False .. If True then the result is always inside the shape.
+   Method: CA_Mean | CA_Median | CA_Bounds | CA_BBox.
+   Inside: True | False .. If True then the result is always inside the shape.
 *}
-function TPACenter(const TPA: TPointArray; Method: TxCenterMethod; Inside:Boolean): TPoint;//StdCall;
+function TPACenter(const TPA: TPointArray; Method: TCenterAlgo; Inside:Boolean=False): TPoint;//StdCall;
 var
   Len, Mid: Integer;
   TMP:TPointArray;
@@ -274,26 +274,26 @@ begin
   if (Len <= 0) then Exit(Point(0, 0));
   if (Len = 1) then Exit(TPA[0]);
   case Method of
-  CM_Bounds:
+  CA_BOUNDS:
     begin
       Area := TPABounds(TPA);
       Result.X := Round((Area.X2 + Area.X1) / 2);
       Result.Y := Round((Area.Y2 + Area.Y1) / 2);
     end;
-  CM_BBox:
+  CA_BBOX:
     begin
       TMP := TPABBox(TPA);
       Result.x := Round((TMP[0].x + TMP[2].x) / 2);
       Result.y := Round((TMP[1].y + TMP[3].y) / 2);
       SetLength(TMP, 0);
     end;
-  CM_Mean:
+  CA_MEAN:
     begin
       Result := SumTPA(TPA);
       Result.x := Round(Result.X / Len);
       Result.y := Round(Result.Y / Len);
     end;
-  CM_Median:
+  CA_MEDIAN:
     begin
       TPASplitAxis(TPA, X,Y);
       SortTIA(X);
@@ -481,7 +481,7 @@ begin
   for i:=0 to H do
     if Length(ATPA[i]) >= MinLength then
     begin
-      if Align then TPA := AlignTPA(ATPA[i], AM_BBox, a)
+      if Align then TPA := AlignTPA(ATPA[i], AA_BBOX, a)
       else          TPA := ATPA[i];
       B := TPABounds(TPA);
       if (B.Width >= MinW) and (B.Height >= MinH) and 
@@ -782,15 +782,15 @@ end;
 {*
  This function should align the TPA by the longest side to the X-Axis.
 *}
-function AlignTPA(const TPA:TPointArray; Method: TxAlignMethod; var Angle:Extended): TPointArray;//StdCall;
+function AlignTPA(const TPA:TPointArray; Method: TAlignAlgo; var Angle:Extended): TPointArray;//StdCall;
 var 
   Shape:TPointArray;
   A,B:TPoint;
 begin
   case Method of
-    AM_Extremes:Shape := TPAExtremes(TPA);
-    AM_Convex:  Shape := ConvexHull(TPA);
-    AM_BBox:    Shape := TPABBox(TPA);
+    AA_BOUNDS:Shape := TPAExtremes(TPA);
+    AA_CHULL:  Shape := ConvexHull(TPA);
+    AA_BBOX:    Shape := TPABBox(TPA);
   end;
   LongestPolyVector(Shape, A,B);
   Angle := ArcTan2(-(B.y-A.y),(B.x-A.x));

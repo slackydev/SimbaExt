@@ -2,12 +2,16 @@
   Type » TBox
 }
 
-{$IfNDef AeroLib}
+
 {!DOCREF} {
   @method: function TBox.Width(): Int32;
   @desc: Returns the width of the TBox
 }
+{$IFNDEF AeroLib}
 function TBox.Width(): Int32;
+{$ELSE}
+function TBox.Width(): Int32; override;
+{$ENDIF}
 begin
   Result := (Self.X2 - Self.X1 + 1);
 end;
@@ -17,11 +21,15 @@ end;
   @method: function TBox.Height(): Int32;
   @desc: Returns the height of the TBox
 }
+{$IFNDEF AeroLib}
 function TBox.Height(): Int32;
+{$ELSE}
+function TBox.Height(): Int32; override;
+{$ENDIF}
 begin
   Result := (Self.Y2 - Self.Y1 + 1);
 end;
-{$endif}
+
 
 
 {!DOCREF} {

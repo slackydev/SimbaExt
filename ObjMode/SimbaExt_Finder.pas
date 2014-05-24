@@ -93,10 +93,10 @@ begin
   FreeBitmap(bmp);
 
   case MatchAlgo of   
-    _RGB_: exp_MatchColorRGB(Img, Color, CC_ChebNormed, Corr);
-    _XYZ_: exp_MatchColorXYZ(Img, Color, CC_ChebNormed, Corr);
-    _LAB_: exp_MatchColorLAB(Img, Color, CC_ChebNormed, Corr);
-    _LCH_: exp_MatchColorLCH(Img, Color, CC_EuclidNormed, Corr);
+    _RGB_: exp_MatchColorRGB(Img, Color, CC_CHEB_NORMED, Corr);
+    _XYZ_: exp_MatchColorXYZ(Img, Color, CC_CHEB_NORMED, Corr);
+    _LAB_: exp_MatchColorLAB(Img, Color, CC_CHEB_NORMED, Corr);
+    _LCH_: exp_MatchColorLCH(Img, Color, CC_EUCLID_NORMED, Corr);
   end;
   
   TPA := Corr.Indices(Similarity, __GE__);      

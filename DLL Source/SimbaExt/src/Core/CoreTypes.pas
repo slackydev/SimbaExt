@@ -85,13 +85,13 @@ type
 
 
   //
-  TxAlignMethod = (AM_Extremes, AM_Convex, AM_BBox);
-  TxThreshMethod = (TM_Mean, TM_MinMax);
-  TxCenterMethod = (CM_Bounds, CM_BBox, CM_Mean, CM_Median);
-  TxResizeMethod = (RM_Nearest, RM_Bilinear, RM_Bicubic);
+  TAlignAlgo     = (AA_BOUNDS, AA_CHULL, AA_BBOX);
+  TThreshAlgo    = (TA_MEAN, TA_MINMAX);
+  TCenterAlgo    = (CA_BOUNDS, CA_BBOX, CA_MEAN, CA_Median);
+  TResizeAlgo    = (RA_NEAREST, RA_BILINEAR, RA_BICUBIC);
 
-  //Cross correlation algorithm
-  TCCorrMode = (CC_Euclid, CC_EuclidNormed, CC_EuclidSquared, CC_Cheb, CC_ChebNormed);
+  //Color correlation algorithm
+  TCCorrMode = (CC_EUCLID, CC_EUCLID_NORMED, CC_EUCLID_SQUARED, CC_CHEB, CC_CHEB_NORMED);
   
   //Comperison operator
   TComparator = (__LT__, __GT__, __EQ__, __NE__, __GE__, __LE__);

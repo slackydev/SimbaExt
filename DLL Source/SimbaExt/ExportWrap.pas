@@ -475,7 +475,7 @@ begin
   Result := TPABBox(TPA);
 end;
 
-function exp_TPACenter(const TPA: TPointArray; Method: TxCenterMethod; Inside:Boolean): TPoint; Cdecl;
+function exp_TPACenter(const TPA: TPointArray; Method: TCenterAlgo; Inside:Boolean): TPoint; Cdecl;
 begin
   Result := TPACenter(TPA, Method, Inside);
 end;
@@ -527,7 +527,7 @@ begin
   Result := TPAPartition(TPA, BoxWidth, BoxHeight);
 end;
 
-procedure exp_AlignTPA(const TPA:TPointArray; Method: TxAlignMethod; var Angle:Extended; var Result:TPointArray); Cdecl;
+procedure exp_AlignTPA(const TPA:TPointArray; Method: TAlignAlgo; var Angle:Extended; var Result:TPointArray); Cdecl;
 begin
   Result := AlignTPA(TPA, Method, Angle);
 end;
@@ -782,7 +782,7 @@ begin
   Result := ImThreshold(ImgArr, Threshold, Alpha, Beta, Invert);
 end;
 
-procedure exp_ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TxThreshMethod; C:Integer; var Result: T2DIntArray); Cdecl;
+procedure exp_ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Integer; var Result: T2DIntArray); Cdecl;
 begin
   Result := ImThresholdAdaptive(ImgArr, Alpha, Beta, Invert, Method, C);
 end;
@@ -813,7 +813,7 @@ begin
   Result := ImGaussBlur(ImgArr, Radius, Sigma); 
 end;
 
-procedure exp_ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TxResizeMethod); Cdecl;
+procedure exp_ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo); Cdecl;
 begin
   ImResize(ImgArr, NewW, NewH, Method);
 end;

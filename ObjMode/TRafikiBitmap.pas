@@ -228,10 +228,10 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.SetPixels(TPA:TPointArray; Color:Integer);
+  @method: procedure TRafBitmap.SetPixels(TPA:TPointArray; Color:Int32);
   @desc: Sets all the given pixels to value 'color'
 }
-procedure TRafBitmap.SetPixels(TPA:TPointArray; Color:Integer);
+procedure TRafBitmap.SetPixels(TPA:TPointArray; Color:Int32);
 var
   i,x,y, Hi: Integer;
 begin
@@ -246,14 +246,15 @@ begin
         (x < Self.Width) and (y < Self.Height)) then
       Self.Pixel(x,y, color);
   end;
+  //DrawTPABitmap(Self.Bitmap, TPA, color);
 end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.SetPixels(TPA:TPointArray; Color:Integer);
+  @method: procedure TRafBitmap.SetPixelsEx(TPA:TPointArray; Color:Integer);
   @desc: Sets all the given pixels to values in 'colors'
 }
-procedure TRafBitmap.SetPixelsEx(TPA:TPointArray; Colors:TIntegerArray);
+procedure TRafBitmap.SetPixelsEx(TPA:TPointArray; Colors:TIntArray);
 begin
   if not(Self.IsLoaded('TRafBitmap.SetPixelsEx()')) then Exit;
   FastSetPixels(Self.Bitmap, TPA, Colors);
@@ -261,10 +262,10 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.ReplaceColor(OldColor, NewColor: Integer);
+  @method: procedure TRafBitmap.ReplaceColor(OldColor, NewColor: Int32);
   @desc: Replaces all the occurances of OldColor with NewColor
 }
-procedure TRafBitmap.ReplaceColor(OldColor, NewColor: Integer);
+procedure TRafBitmap.ReplaceColor(OldColor, NewColor: Int32);
 begin
   if not(Self.IsLoaded('TRafBitmap.ReplaceColor()')) then Exit;
   FastReplaceColor(Self.Bitmap, OldColor, NewColor);
@@ -376,10 +377,10 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TxResizeMethod);
+  @method: procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TResizeAlgo);
   @desc: Allows you to resize the bitmap by not just using nearest neighbor, but also BICUBIC, and BILINEAR interpolation
 }
-procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TxResizeMethod);
+procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TResizeAlgo);
 var
   Matrix:T2DIntegerArray;
 begin

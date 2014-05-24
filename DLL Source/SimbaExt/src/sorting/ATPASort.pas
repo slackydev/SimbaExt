@@ -59,7 +59,7 @@ begin
   SetLength(Weight, Hi);
   for i := 0 to Hi-1 do 
   begin
-    M := TPACenter(Arr[i], CM_Mean, False);
+    M := TPACenter(Arr[i], CA_MEAN, False);
     Weight[i] := Sqr(M.x) + Sqr(M.y);
   end;
   __SortATPA(Arr, Weight, Low(Arr), High(Arr));

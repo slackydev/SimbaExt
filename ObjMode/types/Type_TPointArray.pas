@@ -375,10 +375,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TPointArray.Center(Method:TxCenterMethod): TPoint;
+  @method: function TPointArray.Center(Method:TCenterAlgo): TPoint;
   @desc: Returns the center of the TPA, defined by the given method
 }
-function TPointArray.Center(Method:TxCenterMethod): TPoint;
+function TPointArray.Center(Method:TCenterAlgo): TPoint;
 begin
   Result := se.TPACenter(Self, method, False); 
 end;

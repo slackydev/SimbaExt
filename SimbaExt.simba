@@ -1,5 +1,6 @@
 //Define types used in SimbaExt
 {$IFDEF LAPE}
+{$DEFINE SIMBAEXT}
 type
   Float32 = Single;
   Float64 = Double;
@@ -62,13 +63,17 @@ type
 {$loadlib \..\includes\simbaext\seextra.dll}
 
 
-{$IfNDef AeroLib}
 // IntToBox is to long, and [x1,y1,x2,y2] fails whenever used with a overloaded method..
-function ToBox(x1,y1,x2,y2: Integer): TBox; overload;
+{$IFNDEF AeroLib}
+function ToBox(x1,y1,x2,y2: Integer): TBox;
+{$ELSE}
+function ToBox(x1,y1,x2,y2: Integer): TBox; override;
+{$ENDIF}
 begin
   Result := [x1,y1,x2,y2];
 end;
-{$endif}
+
+
 
 function ToBox(TopLeft, BtmRight:TPoint): TBox; overload;
 begin

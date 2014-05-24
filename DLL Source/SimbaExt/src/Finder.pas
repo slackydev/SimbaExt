@@ -44,7 +44,7 @@ begin
   ColorToRGB(Color, R,G,B);
 
   // If we want euclidean distance correlation
-  if CCMode in [CC_Euclid, CC_EuclidSquared, CC_EuclidNormed] then
+  if CCMode in [CC_EUCLID, CC_EUCLID_SQUARED, CC_EUCLID_NORMED] then
   begin
     for Y:=0 to H do
       for X:=0 to W do
@@ -52,17 +52,17 @@ begin
         ColorToRGB(ImgArr[Y][X], R1,G1,B1);
         Result[y][x] := Sqr(R1-R) + Sqr(G1-G) + Sqr(B1-B);
       end;
-    if (CCMode = CC_Euclid) then
-      Result := fSqrt(Result)
-    else if (CCMode = CC_EuclidNormed) then
+    if (CCMode = CC_EUCLID) then
+      Result := SqrtF32(Result)
+    else if (CCMode = CC_EUCLID_NORMED) then
     begin
       diff := Sqrt(Sqr(255) * 3);
-      Result := 1 - (fSqrt(Result) / diff);
+      Result := 1 - (SqrtF32(Result) / diff);
     end;
   end;
 
   // if we want chebyshev distance correlation
-  if CCMode in [CC_Cheb, CC_ChebNormed] then
+  if CCMode in [CC_CHEB, CC_CHEB_NORMED] then
   begin
     for Y:=0 to H do
       for X:=0 to W do
@@ -70,7 +70,7 @@ begin
         ColorToRGB(ImgArr[Y][X], R1,G1,B1);
         Result[y][x] := Abs(R1-R) + Abs(G1-G) + Abs(B1-B);
       end;
-    if (CCMode = CC_ChebNormed) then
+    if (CCMode = CC_CHEB_NORMED) then
       Result := 1 - (Result / 765.0);
   end;
 end;
@@ -89,7 +89,7 @@ begin
   ColorToXYZ(Color, X0,Y0,Z0);
 
   // If we want euclidean distance correlation
-  if CCMode in [CC_Euclid, CC_EuclidSquared, CC_EuclidNormed] then
+  if CCMode in [CC_EUCLID, CC_EUCLID_SQUARED, CC_EUCLID_NORMED] then
   begin
     for Y:=0 to H do
       for X:=0 to W do
@@ -97,17 +97,17 @@ begin
         ColorToXYZ(ImgArr[Y][X], X1,Y1,Z1);
         Result[y][x] := Sqr(X1-X0) + Sqr(Y1-Y0) + Sqr(Z1-Z0);
       end;
-    if (CCMode = CC_Euclid) then
-      Result := fSqrt(Result)
-    else if (CCMode = CC_EuclidNormed) then
+    if (CCMode = CC_EUCLID) then
+      Result := SqrtF32(Result)
+    else if (CCMode = CC_EUCLID_NORMED) then
     begin
       diff := Sqrt(Sqr(255) * 3);
-      Result := 1 - (fSqrt(Result) / diff);
+      Result := 1 - (SqrtF32(Result) / diff);
     end;
   end;
 
   // if we want chebyshev distance correlation
-  if CCMode in [CC_Cheb, CC_ChebNormed] then
+  if CCMode in [CC_CHEB, CC_CHEB_NORMED] then
   begin
     for Y:=0 to H do
       for X:=0 to W do
@@ -115,7 +115,7 @@ begin
         ColorToXYZ(ImgArr[Y][X], X1,Y1,Z1);
         Result[y][x] := Abs(X1-X0) + Abs(Y1-Y0) + Abs(Z1-Z0);
       end;
-    if (CCMode = CC_ChebNormed) then
+    if (CCMode = CC_CHEB_NORMED) then
       Result := 1 - (Result / 765.0);
   end;
 end;
@@ -139,7 +139,7 @@ begin
   SimMap := TF32Hash.Create((W+1)*(H+1));
 
   // If we want euclidean distance correlation
-  if CCMode in [CC_Euclid, CC_EuclidSquared, CC_EuclidNormed] then
+  if CCMode in [CC_EUCLID, CC_EUCLID_SQUARED, CC_EUCLID_NORMED] then
   begin
     for Y:=0 to H do
       for X:=0 to W do
@@ -152,14 +152,14 @@ begin
         end;
         Result[y][x] := Similarity;
       end;
-    if (CCMode = CC_Euclid) then
-      Result := fSqrt(Result)
-    else if (CCMode = CC_EuclidNormed) then
-      Result := 1 - (fSqrt(Result) / 265);
+    if (CCMode = CC_EUCLID) then
+      Result := SqrtF32(Result)
+    else if (CCMode = CC_EUCLID_NORMED) then
+      Result := 1 - (SqrtF32(Result) / 265);
   end;
 
   // if we want chebyshev distance correlation
-  if CCMode in [CC_Cheb, CC_ChebNormed] then
+  if CCMode in [CC_CHEB, CC_CHEB_NORMED] then
   begin
     for Y:=0 to H do
       for X:=0 to W do
@@ -172,7 +172,7 @@ begin
         end;
         Result[y][x] := Similarity;
       end;
-    if (CCMode = CC_ChebNormed) then
+    if (CCMode = CC_CHEB_NORMED) then
       Result := 1 - (Result / 415.0);
   end;
   SimMap.Destroy;
@@ -191,7 +191,7 @@ begin
   W := High(ImgArr[0]);
   H := High(ImgArr);
   SetLength(Result, H+1,W+1);
-  if CCMode in [CC_Cheb, CC_ChebNormed, CC_EuclidSquared] then begin
+  if CCMode in [CC_CHEB, CC_CHEB_NORMED, CC_EUCLID_SQUARED] then begin
     WriteLn('Error: not supported TCCorrMode use: CC_Euclid|CC_EuclidNormed');
     Exit;
   end;
@@ -200,7 +200,7 @@ begin
 
   ColorToLAB(Color, L0,a0,b0); 
   // If we want euclidean distance correlation
-  if CCMode in [CC_Euclid, CC_EuclidNormed] then
+  if CCMode in [CC_EUCLID, CC_EUCLID_NORMED] then
   begin
     for Y:=0 to H do
       for X:=0 to W do
@@ -213,7 +213,7 @@ begin
         end;
         Result[y][x] := Similarity;
       end;
-    if (CCMode = CC_EuclidNormed) then
+    if (CCMode = CC_EUCLID_NORMED) then
     begin
       Result := 1 - (Result / 130);
     end;

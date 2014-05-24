@@ -95,10 +95,10 @@ begin
 end;
 
 {!DOCREF} {
-  @method: function se.TPACenter(TPA: TPointArray; @method: TxCenterMethod; Inside:Boolean): TPoint;
+  @method: function se.TPACenter(TPA: TPointArray; @method: TCenterAlgo; Inside:Boolean): TPoint;
   @desc: ...
 }
-function SimbaExt.TPACenter(TPA: TPointArray; method: TxCenterMethod; Inside:Boolean): TPoint;
+function SimbaExt.TPACenter(TPA: TPointArray; method: TCenterAlgo; Inside:Boolean): TPoint;
 begin
   Result := exp_TPACenter(TPA, method, Inside);
 end;
@@ -187,10 +187,10 @@ begin
 end;
 
 {!DOCREF} {
-  @method: function se.AlignTPA(TPA:TPointArray; method: TxAlignMethod; var Angle:Extended): TPointArray;
+  @method: function se.AlignTPA(TPA:TPointArray; method: TAlignAlgo; var Angle:Extended): TPointArray;
   @desc: Tries to align the TPA horizontally so that the longest side is faced downwards.
 }
-function SimbaExt.AlignTPA(TPA:TPointArray; method: TxAlignMethod; var Angle:Extended): TPointArray;
+function SimbaExt.AlignTPA(TPA:TPointArray; method: TAlignAlgo; var Angle:Extended): TPointArray;
 begin
   exp_AlignTPA(TPA, method, Angle,Result);
 end;
@@ -223,6 +223,24 @@ procedure SimbaExt.TPALine(var TPA:TPointArray; const P1:TPoint; const P2: TPoin
 begin
   exp_TPALine(TPA, P1,P2);
 end;
+
+
+{!DOCREF} {
+  @method: function se.TPACross(const center:TPoint; Radius:Int32): TPointArray;
+  @desc: ...
+}
+function SimbaExt.TPACross(const center:TPoint; Radius:Int32): TPointArray;
+var P1,P2:TPoint;
+begin
+  P1 := Point(center.x-Radius, center.y);
+  P2 := Point(center.x+Radius, center.y);
+  exp_TPALine(Result, P1,P2);
+  P1 := Point(center.x, center.y-Radius);
+  P2 := Point(center.x, center.y+Radius);
+  exp_TPALine(Result, P1,P2);
+end;
+
+
 
 {!DOCREF} {
   @method: function se.ConnectTPA(TPA:TPointArray): TPointArray;
@@ -336,7 +354,8 @@ end;
 }
 function SimbaExt.ClusterTPAEx(TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean): T2DPointArray;  
 begin
-  exp_ClusterTPAEx(TPA,DistX,DistY, Eightway, Result);
+  if Length(TPA) > 0 then
+    exp_ClusterTPAEx(TPA,DistX,DistY, Eightway, Result);
 end;
 
 {!DOCREF} {
@@ -350,7 +369,8 @@ end;
 }
 function SimbaExt.ClusterTPA(TPA: TPointArray; Distance: Integer; EightWay:Boolean): T2DPointArray;  
 begin
-  exp_ClusterTPA(TPA,Distance, Eightway, Result);
+  if Length(TPA) > 0 then
+    exp_ClusterTPA(TPA,Distance, Eightway, Result);
 end;
 
 

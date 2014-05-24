@@ -70,7 +70,7 @@ end;
 [=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 procedure SetupCommands;
 begin
-  // CMath.pas
+  // CoreMath.pas
   AddCommand(@exp_DistManhattan,	'function exp_DistManhattan(pt1,pt2: TPoint): Extended;');
   AddCommand(@exp_DistEuclidean,	'function exp_DistEuclidean(pt1,pt2: TPoint): Extended;');
   AddCommand(@exp_DistChebyshev,	'function exp_DistChebyshev(pt1,pt2: TPoint): Extended;');
@@ -87,18 +87,19 @@ begin
   AddCommand(@exp_DeltaAngle,	'function exp_DeltaAngle(DegA,DegB:Extended): Extended;');
 
 
+
   // Numeric.pas
   AddCommand(@exp_SumTBA,	'function exp_SumTBA(const Arr: TByteArray): Int64;');
-  AddCommand(@exp_SumTIA,	'function exp_SumTIA(const Arr: TIntegerArray): Int64;');
-  AddCommand(@exp_SumTEA,	'function exp_SumTEA(const Arr: TExtendedArray): Extended;');
-  AddCommand(@exp_TIACombinations,	'procedure exp_TIACombinations(const Arr: TIntegerArray; Seq:Integer; var Result: T2DIntegerArray);');
-  AddCommand(@exp_TEACombinations,	'procedure exp_TEACombinations(const Arr: TExtendedArray; Seq:Integer; var Result: T2DExtendedArray);');
+  AddCommand(@exp_SumTIA,	'function exp_SumTIA(const Arr: TIntArray): Int64;');
+  AddCommand(@exp_SumTEA,	'function exp_SumTEA(const Arr: TExtArray): Extended;');
+  AddCommand(@exp_TIACombinations,	'procedure exp_TIACombinations(const Arr: TIntArray; Seq:Integer; var Result: T2DIntArray);');
+  AddCommand(@exp_TEACombinations,	'procedure exp_TEACombinations(const Arr: TExtArray; Seq:Integer; var Result: T2DExtArray);');
   AddCommand(@exp_MinMaxTBA,	'procedure exp_MinMaxTBA(const Arr: TByteArray; var Min:Byte; var Max:Byte);');
-  AddCommand(@exp_MinMaxTIA,	'procedure exp_MinMaxTIA(const Arr: TIntegerArray; var Min:Integer; var Max: Integer);');
-  AddCommand(@exp_MinMaxTEA,	'procedure exp_MinMaxTEA(const Arr: TExtendedArray; var Min:Extended; var Max: Extended);');
+  AddCommand(@exp_MinMaxTIA,	'procedure exp_MinMaxTIA(const Arr: TIntArray; var Min:Integer; var Max: Integer);');
+  AddCommand(@exp_MinMaxTEA,	'procedure exp_MinMaxTEA(const Arr: TExtArray; var Min:Extended; var Max: Extended);');
 
 
-  //Std.pas
+  // Std.pas
   AddCommand(@exp_Slice1,	'procedure exp_Slice(Arr:TIntArray; Start,Stop,Step:Int32; var Result:TIntArray);');
   AddCommand(@exp_Slice2,	'procedure exp_Slice(Arr:TExtArray; Start,Stop,Step:Int32; var Result:TExtArray); overload;');
   AddCommand(@exp_Slice3,	'procedure exp_Slice(Arr:TPointArray; Start,Stop,Step:Int32; var Result:TPointArray); overload;');
@@ -179,7 +180,7 @@ begin
   AddCommand(@exp_ATPAFilter,	'procedure exp_ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:Boolean);');
   AddCommand(@exp_TPAExtremes,	'procedure exp_TPAExtremes(const TPA:TPointArray; var Result:TPointArray);');
   AddCommand(@exp_TPABBox,	    'procedure exp_TPABBox(const TPA:TPointArray; var Result:TPointArray);');
-  AddCommand(@exp_TPACenter,	'function exp_TPACenter(const TPA: TPointArray; Method: TxCenterMethod; Inside:Boolean): TPoint;');
+  AddCommand(@exp_TPACenter,	'function exp_TPACenter(const TPA: TPointArray; Method: TCenterAlgo; Inside:Boolean): TPoint;');
   AddCommand(@exp_GetAdjacent,	'procedure exp_GetAdjacent(var adj:TPointArray; n:TPoint; EightWay:Boolean);');
   AddCommand(@exp_TPACircularity,	'function exp_TPACircularity(const TPA: TPointArray): Extended;');
   AddCommand(@exp_TPAConvexity,		'function exp_TPAConvexity(const TPA: TPointArray): Extended;');
@@ -189,7 +190,7 @@ begin
   AddCommand(@exp_InvertTPA,	  'procedure exp_InvertTPA(const TPA:TPointArray; var Result:TPointArray);');
   AddCommand(@exp_RotateTPA,	'procedure exp_RotateTPA(const TPA: TPointArray; Radians: Extended; var Result:TPointArray);');
   AddCommand(@exp_TPAPartition,	'procedure exp_TPAPartition(const TPA:TPointArray; BoxWidth, BoxHeight:Integer; var Result:T2DPointArray);');
-  AddCommand(@exp_AlignTPA,	    'procedure exp_AlignTPA(const TPA:TPointArray; Method: TxAlignMethod; var Angle:Extended; var Result:TPointArray);');
+  AddCommand(@exp_AlignTPA,	    'procedure exp_AlignTPA(const TPA:TPointArray; Method: TAlignAlgo; var Angle:Extended; var Result:TPointArray);');
   AddCommand(@exp_CleanSortTPA,	'procedure exp_CleanSortTPA(const TPA: TPointArray; var Result:TPointArray);');
   AddCommand(@exp_UniteTPA,	    'procedure exp_UniteTPA(const TPA1, TPA2: TPointArray; RemoveDupes:Boolean; var Result: TPointArray);');
   AddCommand(@exp_TPALine,	    'procedure exp_TPALine(var TPA:TPointArray; const P1:TPoint; const P2: TPoint);');
@@ -216,6 +217,7 @@ begin
 
   AddCommand(@exp_Spline,	'procedure exp_Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean; var Result: TPointArray);');
 
+
   // MatrixTools.pas
   AddCommand(@exp_NewMatrixEx,	'procedure exp_NewMatrixEx(W,H, Init:Integer; var Result:T2DIntegerArray);');
   AddCommand(@exp_NewMatrix,	'procedure exp_NewMatrix(W,H:Integer; var Result:T2DIntegerArray);');
@@ -241,13 +243,13 @@ begin
   AddCommand(@exp_ImBrighten,	'procedure exp_ImBrighten(ImgArr:T2DIntegerArray; Amount:Extended; Legacy:Boolean; var Result: T2DIntegerArray);');
   AddCommand(@exp_ImEnhance,	'procedure exp_ImEnhance(ImgArr:T2DIntegerArray; Enhancement:Byte; C:Extended; var Result: T2DIntegerArray);');
   AddCommand(@exp_ImThreshold,	'procedure exp_ImThreshold(const ImgArr:T2DIntegerArray; Threshold, Alpha, Beta:Byte; Invert:Boolean; var Result: T2DIntegerArray);');
-  AddCommand(@exp_ImThresholdAdaptive,	'procedure exp_ImThresholdAdaptive(const ImgArr:T2DIntegerArray; Alpha, Beta: Byte; Invert:Boolean; Method:TxThreshMethod; C:Integer; var Result: T2DIntegerArray);');
+  AddCommand(@exp_ImThresholdAdaptive,	'procedure exp_ImThresholdAdaptive(const ImgArr:T2DIntegerArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Integer; var Result: T2DIntegerArray);');
   AddCommand(@exp_ImFindContours,	'procedure exp_ImFindContours(const ImgArr:T2DIntegerArray; Outlines:Boolean; var Result: T2DPointArray);');
   AddCommand(@exp_ImCEdges,	    'procedure exp_ImCEdges(const ImgArr: T2DIntegerArray; MinDiff: Integer; var Result: TPointArray);');
   AddCommand(@exp_ImSobel,	    'procedure exp_ImSobel(const ImgArr: T2DIntArray; var Result:T2DIntArray);');
   AddCommand(@exp_ImConvolve,	  'procedure exp_ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray; var Result:T2DIntArray);');
   AddCommand(@exp_ImGaussBlur,  'procedure exp_ImGaussBlur(const ImgArr: T2DIntArray; Radius: Integer; Sigma: Single; var Result:T2DIntArray);');
-  AddCommand(@exp_ImResize,	    'procedure exp_ImResize(var ImgArr:T2DIntegerArray; NewW, NewH: Integer; Method:TxResizeMethod);');
+  AddCommand(@exp_ImResize,	    'procedure exp_ImResize(var ImgArr:T2DIntegerArray; NewW, NewH: Integer; Method:TResizeAlgo);');
 
   // SimpleOCR.pas
   AddCommand(@exp_ImGetText,     'function exp_ImGetText(ImgArr:T2DIntegerArray; Font:TChars; MinCharSpace, MinSpace, TextPixTol: Integer; Range:AnsiString): AnsiString;');
@@ -382,24 +384,24 @@ function GetTypeInfo(x: Integer; var sType, sTypeDef: PChar): integer; cdecl; ex
 begin
   case x of
     0:begin
-        StrPCopy(sType, 'TxAlignMethod');
-        StrPCopy(sTypeDef, '(amExtremes, amConvex, amBBox);');
+        StrPCopy(sType, 'TAlignAlgo');
+        StrPCopy(sTypeDef, '(AA_BOUNDS, AA_CHULL, AA_BBOX);');
       end;
     1:begin
-        StrPCopy(sType, 'TxThreshMethod');
-        StrPCopy(sTypeDef, '(tmMean, tmMinMax);');
+        StrPCopy(sType, 'TThreshAlgo');
+        StrPCopy(sTypeDef, '(TA_Mean, TA_MinMax);');
       end;
     2:begin
-        StrPCopy(sType, 'TxCenterMethod');
-        StrPCopy(sTypeDef, '(cmBounds, cmBBox, cmMean, cmMedian);');
+        StrPCopy(sType, 'TCenterAlgo');
+        StrPCopy(sTypeDef, '(CA_BOUNDS, CA_BBOX, CA_MEAN, CA_MEDIAN);');
       end;
     3:begin
-        StrPCopy(sType, 'TxResizeMethod');
-        StrPCopy(sTypeDef, '(rmNearest, rmBilinear, rmBicubic);');
+        StrPCopy(sType, 'TResizeAlgo');
+        StrPCopy(sTypeDef, '(RA_NEAREST, RA_BILINEAR, RA_BICUBIC);');
       end;
     4:begin
        StrPCopy(sType, 'TCCorrMode');
-       StrPCopy(sTypeDef, '(CC_Euclid, CC_EuclidNormed, CC_EuclidSquared, CC_Cheb, CC_ChebNormed);');
+       StrPCopy(sTypeDef, '(CC_EUCLID, CC_EUCLID_NORMED, CC_EUCLID_SQUARED, CC_CHEB, CC_CHEB_NORMED);');
       end;
     5:begin
         StrPCopy(sType, 'TComparator');
