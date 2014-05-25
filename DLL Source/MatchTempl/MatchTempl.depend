@@ -1,0 +1,217 @@
+# depslib dependency file v1.0
+1400739439 source:c:\workspace\gcc\matchtempl\main.cpp
+	<windows.h>
+	"matchTempl.hpp"
+
+1400739937 c:\workspace\gcc\matchtempl\matchtempl.hpp
+	<windows.h>
+	<dlfcn.h>
+	<cstdint>
+	<cstring>
+	<iostream>
+	<opencv2/highgui/highgui.hpp>
+	<opencv2/imgproc/imgproc.hpp>
+
+1341273395 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\highgui\highgui.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/highgui/highgui_c.h"
+
+1341273401 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\core\core.hpp
+	"opencv2/core/types_c.h"
+	"opencv2/core/version.hpp"
+	<limits.h>
+	<algorithm>
+	<cmath>
+	<cstddef>
+	<complex>
+	<map>
+	<new>
+	<string>
+	<vector>
+	<sstream>
+	"opencv2/core/operations.hpp"
+	"opencv2/core/mat.hpp"
+
+1341273401 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\core\types_c.h
+	<assert.h>
+	<stdlib.h>
+	<string.h>
+	<float.h>
+	<stdint.h>
+	<intrin.h>
+	<emmintrin.h>
+	<fastmath.h>
+	<math.h>
+	<ipl.h>
+	<ipl/ipl.h>
+	"tegra_round.hpp"
+	"emmintrin.h"
+
+1341273401 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\core\version.hpp
+
+1341273401 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\core\operations.hpp
+	<string.h>
+	<limits.h>
+	<ext/atomicity.h>
+	<bits/atomicity.h>
+	<windows.h>
+	<limits>
+
+1341273401 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\core\mat.hpp
+	<limits.h>
+	<string.h>
+
+1341273395 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\highgui\highgui_c.h
+	"opencv2/core/core_c.h"
+
+1341273401 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\core\core_c.h
+	"opencv2/core/types_c.h"
+
+1341273424 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\imgproc\imgproc.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/imgproc/types_c.h"
+
+1341273424 c:\workspace\gcc\matchtempl\opencv\build\include\opencv2\imgproc\types_c.h
+	"opencv2/core/core_c.h"
+
+1400739867 source:c:\workspace\gcc\matchtempl\matchtempl.cpp
+	"matchtempl.hpp"
+
+1387536597 c:\workspace\gcc\matchtempl\opencv\include\opencv2\highgui\highgui.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/highgui/highgui_c.h"
+
+1391489825 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\core.hpp
+	"opencv2/core/types_c.h"
+	"opencv2/core/version.hpp"
+	<limits.h>
+	<algorithm>
+	<cmath>
+	<cstddef>
+	<complex>
+	<map>
+	<new>
+	<string>
+	<vector>
+	<sstream>
+	"opencv2/core/operations.hpp"
+	"opencv2/core/mat.hpp"
+
+1392700821 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\types_c.h
+	<assert.h>
+	<stdlib.h>
+	<string.h>
+	<float.h>
+	<stdint.h>
+	<intrin.h>
+	<emmintrin.h>
+	<fastmath.h>
+	<math.h>
+	<ipl.h>
+	<ipl/ipl.h>
+	"tegra_round.hpp"
+	"emmintrin.h"
+
+1396411557 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\version.hpp
+
+1387536597 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\operations.hpp
+	<string.h>
+	<limits.h>
+	<ext/atomicity.h>
+	<bits/atomicity.h>
+	<limits>
+
+1389326456 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\mat.hpp
+	<limits.h>
+	<string.h>
+
+1395720031 c:\workspace\gcc\matchtempl\opencv\include\opencv2\highgui\highgui_c.h
+	"opencv2/core/core_c.h"
+
+1393999333 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\core_c.h
+	"opencv2/core/types_c.h"
+
+1387536598 c:\workspace\gcc\matchtempl\opencv\include\opencv2\imgproc\imgproc.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/imgproc/types_c.h"
+
+1387536598 c:\workspace\gcc\matchtempl\opencv\include\opencv2\imgproc\types_c.h
+	"opencv2/core/core_c.h"
+
+1400746640 source:c:\workspace\gcc\matchtempl\main.cpp
+	<windows.h>
+	"matchtempl.hpp"
+
+1400747138 c:\workspace\gcc\matchtempl\matchtempl.hpp
+	<windows.h>
+	<dlfcn.h>
+	<cstdint>
+	<cstring>
+	<iostream>
+	<opencv2/highgui/highgui.hpp>
+	<opencv2/imgproc/imgproc.hpp>
+
+1387550998 c:\workspace\gcc\matchtempl\opencv\include\opencv2\highgui\highgui.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/highgui/highgui_c.h"
+
+1391504226 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\core.hpp
+	"opencv2/core/types_c.h"
+	"opencv2/core/version.hpp"
+	<limits.h>
+	<algorithm>
+	<cmath>
+	<cstddef>
+	<complex>
+	<map>
+	<new>
+	<string>
+	<vector>
+	<sstream>
+	"opencv2/core/operations.hpp"
+	"opencv2/core/mat.hpp"
+
+1392715222 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\types_c.h
+	<assert.h>
+	<stdlib.h>
+	<string.h>
+	<float.h>
+	<stdint.h>
+	<intrin.h>
+	<emmintrin.h>
+	<fastmath.h>
+	<math.h>
+	<ipl.h>
+	<ipl/ipl.h>
+	"tegra_round.hpp"
+	"emmintrin.h"
+
+1396418758 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\version.hpp
+
+1387550998 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\operations.hpp
+	<string.h>
+	<limits.h>
+	<ext/atomicity.h>
+	<bits/atomicity.h>
+	<limits>
+
+1389340858 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\mat.hpp
+	<limits.h>
+	<string.h>
+
+1395727232 c:\workspace\gcc\matchtempl\opencv\include\opencv2\highgui\highgui_c.h
+	"opencv2/core/core_c.h"
+
+1394013734 c:\workspace\gcc\matchtempl\opencv\include\opencv2\core\core_c.h
+	"opencv2/core/types_c.h"
+
+1387551000 c:\workspace\gcc\matchtempl\opencv\include\opencv2\imgproc\imgproc.hpp
+	"opencv2/core/core.hpp"
+	"opencv2/imgproc/types_c.h"
+
+1387551000 c:\workspace\gcc\matchtempl\opencv\include\opencv2\imgproc\types_c.h
+	"opencv2/core/core_c.h"
+
+1400747182 source:c:\workspace\gcc\matchtempl\matchtempl.cpp
+	"matchtempl.hpp"
+

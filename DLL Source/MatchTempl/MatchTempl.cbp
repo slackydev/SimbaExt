@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MatchTempl" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/MatchTempl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-DBUILD_DLL" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="user32" />
+					<Add library="opencv_calib3d249" />
+					<Add library="opencv_contrib249" />
+					<Add library="opencv_core249" />
+					<Add library="opencv_features2d249" />
+					<Add library="opencv_flann249" />
+					<Add library="libtiff" />
+					<Add library="libpng" />
+					<Add library="libjpeg" />
+					<Add library="libjasper" />
+					<Add library="IlmImf" />
+					<Add library="zlib" />
+					<Add library="opencv_gpu249" />
+					<Add library="opencv_highgui249" />
+					<Add library="opencv_imgproc249" />
+					<Add library="opencv_legacy249" />
+					<Add library="opencv_ml249" />
+					<Add library="opencv_nonfree249" />
+					<Add library="opencv_objdetect249" />
+					<Add library="opencv_photo249" />
+					<Add library="opencv_stitching249" />
+					<Add library="opencv_ts249" />
+					<Add library="opencv_video249" />
+					<Add library="opencv_videostab249" />
+					<Add library="Vfw32" />
+					<Add library="comctl32" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/MatchTempl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-Wall" />
+					<Add option="-m32 -std=c++11" />
+					<Add option="-DBUILD_DLL" />
+					<Add directory="opencv/include" />
+					<Add directory="opencv/x86 dynamic/bin" />
+					<Add directory="opencv/x64 dynamic/bin" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-m32" />
+					<Add option="-static" />
+					<Add option="-static-libgcc" />
+					<Add option="-static-libstdc++" />
+					<Add option="-lopencv_contrib249" />
+					<Add option="-lopencv_legacy249" />
+					<Add option="-lopencv_videostab249" />
+					<Add option="-lopencv_photo249" />
+					<Add option="-lopencv_stitching249" />
+					<Add option="-lopencv_objdetect249" />
+					<Add option="-lopencv_video249" />
+					<Add option="-lopencv_ml249" />
+					<Add option="-lopencv_calib3d249" />
+					<Add option="-lopencv_features2d249" />
+					<Add option="-lopencv_highgui249" />
+					<Add option="-lopencv_flann249" />
+					<Add option="-lopencv_imgproc249" />
+					<Add option="-lopencv_core249" />
+					<Add option="-llibtiff" />
+					<Add option="-llibpng" />
+					<Add option="-llibjpeg" />
+					<Add option="-llibjasper" />
+					<Add option="-lIlmImf" />
+					<Add option="-lzlib" />
+					<Add library="user32" />
+					<Add directory="opencv/x86 static/lib" />
+					<Add directory="opencv/x86 dynamic/lib" />
+					<Add directory="opencv/x64 static/lib" />
+					<Add directory="opencv/x64 dynamic/lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="MatchTempl.cpp" />
+		<Unit filename="MatchTempl.hpp" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
