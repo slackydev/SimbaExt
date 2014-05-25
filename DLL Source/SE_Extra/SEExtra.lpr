@@ -52,6 +52,7 @@ begin
   AddCommand(@TimeSinceEpoch,	'function exp_TimeSinceEpoch(OffsetSec:UInt32=0): Double;');
   AddCommand(@FormatEpochTime,	'function exp_FormatEpochTime(FormatString:String; UnixTime: Double): String;');
   AddCommand(@EpochToTime,	'function exp_EpochToTime(UnixTime: Double): TDateTime;');
+  AddCommand(@MarkTime,         'function MarkTime(): Double;');
 
   // OSUtils.pas (OS.*
   AddCommand(@GetEnviron,     'function exp_GetEnviron(Varname:String): String;');

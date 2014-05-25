@@ -49,7 +49,7 @@ type
 
   
   //Other ..
-  TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
+  TColorSpace = (_LAB_, _LCH_, _XYZ_, _RGB_);
   TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
   
   TSortKey  = ( 
@@ -215,8 +215,8 @@ end;
 
 
 {!DOCREF} {
-  @method: type TMatchAlgo = (_LAB_, _LCH_, _XYZ_, _RGB_);
-  @desc: Choise of color correlation algorithm
+  @method: type TColorSpace = (_LAB_, _LCH_, _XYZ_, _RGB_);
+  @desc: Choise of colorspace
 }
 
 {!DOCREF} {

@@ -9,10 +9,11 @@
         <Filename Value="SEExtra.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SEExtra"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="49"/>
-        <CursorPos X="31" Y="60"/>
+        <TopLine Value="37"/>
+        <CursorPos X="57" Y="55"/>
         <UsageCount Value="71"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -172,8 +173,8 @@
         <UnitName Value="TimeUtils"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="92"/>
-        <CursorPos X="22" Y="117"/>
+        <TopLine Value="109"/>
+        <CursorPos X="1" Y="129"/>
         <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit20>
@@ -187,18 +188,17 @@
       <Unit22>
         <Filename Value="src\OsUtils.pas"/>
         <UnitName Value="OSUtils"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="24"/>
-        <CursorPos X="19" Y="42"/>
+        <TopLine Value="164"/>
+        <CursorPos X="18" Y="179"/>
         <UsageCount Value="31"/>
         <Loaded Value="True"/>
       </Unit22>
       <Unit23>
         <Filename Value="src\StringTools.pas"/>
         <UnitName Value="StringTools"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="65" Y="113"/>
@@ -207,12 +207,10 @@
       </Unit23>
       <Unit24>
         <Filename Value="C:\lazarus32\fpc\2.6.2\source\rtl\objpas\sysutils\sysstrh.inc"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="8"/>
         <CursorPos X="4" Y="27"/>
         <UsageCount Value="29"/>
-        <Loaded Value="True"/>
       </Unit24>
       <Unit25>
         <Filename Value="src\CoreTypes.pas"/>
@@ -231,123 +229,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="46" Column="1" TopLine="27"/>
+        <Caret Line="227" Column="31" TopLine="192"/>
       </Position1>
       <Position2>
-        <Filename Value="SEExtra.lpr"/>
-        <Caret Line="63" Column="49" TopLine="33"/>
+        <Filename Value="src\OsUtils.pas"/>
+        <Caret Line="224" Column="19" TopLine="194"/>
       </Position2>
       <Position3>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="29" Column="38" TopLine="21"/>
+        <Caret Line="225" Column="30" TopLine="194"/>
       </Position3>
       <Position4>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="227" Column="31" TopLine="192"/>
+        <Caret Line="18" Column="41" TopLine="1"/>
       </Position4>
       <Position5>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="224" Column="19" TopLine="194"/>
+        <Caret Line="121" Column="11" TopLine="104"/>
       </Position5>
       <Position6>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="225" Column="30" TopLine="194"/>
+        <Caret Line="124" Column="9" TopLine="105"/>
       </Position6>
       <Position7>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="18" Column="41" TopLine="1"/>
+        <Caret Line="132" Column="31" TopLine="113"/>
       </Position7>
       <Position8>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="121" Column="11" TopLine="104"/>
+        <Caret Line="64" Column="21" TopLine="41"/>
       </Position8>
       <Position9>
-        <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="124" Column="9" TopLine="105"/>
+        <Filename Value="SEExtra.lpr"/>
+        <Caret Line="66" Column="20" TopLine="44"/>
       </Position9>
       <Position10>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="132" Column="31" TopLine="113"/>
+        <Caret Line="144" Column="23" TopLine="121"/>
       </Position10>
       <Position11>
-        <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="64" Column="21" TopLine="41"/>
+        <Filename Value="SEExtra.lpr"/>
+        <Caret Line="63" Column="19" TopLine="44"/>
       </Position11>
       <Position12>
-        <Filename Value="SEExtra.lpr"/>
-        <Caret Line="66" Column="20" TopLine="44"/>
+        <Filename Value="src\OsUtils.pas"/>
+        <Caret Line="35" Column="55" TopLine="21"/>
       </Position12>
       <Position13>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="144" Column="23" TopLine="121"/>
+        <Caret Line="74" Column="51" TopLine="52"/>
       </Position13>
       <Position14>
-        <Filename Value="SEExtra.lpr"/>
-        <Caret Line="63" Column="19" TopLine="44"/>
+        <Filename Value="src\OsUtils.pas"/>
+        <Caret Line="45" Column="38" TopLine="21"/>
       </Position14>
       <Position15>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="35" Column="55" TopLine="21"/>
+        <Caret Line="27" Column="1" TopLine="17"/>
       </Position15>
       <Position16>
-        <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="74" Column="51" TopLine="52"/>
+        <Filename Value="src\StringTools.pas"/>
+        <Caret Line="113" Column="65" TopLine="77"/>
       </Position16>
       <Position17>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="45" Column="38" TopLine="21"/>
+        <Caret Line="14" Column="14" TopLine="5"/>
       </Position17>
       <Position18>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="27" Column="1" TopLine="17"/>
+        <Caret Line="50" Column="10" TopLine="41"/>
       </Position18>
       <Position19>
-        <Filename Value="src\StringTools.pas"/>
-        <Caret Line="113" Column="65" TopLine="77"/>
+        <Filename Value="src\OsUtils.pas"/>
+        <Caret Line="27" Column="39" TopLine="1"/>
       </Position19>
       <Position20>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="14" Column="14" TopLine="5"/>
+        <Caret Line="74" Column="32" TopLine="56"/>
       </Position20>
       <Position21>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="50" Column="10" TopLine="41"/>
+        <Caret Line="102" Column="28" TopLine="78"/>
       </Position21>
       <Position22>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="27" Column="39" TopLine="1"/>
+        <Caret Line="128" Column="19" TopLine="110"/>
       </Position22>
       <Position23>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="74" Column="32" TopLine="56"/>
+        <Caret Line="15" Column="27" TopLine="1"/>
       </Position23>
       <Position24>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="102" Column="28" TopLine="78"/>
+        <Caret Line="163" Column="51" TopLine="144"/>
       </Position24>
       <Position25>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="128" Column="19" TopLine="110"/>
+        <Caret Line="172" Column="36" TopLine="153"/>
       </Position25>
       <Position26>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="15" Column="27" TopLine="1"/>
+        <Caret Line="120" Column="28" TopLine="95"/>
       </Position26>
       <Position27>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="163" Column="51" TopLine="144"/>
+        <Caret Line="281" Column="31" TopLine="262"/>
       </Position27>
       <Position28>
-        <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="172" Column="36" TopLine="153"/>
+        <Filename Value="src\TimeUtils.pas"/>
+        <Caret Line="117" Column="22" TopLine="92"/>
       </Position28>
       <Position29>
-        <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="120" Column="28" TopLine="95"/>
+        <Filename Value="src\TimeUtils.pas"/>
+        <Caret Line="139" Column="30" TopLine="109"/>
       </Position29>
       <Position30>
         <Filename Value="src\OsUtils.pas"/>
-        <Caret Line="281" Column="31" TopLine="262"/>
+        <Caret Line="42" Column="36" TopLine="24"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

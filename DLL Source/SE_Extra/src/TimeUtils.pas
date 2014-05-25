@@ -15,14 +15,17 @@ function EpochToTime(UnixTime: Double): TDateTime; cdecl;
 function TimeSinceEpoch(OffsetSec:UInt32=0): Double; cdecl;
 function FormatEpochTime(FormatString:String; UnixTime: Double): String; cdecl;
 function EpochTimeToSysTime(UnixTime: Double): TSystemTime; cdecl;
+function MarkTime(): double; cdecl;
+
 
 //------------------------------------------------------------------------------
 implementation
 
 uses
-  DateUtils, Math;
+  DateUtils, Math,{$IFDEF WINDOWS}Windows{$ELSE}BaseUnix,Unix{$ENDIF};
 
 (* "Date math" and whatnots ***************************************************)
+
 
 function Modulo(X,Y:Double): Double; Inline;
 begin
@@ -122,6 +125,25 @@ begin
 end;
 
 
+
+function MarkTime(): Double; cdecl;
+var 
+  frequency,count:Int64;
+  {$IFDEF UNIX} 
+  TV:TTimeVal; TZ:PTimeZone;
+  {$ENDIF}
+begin
+  {$IFDEF WINDOWS}
+  QueryPerformanceFrequency(frequency);
+  QueryPerformanceCounter(count);
+  Result := count / frequency * 1000;
+  {$ELSE}
+  TZ := nil;
+  fpGetTimeOfDay(@TV, TZ);
+  count := Int64(TV.tv_sec) * 1000000 + Int64(TV.tv_usec);
+  Result := count / 1000;
+  {$ENDIF} 
+end;
 
 
 

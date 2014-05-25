@@ -11,9 +11,9 @@ interface
 uses
   SysUtils, CoreTypes;
 
-function StrPosEx(const Text, SubStr:String): TIntArray;
-function StrPosL(const Text: String; const SubStr:String): Integer;
-function StrPosR(const Text: String; const SubStr:String): Integer;
+function StrPosEx(const SubStr, Text:String): TIntArray;
+function StrPosL(const SubStr, Text: String): Integer;
+function StrPosR(const SubStr, Text: String): Integer;
 function StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;
 function StrExplode(const Text, Sep: String): TStrArray;
 
@@ -22,9 +22,11 @@ function StrExplode(const Text, Sep: String): TStrArray;
 implementation
 
 {*
- Returns all positions of the given pattern/substring.
+  Returns all positions of the given pattern/substring.
+  @note: 
+    28.apr.2014: Fixed imporant bug!
 *}
-function StrPosEx(const Text: String; const SubStr:String): TIntArray;
+function StrPosEx(const SubStr, Text:String): TIntArray;
 var
   HitPos,LenSub,h,q,i: Integer;
 begin
@@ -40,7 +42,7 @@ begin
     begin
       if (HitPos = LenSub) then
       begin
-        if q <= h  then
+        if q <= h then
         begin
           q := q+q;
           SetLength(Result, q);
@@ -48,8 +50,8 @@ begin
         Result[h] := (i - HitPos) + 1;
         Inc(h);
         HitPos := 1;
-      end;
-      Inc(HitPos);
+      end else
+        Inc(HitPos);
     end else
       HitPos := 1;
   end;
@@ -61,7 +63,7 @@ end;
 {*
  Returns first position of the given pattern/substring from left.
 *}
-function StrPosL(const Text: String; const SubStr:String): Integer;
+function StrPosL(const SubStr, Text: String): Integer;
 var
   HitPos,LenSub,i: Integer;
 begin
@@ -85,7 +87,7 @@ end;
 {*
  Returns first position of the given pattern/substring from right.
 *}
-function StrPosR(const Text: String; const SubStr:String): Integer;
+function StrPosR(const SubStr, Text: String): Integer;
 var
   HitPos,LenSub,i: Integer;
 begin
@@ -119,8 +121,8 @@ begin
   Hi := Length(Text);
   if Hi = 0 then Exit;
   case (rfIgnoreCase in flags) of
-    True: Subs := StrPosEx(LowerCase(Text), LowerCase(SubStr));
-    False:Subs := StrPosEx(Text, SubStr);
+    True: Subs := StrPosEx(LowerCase(SubStr), LowerCase(Text));
+    False:Subs := StrPosEx(SubStr, Text);
   end;
 
   if Length(Subs) = 0 then
@@ -176,7 +178,7 @@ begin
   Hi := Length(Text);
   if Hi = 0 then Exit;
 
-  Subs := StrPosEx(Text, Sep);
+  Subs := StrPosEx(Sep, Text);
   if Length(Subs) = 0 then
   begin
     SetLength(Result, 1);

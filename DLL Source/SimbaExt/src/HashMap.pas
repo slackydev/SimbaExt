@@ -21,7 +21,7 @@ uses
 type
   //----------------------------------------\\
   //-----------<UInt32, ColorLAB>-----------\\
-  TEntryLAB = record  Key: UInt32; Value: ColorLAB; end;
+  TEntryLAB = record  Key: UInt32; Value: ColorLAB; Isset:Boolean; end;
   TLABHash = class
   private
     FTable: Array of Array of TEntryLAB;
@@ -35,14 +35,14 @@ type
   
   //----------------------------------------\\
   //-------------<UInt32, Int32>------------\\
-  TEntryI32 = record Key: UInt32; Value: Int32; end;
+  TEntryI32 = record Key: UInt32; Value: Int32; Isset:Boolean; end;
   TI32Hash = class
   private
     FTable: Array of Array of TEntryI32;
     FLen: Integer;
   public
     constructor Create(Size:Integer);
-    function Get(Key: UInt32; out Value: Int32): Boolean; Inline;
+    function Get(Key: UInt32; var Value: Int32): Boolean; Inline;
     function Add(Key: UInt32; Value:Int32): Boolean;      Inline;
     Destructor Destroy; override;
   end;
@@ -57,7 +57,7 @@ type
     FLen: Integer;
   public
     constructor Create(Size:Integer);
-    function Get(Key: UInt32; out Value: Single): Boolean; Inline;
+    function Get(Key: UInt32; var Value: Single): Boolean; Inline;
     function Add(Key: UInt32; Value:Single): Boolean;      Inline;
     Destructor Destroy; override;
   end;
@@ -165,7 +165,7 @@ begin
   h := Key and FLen;
   l := Length(Self.FTable[h]);
   for i:=0 to l-1 do
-    if(self.FTable[h][i].Key = Key) then
+    if(self.FTable[h][i].Key = Key) and (Self.FTable[h][i].Isset) then
     begin
       Self.FTable[h][i].Value := Value;
       Exit(True);
@@ -187,8 +187,9 @@ begin
     if(self.FTable[h][i].Key = Key) then
     begin
       Value := Self.FTable[h][i].Value;
-      Exit(True);
+      Exit(Self.FTable[h][i].Isset);
     end;
+  Result := False;
 end;
 
 
@@ -225,7 +226,7 @@ begin
   h := Key and FLen;
   l := Length(Self.FTable[h]);
   for i:=0 to l-1 do
-    if(self.FTable[h][i].Key = Key) then
+    if(self.FTable[h][i].Key = Key) and (self.FTable[h][i].Isset) then
     begin
       Self.FTable[h][i].Value := Value;
       Exit(True);
@@ -237,7 +238,7 @@ begin
 end;
 
 
-function TI32Hash.Get(Key: UInt32; out Value: Int32): Boolean; Inline;
+function TI32Hash.Get(Key: UInt32; var Value: Int32): Boolean; Inline;
 var
   h,i,l: Int32;
 begin
@@ -247,8 +248,9 @@ begin
     if(self.FTable[h][i].Key = Key) then
     begin
       Value := Self.FTable[h][i].Value;
-      Exit(True);
+      Exit(Self.FTable[h][i].Isset);
     end;
+  Result := False;
 end;
 
 
@@ -287,10 +289,10 @@ begin
   l := Length(Self.FTable[h]);
   for i:=0 to l-1 do
     if(self.FTable[h][i].Key = Key) then
-    begin
-      Self.FTable[h][i].Value := Value;
-      Exit(True);
-    end;
+      begin
+        Self.FTable[h][i].Value := Value;
+        Exit(True);
+      end;
   SetLength(Self.FTable[h], l+1);
   Self.FTable[h][l].Key := Key;
   Self.FTable[h][l].Value := Value;
@@ -298,7 +300,7 @@ begin
 end;
 
 
-function TF32Hash.Get(Key: UInt32; out Value: Single): Boolean; Inline;
+function TF32Hash.Get(Key: UInt32; var Value: Single): Boolean; Inline;
 var
   h,i,l: Int32;
 begin
@@ -310,6 +312,7 @@ begin
       Value := Self.FTable[h][i].Value;
       Exit(True);
     end;
+  Result := False;
 end;
 
 end.

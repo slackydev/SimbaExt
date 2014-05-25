@@ -172,13 +172,13 @@ end;
 { OS.GetEnv(Varname:String): String; }
 function GetEnviron(const Varname:String): String; Cdecl;
 begin
-  Result := GetEnvironmentVariable(Varname);
+  Result := GetEnvironmentVariableUTF8(Varname);
 end;
 
 { OS.SetEnv(Varname, Value:String): Boolean; }
 function SetEnviron(const Varname, Value:String): Boolean; Cdecl;
 begin
-  Result := SetEnvironmentVariableA(PChar(Varname), PChar(Value));
+  Result := SetEnvironmentVariableW(PWChar(Varname), PWChar(Value));
 end;
 
 { OS.ListDir(Path:String): TStringArray }

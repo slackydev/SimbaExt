@@ -99,9 +99,9 @@ type
   TChars = Array of T2DIntArray;
   TCharsArray = Array of TChars;
 
-  ColorLAB = Record L, A, B: Single; end;
-  ColorHSV = Record H, S, V: Single; end;
-  ColorRGB = Record R, G, B: Byte; end;
+  ColorLAB = packed record L, A, B: Single; end;
+  ColorHSV = packed record H, S, V: Single; end;
+  ColorRGB = packed record R, G, B: UInt8;  end;
   
 
 function Box(const x1,y1,x2,y2:Integer): TBox; Inline;

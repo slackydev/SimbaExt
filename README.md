@@ -1,6 +1,6 @@
 SimbaExt!
 ========
-This plugin is developed for Simba, by Jarl K. Holta. It countains a large set of useful functions.
+This plugin is developed for Simba, by Jarl K. Holta. It contains a large set of useful functions.
 
 The plugins aim is to make your coding experience in Simba better, simpler, and also aid you when you are working on 
 complex computer vision tasks.

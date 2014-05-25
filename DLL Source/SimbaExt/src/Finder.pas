@@ -88,7 +88,7 @@ begin
   SetLength(Result, H+1,W+1);
   ColorToXYZ(Color, X0,Y0,Z0);
 
-  // If we want euclidean distance correlation
+  // Euclidean distance correlation
   if CCMode in [CC_EUCLID, CC_EUCLID_SQUARED, CC_EUCLID_NORMED] then
   begin
     for Y:=0 to H do
@@ -106,7 +106,7 @@ begin
     end;
   end;
 
-  // if we want chebyshev distance correlation
+  // Chebyshev distance correlation
   if CCMode in [CC_CHEB, CC_CHEB_NORMED] then
   begin
     for Y:=0 to H do
@@ -129,7 +129,6 @@ var
   L0,A0,B0,L1,A1,B1:Single;
   Similarity: Single;
   SimMap: TF32Hash;
-  LAB: ColorLAB;
 begin
   W := High(ImgArr[0]);
   H := High(ImgArr);
@@ -137,8 +136,9 @@ begin
   ColorToLAB(Color, L0,A0,B0);
 
   SimMap := TF32Hash.Create((W+1)*(H+1));
+  Similarity := $FFFFFF;
 
-  // If we want euclidean distance correlation
+  // Euclidean distance correlation
   if CCMode in [CC_EUCLID, CC_EUCLID_SQUARED, CC_EUCLID_NORMED] then
   begin
     for Y:=0 to H do
@@ -158,7 +158,7 @@ begin
       Result := 1 - (SqrtF32(Result) / 265);
   end;
 
-  // if we want chebyshev distance correlation
+  // Chebyshev distance correlation
   if CCMode in [CC_CHEB, CC_CHEB_NORMED] then
   begin
     for Y:=0 to H do
@@ -186,7 +186,6 @@ var
   W,H,X,Y:Integer;
   L0,a0,b0,L1,a1,b1,similarity:Single;
   SimMap: TF32Hash;
-  LAB: ColorLAB;
 begin
   W := High(ImgArr[0]);
   H := High(ImgArr);
@@ -197,9 +196,9 @@ begin
   end;
 
   SimMap := TF32Hash.Create((W+1)*(H+1));
+  Similarity := $FFFFFF;
+  ColorToLAB(Color, L0,a0,b0);
 
-  ColorToLAB(Color, L0,a0,b0); 
-  // If we want euclidean distance correlation
   if CCMode in [CC_EUCLID, CC_EUCLID_NORMED] then
   begin
     for Y:=0 to H do

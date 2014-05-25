@@ -24,13 +24,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #----------------------------------------------------------------------------
 
-SPECIAL CASES:
 
+SPECIAL CASES:
+---------------
 >> http://github.com/MerlijnWajer/Simba
 I grant access to use and modify what I have created under the following condition: 
-| My name/w copyright is required to be shown in the files where code from SimbaExt is used.
-| Will be lisenced under GNU GPLv3 or later.
+| My name/w copyright is required(*) to be shown in the files where code from SimbaExt is used.
+| Licensing: Anything similar to my license, or any version of GPL.
+| * Smaller functions which easily can be recreated can be taken without appending my name to their copyright.
 
 
 >> http://github.com/Janilaboo/Pumbaa
-No special condition actually.. He take, I take =D
+| No special condition actually.. He take, I take =D

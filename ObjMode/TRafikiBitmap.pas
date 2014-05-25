@@ -79,9 +79,16 @@ end;
 procedure TRafBitmap.Open(ImgPath:String);
 begin
   if Self.Loaded then Self.Free();
-  Self.Bitmap := LoadBitmap(ImgPath);
-  GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
-  Self.Loaded := True;
+  try
+    Self.Bitmap := LoadBitmap(ImgPath);
+    GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
+    Self.Loaded := True;
+  except
+    if not(FileExists(ImgPath)) then
+      RaiseWarning('File "'+ImgPath+'" does not exist.', ERR_WARNING)
+    else
+      RaiseWarning('Unexpected error in "TRafBitmap.Open()".', ERR_WARNING);
+  end;
 end;
 
 
@@ -510,6 +517,7 @@ procedure TRafBitmap.Brightness(Amount:Extended; Legacy:Boolean);
 var
   Matrix:TIntMatrix;
 begin
+  if not(Self.IsLoaded('TRafBitmap.Brightness()')) then Exit;
   Matrix := Self.ToMatrix();
   
   exp_ImBrighten(Matrix, Amount, Legacy, Matrix);
@@ -526,12 +534,9 @@ end;
 }
 procedure TRafBitmap.Debug();
 begin
-  if Self.Loaded then
-  begin
-    DisplayDebugImgWindow(Self.Width,Self.Height);
-    DrawBitmapDebugImg(Self.Bitmap);
-  end else
-    RaiseWarning('TRafBitmap.Debug(), bitmap is not initalized.', ERR_NOTICE);
+  if not(Self.IsLoaded('TRafBitmap.Debug()')) then Exit;
+  DisplayDebugImgWindow(Self.Width,Self.Height);
+  DrawBitmapDebugImg(Self.Bitmap);
 end;
 
 
@@ -541,11 +546,8 @@ end;
 }
 function TRafBitmap.ToString(): String;
 begin
-  if Self.Loaded then
-  begin
-    Result := CreateBitmapString(Self.Bitmap);
-  end else
-    RaiseWarning('TRafBitmap.ToString(), bitmap is not initalized.', ERR_NOTICE);
+  if not(Self.IsLoaded('TRafBitmap.ToString()')) then Exit;
+  Result := CreateBitmapString(Self.Bitmap);
 end;
 
 
@@ -555,14 +557,11 @@ end;
 }
 procedure TRafBitmap.Free();
 begin
-  if Self.Loaded then
-  begin
-    FreeBitmap(Self.Bitmap);
-    Self.Width  := 0;
-    Self.Height := 0;
-    Self.Loaded := False;
-  end else
-    RaiseWarning('TRafBitmap.Free(), bitmap is not initalized.', ERR_NOTICE);
+  if not(Self.IsLoaded('TRafBitmap.Free()')) then Exit;
+  FreeBitmap(Self.Bitmap);
+  Self.Width  := 0;
+  Self.Height := 0;
+  Self.Loaded := False;
 end;  
 
 
@@ -571,7 +570,7 @@ begin
   Result := Self.Loaded;
   if not(Result) then
   begin
-    RaiseWarning(CallFrom+', bitmap is not initalized.', ERR_NOTICE);
+    RaiseWarning('Bitmap is not initalized in "'+CallFrom+'"', ERR_NOTICE);
   end;
 end;
 
