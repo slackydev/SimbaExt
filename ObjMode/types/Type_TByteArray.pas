@@ -398,6 +398,21 @@ begin
 end;
 
 
+{!DOCREF} {
+  @method: function TByteArray.ArgMin(n:int32): TIntArray; overload;
+  @desc: Returns the n-indices containing the smallest element in the array.
+}
+function TByteArray.ArgMin(n:Int32): TIntArray; overload;
+var 
+  i: Int32;
+  _:TIntArray;
+  mat:TByteMatrix;
+begin
+  SetLength(Mat,1);
+  mat[0] := Self;
+  se.TPASplitAxis(mat.ArgMin(n), Result, _);
+end;
+
 
 {!DOCREF} {
   @method: function TByteArray.ArgMin(Lo,Hi:int32): Int32; overload;
@@ -429,6 +444,21 @@ begin
   Result := exp_ArgMax(mat).x;
 end;
 
+
+{!DOCREF} {
+  @method: function TByteArray.ArgMax(n:int32): TIntArray; overload;
+  @desc: Returns the n-indices containing the largest element in the array.
+}
+function TByteArray.ArgMax(n:Int32): TIntArray; overload;
+var 
+  i: Int32;
+  _:TIntArray;
+  mat:TByteMatrix;
+begin
+  SetLength(Mat,1);
+  mat[0] := Self;
+  se.TPASplitAxis(mat.ArgMax(n), Result, _);
+end;
 
 
 {!DOCREF} {

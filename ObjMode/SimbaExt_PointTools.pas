@@ -4,7 +4,13 @@
 
 {!DOCREF} {
   @method: function se.ScalePoint(const Center, Pt:TPoint; Radius:Integer): TPoint;
-  @desc: ...
+  @desc: 
+    Scales the point based on the angle between `Center` and `Pt`. Radius = the amount to move the point:
+    EG:
+    [code=pascal]
+    >> se.ScalePoint([0,0], [10,1],  100)
+    point(X = 100, Y = 10)
+    [/code]
 }
 function SimbaExt.ScalePoint(const Center, Pt:TPoint; Radius:Integer): TPoint;  
 begin
@@ -42,7 +48,9 @@ end;
 
 {!DOCREF} {
   @method: procedure se.TPAFilter(var TPA: TPointArray; const Shape:TPointArray; const TopLeft:TPoint);
-  @desc: ...
+  @desc: 
+    Removes every point in `TPA` that is not in `Shape`. 
+    `TopLeft` is used to align to the arrays.
 }
 procedure SimbaExt.TPAFilter(var TPA: TPointArray; const Shape:TPointArray; const TopLeft:TPoint);  
 begin
@@ -51,7 +59,19 @@ end;
 
 {!DOCREF} {
   @method: procedure se.TPAFilterBounds(var TPA: TPointArray; x1,y1,x2,y2:Integer);
-  @desc: ...
+  @desc: 
+    Removes every point that is in the TPA that is NOT within the given bounds `x1,y1`, `x2,y2`
+    [code=pascal]
+      var TPA:TPointArray;
+      begin
+        TPA := [[0,0], [5,7], [10,10], [-5,-5], [15,15], [13,0]];
+        se.TPAFilterBounds(TPA,0,0,10,10);
+        WriteLn( TPA );
+      end.
+    [/code]
+    
+    Outputs:
+    `>> [[0,0], [5,7], [10,10]]`
 }
 procedure SimbaExt.TPAFilterBounds(var TPA: TPointArray; x1,y1,x2,y2:Integer);  
 begin
@@ -59,22 +79,26 @@ begin
 end;
 
 {!DOCREF} {
-  @method: procedure se.ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:Boolean);
-  @desc: ...
+  @method: procedure se.ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:Boolean=False);
+  @desc: 
+    Filters the ATPA by going through each TPA, and checking if that TPA fits the given parameters.
+    Align=True will align the TPA by the longest axis, making sure the width of the TPA is always the longest side, it givs you much more controll.
 }
-procedure SimbaExt.ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:Boolean);  
+procedure SimbaExt.ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:Boolean=False);  
 begin
   exp_ATPAFilter(ATPA, MinLength, MinW, MinH, MaxW, MaxH, Align);
 end;
 
+
 {!DOCREF} {
   @method: function se.TPAExtremes(TPA:TPointArray): TPointArray;
-  @desc: ...
+  @desc: Returns the actuall points picked up when calling simbas GetTPABounds
 }
 function SimbaExt.TPAExtremes(TPA:TPointArray): TPointArray;  
 begin
   Result := exp_TPAExtremes(TPA);
 end;
+
 
 {!DOCREF} {
   @method: function se.TPABBox(TPA:TPointArray): TPointArray;
@@ -95,8 +119,9 @@ begin
 end;
 
 {!DOCREF} {
-  @method: function se.TPACenter(TPA: TPointArray; @method: TCenterAlgo; Inside:Boolean): TPoint;
-  @desc: ...
+  @method: function se.TPACenter(TPA: TPointArray; method: TCenterAlgo; Inside:Boolean): TPoint;
+  @desc: 
+    returns the center of the TPA, the center if defined by the given `method` which is defined by TCenterAlgo.
 }
 function SimbaExt.TPACenter(TPA: TPointArray; method: TCenterAlgo; Inside:Boolean): TPoint;
 begin
@@ -105,7 +130,7 @@ end;
 
 {!DOCREF} {
   @method: function se.GetAdjacent(var adj:TPointArray; n:TPoint; EightWay:Boolean);
-  @desc: ...
+  @desc: Returns the surronding 4, or 8 points around the given point `n`
 }
 procedure SimbaExt.GetAdjacent(var adj:TPointArray; n:TPoint; EightWay:Boolean);  
 begin
@@ -217,7 +242,7 @@ end;
 
 {!DOCREF} {
   @method: procedure se.TPALine(var TPA:TPointArray; const P1:TPoint; const P2: TPoint);
-  @desc: ...
+  @desc: Fills `TPA` with a line between `P1`, and `P2`.
 }
 procedure SimbaExt.TPALine(var TPA:TPointArray; const P1:TPoint; const P2: TPoint);  
 begin
@@ -227,7 +252,7 @@ end;
 
 {!DOCREF} {
   @method: function se.TPACross(const center:TPoint; Radius:Int32): TPointArray;
-  @desc: ...
+  @desc: Returns a `TPA` filled with a cross of the radius `Radius`, so the diameter will be `radius*radius`
 }
 function SimbaExt.TPACross(const center:TPoint; Radius:Int32): TPointArray;
 var P1,P2:TPoint;
@@ -244,7 +269,7 @@ end;
 
 {!DOCREF} {
   @method: function se.ConnectTPA(TPA:TPointArray): TPointArray;
-  @desc: ...
+  @desc: Given a polygon, or a ordered `TPA`, this function will draw a line between each point, and return that line.
 }
 function SimbaExt.ConnectTPA(TPA:TPointArray): TPointArray;  
 begin
@@ -253,7 +278,7 @@ end;
 
 {!DOCREF} {
   @method: function se.ConnectTPAEx(TPA:TPointArray; Tension:Extended): TPointArray;
-  @desc: ...
+  @desc: *might be bugged*, but it's supposed to connect/draw a line between each point in the TPA using splines, so it will be more "round".
 }
 function SimbaExt.ConnectTPAEx(TPA:TPointArray; Tension:Extended):  TPointArray;  
 begin
@@ -262,7 +287,7 @@ end;
 
 {!DOCREF} {
   @method: function se.XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray;   
-  @desc: ...
+  @desc: Returns the points which defines the corners of a polygon, it's defined by the params: `Sides`, and `Dir` (direction)
 }
 function SimbaExt.XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray;  
 begin
@@ -271,7 +296,7 @@ end;
 
 {!DOCREF} {
   @method: function se.TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean=False): TPointArray;   
-  @desc: ...
+  @desc: Returns an ellipse wihch can be filled or not.
 }
 function SimbaExt.TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean=False): TPointArray;  
 begin
@@ -280,7 +305,7 @@ end;
 
 {!DOCREF} {
   @method: function se.TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean=False): TPointArray;   
-  @desc: ...
+  @desc: Returns a circle wihch can be filled or not.
 }
 function SimbaExt.TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean=False): TPointArray;   
 begin
@@ -289,7 +314,7 @@ end;
 
 {!DOCREF} {
   @method: function se.TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray;     
-  @desc: ...
+  @desc: Returns the outer lines of a polygon, it's defined by the params: `Sides`, and `Dir` (direction)
 }
 function SimbaExt.TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray;     
 begin
@@ -307,16 +332,26 @@ begin
   Result := exp_ConvexHull(TPA);
 end;
 
+
+{!DOCREF} {
+  @method: function se.FloodFillTPAEx(TPA:TPointArray; const Start:TPoint; EightWay, KeepEdges:Boolean):  TPointArray;  
+  @desc: Floodfills the TPA, allows you to keep the outer edges or not.
+}
 function SimbaExt.FloodFillTPAEx(TPA:TPointArray; const Start:TPoint; EightWay, KeepEdges:Boolean):  TPointArray;  
 begin
   Result := exp_FloodFillTPAEx(TPA, Start, EightWay, KeepEdges);
 end;
 
 
+{!DOCREF} {
+  @method: function se.FloodFillTPA(TPA:TPointArray; const Start:TPoint; EightWay:Boolean): TPointArray;  
+  @desc: Floodfills the TPA.
+}
 function SimbaExt.FloodFillTPA(TPA:TPointArray; const Start:TPoint; EightWay:Boolean): TPointArray;  
 begin
   Result := exp_FloodFillTPA(TPA,Start,EightWay);
 end;
+
 
 {!DOCREF} {
   @method: function se.TPAOutline(TPA:TPointArray): TPointArray;
@@ -326,6 +361,7 @@ function SimbaExt.TPAOutline(TPA:TPointArray): TPointArray;
 begin
   Result := exp_TPAOutline(TPA);
 end;
+
 
 {!DOCREF} {
   @method: function se.TPABorder(TPA:TPointArray): TPointArray;
@@ -348,8 +384,9 @@ end;
 {!DOCREF} {
   @method: function se.ClusterTPAEx(TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean): T2DPointArray;
   @desc: 
-    This function is very similar to 'SplitTPAEx' and 'ClusterTPAEx' in Simba, only differance is the order of the result. 
-    It groups the TPA in to many clusters by the given DistX, and DistY which represents the max distance (chebyshev) from each point to it's neighbor for the to create a group.
+    This function is very similar to 'SplitTPAEx' and 'ClusterTPAEx' in Simba, only differance is the order of the result.[br]
+    
+    It groups the TPA in to many clusters by the given `DistX`, and `DistY` which represents the max distance (chebyshev) from each point to it's neighbor for the to create a group.
     But in almost all cases this function is faster then the "equal" simba functions.
 }
 function SimbaExt.ClusterTPAEx(TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean): T2DPointArray;  
@@ -361,9 +398,10 @@ end;
 {!DOCREF} {
   @method: function se.ClusterTPA(TPA: TPointArray; Distance: Integer; EightWay:Boolean): T2DPointArray;
   @desc: 
-    This function is very similar to 'SplitTPAEx' and 'ClusterTPAEx' in Simba, only differance is the order of the result, and that it onlytakse a single param. 
-    It groups the TPA in to many clusters by the given Distance which represents the max distance (chebyshev) from each point to it's neighbor for the to create a group.
-    But in almost all cases this function is faster then the "equal" simba functions.
+    This function is very similar to 'SplitTPAEx' and 'ClusterTPAEx' in Simba, only differance is the order of the result, and that it onlytakse a single param.[br]
+    
+    It groups the TPA in to many clusters by the given `Distance` which represents the max distance (chebyshev) from each point to it's neighbor for the to create a group.
+    But in almost all cases this function is faster then the "equal" simba functions.[br]
   
     [note]Do not mix this with simbas 'SplitTPA', this function clusters by using Chebyshev distance, and not Euclidean distance[/note]
 }

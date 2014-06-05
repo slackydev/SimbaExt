@@ -208,3 +208,14 @@ procedure TExtMatrix.MinMax(var Min, Max:Extended);
 begin
   exp_MinMax(Self, Min, Max);
 end;
+
+
+{------------|  CombineMatrix  |------------}
+{!DOCREF} {
+  @method: function TExtMatrix.Combine(Other:TExtMatrix; OP:Char='+'): TExtMatrix;
+  @desc: Merges the two matrices in to one matrix.. Supports different operatrions/methods for combining ['+','-','*','/'].
+}
+function TExtMatrix.Combine(Other:TExtMatrix; OP:Char='+'): TExtMatrix;
+begin 
+  Result := exp_CombineMatrix(Self, Other, OP); 
+end;

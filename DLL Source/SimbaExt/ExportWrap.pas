@@ -1161,3 +1161,30 @@ function exp_ArgMultiF(const Mat:T2DFloatArray; Count: Int32; HiLo:Boolean): TPo
 begin
   Result := ArgMulti(Mat, Count, HiLo);
 end;
+
+
+{-------| ArgMulti |-------}
+function exp_CombineMatB(const Mat1, Mat2:T2DByteArray; Op:Char): T2DByteArray; cdecl;
+begin
+  Result := CombineMatrix(Mat1, Mat2, Op);
+end;
+
+function exp_CombineMatI(const Mat1, Mat2:T2DIntArray; Op:Char): T2DIntArray; cdecl;
+begin
+  Result := CombineMatrix(Mat1, Mat2, Op);
+end;
+
+function exp_CombineMatF(const Mat1, Mat2:T2DFloatArray; Op:Char): T2DFloatArray; cdecl;
+begin
+  Result := CombineMatrix(Mat1, Mat2, Op);
+end;
+
+function exp_CombineMatD(const Mat1, Mat2:T2DDoubleArray; Op:Char): T2DDoubleArray; cdecl;
+begin
+  Result := CombineMatrix(Mat1, Mat2, Op);
+end;
+
+function exp_CombineMatE(const Mat1, Mat2:T2DExtArray; Op:Char): T2DExtArray; cdecl;
+begin
+  Result := CombineMatrix(Mat1, Mat2, Op);
+end;

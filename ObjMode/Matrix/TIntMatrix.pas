@@ -368,3 +368,14 @@ procedure TIntMatrix.MinMax(var Min, Max:Integer);
 begin
   exp_MinMax(Self, Min, Max);
 end;
+
+
+{------------|  CombineMatrix  |------------}
+{!DOCREF} {
+  @method: function TIntMatrix.Combine(Other:TIntMatrix; OP:Char='+'): TIntMatrix;
+  @desc: Merges the two matrices in to one matrix.. Supports different operatrions/methods for combining ['+','-','*','/'].
+}
+function TIntMatrix.Combine(Other:TIntMatrix; OP:Char='+'): TIntMatrix;
+begin 
+  Result := exp_CombineMatrix(Self, Other, OP); 
+end;

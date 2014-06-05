@@ -333,6 +333,12 @@ begin
   AddCommand(@exp_ArgMultiE, 'function exp_ArgMulti(const Mat:T2DExtArray; Count: Int32; HiLo:Boolean): TPointArray; overload;');
   AddCommand(@exp_ArgMultiD, 'function exp_ArgMulti(const Mat:T2DDoubleArray; Count: Int32; HiLo:Boolean): TPointArray; overload;');
   AddCommand(@exp_ArgMultiF, 'function exp_ArgMulti(const Mat:T2DFloatArray; Count: Int32; HiLo:Boolean): TPointArray; overload;');
+
+  AddCommand(@exp_CombineMatB, 'function exp_CombineMatrix(const Mat1, Mat2:T2DByteArray; Op:Char): T2DByteArray;');
+  AddCommand(@exp_CombineMatI, 'function exp_CombineMatrix(const Mat1, Mat2:T2DIntArray; Op:Char): T2DIntArray; overload;');
+  AddCommand(@exp_CombineMatF, 'function exp_CombineMatrix(const Mat1, Mat2:T2DFloatArray; Op:Char): T2DFloatArray; overload;');
+  AddCommand(@exp_CombineMatD, 'function exp_CombineMatrix(const Mat1, Mat2:T2DDoubleArray; Op:Char): T2DDoubleArray; overload;');
+  AddCommand(@exp_CombineMatE, 'function exp_CombineMatrix(const Mat1, Mat2:T2DExtArray; Op:Char): T2DExtArray; overload;');
 end;
 
 

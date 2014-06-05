@@ -210,3 +210,14 @@ procedure TDoubleMatrix.MinMax(var Min, Max:Double);
 begin
   exp_MinMax(Self, Min, Max);
 end;
+
+
+{------------|  CombineMatrix  |------------}
+{!DOCREF} {
+  @method: function TDoubleMatrix.Combine(Other:TDoubleMatrix; OP:Char='+'): TDoubleMatrix;
+  @desc: Merges the two matrices in to one matrix.. Supports different operatrions/methods for combining ['+','-','*','/'].
+}
+function TDoubleMatrix.Combine(Other:TDoubleMatrix; OP:Char='+'): TDoubleMatrix;
+begin 
+  Result := exp_CombineMatrix(Self, Other, OP); 
+end;
