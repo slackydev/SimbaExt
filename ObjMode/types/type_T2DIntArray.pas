@@ -88,7 +88,7 @@ end;
 function T2DIntArray.Slice(Start,Stop: Int32; Step:Int32=1): T2DIntArray;
 begin
   if (Step = 0) then Exit;
-  try exp_slice(Self, Start,Stop,Step,Result);
+  try Result := exp_slice(Self, Start,Stop,Step);
   except end;
 end;
 
@@ -310,7 +310,7 @@ end;
 function T2DIntArray.VarMin(): Int32;
 var _:Int32;
 begin
-  se.MinMaxTIA(Self.Merge(),Result,_);
+  exp_MinMax(Self,Result,_);
 end;
 
 
@@ -322,7 +322,7 @@ end;
 function T2DIntArray.VarMax(): Int32;
 var _:Int32;
 begin
-  se.MinMaxTIA(Self.Merge(),_,Result);
+  exp_MinMax(Self,_,Result);
 end;
 
 
@@ -331,15 +331,8 @@ end;
   @desc: Returns the index containing the smallest element in the array
 }
 function T2DIntArray.ArgMin(): TPoint;
-var i,j:Int32;
 begin
-  Result := Point(0,0);
-  for i:=0 to High(self) do
-  begin
-    j := Self[i].ArgMin();
-    if (Self[Result.y][Result.x] > Self[i][j]) then
-      Result := Point(j,i);
-  end;  
+  Result := exp_ArgMin(Self);
 end;
 
 
@@ -351,11 +344,5 @@ end;
 function T2DIntArray.ArgMax(): TPoint;
 var i,j:Int32;
 begin
-  Result := Point(0,0);
-  for i:=0 to High(self) do
-  begin
-    j := Self[i].ArgMax();
-    if (Self[Result.y][Result.x] < Self[i][j]) then
-      Result := Point(j,i);
-  end;  
+  Result := exp_ArgMax(Self);
 end;

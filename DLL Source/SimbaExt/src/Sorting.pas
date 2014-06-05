@@ -38,14 +38,21 @@ uses
 
 procedure InsSortTIA(var Arr:TIntArray; Left, Right:Integer); Inline;
 procedure InsSortTEA(var Arr:TExtArray; Left, Right:Integer); Inline;
+procedure InsSortTDA(var Arr:TDoubleArray; Left, Right:Integer); Inline;
+procedure InsSortTFA(var Arr:TFloatArray; Left, Right:Integer); Inline;
 procedure InsSortTPA(var Arr:TPointArray; Weight:TIntArray; Left, Right:Integer); Inline;
+
 procedure ShellSortTIA(var Arr: TIntArray);
 procedure ShellSortTEA(var Arr: TExtArray);
+procedure ShellSortTDA(var Arr: TDoubleArray);
+procedure ShellSortTFA(var Arr: TFloatArray);
 procedure ShellSortTPA(var Arr: TPointArray; Weight:TIntArray);
 
 procedure SortTBA(var Arr: CoreTypes.TByteArray);
 procedure SortTIA(var Arr: TIntArray);
 procedure SortTEA(var Arr: TExtArray);
+procedure SortTDA(var Arr: TDoubleArray);
+procedure SortTFA(var Arr: TFloatArray);
 
 procedure SortTPA(var Arr: TPointArray);
 procedure SortTPAFrom(var Arr: TPointArray; const From:TPoint);
@@ -88,6 +95,8 @@ uses
 {$I Sorting/TBASort.pas}
 {$I Sorting/TIASort.pas}
 {$I Sorting/TEASort.pas}
+{$I Sorting/TFASort.pas}
+{$I Sorting/TDASort.pas}
 {$I Sorting/TSASort.pas}
 {$I Sorting/ATPASort.pas}
 {$I Sorting/ATBASort.pas}

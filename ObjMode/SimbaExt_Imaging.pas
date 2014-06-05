@@ -8,51 +8,51 @@
 }
 function SimbaExt.GaussKernel(Radius: Integer; Sigma:Single): T2DFloatArray;  
 begin
-  exp_GaussKernel(Radius, Sigma, Result);
+  Result := exp_GaussKernel(Radius, Sigma);
 end;
 
 {!DOCREF} {
-  @method: function se.ImBlurFilter(ImgArr: T2DIntArray; Block:Integer):  T2DIntArray;    
+  @method: function se.ImBlurFilter(ImgArr: TIntMatrix; Block:Integer):  TIntMatrix;    
   @desc: Applies a box-blur to the image. Running it multiple times with a small blur results similarly as to what a gaussian blur would.
 }
-function SimbaExt.ImBlurFilter(ImgArr: T2DIntArray; Block:Integer):  T2DIntArray;  
+function SimbaExt.ImBlurFilter(ImgArr: TIntMatrix; Block:Integer):  TIntMatrix;  
 begin
-  exp_ImBlurFilter(ImgArr, Block, Result);
+  Result := exp_ImBlurFilter(ImgArr, Block);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImMedianFilter(ImgArr: T2DIntArray; Block:Integer):  T2DIntArray;  
+  @method: function se.ImMedianFilter(ImgArr: TIntMatrix; Block:Integer):  TIntMatrix;  
   @desc: Applies a median filter. Picks the median pixel value in a window with the given size c'Block'.
 }
-function SimbaExt.ImMedianFilter(ImgArr: T2DIntArray; Block:Integer):  T2DIntArray;  
+function SimbaExt.ImMedianFilter(ImgArr: TIntMatrix; Block:Integer):  TIntMatrix;  
 begin
-  exp_ImMedianFilter(ImgArr, Block, Result);
+  Result := exp_ImMedianFilter(ImgArr, Block);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean):  T2DIntArray;  
+  @method: function se.ImBrighten(ImgArr:TIntMatrix; Amount:Extended; Legacy:Boolean):  TIntMatrix;  
   @desc: Allows you to modify the brightness of the image
 }
-function SimbaExt.ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean):  T2DIntArray;  
+function SimbaExt.ImBrighten(ImgArr:TIntMatrix; Amount:Extended; Legacy:Boolean):  TIntMatrix;  
 begin
-  exp_ImBrighten(ImgArr, Amount, Legacy, Result);
+  Result := exp_ImBrighten(ImgArr, Amount, Legacy);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended=0):  T2DIntArray;  
+  @method: function se.ImEnhance(ImgArr:TIntMatrix; Enhancement:Byte; C:Extended=0):  TIntMatrix;  
   @desc: Enhances R,G,B levels.
 }
-function SimbaExt.ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended=0):  T2DIntArray;  
+function SimbaExt.ImEnhance(ImgArr:TIntMatrix; Enhancement:Byte; C:Extended=0):  TIntMatrix;  
 begin
- exp_ImEnhance(ImgArr, Enhancement, C, Result);
+  Result := exp_ImEnhance(ImgArr, Enhancement, C);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Invert:Boolean=False):  T2DIntArray;  
+  @method: function se.ImThreshold(const ImgArr:TIntMatrix; Threshold, Alpha, Beta:Byte; Invert:Boolean=False):  TIntMatrix;  
   @desc: 
     A simple threshold function. Anything above Threshold = Beta, and bellow = Alpha. Swaps Alpha and beta if Invert=True
     [params]
@@ -61,14 +61,14 @@ end;
       Invert:     Invert the result
     [/params]
 }
-function SimbaExt.ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Invert:Boolean=False):  T2DIntArray;  
+function SimbaExt.ImThreshold(const ImgArr:TIntMatrix; Threshold, Alpha, Beta:Byte; Invert:Boolean=False):  TIntMatrix;  
 begin
-  exp_ImThreshold(ImgArr, Threshold, Alpha, Beta, Invert, Result);
+  Result := exp_ImThreshold(ImgArr, Threshold, Alpha, Beta, Invert);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImThresholdAdaptive(const ImgArr:T2DIntegerArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Int32=0):  T2DIntArray;  
+  @method: function se.ImThresholdAdaptive(const ImgArr:T2DIntegerArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Int32=0):  TIntMatrix;  
   @desc: 
     Threshold function which first calculates the average color of the image, then turns anything above Mean = Beta, and bellow = Alpha.
     [params]
@@ -79,43 +79,44 @@ end;
       Method:     TA_MEAN | TA_MINMAX
     [/params]
 }
-function SimbaExt.ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Int32=0):  T2DIntArray;  
+function SimbaExt.ImThresholdAdaptive(const ImgArr:TIntMatrix; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Int32=0):  TIntMatrix;  
 begin
-  exp_ImThresholdAdaptive(ImgArr, Alpha, Beta, Invert, Method, C, Result);
+  Result := exp_ImThresholdAdaptive(ImgArr, Alpha, Beta, Invert, Method, C);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImFindContours(const ImgArr:T2DIntArray; Outlines:Boolean):  T2DPointArray;  
+  @method: function se.ImFindContours(const ImgArr:TIntMatrix; Outlines:Boolean):  T2DPointArray;  
   @desc: Meh...
 }
-function SimbaExt.ImFindContours(const ImgArr:T2DIntArray; Outlines:Boolean):  T2DPointArray;  
+function SimbaExt.ImFindContours(const ImgArr:TIntMatrix; Outlines:Boolean):  T2DPointArray;  
 begin
-  exp_ImFindContours(ImgArr,Outlines, Result);
+  Result := exp_ImFindContours(ImgArr,Outlines);
 end;
 
+
 {!DOCREF} {
-  @method: function se.ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer):  TPointArray;
+  @method: function se.ImCEdges(const ImgArr: TIntMatrix; MinDiff: Integer):  TPointArray;
   @desc: Meh...
 }
-function SimbaExt.ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer):  TPointArray;  
+function SimbaExt.ImCEdges(const ImgArr: TIntMatrix; MinDiff: Integer):  TPointArray;  
 begin
-  exp_ImCEdges(ImgArr, MinDiff, Result);
+  Result := exp_ImCEdges(ImgArr, MinDiff);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImSobel(const ImgArr:T2DIntArray): T2DIntArray;  
+  @method: function se.ImSobel(const ImgArr:TIntMatrix): TIntMatrix;  
   @desc: Applies the sobel function on the image, both x, any y-wise 
 }
-function SimbaExt.ImSobel(const ImgArr:T2DIntArray): T2DIntArray;  
+function SimbaExt.ImSobel(const ImgArr:TIntMatrix): TIntMatrix;  
 begin
-  exp_ImSobel(ImgArr, Result);
+  Result := exp_ImSobel(ImgArr);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImConvolve(const ImgArr:T2DIntArray; Mask:T2DFloatArray): T2DIntArray;  
+  @method: function se.ImConvolve(const ImgArr:TIntMatrix; Mask:T2DFloatArray): TIntMatrix;  
   @desc: 
     2D Convoution.
     [code=pascal]
@@ -128,33 +129,40 @@ end;
     end;  
     [/code]
 }
-function SimbaExt.ImConvolve(const ImgArr:T2DIntArray; Mask:T2DFloatArray): T2DIntArray;  
+function SimbaExt.ImConvolve(const ImgArr:TIntMatrix; Mask:T2DFloatArray): TIntMatrix;  
 begin
-  exp_ImConvolve(ImgArr, Mask, Result);
+  Result := exp_ImConvolve(ImgArr, Mask);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImGaussBlur(const ImgArr:T2DIntArray; Radius: Int32; Sigma:Single): T2DIntArray;  
+  @method: function se.ImGaussBlur(const ImgArr:TIntMatrix; Radius: Int32; Sigma:Single): TIntMatrix;  
   @desc: Applies a gaussian blur to the image. 
 }
-function SimbaExt.ImGaussBlur(const ImgArr:T2DIntArray; Radius: Int32; Sigma:Single): T2DIntArray;  
+function SimbaExt.ImGaussBlur(const ImgArr:TIntMatrix; Radius: Int32; Sigma:Single): TIntMatrix;  
 begin
-  exp_ImGaussBlur(ImgArr, Radius, Sigma, Result);
+  Result := exp_ImGaussBlur(ImgArr, Radius, Sigma);
 end;
 
 
 {!DOCREF} {
-  @method: procedure se.ImResize(var ImgArr:T2DIntArray; NewW, NewH: Int32; Method:TResizeAlgo);  
+  @method: function se.ImBlend(ImgArr1, ImgArr2:TIntMatrix; Alpha:Single): TIntMatrix;  
+  @desc: Applies a gaussian blur to the image. 
+}
+function SimbaExt.ImBlend(ImgArr1, ImgArr2:TIntMatrix; Alpha:Single): TIntMatrix; 
+begin
+  Result := exp_ImBlend(ImgArr1, ImgArr2, Alpha);
+end;
+
+
+{!DOCREF} {
+  @method: procedure se.ImResize(var ImgArr:TIntMatrix; NewW, NewH: Int32; Method:TResizeAlgo);  
   @desc: Resize the image (matrix) by one of RA_NEAREST, RA_BICUBIC, and RA_BILINEAR interpolation 
 }
-procedure SimbaExt.ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);  
+procedure SimbaExt.ImResize(var ImgArr:TIntMatrix; NewW, NewH: Integer; Method:TResizeAlgo);  
 begin
   exp_ImResize(ImgArr, NewW, NewH, Method);
 end;
-
-
-
 
 
 {*=========================================================================================|
@@ -162,24 +170,24 @@ end;
 | Update: Replaced Exteded with Single :: Resulted in ~2x speedup                          |
 |=========================================================================================*}
 {!DOCREF} {
-  @method: function se.CornerResponse(const ImgArr:T2DIntArray; GaussDev:Single; KSize:Integer): T2DFloatArray;   
+  @method: function se.CornerResponse(const ImgArr:TIntMatrix; GaussDev:Single; KSize:Integer): T2DFloatArray;   
   @desc: Computes the harris response of the image, usually used to locate the corners.
 }
-function SimbaExt.CornerResponse(const ImgArr:T2DIntArray; GaussDev:Single; KSize:Integer): T2DFloatArray;  
+function SimbaExt.CornerResponse(const ImgArr:TIntMatrix; GaussDev:Single; KSize:Integer): T2DFloatArray;  
 begin
-  exp_CornerResponse(ImgArr, GaussDev, KSize, Result);
+  Result := exp_CornerResponse(ImgArr, GaussDev, KSize);
 end;
 
 
 {!DOCREF} {
-  @method: function se.FindCornerPoints(var ImgArr:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;  
+  @method: function se.FindCornerPoints(var ImgArr:TIntMatrix; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;  
   @desc: 
     Locates all the corner points in the image.[br] 
     
     A few c'overloads' to simplify your life:
     [code=pascal]
-    > function se.FindCornerPoints(var ImgArr:T2DIntArray; Thresh:Single; Footprint:Integer): TPointArray; overload; 
-    > function se.FindCornerPoints(var ImgArr:T2DIntArray; Thresh:Single): TPointArray; overload;  
+    > function se.FindCornerPoints(var ImgArr:TIntMatrix; Thresh:Single; Footprint:Integer): TPointArray; overload; 
+    > function se.FindCornerPoints(var ImgArr:TIntMatrix; Thresh:Single): TPointArray; overload;  
     [/code]
     
     [params]
@@ -190,25 +198,25 @@ end;
       Footprint:  The square which we check for a peak, larger is better, but also slower.
     [/params]
 }
-function SimbaExt.FindCornerPoints(var ImgArr:T2DIntegerArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;  
+function SimbaExt.FindCornerPoints(var ImgArr:TIntMatrix; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray;  
 begin
-  exp_FindCornerPoints(ImgArr, GaussDev, KSize, Thresh, Footprint, Result);
+  Result := exp_FindCornerPoints(ImgArr, GaussDev, KSize, Thresh, Footprint);
 end;
 
-function SimbaExt.FindCornerPoints(var ImgArr:T2DIntegerArray; Thresh:Single; Footprint:Integer): TPointArray; overload; 
+function SimbaExt.FindCornerPoints(var ImgArr:TIntMatrix; Thresh:Single; Footprint:Integer): TPointArray; overload; 
 begin
-  exp_FindCornerPoints(ImgArr, 1.0, 1, Thresh, Footprint, Result);
+  Result := exp_FindCornerPoints(ImgArr, 1.0, 1, Thresh, Footprint);
 end;
 
-function SimbaExt.FindCornerPoints(var ImgArr:T2DIntegerArray; Thresh:Single): TPointArray; overload;   
+function SimbaExt.FindCornerPoints(var ImgArr:TIntMatrix; Thresh:Single): TPointArray; overload;   
 begin
-  exp_FindCornerPoints(ImgArr, 1.0, 1, Thresh, 5, Result);
+  Result := exp_FindCornerPoints(ImgArr, 1.0, 1, Thresh, 5);
 end;
 
 
 
 {!DOCREF} {
-  @method: function se.FindCornerMidPoints(var ImgArr:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;  
+  @method: function se.FindCornerMidPoints(var ImgArr:TIntMatrix; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;  
   @desc: 
     Locates all the corner points in the image.
     Similar to c'se.FindCornerPoints', only that this one uses ClusterTPA to find the mean of each point within the given tolerance.
@@ -216,8 +224,8 @@ end;
     
     A few c'overloads' to simplify your life:
     [code=delphi]
-    > function se.FindCornerMidPoints(var ImgArr:T2DIntArray; Thresh:Single; MinDist:Integer): TPointArray; overload; 
-    > function se.FindCornerMidPoints(var ImgArr:T2DIntArray; Thresh:Single): TPointArray; overload; 
+    > function se.FindCornerMidPoints(var ImgArr:TIntMatrix; Thresh:Single; MinDist:Integer): TPointArray; overload; 
+    > function se.FindCornerMidPoints(var ImgArr:TIntMatrix; Thresh:Single): TPointArray; overload; 
     [/code]
     
     Example:
@@ -240,17 +248,17 @@ end;
     Output:
     [img]http://slackworld.net/downloads/calibrationimage.png[/img]
 }
-function SimbaExt.FindCornerMidPoints(var ImgArr:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;  
+function SimbaExt.FindCornerMidPoints(var ImgArr:TIntMatrix; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray;  
 begin
-  exp_FindCornerMidPoints(ImgArr, GaussDev, KSize, Thresh, MinDist, Result);
+  Result := exp_FindCornerMidPoints(ImgArr, GaussDev, KSize, Thresh, MinDist);
 end;
 
-function SimbaExt.FindCornerMidPoints(var ImgArr:T2DIntArray; Thresh:Single; MinDist:Integer): TPointArray; overload; 
+function SimbaExt.FindCornerMidPoints(var ImgArr:TIntMatrix; Thresh:Single; MinDist:Integer): TPointArray; overload; 
 begin
-  exp_FindCornerPoints(ImgArr, 1.0, 1, Thresh, MinDist, Result);
+  Result := exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, MinDist);
 end;
 
-function SimbaExt.FindCornerMidPoints(var ImgArr:T2DIntArray; Thresh:Single): TPointArray; overload;   
+function SimbaExt.FindCornerMidPoints(var ImgArr:TIntMatrix; Thresh:Single): TPointArray; overload;   
 begin
-  exp_FindCornerPoints(ImgArr, 1.0, 1, Thresh, 3, Result);
+  Result := exp_FindCornerPoints(ImgArr, 2.0, 1, Thresh, 3);
 end;

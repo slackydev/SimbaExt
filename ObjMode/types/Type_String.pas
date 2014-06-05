@@ -54,7 +54,7 @@ end;
 function String.Slice(Start,Stop: Int32; Step:Int32=1): String;
 begin
   if (Step = 0) then Exit;
-  try exp_slice(Self, Start,Stop,Step,Result);
+  try Result := exp_slice(Self, Start,Stop,Step);
   except end;
 end;
 
@@ -118,7 +118,7 @@ end;
 }
 function String.FindAll(Value:String): TIntArray; overload;
 begin
-  exp_FindAll(Self,Value,Result);
+  Result := exp_FindAll(Self,Value);
 end;
 
 

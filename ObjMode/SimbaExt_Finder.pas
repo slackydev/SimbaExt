@@ -94,10 +94,10 @@ function SimbaExt.MatchColor(Image:TRafBitmap; Color:Int32; MatchAlgo:TCCorrMode
 begin
 
   case Colorspace of
-    _RGB_: exp_MatchColorRGB(Image.ToMatrix(), Color, MatchAlgo, Result);
-    _XYZ_: exp_MatchColorXYZ(Image.ToMatrix(), Color, MatchAlgo, Result);
-    _LAB_: exp_MatchColorLAB(Image.ToMatrix(), Color, MatchAlgo, Result);
-    _LCH_: exp_MatchColorLCH(Image.ToMatrix(), Color, MatchAlgo, Result);
+    _RGB_: Result := exp_MatchColorRGB(Image.ToMatrix(), Color, MatchAlgo);
+    _XYZ_: Result := exp_MatchColorXYZ(Image.ToMatrix(), Color, MatchAlgo);
+    _LAB_: Result := exp_MatchColorLAB(Image.ToMatrix(), Color, MatchAlgo);
+    _LCH_: Result := exp_MatchColorLCH(Image.ToMatrix(), Color, MatchAlgo);
   end;
 end;
 
@@ -117,7 +117,7 @@ end;
      Color:      The color to search for
      Area:       A `TBox` of where to search.
      Similarity: `0.0` to `1.0` where `+/-1.0` should be exact match.    
-     Colorspace: How we measure color difference: `_RGB_, _XYZ_, _LAB_ and _LCH_`
+     Colorspace: Colorspace used in computation: `_RGB_, _XYZ_, _LAB_ and _LCH_`
     [/params]
 }
 function SimbaExt.FindColorEx(var TPA:TPointArray; Color:Int32; Area:TBox; Similarity:Single; Colorspace:TColorSpace): Boolean;
@@ -135,10 +135,10 @@ begin
   
   BMP.FromClient(Area.X1,Area.Y1,Area.X2,Area.Y2);
   case Colorspace of   
-    _RGB_: exp_MatchColorRGB(BMP.ToMatrix(), Color, CC_EUCLID_NORMED, Corr);
-    _XYZ_: exp_MatchColorXYZ(BMP.ToMatrix(), Color, CC_EUCLID_NORMED, Corr);
-    _LAB_: exp_MatchColorLAB(BMP.ToMatrix(), Color, CC_EUCLID_NORMED, Corr);
-    _LCH_: exp_MatchColorLCH(BMP.ToMatrix(), Color, CC_EUCLID_NORMED, Corr);
+    _RGB_: Corr := exp_MatchColorRGB(BMP.ToMatrix(), Color, CC_EUCLID_NORMED);
+    _XYZ_: Corr := exp_MatchColorXYZ(BMP.ToMatrix(), Color, CC_EUCLID_NORMED);
+    _LAB_: Corr := exp_MatchColorLAB(BMP.ToMatrix(), Color, CC_EUCLID_NORMED);
+    _LCH_: Corr := exp_MatchColorLCH(BMP.ToMatrix(), Color, CC_EUCLID_NORMED);
   end;
   BMP.Free();
   
@@ -160,8 +160,8 @@ end;
      PT:         Resulting point
      Template:   Template image to search for
      Area:       A `TBox` of where to search.
-     Similarity: `0.0` to `1.0` where `+/-1.0` should be exact match.    
-     MatchAlgo:  How we measure color difference: `TM_SQDIFF_NORMED = 1`, `TM_CCORR_NORMED = 3`, `TM_CCOEFF_NORMED = 5` 
+     Similarity: `-1.0` to `1.0` where `+/-1.0` should be exact match.    
+     MatchAlgo:  Comparison algorithm -> `TM_SQDIFF_NORMED = 1`, `TM_CCORR_NORMED = 3`, `TM_CCOEFF_NORMED = 5` 
     [/params]
 }
 function SimbaExt.FindTemplate(out PT:TPoint; Template:TRafBitmap; Area:TBox; Similarity:Single; MatchAlgo: Int8 = 5): Boolean;
@@ -213,8 +213,8 @@ end;
      PT:         Resulting point
      Image:      Image to search in.
      Templ:      Template image to search for.
-     Similarity: `0.0` to `1.0` where `+/-1.0` should be exact match.    
-     MatchAlgo:  How we measure color difference: `TM_SQDIFF_NORMED,  TM_CCORR_NORMED, TM_CCOEFF_NORMED` 
+     Similarity: `-1.0` to `1.0` where `+/-1.0` should be exact match.    
+     MatchAlgo:  Comparison algorithm -> `TM_SQDIFF_NORMED = 1`,  `TM_CCORR_NORMED = 3`, TM_CCOEFF_NORMED = 5` 
     [/params]
 }
 function SimbaExt.FindTemplate(out PT:TPoint; Image, Templ:TRafBitmap; Similarity:Single; MatchAlgo: Int8 = 5): Boolean; overload;
@@ -226,6 +226,11 @@ begin
     RaiseWarning('se.FindTemplate only supports NORMED MatchAlgo: 1, 3 or 5', ERR_WARNING);
     Exit();
   end;
+  if not((Image.Width > 0) and (Image.Height > 0)) then
+    RaiseException(erOutOfRange,'Image is Empty');
+    
+  if not((Templ.Width > 0) and (Templ.Height > 0)) then
+    RaiseException(erOutOfRange,'Templ is Empty');
 
   img := __cvLoadFromMatrix(Image.ToMatrix());
   patch := __cvLoadFromMatrix(Templ.ToMatrix());   
@@ -255,8 +260,8 @@ end;
      TPA:        Resulting points
      Template:   Template image to search for
      Area:       A `TBox` of where to search.
-     Similarity: `0.0` to `1.0` where `+/-1.0` should be exact match.
-     MatchAlgo:  Comparison algorithm -> `TM_SQDIFF_NORMED`,  `TM_CCORR_NORMED`, `TM_CCOEFF_NORMED`
+     Similarity: `-1.0` to `1.0` where `+/-1.0` should be exact match.
+     MatchAlgo:  Comparison algorithm -> `TM_SQDIFF_NORMED = 1`,  `TM_CCORR_NORMED = 3`, `TM_CCOEFF_NORMED = 5`
     [/params]
 }
 function SimbaExt.FindTemplateEx(out TPA:TPointArray; Templ:TRafBitmap; Area:TBox; Similarity:Single; MatchAlgo: Int8 = 5): Boolean;
@@ -307,8 +312,8 @@ end;
      TPA:        Resulting points
      Image:      Image to search in.
      Templ:      Template image to search for.
-     Similarity: `0.0` to `1.0` where `+/-1.0` should be exact match.    
-     MatchAlgo:  How we measure color difference: `TM_SQDIFF_NORMED,  TM_CCORR_NORMED, TM_CCOEFF_NORMED` 
+     Similarity: `-1.0` to `1.0` where `+/-1.0` should be exact match.    
+     MatchAlgo:  Comparison algorithm -> `TM_SQDIFF_NORMED = 1`,  `TM_CCORR_NORMED = 3`, `TM_CCOEFF_NORMED = 5` 
     [/params]
     
     Example:
@@ -376,7 +381,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function se.MatchTemplate(Image, Templ:TRafBitmap; Area:TBox; Similarity:Single; MatchAlgo: Int8 = 5): TFloatMatrix;
+  @method: function se.MatchTemplate(Image, Templ:TRafBitmap;  MatchAlgo: UInt8; Normalize:Boolean=False): TFloatMatrix;
   @desc:
     The function slides through `image`, compares the overlapped patches of size w*h against `templ` using the specified method and stores the comparison results in the `Result`.
 
@@ -387,7 +392,7 @@ end;
      Normalize:  Normalizes the result between `0.0` and `1.0`
     [/params]
 }
-function SimbaExt.MatchTemplate(Image, Templ:TRafBitmap;  MatchAlgo: Uint8; Normalize:Boolean=False): TFloatMatrix;
+function SimbaExt.MatchTemplate(Image, Templ:TRafBitmap;  MatchAlgo: UInt8; Normalize:Boolean=False): TFloatMatrix;
 var
   W,H:Int32;
   patch,img:CVMat;

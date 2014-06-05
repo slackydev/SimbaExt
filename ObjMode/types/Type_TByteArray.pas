@@ -112,7 +112,7 @@ end;
 function TByteArray.Slice(Start,Stop: Int32; Step:Int32=1): TByteArray;
 begin
   if Step = 0 then Exit;
-  try exp_slice(Self, Start,Stop,Step,Result);
+  try Result := exp_slice(Self, Start,Stop,Step);
   except end;
 end;
 
@@ -156,7 +156,7 @@ end;
 }
 function TByteArray.FindAll(Value:Byte): TIntArray; 
 begin
-  exp_FindAll(Self,TByteArray([value]),Result);
+  Result := exp_FindAll(Self,TByteArray([value]));
 end;
 
 
@@ -166,7 +166,7 @@ end;
 }
 function TByteArray.FindAll(Sequence:TByteArray): TIntArray; overload;
 begin
-  exp_FindAll(Self,sequence,Result);
+  Result := exp_FindAll(Self,sequence);
 end;
 
 
@@ -264,17 +264,17 @@ end;
 }
 function TByteArray.Sum(): Int32;
 begin
-  Result := se.SumTBA(Self);
+  Result := exp_SumPtr(PChar(Self),SizeOf(Byte),Length(Self),True);
 end;
 
 
 {!DOCREF} {
   @method: function TByteArray.Sum64(): Int64;
-  @desc: Adds up the TIA and returns the sum
+  @desc: Adds up the TBA and returns the sum
 }
 function TByteArray.Sum64(): Int64;
 begin
-  Result := se.SumTBA(Self);
+  Result := exp_SumPtr(PChar(Self),SizeOf(Byte),Length(Self),True);
 end;
 
 
@@ -394,7 +394,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMinB(mat).x;
+  Result := exp_ArgMin(mat).x;
 end;
 
 
@@ -411,7 +411,7 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMinExB(mat,B).x;
+  Result := exp_ArgMin(mat,B).x;
 end;
 
 
@@ -426,7 +426,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMaxB(mat).x;
+  Result := exp_ArgMax(mat).x;
 end;
 
 
@@ -443,7 +443,7 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMaxExB(mat,B).x;
+  Result := exp_ArgMax(mat,B).x;
 end;
 
 

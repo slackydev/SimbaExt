@@ -11,17 +11,16 @@ interface
 uses
   SysUtils, CoreTypes;
 
-function StrStrip(const Text, Chars:String): String;
+function StrStrip(const Text, Chars:String): String; 
 function StrStripL(const Text, Chars:String): String;
-function StrStripR(const Text, Chars:String): String;
+function StrStripR(const Text, Chars:String): String; 
 
-function StrPosEx(const SubStr, Text:String): TIntArray;
-function StrPosL(const SubStr, Text: String): Integer;
+function StrPosEx(const SubStr, Text:String): TIntArray; 
+function StrPosL(const SubStr, Text: String): Integer; 
 function StrPosR(const SubStr, Text: String): Integer;
 
 function StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;
 function StrExplode(const Text, Sep: String): TStrArray;
-
 
 //-----------------------------------------------------------------------
 implementation
@@ -314,4 +313,8 @@ begin
   end;
 end;
 
+
+
 end.
+
+

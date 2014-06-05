@@ -111,7 +111,7 @@ end;
 function TExtArray.Slice(Start,Stop: Int32; Step:Int32=1): TExtArray;
 begin
   if Step = 0 then Exit;
-  try exp_slice(Self, Start,Stop,Step,Result);
+  try Result := exp_slice(Self, Start,Stop,Step);
   except end;
 end;
 
@@ -155,7 +155,7 @@ end;
 }
 function TExtArray.FindAll(Value:Extended): TIntArray;
 begin
-  exp_FindAll(Self,[value],Result);
+  Result := exp_FindAll(Self,[value]);
 end;
 
 
@@ -165,7 +165,7 @@ end;
 }
 function TExtArray.FindAll(Sequence:TExtArray): TIntArray; overload;
 begin
-  exp_FindAll(Self,sequence,Result);
+  Result := exp_FindAll(Self,sequence);
 end;
 
 
@@ -263,7 +263,7 @@ end;
 }
 function TExtArray.Sum(): Extended;
 begin
-  Result := se.SumTEA(Self);
+  Result := exp_SumFPtr(PChar(Self),SizeOf(Extended),Length(Self));
 end;
 
 
@@ -274,7 +274,7 @@ end;
 }
 function TExtArray.Mean(): Extended;
 begin
-  Result := se.SumTEA(Self) / Length(Self);
+  Result := Self.Sum() / Length(Self);
 end;
 
 
@@ -382,7 +382,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMinE(mat).x;
+  Result := exp_ArgMin(mat).x;
 end;
 
 
@@ -399,7 +399,7 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMinExE(mat,B).x;
+  Result := exp_ArgMin(mat,B).x;
 end;
 
 
@@ -414,7 +414,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMaxE(mat).x;
+  Result := exp_ArgMax(mat).x;
 end;
 
 
@@ -431,5 +431,5 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMaxExE(mat,B).x;
+  Result := exp_ArgMax(mat,B).x;
 end;

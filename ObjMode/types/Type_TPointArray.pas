@@ -114,7 +114,7 @@ end;
 function TPointArray.Slice(Start,Stop: Int32; Step:Int32=1): TPointArray;
 begin
   if Step = 0 then Exit;
-  try exp_slice(Self, Start,Stop,Step,Result);
+  try Result := exp_slice(Self, Start,Stop,Step);
   except end;
 end;
 
@@ -155,7 +155,7 @@ end;
 }
 function TPointArray.FindAll(Value:TPoint): TIntArray;
 begin
-  exp_FindAll(Self,[Value],Result);
+  Result := exp_FindAll(Self,[Value]);
 end;
 
 
@@ -165,7 +165,7 @@ end;
 }
 function TPointArray.FindAll(Sequence:TPointArray): TIntArray; overload;
 begin
-  exp_FindAll(Self,sequence,Result);
+  Result := exp_FindAll(Self,sequence);
 end;
 
 

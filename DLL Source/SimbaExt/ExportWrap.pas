@@ -78,40 +78,40 @@ end;
 |-----------------------------------------------------------------------------*}
 
 (** Array slicing **)
-procedure exp_Slice1(Arr:TIntArray; Start,Stop,Step:Int32; var Result:TIntArray); cdecl;
+function exp_Slice1(Arr:TIntArray; Start,Stop,Step:Int32): TIntArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice2(Arr:TExtArray; Start,Stop,Step:Int32; var Result:TExtArray); cdecl;
+function exp_Slice2(Arr:TExtArray; Start,Stop,Step:Int32): TExtArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice3(Arr:TPointArray; Start,Stop,Step:Int32; var Result:TPointArray); cdecl;
+function exp_Slice3(Arr:TPointArray; Start,Stop,Step:Int32): TPointArray; cdecl;
 begin  Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice4(Arr:TByteArray; Start,Stop,Step:Int32; var Result:TByteArray); cdecl;
+function exp_Slice4(Arr:TByteArray; Start,Stop,Step:Int32): TByteArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice5(Arr:TBoxArray; Start,Stop,Step:Int32; var Result:TBoxArray); cdecl;
+function exp_Slice5(Arr:TBoxArray; Start,Stop,Step:Int32): TBoxArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice6(Arr:String; Start,Stop,Step:Int32; var Result:String); cdecl;
+function exp_Slice6(Arr:String; Start,Stop,Step:Int32): String; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice7(Arr:T2DIntArray; Start,Stop,Step:Int32; var Result:T2DIntArray); cdecl;
+function exp_Slice7(Arr:T2DIntArray; Start,Stop,Step:Int32): T2DIntArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice8(Arr:T2DExtArray; Start,Stop,Step:Int32; var Result:T2DExtArray); cdecl;
+function exp_Slice8(Arr:T2DExtArray; Start,Stop,Step:Int32): T2DExtArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice9(Arr:T2DPointArray; Start,Stop,Step:Int32; var Result:T2DPointArray); cdecl;
+function exp_Slice9(Arr:T2DPointArray; Start,Stop,Step:Int32): T2DPointArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice10(Arr:T2DByteArray; Start,Stop,Step:Int32; var Result:T2DByteArray); cdecl;
+function exp_Slice10(Arr:T2DByteArray; Start,Stop,Step:Int32): T2DByteArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice11(Arr:T2DBoxArray; Start,Stop,Step:Int32; var Result:T2DBoxArray); cdecl;
+function exp_Slice11(Arr:T2DBoxArray; Start,Stop,Step:Int32): T2DBoxArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-procedure exp_Slice12(Arr:TStringArray; Start,Stop,Step:Int32; var Result:TStringArray); cdecl;
+function exp_Slice12(Arr:TStringArray; Start,Stop,Step:Int32): TStringArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
 (* *)
@@ -135,22 +135,22 @@ begin Result := Find(Arr,Seq); end;
 
 
 (* *)
-procedure exp_FindAll1(Arr:TIntArray; Seq:TIntArray; var Result: TIntArray); cdecl;
+function exp_FindAll1(Arr:TIntArray; Seq:TIntArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-procedure exp_FindAll2(Arr:TExtArray; Seq:TExtArray; var Result: TIntArray); cdecl;
+function exp_FindAll2(Arr:TExtArray; Seq:TExtArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-procedure exp_FindAll3(Arr:TPointArray; Seq:TPointArray; var Result: TIntArray); cdecl;
+function exp_FindAll3(Arr:TPointArray; Seq:TPointArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-procedure exp_FindAll4(Arr:TByteArray; Seq:TByteArray; var Result: TIntArray); cdecl;
+function exp_FindAll4(Arr:TByteArray; Seq:TByteArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-procedure exp_FindAll5(Arr:TBoxArray; Seq:TBoxArray; var Result: TIntArray); cdecl;
+function exp_FindAll5(Arr:TBoxArray; Seq:TBoxArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-procedure exp_FindAll6(Arr:String; Seq:String; var Result: TIntArray); cdecl;
+function exp_FindAll6(Arr:String; Seq:String): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
 
@@ -173,12 +173,12 @@ begin
   Result := SumTEA(Arr);
 end;
 
-procedure exp_TIACombinations(const Arr: TIntArray; Seq:Integer; var Result: T2DIntArray); Cdecl;
+function exp_TIACombinations(const Arr: TIntArray; Seq:Integer): T2DIntArray; cdecl;
 begin
   Result := TIACombinations(Arr, Seq);
 end;
 
-procedure exp_TEACombinations(const Arr: TExtArray; Seq:Integer; var Result: T2DExtArray); Cdecl;
+function exp_TEACombinations(const Arr: TExtArray; Seq:Integer): T2DExtArray; cdecl;
 begin
   Result := TEACombinations(Arr, Seq);
 end;
@@ -203,7 +203,7 @@ end;
 //  Result := TIAMatches(Arr1,Arr2, InPercent, Inversed);
 //end;
 
-//function exp_LogscaleTIA(const Freq:TIntArray; Scale: Integer; var Result:TIntArray); Cdecl;
+//function exp_LogscaleTIA(const Freq:TIntArray; Scale: Integer): TIntArray; cdecl;
 //begin
 //  Result := LogscaleTIA(Freq, Scale);
 //end;
@@ -361,22 +361,22 @@ end;
 {*-----------------------------------------------------------------------------|
 | Finder.pas                                                                   |
 |-----------------------------------------------------------------------------*}
-procedure exp_MatchColorRGB(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; var Result:T2DFloatArray); Cdecl;
+function exp_MatchColorRGB(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; cdecl;
 begin
   Result := MatchColorRGB(ImgArr, Color, CCMode);
 end;
 
-procedure exp_MatchColorXYZ(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; var Result:T2DFloatArray); Cdecl;
+function exp_MatchColorXYZ(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; cdecl;
 begin
   Result := MatchColorXYZ(ImgArr, Color, CCMode);
 end;
 
-procedure exp_MatchColorLAB(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; var Result:T2DFloatArray); Cdecl;
+function exp_MatchColorLAB(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; cdecl;
 begin
   Result := MatchColorLAB(ImgArr, Color, CCMode);
 end;
 
-procedure exp_MatchColorLCH(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode; var Result:T2DFloatArray); Cdecl;
+function exp_MatchColorLCH(const ImgArr:T2DIntArray; Color:Integer; CCMode:TCCorrMode): T2DFloatArray; cdecl;
 begin
   Result := MatchColorLCh(ImgArr, Color, CCMode);
 end;
@@ -465,12 +465,12 @@ begin
   ATPAFilter(ATPA, MinLength, MinW, MinH, MaxW, MaxH, Align);
 end;
 
-procedure exp_TPAExtremes(const TPA:TPointArray; var Result:TPointArray); Cdecl;
+function exp_TPAExtremes(const TPA:TPointArray): TPointArray; cdecl;
 begin
   Result := TPAExtremes(TPA);
 end;
 
-procedure exp_TPABBox(const TPA:TPointArray; var Result:TPointArray); Cdecl;
+function exp_TPABBox(const TPA:TPointArray): TPointArray; cdecl;
 begin
   Result := TPABBox(TPA);
 end;
@@ -512,33 +512,33 @@ begin
   LongestPolyVector(Poly, A,B);
 end;
 
-procedure exp_InvertTPA(const TPA:TPointArray; var Result:TPointArray); Cdecl;
+function exp_InvertTPA(const TPA:TPointArray): TPointArray; cdecl;
 begin
   Result := InvertTPA(TPA);
 end;
 
-procedure exp_RotateTPA(const TPA: TPointArray; Radians: Extended; var Result:TPointArray); Cdecl;
+function exp_RotateTPA(const TPA: TPointArray; Radians: Extended): TPointArray; cdecl;
 begin
   Result := RotateTPA(TPA, Radians);
 end;
 
-procedure exp_TPAPartition(const TPA:TPointArray; BoxWidth, BoxHeight:Integer; var Result:T2DPointArray); Cdecl;
+function exp_TPAPartition(const TPA:TPointArray; BoxWidth, BoxHeight:Integer): T2DPointArray; cdecl;
 begin
   Result := TPAPartition(TPA, BoxWidth, BoxHeight);
 end;
 
-procedure exp_AlignTPA(const TPA:TPointArray; Method: TAlignAlgo; var Angle:Extended; var Result:TPointArray); Cdecl;
+function exp_AlignTPA(const TPA:TPointArray; Method: TAlignAlgo; var Angle:Extended): TPointArray; cdecl;
 begin
   Result := AlignTPA(TPA, Method, Angle);
 end;
 
-procedure exp_CleanSortTPA(const TPA: TPointArray; var Result:TPointArray); Cdecl;
+function exp_CleanSortTPA(const TPA: TPointArray): TPointArray; cdecl;
 begin
   Result := CleanSortTPA(TPA);
 end;
 
 
-procedure exp_UniteTPA(const TPA1, TPA2: TPointArray; RemoveDupes:Boolean; var Result: TPointArray); Cdecl;
+function exp_UniteTPA(const TPA1, TPA2: TPointArray; RemoveDupes:Boolean): TPointArray; cdecl;
 begin
   Result := UniteTPA(TPA1, TPA2, RemoveDupes);
 end;
@@ -549,83 +549,83 @@ begin
   TPALine(TPA, P1,P2);
 end;
 
-procedure exp_ConnectTPA(const TPA:TPointArray; var Result:TPointArray); Cdecl;
+function exp_ConnectTPA(const TPA:TPointArray): TPointArray; cdecl;
 begin
   Result := ConnectTPA(TPA);
 end;
 
-procedure exp_ConnectTPAEx(TPA:TPointArray; Tension:Extended; var Result: TPointArray); Cdecl;
+function exp_ConnectTPAEx(TPA:TPointArray; Tension:Extended): TPointArray; cdecl;
 begin
   Result := ConnectTPAEx(TPA, Tension);
 end;
 
-procedure exp_XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint; var Result:TPointArray); Cdecl;
+function exp_XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray; cdecl;
 begin
   Result := XagonPoints(Center, Sides, Dir);
 end;
 
-procedure exp_TPAEllipseBase(const Center: TPoint; RadiusX, RadiusY:Integer; var Result:TPointArray); Cdecl;
+function exp_TPAEllipseBase(const Center: TPoint; RadiusX, RadiusY:Integer): TPointArray; cdecl;
 begin
   Result := TPAEllipseBase(Center, RadiusX, RadiusY);
 end;
 
-procedure exp_TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean; var Result:TPointArray); Cdecl;
+function exp_TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean): TPointArray; cdecl;
 begin
   Result := TPAEllipse(Center, RadX,RadY, Filled);
 end;
 
-procedure exp_TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean; var Result:TPointArray); Cdecl;
+function exp_TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean): TPointArray; cdecl;
 begin
   Result := TPACircle(Center, Radius, Filled);
 end;
 
-procedure exp_TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint; var Result:TPointArray); Cdecl;
+function exp_TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray; cdecl;
 begin
   Result := TPASimplePoly(Center, Sides, Dir);
 end;
 
-procedure exp_ConvexHull(const TPA:TPointArray; var Result: TPointArray); Cdecl;
+function exp_ConvexHull(const TPA:TPointArray): TPointArray; cdecl;
 begin
   Result := ConvexHull(TPA);
 end;
 
-procedure exp_FloodFillTPAEx(const TPA:TPointArray; const Start:TPoint; EightWay, KeepEdges:Boolean; var Result: TPointArray); Cdecl;
+function exp_FloodFillTPAEx(const TPA:TPointArray; const Start:TPoint; EightWay, KeepEdges:Boolean): TPointArray; cdecl;
 begin
   Result := FloodFillTPAEx(TPA, Start, EightWay, KeepEdges);
 end;
 
 
-procedure exp_FloodFillTPA(const TPA:TPointArray; const Start:TPoint; EightWay:Boolean; var Result:TPointArray); Cdecl;
+function exp_FloodFillTPA(const TPA:TPointArray; const Start:TPoint; EightWay:Boolean): TPointArray; cdecl;
 begin
   Result := FloodFillTPA(TPA,Start,EightWay);
 end;
 
-procedure exp_TPAOutline(const TPA:TPointArray; var Result:TPointArray); Cdecl;
+function exp_TPAOutline(const TPA:TPointArray): TPointArray; cdecl;
 begin
   Result := TPAOutline(TPA);
 end;
 
-procedure exp_TPABorder(const TPA:TPointArray; var Result:TPointArray); Cdecl;
+function exp_TPABorder(const TPA:TPointArray): TPointArray; cdecl;
 begin
   Result := TPABorder(TPA);
 end;
 
-procedure exp_FloodFillPolygon(const Poly:TPointArray; EightWay:Boolean; var Result:TPointArray); Cdecl;
+function exp_FloodFillPolygon(const Poly:TPointArray; EightWay:Boolean): TPointArray; cdecl;
 begin
   Result := FloodFillPolygon(Poly, EightWay);
 end;
 
-procedure exp_ClusterTPAEx(const TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean; var Result:T2DPointArray); Cdecl;
+function exp_ClusterTPAEx(const TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean): T2DPointArray; cdecl;
 begin
   Result := ClusterTPAEx(TPA,DistX,DistY, Eightway);
 end;
 
-procedure exp_ClusterTPA(const TPA: TPointArray; Distance: Integer; EightWay:Boolean; var Result:T2DPointArray); Cdecl;
+function exp_ClusterTPA(const TPA: TPointArray; Distance: Integer; EightWay:Boolean): T2DPointArray; cdecl;
 begin
   Result := ClusterTPA(TPA,Distance, Eightway);
 end;
 
-procedure exp_TPAEdges(const TPA: TPointArray; var Result:TPointArray); Cdecl;
+function exp_TPAEdges(const TPA: TPointArray): TPointArray; cdecl;
 begin
   Result := TPAEdges(TPA);
 end;
@@ -635,7 +635,7 @@ end;
 {*-----------------------------------------------------------------------------|
 | Spline.pas                                                                   |
 |-----------------------------------------------------------------------------*}
-procedure exp_Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean; var Result: TPointArray); Cdecl;
+function exp_Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean): TPointArray; cdecl;
 begin
   Result := CSpline(TPA, Tension, Connect);
 end;
@@ -646,17 +646,17 @@ end;
 {*-----------------------------------------------------------------------------|
 | Morphology.pas                                                               |
 |-----------------------------------------------------------------------------*}
-procedure exp_TPASkeleton(const TPA:TPointArray; FMin,FMax:Integer; var Result:TPointArray); Cdecl;
+function exp_TPASkeleton(const TPA:TPointArray; FMin,FMax:Integer): TPointArray; cdecl;
 begin
   Result := TPASkeleton(TPA,FMin,FMax);
 end;
 
-procedure exp_TPAReduce(const TPA:TPointArray; FMin,FMax, Iterations:Integer; var Result:TPointArray); Cdecl;
+function exp_TPAReduce(const TPA:TPointArray; FMin,FMax, Iterations:Integer): TPointArray; cdecl;
 begin
   Result := TPAReduce(TPA,FMin,FMax,Iterations);
 end;
 
-procedure exp_TPAExpand(const TPA:TPointArray; Iterations:Integer; var Result:TPointArray); Cdecl;
+function exp_TPAExpand(const TPA:TPointArray; Iterations:Integer): TPointArray; cdecl;
 begin
   Result := TPAExpand(TPA,Iterations);
 end;
@@ -669,12 +669,12 @@ end;
 {*-----------------------------------------------------------------------------|
 | MatrixTools.pas                                                                   |
 |-----------------------------------------------------------------------------*}
-procedure exp_NewMatrixEx(W,H, Init:Integer; var Result:T2DIntArray); Cdecl;
+function exp_NewMatrixEx(W,H, Init:Integer): T2DIntArray; cdecl;
 begin
   Result := NewMatrixEx(W,H, Init);
 end;
 
-procedure exp_NewMatrix(W,H:Integer; var Result:T2DIntArray); Cdecl;
+function exp_NewMatrix(W,H:Integer): T2DIntArray; cdecl;
 begin
   Result := NewMatrix(W,H);
 end;
@@ -684,52 +684,52 @@ begin
   MatInsertTPA(Matrix,TPA, Value);
 end;
 
-procedure exp_TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean; var Result:T2DIntArray); Cdecl;
+function exp_TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray; cdecl;
 begin
   Result := TPAToMatrixEx(TPA,Init,Value,Align);
 end;
 
-procedure exp_TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean; var Result:T2DIntArray); Cdecl;
+function exp_TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean): T2DIntArray; cdecl;
 begin
   Result := TPAToMatrix(TPA, Value, Align);
 end;
 
-procedure exp_NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer; var Result:T2DIntArray); Cdecl;
+function exp_NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray; cdecl;
 begin
   Result := NormalizeMat(Mat, Alpha, Beta);
 end;
 
-procedure exp_MatGetValues(const Mat:T2DIntArray; const Indices:TPointArray; var Result:TIntArray); Cdecl;
+function exp_MatGetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; cdecl;
 begin
   Result := MatGetValues(Mat, Indices);
 end;
 
-procedure exp_MatGetCol(const Mat:T2DIntArray; Column:Integer; var Result:TIntArray); Cdecl;
+function exp_MatGetCol(const Mat:T2DIntArray; Column:Integer): TIntArray; cdecl;
 begin
   Result := MatGetCol(Mat, Column);
 end;
 
-procedure exp_MatGetRow(const Mat:T2DIntArray; Row:Integer; var Result:TIntArray); Cdecl;
+function exp_MatGetRow(const Mat:T2DIntArray; Row:Integer): TIntArray; cdecl;
 begin
   Result := MatGetRow(Mat, Row);
 end;
 
-procedure exp_MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer; var Result:T2DIntArray); Cdecl;
+function exp_MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray; cdecl;
 begin
   Result := MatGetCols(Mat, FromCol, ToCol);
 end;
 
-procedure exp_MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer; var Result:T2DIntArray); Cdecl;
+function exp_MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer): T2DIntArray; cdecl;
 begin
   Result := MatGetRows(Mat, FromRow, ToRow);
 end;
 
-procedure exp_MatGetArea(const Mat:T2DIntArray; X1,Y1,X2,Y2:Integer; var Result:T2DIntArray); Cdecl;
+function exp_MatGetArea(const Mat:T2DIntArray; X1,Y1,X2,Y2:Integer): T2DIntArray; cdecl;
 begin
   Result := MatGetArea(Mat, X1,Y1,X2,Y2);
 end;
 
-procedure exp_MatFromTIA(const Arr:TIntArray; Width,Height:Integer; var Result: T2DIntArray); Cdecl;
+function exp_MatFromTIA(const Arr:TIntArray; Width,Height:Integer): T2DIntArray; cdecl;
 begin
   Result := MatFromTIA(Arr, Width, Height);
 end;
@@ -739,7 +739,7 @@ begin
   PadMatrix(Matrix,HPad,WPad);
 end;
 
-procedure exp_FloodFillMatrix(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean; var Result:TPointArray); Cdecl;
+function exp_FloodFillMatrix(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean): TPointArray; cdecl;
 begin
   Result := FloodFillMatrix(ImgArr, Start, EightWay);
 end;
@@ -752,65 +752,70 @@ end;
 {*-----------------------------------------------------------------------------|
 | Imaging.pas                                                                  |
 |-----------------------------------------------------------------------------*}
-procedure exp_GaussKernel(KernelRadius:Integer; Sigma:Single; var Result:T2DFloatArray); Cdecl;
+function exp_GaussKernel(KernelRadius:Integer; Sigma:Single): T2DFloatArray; cdecl;
 begin
   Result := GaussKernel(KernelRadius, Sigma);
 end;
 
-procedure exp_ImBlurFilter(ImgArr: T2DIntArray; Block:Integer; var Result: T2DIntArray); Cdecl;
+function exp_ImBlurFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; cdecl;
 begin
   Result := ImBlurFilter(ImgArr, Block);
 end;
 
-procedure exp_ImMedianFilter(ImgArr: T2DIntArray; Block:Integer; var Result: T2DIntArray); Cdecl;
+function exp_ImMedianFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; cdecl;
 begin
   Result := ImMedianFilter(ImgArr, Block);
 end;
 
-procedure exp_ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean; var Result: T2DIntArray); Cdecl;
+function exp_ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean): T2DIntArray; cdecl;
 begin
   Result := ImBrighten(ImgArr, Amount, Legacy);
 end;
 
-procedure exp_ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended; var Result: T2DIntArray); Cdecl;
+function exp_ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended): T2DIntArray; cdecl;
 begin
   Result := ImEnhance(ImgArr, Enhancement, C);
 end;
 
-procedure exp_ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Invert:Boolean; var Result: T2DIntArray); Cdecl;
+function exp_ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Invert:Boolean): T2DIntArray; cdecl;
 begin
   Result := ImThreshold(ImgArr, Threshold, Alpha, Beta, Invert);
 end;
 
-procedure exp_ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Integer; var Result: T2DIntArray); Cdecl;
+function exp_ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Integer): T2DIntArray; cdecl;
 begin
   Result := ImThresholdAdaptive(ImgArr, Alpha, Beta, Invert, Method, C);
 end;
 
 
-procedure exp_ImFindContours(const ImgArr:T2DIntArray; Outlines:Boolean; var Result: T2DPointArray); Cdecl;
+function exp_ImFindContours(const ImgArr:T2DIntArray; Outlines:Boolean): T2DPointArray; cdecl;
 begin
   Result := ImFindContours(ImgArr,Outlines);
 end;
 
-procedure exp_ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer; var Result: TPointArray); Cdecl;
+function exp_ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray; cdecl;
 begin
   Result := ImCEdges(ImgArr, MinDiff);
 end;
 
-procedure exp_ImSobel(const ImgArr: T2DIntArray; var Result:T2DIntArray); Cdecl;
+function exp_ImSobel(const ImgArr: T2DIntArray): T2DIntArray; cdecl;
 begin
   Result := ImSobel(ImgArr); 
 end;
 
-procedure exp_ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray; var Result:T2DIntArray); Cdecl;
+function exp_ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray; cdecl;
 begin
   Result := ImConvolve(ImgArr, Mask);
 end;
 
-procedure exp_ImGaussBlur(const ImgArr: T2DIntArray; Radius: Integer; Sigma: Single; var Result:T2DIntArray); Cdecl;
+function exp_ImGaussBlur(const ImgArr: T2DIntArray; Radius: Integer; Sigma: Single): T2DIntArray; cdecl;
 begin
   Result := ImGaussBlur(ImgArr, Radius, Sigma); 
+end;
+
+function exp_ImBlend(ImgArr1,ImgArr2: T2DIntArray; Alpha: Single): T2DIntArray; cdecl;
+begin
+  Result := ImBlend(ImgArr1, ImgArr2, Alpha);
 end;
 
 procedure exp_ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo); Cdecl;
@@ -823,19 +828,19 @@ end;
 {*-----------------------------------------------------------------------------|
 | Randomize.pas                                                                 |
 |-----------------------------------------------------------------------------*}
-procedure exp_RandomTPA(Amount:Integer; MinX,MinY,MaxX,MaxY:Integer; var Result:TPointArray); Cdecl;
+function exp_RandomTPA(Amount:Integer; MinX,MinY,MaxX,MaxY:Integer): TPointArray; cdecl;
 begin
   Result := RandomTPA(Amount,MinX,MinY,MaxX,MaxY);
 end;
 
 
-procedure exp_RandomCenterTPA(Amount:Integer; CX,CY,RadX,RadY:Integer; var Result:TPointArray); Cdecl;
+function exp_RandomCenterTPA(Amount:Integer; CX,CY,RadX,RadY:Integer): TPointArray; cdecl;
 begin
   Result := RandomCenterTPA(Amount,CX,CY,RadX,RadY);
 end;
 
 
-procedure exp_RandomTIA(Amount:Integer; Low,Hi:Integer; var Result: TIntArray); Cdecl; 
+function exp_RandomTIA(Amount:Integer; Low,Hi:Integer): TIntArray; cdecl; 
 begin
   Result := RandomTIA(Amount,Low,Hi);
 end;
@@ -863,7 +868,7 @@ begin
   Result := StrStripR(Text,Chars);
 end;
 
-procedure exp_StrPosEx(const SubStr, Text:String; var Result:TIntArray); Cdecl;
+function exp_StrPosEx(const SubStr, Text:String): TIntArray; cdecl;
 begin
   Result := StrPosEx(SubStr, Text);
 end;
@@ -884,7 +889,7 @@ begin
 end;
 
 
-procedure exp_StrExplode(const Text, Sep: String; var Result: TStrArray); Cdecl;
+function exp_StrExplode(const Text, Sep: String): TStrArray; cdecl;
 begin
   Result := StrExplode(Text, Sep);
 end;
@@ -893,17 +898,17 @@ end;
 {*-----------------------------------------------------------------------------|
 | CornerDet.pas                                                                  |
 |-----------------------------------------------------------------------------*}
-procedure exp_CornerResponse(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; var Result: T2DFloatArray); Cdecl;
+function exp_CornerResponse(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer): T2DFloatArray; cdecl;
 begin
   Result := CornerResponse(Mat, GaussDev, KSize);
 end;
 
-procedure exp_FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer; var Result: TPointArray); Cdecl;
+function exp_FindCornerPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; Footprint:Integer): TPointArray; cdecl;
 begin
   Result := FindCornerPoints(Mat, GaussDev, KSize, Thresh, Footprint);
 end;
 
-procedure exp_FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer; var Result:TPointArray); Cdecl;
+function exp_FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer; Thresh:Single; MinDist:Integer): TPointArray; cdecl;
 begin
   Result := FindCornerMidPoints(Mat, GaussDev, KSize, Thresh, MinDist);
 end;
@@ -917,54 +922,54 @@ end;
 {*-----------------------------------------------------------------------------|
 | MatrixOps.pas                                                                |
 |-----------------------------------------------------------------------------*}
-procedure exp_IndicesB(const Mat:T2DByteArray; Value: Byte; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesB(const Mat:T2DByteArray; Value: Byte; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, Value, Comparator);
 end;
 
-procedure exp_IndicesI(const Mat:T2DIntArray; Value: Integer; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesI(const Mat:T2DIntArray; Value: Integer; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, Value, Comparator);
 end;
 
-procedure exp_IndicesE(const Mat:T2DExtArray; Value: Extended; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesE(const Mat:T2DExtArray; Value: Extended; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, Value, Comparator);
 end;
 
-procedure exp_IndicesD(const Mat:T2DDoubleArray; Value: Double; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesD(const Mat:T2DDoubleArray; Value: Double; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, Value, Comparator);
 end;
 
-procedure exp_IndicesF(const Mat:T2DFloatArray; Value: Single; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesF(const Mat:T2DFloatArray; Value: Single; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, Value, Comparator);
 end;
 
 
 {-------| Extended version of Indices |-------}
-procedure exp_IndicesExB(const Mat:T2DByteArray; B:TBox; Value: Byte; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesExB(const Mat:T2DByteArray; B:TBox; Value: Byte; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, B, Value, Comparator);
 end;
 
-procedure exp_IndicesExI(const Mat:T2DIntArray; B:TBox; Value: Integer; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesExI(const Mat:T2DIntArray; B:TBox; Value: Integer; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, B, Value, Comparator);
 end;
 
-procedure exp_IndicesExE(const Mat:T2DExtArray; B:TBox; Value: Extended; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesExE(const Mat:T2DExtArray; B:TBox; Value: Extended; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, B, Value, Comparator);
 end;
 
-procedure exp_IndicesExD(const Mat:T2DDoubleArray; B:TBox; Value: Double; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesExD(const Mat:T2DDoubleArray; B:TBox; Value: Double; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, B, Value, Comparator);
 end;
 
-procedure exp_IndicesExF(const Mat:T2DFloatArray; B:TBox; Value: Single; const Comparator:TComparator; var Result: TPointArray); Cdecl;
+function exp_IndicesExF(const Mat:T2DFloatArray; B:TBox; Value: Single; const Comparator:TComparator): TPointArray; cdecl;
 begin
   Result := Indices(Mat, B, Value, Comparator);
 end;
@@ -1102,3 +1107,57 @@ begin
   Result := ArgMin(Mat,B);
 end;
 
+
+
+{-------| VarMulti |-------}
+function exp_VarMultiB(const Mat:T2DByteArray; Count: Int32; HiLo:Boolean): CoreTypes.TByteArray; cdecl;
+begin
+  Result := VarMulti(Mat, Count, HiLo);
+end;
+
+function exp_VarMultiI(const Mat:T2DIntArray; Count: Int32; HiLo:Boolean): TIntArray; cdecl;
+begin
+  Result := VarMulti(Mat, Count, HiLo);
+end;
+
+function exp_VarMultiE(const Mat:T2DExtArray; Count: Int32; HiLo:Boolean): TExtArray; cdecl;
+begin
+  Result := VarMulti(Mat, Count, HiLo);
+end;
+
+function exp_VarMultiD(const Mat:T2DDoubleArray; Count: Int32; HiLo:Boolean): TDoubleArray; cdecl;
+begin
+  Result := VarMulti(Mat, Count, HiLo);
+end;
+
+function exp_VarMultiF(const Mat:T2DFloatArray; Count: Int32; HiLo:Boolean): TFloatArray; cdecl;
+begin
+  Result := VarMulti(Mat, Count, HiLo);
+end;
+
+
+{-------| ArgMulti |-------}
+function exp_ArgMultiB(const Mat:T2DByteArray; Count: Int32; HiLo:Boolean): TPointArray; cdecl;
+begin
+  Result := ArgMulti(Mat, Count, HiLo);
+end;
+
+function exp_ArgMultiI(const Mat:T2DIntArray; Count: Int32; HiLo:Boolean): TPointArray; cdecl;
+begin
+  Result := ArgMulti(Mat, Count, HiLo);
+end;
+
+function exp_ArgMultiE(const Mat:T2DExtArray; Count: Int32; HiLo:Boolean): TPointArray; cdecl;
+begin
+  Result := ArgMulti(Mat, Count, HiLo);
+end;
+
+function exp_ArgMultiD(const Mat:T2DDoubleArray; Count: Int32; HiLo:Boolean): TPointArray; cdecl;
+begin
+  Result := ArgMulti(Mat, Count, HiLo);
+end;
+
+function exp_ArgMultiF(const Mat:T2DFloatArray; Count: Int32; HiLo:Boolean): TPointArray; cdecl;
+begin
+  Result := ArgMulti(Mat, Count, HiLo);
+end;

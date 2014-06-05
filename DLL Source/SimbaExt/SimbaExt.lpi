@@ -52,6 +52,11 @@
       <OtherUnitFiles Value="Src;Src\Core;Src\Core\Matrix;Src\Core\MatrixMath;Src\Sorting;Src\Std"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <CStyleMacros Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
     <CodeGeneration>
       <RelocatableUnit Value="True"/>
       <Optimizations>

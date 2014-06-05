@@ -188,12 +188,25 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.Crop(X1,Y1,X2,Y2:Integer);
+  @method: function TRafBitmap.Crop(X1,Y1,X2,Y2:Integer): TRafBitmap;
+  @desc:   Crops the image down to the given bounds. 
+}
+function TRafBitmap.Crop(X1,Y1,X2,Y2:Integer): TRafBitmap;
+var m:TIntMatrix;
+begin
+  if not(Self.IsLoaded('TRafBitmap.Crop()')) then Exit;
+  M := Self.ToMatrix().GetArea(x1,y1,x2,y2);
+  Result.FromMatrix(M);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TRafBitmap.LazyCrop(X1,Y1,X2,Y2:Integer);
   @desc: 
     Crops the image down to the given bounds. 
-    [warning]Modifies the image, does not make a copy![/warning]
+    [note]Modifies the image, does not make a copy[/note]
 }
-procedure TRafBitmap.Crop(X1,Y1,X2,Y2:Integer);
+procedure TRafBitmap.LazyCrop(X1,Y1,X2,Y2:Integer);
 begin
   if not(Self.IsLoaded('TRafBitmap.Crop()')) then Exit;
   CropBitmap(Self.Bitmap, X1,Y1,X2,Y2);
@@ -465,6 +478,10 @@ procedure TRafBitmap.Blur(BlurSize: Integer; Iter:Integer=0);
 var
   i:Int32;
   Matrix:TIntMatrix;
+  function BlurMore(Mat:TIntMatrix; Box:Int32):TIntMatrix;
+  begin
+    Result := exp_ImBlurFilter(Mat, Box);
+  end;
 begin
   if not(Self.IsLoaded('TRafBitmap.Blur()')) then Exit;
   if (BlurSize < 3) or (BlurSize mod 2 = 0) then
@@ -478,8 +495,9 @@ begin
   end;
 
   Matrix := Self.ToMatrix();
+  WriteLn(Length(Matrix));
   for i:=0 to Iter do
-    exp_ImBlurFilter(Matrix, BlurSize, Matrix);
+    Matrix := BlurMore(Matrix, BlurSize);
   Self.FromMatrix(Matrix); 
 end;
 
@@ -503,8 +521,7 @@ begin
     Exit;
   end;
 
-  Matrix := Self.ToMatrix();
-  exp_ImMedianFilter(Matrix, MedianSize, Matrix);
+  Matrix := exp_ImMedianFilter(Self.ToMatrix(), MedianSize);
   Self.FromMatrix(Matrix); 
 end;
 
@@ -513,15 +530,37 @@ end;
   @method: procedure TRafBitmap.Brightness(Amount:Extended; Legacy:Boolean);
   @desc: Allows you to modify the brightness of the bitmap
 }
-procedure TRafBitmap.Brightness(Amount:Extended; Legacy:Boolean);
+procedure TRafBitmap.Brightness(Amount:Extended; Legacy:Boolean=True);
 var
   Matrix:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.Brightness()')) then Exit;
   Matrix := Self.ToMatrix();
   
-  exp_ImBrighten(Matrix, Amount, Legacy, Matrix);
+  Matrix := exp_ImBrighten(Matrix, Amount, Legacy);
   Self.FromMatrix(Matrix);
+end;
+
+
+{!DOCREF} {
+  @method: function TRafBitmap.Blend(Other:TRafBitmap; Alpha:Single): TRafBitmap;
+  @desc: Belnds the two images in to one. Alpha must be in range of 0-1.
+}
+function TRafBitmap.Blend(Other:TRafBitmap; Alpha:Single): TRafBitmap;
+var
+  Matrix:TIntMatrix;
+begin
+  if not(Self.IsLoaded('TRafBitmap.Blend()')) then 
+    Exit;
+  
+  if not(Other.Loaded) then 
+    RaiseException(erException, '''Other'' bitmap is not loaded.');
+    
+  if not(Other.Width=Self.Width) or not(Other.Height=Self.Height) then 
+    RaiseException(erException, 'Bitmaps must have the same size'); 
+
+  Matrix := exp_ImBlend(Self.ToMatrix(), Other.ToMatrix(), Alpha);
+  Result.FromMatrix(Matrix);
 end;
 
 

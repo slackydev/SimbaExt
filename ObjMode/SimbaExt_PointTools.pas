@@ -22,20 +22,20 @@ begin
 end;
 
 {!DOCREF} {
-  @method: procedure se.TPASplitAxis(TPA: TPointArray; var X:TIntegerArray; var Y:TIntegerArray);  
+  @method: procedure se.TPASplitAxis(TPA: TPointArray; var X:TIntArray; var Y:TIntArray);  
   @desc: Separates the axis in the TPA, returning two TIntArrays, one for each axis
 }
-procedure SimbaExt.TPASplitAxis(TPA: TPointArray; var X:TIntegerArray; var Y:TIntegerArray);  
+procedure SimbaExt.TPASplitAxis(TPA: TPointArray; var X:TIntArray; var Y:TIntArray);  
 begin
   exp_TPASplitAxis(TPA, X,Y);
 end;
 
 
 {!DOCREF} {
-  @method: procedure se.TPAJoinAxis(X:TIntegerArray; const Y:TIntegerArray; var TPA:TPointArray);    
+  @method: procedure se.TPAJoinAxis(X:TIntArray; const Y:TIntArray; var TPA:TPointArray);    
   @desc: Joins two axis to create a TPA, takes two TIntArrays, one for each axis
 }
-procedure SimbaExt.TPAJoinAxis(X:TIntegerArray; const Y:TIntegerArray; var TPA:TPointArray);  
+procedure SimbaExt.TPAJoinAxis(X:TIntArray; const Y:TIntArray; var TPA:TPointArray);  
 begin
   exp_TPAJoinAxis(X,Y, TPA);
 end;
@@ -73,7 +73,7 @@ end;
 }
 function SimbaExt.TPAExtremes(TPA:TPointArray): TPointArray;  
 begin
-  exp_TPAExtremes(TPA,Result);
+  Result := exp_TPAExtremes(TPA);
 end;
 
 {!DOCREF} {
@@ -82,7 +82,7 @@ end;
 }
 function SimbaExt.TPABBox(TPA:TPointArray): TPointArray;  
 begin
-  exp_TPABBox(TPA,Result);
+  Result := exp_TPABBox(TPA);
 end;
 
 {!DOCREF} {
@@ -91,7 +91,7 @@ end;
 }
 function SimbaExt.TPABoundingBox(TPA:TPointArray): TPointArray;  
 begin
-  exp_TPABBox(TPA,Result);
+  Result := exp_TPABBox(TPA);
 end;
 
 {!DOCREF} {
@@ -165,7 +165,7 @@ end;
 }
 function SimbaExt.InvertTPA(TPA:TPointArray): TPointArray;  
 begin
-  exp_InvertTPA(TPA, Result);
+  Result := exp_InvertTPA(TPA);
 end;
 
 {!DOCREF} {
@@ -174,7 +174,7 @@ end;
 }
 function SimbaExt.RotateTPA(TPA: TPointArray; Radians: Extended): TPointArray;  
 begin
-  exp_RotateTPA(TPA, Radians, Result);
+  Result := exp_RotateTPA(TPA, Radians);
 end;
 
 {!DOCREF} {
@@ -183,7 +183,7 @@ end;
 }
 function SimbaExt.TPAPartition(TPA:TPointArray; BoxWidth, BoxHeight:Integer): T2DPointArray;  
 begin
-  exp_TPAPartition(TPA, BoxWidth, BoxHeight,Result);
+  Result := exp_TPAPartition(TPA, BoxWidth, BoxHeight);
 end;
 
 {!DOCREF} {
@@ -192,7 +192,7 @@ end;
 }
 function SimbaExt.AlignTPA(TPA:TPointArray; method: TAlignAlgo; var Angle:Extended): TPointArray;
 begin
-  exp_AlignTPA(TPA, method, Angle,Result);
+  Result := exp_AlignTPA(TPA, method, Angle);
 end;
 
 {!DOCREF} {
@@ -201,7 +201,7 @@ end;
 }
 function SimbaExt.CleanSortTPA(TPA: TPointArray): TPointArray;  
 begin
-  exp_CleanSortTPA(TPA,Result);
+  Result := exp_CleanSortTPA(TPA);
 end;
 
 
@@ -211,7 +211,7 @@ end;
 }
 function SimbaExt.UniteTPA(TPA1, TPA2: TPointArray; RemoveDupes:Boolean):  TPointArray;  
 begin
-  exp_UniteTPA(TPA1, TPA2, RemoveDupes,Result);
+  Result := exp_UniteTPA(TPA1, TPA2, RemoveDupes);
 end;
 
 
@@ -248,7 +248,7 @@ end;
 }
 function SimbaExt.ConnectTPA(TPA:TPointArray): TPointArray;  
 begin
-  exp_ConnectTPA(TPA, Result);
+  Result := exp_ConnectTPA(TPA);
 end;
 
 {!DOCREF} {
@@ -257,7 +257,7 @@ end;
 }
 function SimbaExt.ConnectTPAEx(TPA:TPointArray; Tension:Extended):  TPointArray;  
 begin
-  exp_ConnectTPAEx(TPA, Tension, Result);
+  Result := exp_ConnectTPAEx(TPA, Tension);
 end;
 
 {!DOCREF} {
@@ -266,7 +266,7 @@ end;
 }
 function SimbaExt.XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray;  
 begin
-  exp_XagonPoints(Center, Sides, Dir,Result);
+  Result := exp_XagonPoints(Center, Sides, Dir);
 end;
 
 {!DOCREF} {
@@ -275,7 +275,7 @@ end;
 }
 function SimbaExt.TPAEllipse(const Center: TPoint; RadX,RadY:Integer; Filled:Boolean=False): TPointArray;  
 begin
-  exp_TPAEllipse(Center,RadX,RadY,Filled,Result);
+  Result := exp_TPAEllipse(Center,RadX,RadY,Filled);
 end;
 
 {!DOCREF} {
@@ -284,7 +284,7 @@ end;
 }
 function SimbaExt.TPACircle(const Center: TPoint; Radius:Integer; Filled:Boolean=False): TPointArray;   
 begin
-  exp_TPACircle(Center,Radius,Filled,Result);
+  Result := exp_TPACircle(Center,Radius,Filled);
 end;
 
 {!DOCREF} {
@@ -293,7 +293,7 @@ end;
 }
 function SimbaExt.TPASimplePoly(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray;     
 begin
-  exp_TPASimplePoly(Center, Sides, Dir, Result);
+  Result := exp_TPASimplePoly(Center, Sides, Dir);
 end;
 
 {!DOCREF} {
@@ -304,18 +304,18 @@ end;
 }
 function SimbaExt.ConvexHull(TPA:TPointArray):  TPointArray;  
 begin
-  exp_ConvexHull(TPA,Result);
+  Result := exp_ConvexHull(TPA);
 end;
 
 function SimbaExt.FloodFillTPAEx(TPA:TPointArray; const Start:TPoint; EightWay, KeepEdges:Boolean):  TPointArray;  
 begin
-  exp_FloodFillTPAEx(TPA, Start, EightWay, KeepEdges, Result);
+  Result := exp_FloodFillTPAEx(TPA, Start, EightWay, KeepEdges);
 end;
 
 
 function SimbaExt.FloodFillTPA(TPA:TPointArray; const Start:TPoint; EightWay:Boolean): TPointArray;  
 begin
-  exp_FloodFillTPA(TPA,Start,EightWay, Result);
+  Result := exp_FloodFillTPA(TPA,Start,EightWay);
 end;
 
 {!DOCREF} {
@@ -324,7 +324,7 @@ end;
 }
 function SimbaExt.TPAOutline(TPA:TPointArray): TPointArray;  
 begin
-  exp_TPAOutline(TPA, Result);
+  Result := exp_TPAOutline(TPA);
 end;
 
 {!DOCREF} {
@@ -333,7 +333,7 @@ end;
 }
 function SimbaExt.TPABorder(TPA:TPointArray): TPointArray;  
 begin
-  exp_TPABorder(TPA, Result);
+  Result := exp_TPABorder(TPA);
 end;
 
 {!DOCREF} {
@@ -342,35 +342,35 @@ end;
 }
 function SimbaExt.FloodFillPolygon(Poly:TPointArray; EightWay:Boolean): TPointArray;  
 begin
-  exp_FloodFillPolygon(Poly, EightWay, Result);
+  Result := exp_FloodFillPolygon(Poly, EightWay);
 end;
 
 {!DOCREF} {
   @method: function se.ClusterTPAEx(TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean): T2DPointArray;
   @desc: 
-    This function is very similar to 'SplitTPAEx' and 'ClusterTPAEx' in Simba. 
+    This function is very similar to 'SplitTPAEx' and 'ClusterTPAEx' in Simba, only differance is the order of the result. 
     It groups the TPA in to many clusters by the given DistX, and DistY which represents the max distance (chebyshev) from each point to it's neighbor for the to create a group.
     But in almost all cases this function is faster then the "equal" simba functions.
 }
 function SimbaExt.ClusterTPAEx(TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean): T2DPointArray;  
 begin
   if Length(TPA) > 0 then
-    exp_ClusterTPAEx(TPA,DistX,DistY, Eightway, Result);
+    Result := exp_ClusterTPAEx(TPA,DistX,DistY, Eightway);
 end;
 
 {!DOCREF} {
   @method: function se.ClusterTPA(TPA: TPointArray; Distance: Integer; EightWay:Boolean): T2DPointArray;
   @desc: 
-    This function is very similar to 'SplitTPAEx' and 'ClusterTPAEx' in Simba. 
+    This function is very similar to 'SplitTPAEx' and 'ClusterTPAEx' in Simba, only differance is the order of the result, and that it onlytakse a single param. 
     It groups the TPA in to many clusters by the given Distance which represents the max distance (chebyshev) from each point to it's neighbor for the to create a group.
     But in almost all cases this function is faster then the "equal" simba functions.
   
-    [note]Do not mix this with simbas 'SplitTPA', this function operates with Chebyshev distance, and not Euclidean distance[/note]
+    [note]Do not mix this with simbas 'SplitTPA', this function clusters by using Chebyshev distance, and not Euclidean distance[/note]
 }
 function SimbaExt.ClusterTPA(TPA: TPointArray; Distance: Integer; EightWay:Boolean): T2DPointArray;  
 begin
   if Length(TPA) > 0 then
-    exp_ClusterTPA(TPA,Distance, Eightway, Result);
+    Result := exp_ClusterTPA(TPA,Distance, Eightway);
 end;
 
 
@@ -380,7 +380,7 @@ end;
 }
 function SimbaExt.TPAEdges(TPA: TPointArray): TPointArray;  
 begin
-  exp_TPAEdges(TPA, Result);
+  Result := exp_TPAEdges(TPA);
 end;
 
 
@@ -388,9 +388,14 @@ end;
 {*=========================================================================================|
 | Spline.pas                                                                              |
 |=========================================================================================*}
-//Another day..
-
-
+{!DOCREF} {
+  @method: function se.Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean=False): TPointArray; 
+  @desc: [warning]Not working, yet[/warning]
+}
+function SimbaExt.Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean=False): TPointArray;  
+begin
+  Result := exp_Spline(TPA, Tension, Connect);
+end;
 
 
 
@@ -403,7 +408,7 @@ end;
 }
 function SimbaExt.TPASkeleton(TPA:TPointArray; FMin,FMax:Integer): TPointArray;  
 begin
-  exp_TPASkeleton(TPA,FMin,FMax, Result);
+  Result := exp_TPASkeleton(TPA,FMin,FMax);
 end;
 
 {!DOCREF} {
@@ -412,7 +417,7 @@ end;
 }
 function SimbaExt.TPAReduce(TPA:TPointArray; FMin,FMax, Iterations:Integer): TPointArray;  
 begin
-  exp_TPAReduce(TPA,FMin,FMax,Iterations,Result);
+  Result := exp_TPAReduce(TPA,FMin,FMax,Iterations);
 end;
 
 {!DOCREF} {
@@ -421,15 +426,5 @@ end;
 }
 function SimbaExt.TPAExpand(TPA:TPointArray; Iterations:Integer): TPointArray;  
 begin
-  exp_TPAExpand(TPA,Iterations, Result);
-end;
-
-
-{!DOCREF} {
-  @method: function se.Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean=False): TPointArray; 
-  @desc: [warning]Not working, yet[/warning]
-}
-function SimbaExt.Spline(TPA:TPointArray; Tension:Extended; Connect:Boolean=False): TPointArray;  
-begin
-  exp_Spline(TPA, Tension, Connect, Result);
+  Result := exp_TPAExpand(TPA,Iterations);
 end;

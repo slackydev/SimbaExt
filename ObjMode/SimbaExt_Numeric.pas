@@ -38,7 +38,7 @@ end;
 }
 function SimbaExt.TIACombinations(const Arr: TIntArray; Seq:Integer):  T2DIntegerArray;  
 begin
-  exp_TIACombinations(Arr, Seq, Result);
+  Result := exp_TIACombinations(Arr, Seq);
 end;
 
 
@@ -48,7 +48,7 @@ end;
 }
 function SimbaExt.TEACombinations(const Arr: TExtArray; Seq:Integer):  T2DExtendedArray;  
 begin
-  exp_TEACombinations(Arr, Seq, Result);
+  Result := exp_TEACombinations(Arr, Seq);
 end;
 
 

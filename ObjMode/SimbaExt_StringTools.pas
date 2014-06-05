@@ -2,6 +2,16 @@
   StringTools
 }
 
+const
+  CharsLower      = 'abcdefghijklmnopqrstuvwxyz';
+  CharsUpper      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  CharsLetters    = CharsLower + CharsUpper;
+  CharsDigits     = '0123456789';
+  CharsHexDigits  = '0123456789abcdefABCDEF';
+  CharsOctDigits  = '01234567';
+  CharsSigns      = '!"#$%&''()*+,-./:;<=>?@[\]^_`{|}~';
+  CharsAll        = CharsLetters + CharsDigits + CharsSigns; 
+
 
 {!DOCREF} {
   @method: function se.StrStrip(const Text:String; Chars:String=' '): String;
@@ -45,7 +55,7 @@ end;
 }
 function SimbaExt.StrPosEx(const SubStr, Text:String): TIntegerArray;
 begin
-  exp_StrPosEx(SubStr, Text, Result);
+  Result := exp_StrPosEx(SubStr, Text);
 end;
 
 
@@ -89,5 +99,5 @@ end;
 }
 function SimbaExt.StrExplode(const Text, Sep: String): TStringArray;
 begin
-  exp_StrExplode(Text, Sep, Result);
+  Result := exp_StrExplode(Text, Sep);
 end;

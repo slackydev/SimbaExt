@@ -55,30 +55,31 @@ end;
   @method: function Math.Sign(X:Int32): Int32; overload;
   @desc: 
     Results: c'-1 if x < 0'  ||  c'0 if x = 0'  ||  c'1 if x > 0' 
-    Supports: Int32, Single, Double, Extended
+    Supports: Int8, Int32, Single, Double, Extended
 }
-function TObjMath.Sign(X:Int32): Int32; overload; 
+function TObjMath.Sign(X:Int32): Int32;
 begin
- if (x > 0) then Exit(1) else if (x < 0) then Exit(-1);
- Result := 0;
+  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
+end;
+
+function TObjMath.Sign(X:Int8): Int8; overload; 
+begin
+  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
 end;
 
 function TObjMath.Sign(X:Single): Int32; overload; 
 begin
- if (x > 0) then Exit(1) else if (x < 0) then Exit(-1);
- Result := 0;
+  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
 end;
 
 function TObjMath.Sign(X:Double): Int32; overload; 
 begin
- if (x > 0) then Exit(1) else if (x < 0) then Exit(-1);
- Result := 0;
+  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
 end;
 
 function TObjMath.Sign(X:Extended): Int32; overload; 
 begin
- if (x > 0) then Exit(1) else if (x < 0) then Exit(-1);
- Result := 0;
+  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
 end;
 
 

@@ -20,6 +20,21 @@ begin
   if (Arr[Right] < Arr[Middle]) then ExchE(Arr[Middle], Arr[Right]);
 end;
 
+//Median of three - Double.
+procedure TDAMedian3(var Arr:TDoubleArray; Left, Middle, Right:Integer); Inline;
+begin
+  if (Arr[Middle] < Arr[Left])  then ExchD(Arr[Left], Arr[Middle]);
+  if (Arr[Right] < Arr[Left])   then ExchD(Arr[Left], Arr[Right]);
+  if (Arr[Right] < Arr[Middle]) then ExchD(Arr[Middle], Arr[Right]);
+end;
+
+//Median of three - Single.
+procedure TFAMedian3(var Arr:TFloatArray; Left, Middle, Right:Integer); Inline;
+begin
+  if (Arr[Middle] < Arr[Left])  then ExchF(Arr[Left], Arr[Middle]);
+  if (Arr[Right] < Arr[Left])   then ExchF(Arr[Left], Arr[Right]);
+  if (Arr[Right] < Arr[Middle]) then ExchF(Arr[Middle], Arr[Right]);
+end;
 
 //Median of three - TPoint with weight.
 procedure TPAMedian3(var Arr:TPointArray; var Weight:TIntArray; Left, Middle, Right:Integer); Inline;
@@ -66,6 +81,42 @@ end;
 *)
 procedure InsSortTEA(var Arr:TExtArray; Left, Right:Integer); Inline;
 var i, j:Integer; tmp:Extended;
+begin
+  for i := Left+1 to Right do begin
+    j := i-1;
+    Tmp := arr[i];
+    while (j >= Left) and (Arr[j] > Tmp) do begin
+      Arr[j+1] := Arr[j];
+      j:=j-1;
+    end;
+    Arr[j+1] := Tmp;
+  end;
+end;
+
+
+(*
+ Fast double sorting from small arrays, or small parts of arrays.
+*)
+procedure InsSortTDA(var Arr:TDoubleArray; Left, Right:Integer); Inline;
+var i, j:Integer; tmp:Double;
+begin
+  for i := Left+1 to Right do begin
+    j := i-1;
+    Tmp := arr[i];
+    while (j >= Left) and (Arr[j] > Tmp) do begin
+      Arr[j+1] := Arr[j];
+      j:=j-1;
+    end;
+    Arr[j+1] := Tmp;
+  end;
+end;
+
+
+(*
+ Fast single sorting from small arrays, or small parts of arrays.
+*)
+procedure InsSortTFA(var Arr:TFloatArray; Left, Right:Integer); Inline;
+var i, j:Integer; tmp:Single;
 begin
   for i := Left+1 to Right do begin
     j := i-1;
@@ -133,6 +184,48 @@ begin
       while (j >= Gap) and (Arr[j] < Arr[j - Gap]) do
       begin
         ExchE(Arr[j], Arr[j - Gap]);
+        j := j - Gap;
+      end;
+    end;
+    Gap := Gap div 3;
+  end;
+end;
+
+
+procedure ShellSortTDA(var Arr: TDoubleArray);
+var
+  Gap, i, j, H: Integer;
+begin
+  H := High(Arr);
+  Gap := 0;
+  while (Gap < (H+1) div 3) do Gap := Gap * 3 + 1;
+  while Gap >= 1 do begin
+    for i := Gap to H do begin
+      j := i;
+      while (j >= Gap) and (Arr[j] < Arr[j - Gap]) do
+      begin
+        ExchD(Arr[j], Arr[j - Gap]);
+        j := j - Gap;
+      end;
+    end;
+    Gap := Gap div 3;
+  end;
+end;
+
+
+procedure ShellSortTFA(var Arr: TFloatArray);
+var
+  Gap, i, j, H: Integer;
+begin
+  H := High(Arr);
+  Gap := 0;
+  while (Gap < (H+1) div 3) do Gap := Gap * 3 + 1;
+  while Gap >= 1 do begin
+    for i := Gap to H do begin
+      j := i;
+      while (j >= Gap) and (Arr[j] < Arr[j - Gap]) do
+      begin
+        ExchF(Arr[j], Arr[j - Gap]);
         j := j - Gap;
       end;
     end;

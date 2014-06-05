@@ -111,7 +111,7 @@ end;
 function TBoxArray.Slice(Start,Stop: Int32; Step:Int32=1): TBoxArray;
 begin
   if Step = 0 then Exit;
-  try exp_slice(Self, Start,Stop,Step,Result);
+  try Result := exp_slice(Self, Start,Stop,Step);
   except end;
 end;
 
@@ -156,7 +156,7 @@ end;
 }
 function TBoxArray.FindAll(Value:TBox): TIntArray;
 begin
-  exp_FindAll(Self,[value],Result);
+  Result := exp_FindAll(Self,[value]);
 end;
 
 
@@ -166,7 +166,7 @@ end;
 }
 function TBoxArray.FindAll(Sequence:TBoxArray): TIntArray; overload;
 begin
-  exp_FindAll(Self,sequence,Result);
+  Result := exp_FindAll(Self,sequence);
 end;
 
 

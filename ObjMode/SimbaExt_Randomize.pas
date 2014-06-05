@@ -59,7 +59,7 @@ end;
 }
 function TObjRandom.TPA(Amount:Integer; MinX,MinY,MaxX,MaxY:Integer): TPointArray;
 begin
-  exp_RandomTPA(Amount,MinX,MinY,MaxX,MaxY, Result);
+  Result := exp_RandomTPA(Amount,MinX,MinY,MaxX,MaxY);
 end;
 
 
@@ -71,7 +71,7 @@ end;
 }
 function TObjRandom.CenterTPA(Amount:Integer; CX,CY,RadX,RadY:Integer): TPointArray; 
 begin
-  exp_RandomCenterTPA(Amount,CX,CY,RadX,RadY, Result);
+  Result := exp_RandomCenterTPA(Amount,CX,CY,RadX,RadY);
 end;
 
 
@@ -81,7 +81,7 @@ end;
 }
 function TObjRandom.TIA(Amount:Integer; Low,Hi:Integer): TIntArray;
 begin
-  exp_RandomTIA(Amount,Low,Hi, Result);
+  Result := exp_RandomTIA(Amount,Low,Hi);
 end;
 
 

@@ -20,7 +20,6 @@ type
   TPointArray = array of TPoint;
   T2DPointArray = array of TPointArray;
   T3DPointArray = array of T2DPointArray;
-  TPtArr = TPointArray;
 
   //TPoint of Float
   TFPoint = packed record X,Y:Double; end;
@@ -30,7 +29,6 @@ type
   TIntArray = array of Integer;
   T2DIntArray = array of TIntArray;
   T3DIntArray = array of T2DIntArray;
-  TIntArr = TIntArray;
 
   //Byte
   TByteArray = array of Byte;
@@ -46,7 +44,6 @@ type
   TExtArray = array of Extended;
   T2DExtArray = array of TExtArray;
   T3DExtArray = array of T2DExtArray;
-  TExtArr = TExtArray;
 
   //Double
   TDoubleArray = array of Double;
@@ -59,15 +56,30 @@ type
   T3DFloatArray = array of T2DFloatArray;
 
 
-
-
   //String+Char
   TStringArray = array of String;
-  TStrArray = array of String;
-  TCharArray= array of Char;
+  TStrArray    = array of String;
+  TCharArray   = array of Char;
   
 
+  //Regular datatypes w/pointers
+  Float32 = Single;
+  Float64 = Double;
+  Float80 = Extended;
 
+  PFloat32 = ^Single;
+  PFloat64 = ^Double;
+  PFloat80 = ^Extended;
+  PInt8  = ^Int8;
+  PInt16 = ^Int16;
+  PInt32 = ^Int32;
+  PInt64 = ^Int64;
+  PUInt8  = ^UInt8;
+  PUInt16 = ^UInt16;
+  PUInt32 = ^UInt32;
+  PUInt64 = ^UInt64;
+  
+  
 
   TBox = packed record
     X1, Y1, X2, Y2: LongInt;

@@ -18,8 +18,8 @@ end;
 }
 function TPoint.Random(xR,yR: Int32): TPoint;
 begin
-  Result.x := Self.x + RandomRange(-xR,+xR);
-  Result.y := Self.y + RandomRange(-yR,+yR);
+  Result.x := Self.x + RandomRange(-xR,xR);
+  Result.y := Self.y + RandomRange(-yR,yR);
 end;
 
 
@@ -29,8 +29,8 @@ end;
 }
 function TPoint.Random(R: Int32): TPoint; overload;
 begin
-  Result.x := Self.x + RandomRange(-R,+R);
-  Result.y := Self.y + RandomRange(-R,+R);
+  Result.x := Self.x + RandomRange(-R,R);
+  Result.y := Self.y + RandomRange(-R,R);
 end;
 
 

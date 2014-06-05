@@ -89,7 +89,7 @@ end;
 function TStringArray.Slice(Start,Stop: Int32; Step:Int32=1): TStringArray;
 begin
   if (Step = 0) then Exit;
-  try exp_slice(Self, Start,Stop,Step,Result);
+  try Result := exp_slice(Self, Start,Stop,Step);
   except end;
 end;
 

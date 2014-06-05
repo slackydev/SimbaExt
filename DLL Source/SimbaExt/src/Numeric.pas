@@ -12,6 +12,9 @@ interface
 uses
   CoreTypes, Math, SysUtils;
 
+function SumFPtr(Ptr:PChar; Size:UInt8; Len:LongInt): Extended; cdecl;
+function SumPtr(Ptr:PChar; Size:UInt8; Len:LongInt; Signed:Boolean): Int64; cdecl;
+
 function SumTBA(const Arr: CoreTypes.TByteArray): Int64; Inline;
 function SumTIA(const Arr: TIntArray): Int64; Inline; 
 function SumTEA(const Arr: TExtArray): Extended; Inline; 
@@ -20,11 +23,65 @@ function TEACombinations(const Arr: TExtArray; Seq:Integer): T2DExtArray;
 procedure MinMaxTBA(const Arr: CoreTypes.TByteArray; var Min:Byte; var Max: Byte); Inline;
 procedure MinMaxTIA(const Arr: TIntArray; var Min:Integer; var Max: Integer); Inline; 
 procedure MinMaxTEA(const Arr: TExtArray; var Min:Extended; var Max: Extended); Inline; 
-function TIAMatches(const Arr1, Arr2:TIntArray; InPercent, Inversed:Boolean): Integer; 
+function TIAMatches(const Arr1, Arr2:TIntArray; InPercent, Inversed:Boolean): Int32; 
 function LogscaleTIA(const Freq:TIntArray; Scale: Integer): TIntArray; 
 
 //--------------------------------------------------
 implementation
+
+
+{*
+  Returns the sum of a normal floating point type array.
+*}
+function SumFPtr(Ptr:PChar; Size:UInt8; Len:LongInt): Extended; cdecl;
+var l:Int32;
+begin
+  Result := 0;
+  l := UInt32(ptr)+(len*size);
+  while (UInt32(ptr) < l) do begin
+    case size of
+      4 : Result := Result + PFloat32(Ptr)^;
+      8 : Result := Result + PFloat64(Ptr)^;
+      10: Result := Result + PFloat80(Ptr)^;
+    end;
+    Inc(ptr,size);
+  end;
+end;
+
+
+{*
+  Returns the sum of a normal int type array.
+*}
+function SumPtr(Ptr:PChar; Size:UInt8; Len:LongInt; Signed:Boolean): Int64; cdecl;
+var l:Int32;
+begin
+  Result := 0;
+  l := UInt32(ptr)+(len*size);
+
+  case signed of
+  True:
+    while (UInt32(ptr) < l) do begin
+      case size of
+        1 : Result := Result + PUInt8(Ptr)^;
+        2 : Result := Result + PUInt16(Ptr)^;
+        4 : Result := Result + PUInt32(Ptr)^;
+        8 : Result := Result + PUInt64(Ptr)^;
+      end;
+      Inc(ptr,size);
+    end;
+  False:
+    while (UInt32(ptr) < l) do begin
+      case size of
+        1 : Result := Result + PInt8(Ptr)^;
+        2 : Result := Result + PInt16(Ptr)^;
+        4 : Result := Result + PInt32(Ptr)^;
+        8 : Result := Result + PInt64(Ptr)^;
+      end;
+      Inc(ptr,size);
+    end;
+  end;
+end;
+
 
 {*
   Sum of a TBA.
@@ -193,7 +250,7 @@ end;
 {*
   Finds the amount of different indices, by comparing each index in "Arr1" to each index in "Arr2".
 *}
-function TIAMatches(const Arr1, Arr2:TIntArray; InPercent, Inversed:Boolean): Integer; 
+function TIAMatches(const Arr1, Arr2:TIntArray; InPercent, Inversed:Boolean): Int32; 
 var H,i:integer;
 begin
   H := Min(High(Arr1), High(Arr2));
