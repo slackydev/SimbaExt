@@ -906,15 +906,12 @@ begin
   SetLength(Result, H,W);
   for i := 0 to H-1 do begin
     for j := 0 to W-1 do begin
-      // convert raster to Cartesian
       x := j - mX;
       y := mY - i;
 
-      // convert Cartesian to polar
       dist := Sqrt(sqr(x) + sqr(y));
       if (x = 0) then begin
         if (y = 0) then begin
-            // centre of image, no rotation needed
             Result[i,j] := ImgArr[i,j];
             Continue;
         end else if (y < 0) then
@@ -946,22 +943,18 @@ begin
       p2 := TRGB32(ImgArr[cY, fX]);
       p3 := TRGB32(ImgArr[cY, cX]);
 
-      // linearly interpolate horizontally between top neighbours
       TopR := (1 - dx) * p0.R + dx * p1.R;
       TopG := (1 - dx) * p0.G + dx * p1.G;
       TopB := (1 - dx) * p0.B + dx * p1.B;
 
-      // linearly interpolate horizontally between bottom neighbours
       BtmR := (1 - dx) * p2.R + dx * p3.R;
       BtmG := (1 - dx) * p2.G + dx * p3.G;
       BtmB := (1 - dx) * p2.B + dx * p3.B;
 
-      // linearly interpolate vertically between top and bottom interpolated results
       R := Round((1 - dy) * TopR + dy * BtmR);
       G := Round((1 - dy) * TopG + dy * BtmG);
       B := Round((1 - dy) * TopB + dy * BtmB);
 
-      // make sure colour values are valid
       if (R < 0)  then R := 0
       else if (R > 255)then R := 255;
       if (G < 0)  then G := 0
@@ -1032,22 +1025,18 @@ begin
       p2 := TRGB32(ImgArr[cY, fX]);
       p3 := TRGB32(ImgArr[cY, cX]);
 
-      // linearly interpolate horizontally between top neighbours
       TopR := (1 - dx) * p0.R + dx * p1.R;
       TopG := (1 - dx) * p0.G + dx * p1.G;
       TopB := (1 - dx) * p0.B + dx * p1.B;
 
-      // linearly interpolate horizontally between bottom neighbours
       BtmR := (1 - dx) * p2.R + dx * p3.R;
       BtmG := (1 - dx) * p2.G + dx * p3.G;
       BtmB := (1 - dx) * p2.B + dx * p3.B;
 
-      // linearly interpolate vertically between top and bottom interpolated results
       R := Round((1 - dy) * TopR + dy * BtmR);
       G := Round((1 - dy) * TopG + dy * BtmG);
       B := Round((1 - dy) * TopB + dy * BtmB);
 
-      // make sure colour values are valid
       if (R < 0) then R := 0
       else if (R > 255) then R := 255;
       if (G < 0) then G := 0
