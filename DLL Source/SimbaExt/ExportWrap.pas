@@ -823,6 +823,10 @@ begin
   ImResize(ImgArr, NewW, NewH, Method);
 end;
 
+function exp_ImRotate(ImgArr:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray; Cdecl;
+begin
+  Result := ImRotate(ImgArr, Angle, Expand, Bilinear);
+end;
 
 
 {*-----------------------------------------------------------------------------|

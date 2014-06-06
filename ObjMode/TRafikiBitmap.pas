@@ -412,31 +412,15 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.Rotate(const Degrees:Extended);
-  @desc: Rotates the bitmap by the given angle using nearest neighbor interpolation
-}
-procedure TRafBitmap.Rotate(const Degrees:Extended);
-var
-  BMP:Integer;
-begin
-  if not(Self.IsLoaded('TRafBitmap.Rotate()')) then Exit;
-  BMP := RotateBitmap(Self.Bitmap, Radians(Degrees));
-  FreeBitmap(Self.Bitmap);
-  Self.Bitmap := BMP;
-  GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
-end;
-
-
-{!DOCREF} {
-  @method: function TRafBitmap.RotateCopy(Degrees:Extended): TRafBitmap;
+  @method: function TRafBitmap.Rotate(Degrees:Extended; Expand:Boolean; Smooth:Boolean=True): TRafBitmap;
   @desc: Rotates a copy of the bitmap by the given angle using nearest neighbor interpolation
 }
-function TRafBitmap.RotateCopy(Degrees:Extended): TRafBitmap;
+function TRafBitmap.Rotate(Angle:Extended; Expand:Boolean; Smooth:Boolean=True): TRafBitmap;
+var Mat:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.RotateCopy()')) then Exit;
-  Result.Bitmap := RotateBitmap(Self.Bitmap, Radians(Degrees));
-  GetBitmapSize(Result.Bitmap, Result.Width, Result.Height);
-  Result.Loaded := True;
+  Mat := exp_ImRotate(Self.ToMatrix(), Angle, Expand, Smooth);
+  Result.FromMatrix(Mat);
 end;
 
 

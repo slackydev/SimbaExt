@@ -373,7 +373,24 @@ end;
 {------------|  CombineMatrix  |------------}
 {!DOCREF} {
   @method: function TIntMatrix.Combine(Other:TIntMatrix; OP:Char='+'): TIntMatrix;
-  @desc: Merges the two matrices in to one matrix.. Supports different operatrions/methods for combining ['+','-','*','/'].
+  @desc: 
+    Merges the two matrices in to one matrix.. Supports different operatrions/methods for combining ['+','-','*','/'].
+    
+    [code=pascal]
+    var Mat:TIntMatrix;
+    begin
+      SetLength(Mat, 3);
+
+      Mat[0] := [1,1,1];
+      Mat[1] := [2,2,2];
+      Mat[2] := [3,3,3];
+
+      WriteLn( Mat.Combine(Mat, '*') );
+    end. 
+    [/code]
+    
+    Outputs:
+    >>> `[[1, 1, 1], [4, 4, 4], [9, 9, 9]]`
 }
 function TIntMatrix.Combine(Other:TIntMatrix; OP:Char='+'): TIntMatrix;
 begin 

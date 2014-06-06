@@ -165,6 +165,18 @@ begin
 end;
 
 
+{!DOCREF} {
+  @method: function ImRotate(ImgArr:T2DIntArray; Angle:Single; Expand:Boolean; BiLinear:Boolean=True): T2DIntArray;
+  @desc: 
+    Returns a rotated version of the image matrix, you can choose if you want to `expand` it, and if it should use `bilinear` interpolation (smoother rotation).
+    Angle should be given in radians.
+}
+function ImRotate(ImgArr:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray; 
+begin
+  Result := ImRotate(ImgArr, Angle, Expand, Bilinear);
+end;
+
+
 {*=========================================================================================|
 | CornerDet.pas                                                  [placing it hear for now] |
 | Update: Replaced Exteded with Single :: Resulted in ~2x speedup                          |

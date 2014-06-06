@@ -15,12 +15,6 @@ uses
   SysUtils;
 
 type
-  //TPoint
-  TPoint = packed record X,Y: LongInt; end;
-  TPointArray = array of TPoint;
-  T2DPointArray = array of TPointArray;
-  T3DPointArray = array of T2DPointArray;
-
   //TPoint of Float
   TFPoint = packed record X,Y:Double; end;
   TFPointArray = Array of TFPoint;
@@ -60,7 +54,34 @@ type
   TStringArray = array of String;
   TStrArray    = array of String;
   TCharArray   = array of Char;
-  
+
+
+  //TPoint
+  TPoint = packed record
+    X,Y: LongInt;
+    function InBox(x1,y1,x2,y2:Int32): Boolean;
+  end;
+
+  TPointArray = array of TPoint;
+  T2DPointArray = array of TPointArray;
+  T3DPointArray = array of T2DPointArray;
+
+
+  //TBox
+  TBox = packed record
+    X1, Y1, X2, Y2: LongInt;
+  private
+    function GetWidth: Integer;
+    function GetHeight: Integer;
+  public
+    property Width: Integer read GetWidth;
+    property Height: Integer read GetHeight;
+    function Center: TPoint;
+    procedure Expand(const SizeChange: Integer);
+  end;
+  TBoxArray = Array of TBox;
+  T2DBoxArray = Array of TBoxArray;
+
 
   //Regular datatypes w/pointers
   Float32 = Single;
@@ -79,23 +100,6 @@ type
   PUInt32 = ^UInt32;
   PUInt64 = ^UInt64;
   
-  
-
-  TBox = packed record
-    X1, Y1, X2, Y2: LongInt;
-  private
-    function GetWidth: Integer;
-    function GetHeight: Integer;
-  public
-    property Width: Integer read GetWidth;
-    property Height: Integer read GetHeight;
-    function Center: TPoint;
-    procedure Expand(const SizeChange: Integer);
-  end;
-  TBoxArray = Array of TBox;
-  T2DBoxArray = Array of TBoxArray;
-
-
   //
   TAlignAlgo     = (AA_BOUNDS, AA_CHULL, AA_BBOX);
   TThreshAlgo    = (TA_MEAN, TA_MINMAX);
@@ -115,6 +119,12 @@ type
   ColorHSV = packed record H, S, V: Single; end;
   ColorRGB = packed record R, G, B: UInt8;  end;
   
+  
+  PRGB32 = ^TRGB32;
+  TRGB32 = packed record
+    B, G, R, A: Byte;
+  end;
+  
 
 function Box(const x1,y1,x2,y2:Integer): TBox; Inline;
 function Point(const x,y:Integer): TPoint; Inline;
@@ -125,6 +135,7 @@ function TPAToTFPA(TPA:TPointArray): TFPointArray;
 
 //-----------------------------------------------------------------------
 implementation
+uses math;
 
 function TBox.GetWidth: Integer;
 begin 
@@ -150,6 +161,11 @@ begin
   Self.Y2 := Self.Y2 + SizeChange;
 end;
 
+function TPoint.InBox(x1,y1,x2,y2:Int32): Boolean;
+begin
+  Result := InRange(Self.x, x1, x2) and InRange(Self.y, y1, y2);
+end;
+
 function Box(const X1,Y1,X2,Y2:Integer): TBox; Inline;
 begin
   Result.x1 := x1;
@@ -164,11 +180,12 @@ begin
   Result.Y := Y;
 end;  
   
-function FPoint(const X,Y:Extended):TFPoint; Inline;
+function FPoint(const X,Y:Extended): TFPoint; Inline;
 begin
   Result.X := X;
   Result.Y := Y;
 end; 
+ 
  
 function TFPAToTPA(TFPA:TFPointArray): TPointArray;
 var i:Integer;
@@ -177,6 +194,7 @@ begin
   for i:=0 to High(TFPA) do
     Result[i] := Point(Round(TFPA[i].x), Round(TFPA[i].y));
 end;
+
 
 function TPAToTFPA(TPA:TPointArray): TFPointArray;
 var i:Integer;

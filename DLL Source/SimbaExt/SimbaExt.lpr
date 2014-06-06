@@ -253,7 +253,7 @@ begin
   AddCommand(@exp_ImGaussBlur,      'function exp_ImGaussBlur(const ImgArr: T2DIntArray; Radius: Integer; Sigma: Single): T2DIntArray;');
   AddCommand(@exp_ImBlend,          'function exp_ImBlend(ImgArr1,ImgArr2: T2DIntArray; Alpha: Single): T2DIntArray;');
   AddCommand(@exp_ImResize,         'procedure exp_ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);');
-
+  AddCommand(@exp_ImRotate,         'function exp_ImRotate(Mat:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray;');
 
   // SimpleOCR.pas
   AddCommand(@exp_ImGetText,     'function exp_ImGetText(ImgArr:T2DIntArray; Font:TChars; MinCharSpace, MinSpace, TextPixTol: Integer; Range:AnsiString): AnsiString;');

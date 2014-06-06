@@ -29,7 +29,7 @@ function ImGaussBlur(const ImgArr:T2DIntArray; Radius: Integer; Sigma: Single): 
 function ImBlend(Img1, Img2: T2DIntArray; Alpha:Single=0.5): T2DIntArray; //not exported yet..
 function ImFilterGray(const ImgArr:T2DIntArray; MinDark, MaxDark:Byte; Replace, Tol:Integer): T2DIntArray;
 procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);
-
+function ImRotate(Mat:T2DIntArray; Angle:Single; Expand:Boolean; BiLinear:Boolean=True): T2DIntArray;
 
 //--------------------------------------------------
 implementation
@@ -849,5 +849,290 @@ begin
     RA_BICUBIC: ImgArr := ResizeMat_BICUBIC(ImgArr, NewW, NewH);
   end;
 end;
+
+
+
+
+
+
+
+
+
+
+
+//---------- IMAGE ROTATING
+function __GetNewSizeRotated(W,H:Int32; Angle:Single): TBox;
+  function Rotate(p:TPoint; angle:Single; mx,my:Int32): TPoint;
+  begin
+    Result.X := Ceil(mx + cos(angle) * (p.x - mx) - sin(angle) * (p.y - my));
+    Result.Y := Ceil(my + sin(angle) * (p.x - mx) + cos(angle) * (p.y - my));
+  end;
+var
+  B: TPointArray;
+  i:Int32;
+begin
+  SetLength(B, 4);
+  Result := Box($FFFFFF,$FFFFFF,0,0);
+  B[0]:= Rotate(Point(0,h),angle, W div 2, H div 2);
+  B[1]:= Rotate(Point(w,h),angle, W div 2, H div 2);
+  B[2]:= Rotate(Point(w,0),angle, W div 2, H div 2);
+  B[3]:= Rotate(Point(0,0),angle, W div 2, H div 2);
+  for i:=0 to 3 do begin
+    if B[i].x > Result.X2 then
+      Result.X2 := B[i].x
+    else if B[i].x < Result.X1 then
+      Result.X1 := B[i].x;
+    if B[i].Y > Result.Y2 then
+      Result.Y2 := B[i].y
+    else if B[i].y < Result.Y1 then
+      Result.Y1 := B[i].y;
+  end;
+end;
+
+
+
+function __RotateBI(ImgArr:T2DIntArray; Angle:Single): T2DIntArray;
+var
+  i,j,x,y,R,G,B,mx,my,W,H,fX,fY,cX,cY: Int32;
+  dist, polAngle,rX,rY,dX,dY:Single;
+  p0,p1,p2,p3: TRGB32;
+  topR,topG,topB,BtmR,btmG,btmB:Single;
+begin
+  W := Length(ImgArr[0]);
+  H := Length(ImgArr);
+
+  mX := W div 2;
+  mY := H div 2;
+  SetLength(Result, H,W);
+  for i := 0 to H-1 do begin
+    for j := 0 to W-1 do begin
+      // convert raster to Cartesian
+      x := j - mX;
+      y := mY - i;
+
+      // convert Cartesian to polar
+      dist := Sqrt(sqr(x) + sqr(y));
+      if (x = 0) then begin
+        if (y = 0) then begin
+            // centre of image, no rotation needed
+            Result[i,j] := ImgArr[i,j];
+            Continue;
+        end else if (y < 0) then
+            polAngle := 1.5 * PI
+        else
+            polAngle := 0.5 * PI;
+      end else
+        polAngle := ArcTan2(y, x);
+
+      polAngle := polAngle - Angle;
+
+      rX := mX + (dist * Cos(polAngle));
+      rY := mY - (dist * Sin(polAngle));
+
+      fX := Floor(rX);
+      fY := Floor(rY);
+      cX := Ceil(rX);
+      cY := Ceil(rY);
+
+      if (fX < 0) or (cX < 0) or (fX >= W) or (cX >= W) or
+         (fY < 0) or (cY < 0) or (fY >= H) or (cY >= H) then
+        Continue;
+
+      dx := rX - fX;
+      dy := rY - fY;
+
+      p0 := TRGB32(ImgArr[fY, fX]);
+      p1 := TRGB32(ImgArr[fY, cX]);
+      p2 := TRGB32(ImgArr[cY, fX]);
+      p3 := TRGB32(ImgArr[cY, cX]);
+
+      // linearly interpolate horizontally between top neighbours
+      TopR := (1 - dx) * p0.R + dx * p1.R;
+      TopG := (1 - dx) * p0.G + dx * p1.G;
+      TopB := (1 - dx) * p0.B + dx * p1.B;
+
+      // linearly interpolate horizontally between bottom neighbours
+      BtmR := (1 - dx) * p2.R + dx * p3.R;
+      BtmG := (1 - dx) * p2.G + dx * p3.G;
+      BtmB := (1 - dx) * p2.B + dx * p3.B;
+
+      // linearly interpolate vertically between top and bottom interpolated results
+      R := Round((1 - dy) * TopR + dy * BtmR);
+      G := Round((1 - dy) * TopG + dy * BtmG);
+      B := Round((1 - dy) * TopB + dy * BtmB);
+
+      // make sure colour values are valid
+      if (R < 0)  then R := 0
+      else if (R > 255)then R := 255;
+      if (G < 0)  then G := 0
+      else if (G > 255)then G := 255;
+      if (B < 0)  then B := 0
+      else if (B > 255)then B := 255;
+
+      Result[i,j] := (B or (G shl 8) or (R shl 16));
+    end;
+  end;
+end;
+
+
+function __RotateExpandBI(ImgArr:T2DIntArray; Angle:Single): T2DIntArray;
+var
+  i,j,x,y,R,G,B,mx,my,W,H,nW,nH,fX,fY,cX,cY: Int32;
+  dist, polAngle,rX,rY,dX,dY:Single;
+  topR,topG,topB,BtmR,btmG,btmB:Single;
+  p0,p1,p2,p3: TRGB32;
+  NewB:TBox;
+  xxx:Int32;
+begin
+  W := Length(ImgArr[0]);
+  H := Length(ImgArr);
+
+  NewB := __GetNewSizeRotated(W-1,H-1,Angle);
+  nW := NewB.Width;
+  nH := NewB.Height;
+  mX := nW div 2;
+  mY := nH div 2;
+  SetLength(Result,nH,nW);
+  for i := 0 to nH-1 do begin
+    for j := 0 to nW-1 do begin
+      x := j - mX;
+      y := mY - i;
+
+      dist := Sqrt(sqr(x) + sqr(y));
+      if (x = 0) then begin
+        if (y = 0) then begin
+            Result[i,j] := ImgArr[i+NewB.y1, j+NewB.y1];
+            Continue;
+        end else if (y < 0) then
+            polAngle := 1.5 * PI
+        else
+            polAngle := 0.5 * PI;
+      end else
+        polAngle := ArcTan2(y, x);
+
+      polAngle := polAngle - Angle;
+
+      rX := mX + (dist * Cos(polAngle));
+      rY := mY - (dist * Sin(polAngle));
+
+      fX := Floor(rX)+NewB.x1;
+      fY := Floor(rY)+NewB.y1;
+      cX := Ceil(rX)+NewB.x1;
+      cY := Ceil(rY)+NewB.y1;
+
+      if (fX < 0) or (cX < 0) or (fX >= W) or (cX >= W) or
+         (fY < 0) or (cY < 0) or (fY >= H) or (cY >= H) then
+        Continue;
+
+      dx := rX - (fX - NewB.x1);
+      dy := rY - (fY - NewB.y1);
+
+      p0 := TRGB32(ImgArr[fY, fX]);
+      p1 := TRGB32(ImgArr[fY, cX]);
+      p2 := TRGB32(ImgArr[cY, fX]);
+      p3 := TRGB32(ImgArr[cY, cX]);
+
+      // linearly interpolate horizontally between top neighbours
+      TopR := (1 - dx) * p0.R + dx * p1.R;
+      TopG := (1 - dx) * p0.G + dx * p1.G;
+      TopB := (1 - dx) * p0.B + dx * p1.B;
+
+      // linearly interpolate horizontally between bottom neighbours
+      BtmR := (1 - dx) * p2.R + dx * p3.R;
+      BtmG := (1 - dx) * p2.G + dx * p3.G;
+      BtmB := (1 - dx) * p2.B + dx * p3.B;
+
+      // linearly interpolate vertically between top and bottom interpolated results
+      R := Round((1 - dy) * TopR + dy * BtmR);
+      G := Round((1 - dy) * TopG + dy * BtmG);
+      B := Round((1 - dy) * TopB + dy * BtmB);
+
+      // make sure colour values are valid
+      if (R < 0) then R := 0
+      else if (R > 255) then R := 255;
+      if (G < 0) then G := 0
+      else if (G > 255) then G := 255;
+      if (B < 0) then B := 0
+      else if (B > 255) then B := 255;
+
+      Result[i,j] := (B or (G shl 8) or (R shl 16));
+    end;
+  end;
+end;
+
+
+function __RotateNN(Mat:T2DIntArray; Angle:Single): T2DIntArray;
+var
+  W,H,x,y,mx,my:Int32;
+  PT:TPoint;
+  cosa,sina:Single;
+begin
+  W := High(Mat[0]);
+  H := High(Mat);
+  mx := W div 2;
+  my := H div 2;
+  SetLength(Result, H+1,W+1);
+  cosa := cos(angle);
+  sina := sin(angle);
+  for x:=0 to W do
+    for y:=0 to H do
+    begin
+      pt.x := Round(mx + cosa * (x - mx) - sina * (y - my));
+      pt.y := Round(my + sina * (x - mx) + cosa * (y - my));
+      if pt.InBox(0,0,W-1,H-1) then
+        Result[y,x] := Mat[pt.y,pt.x];
+    end;
+end;
+
+
+function __RotateExpandNN(Mat:T2DIntArray; Angle:Single): T2DIntArray;
+var
+  nW,nH,W,H,x,y,mx,my:Int32;
+  PT:TPoint;
+  NewB:TBox;
+  cosa,sina:Single;
+begin
+  W := Length(Mat[0]);
+  H := Length(Mat);
+  mx := W div 2;
+  my := H div 2;
+  NewB := __GetNewSizeRotated(W-1,H-1,Angle);
+  nW := NewB.Width;
+  nH := NewB.Height;
+  SetLength(Result, nH,nW);
+  cosa := cos(angle);
+  sina := sin(angle);
+  for x:=0 to nW do
+    for y:=0 to nH do
+    begin
+      pt.x := Round(mx + cosa * (NewB.x1+x - mx) - sina * (NewB.y1+y - my));
+      pt.y := Round(my + sina * (NewB.x1+x - mx) + cosa * (NewB.y1+y - my));
+      if pt.InBox(0,0,W-1,H-1) then
+        Result[y,x] := Mat[pt.y,pt.x];
+    end;
+end;
+
+
+function ImRotate(Mat:T2DIntArray; Angle:Single; Expand:Boolean; BiLinear:Boolean=True): T2DIntArray;
+begin
+  case Expand of
+    True:
+      case BiLinear of
+        True: Result := __RotateExpandBI(Mat,Angle);
+        False: Result := __RotateExpandNN(Mat,Angle);
+      end;
+    False:
+      case BiLinear of
+        True: Result := __RotateBI(Mat,Angle);
+        False: Result := __RotateNN(Mat,Angle);
+      end;
+  end;
+end;
+
+
+
+
+
+
 
 end.
