@@ -860,16 +860,18 @@ end;
 
 
 
-//---------- IMAGE ROTATING
+//-- Image rotatating --------------------------------------------------------||
+
+(*
+ Gives the expanded bounds
+*)
 function __GetNewSizeRotated(W,H:Int32; Angle:Single): TBox;
   function Rotate(p:TPoint; angle:Single; mx,my:Int32): TPoint;
   begin
     Result.X := Ceil(mx + cos(angle) * (p.x - mx) - sin(angle) * (p.y - my));
     Result.Y := Ceil(my + sin(angle) * (p.x - mx) + cos(angle) * (p.y - my));
   end;
-var
-  B: TPointArray;
-  i:Int32;
+var B: TPointArray;
 begin
   SetLength(B, 4);
   Result := Box($FFFFFF,$FFFFFF,0,0);
@@ -877,105 +879,84 @@ begin
   B[1]:= Rotate(Point(w,h),angle, W div 2, H div 2);
   B[2]:= Rotate(Point(w,0),angle, W div 2, H div 2);
   B[3]:= Rotate(Point(0,0),angle, W div 2, H div 2);
-  for i:=0 to 3 do begin
-    if B[i].x > Result.X2 then
-      Result.X2 := B[i].x
-    else if B[i].x < Result.X1 then
-      Result.X1 := B[i].x;
-    if B[i].Y > Result.Y2 then
-      Result.Y2 := B[i].y
-    else if B[i].y < Result.Y1 then
-      Result.Y1 := B[i].y;
-  end;
+  Result := TPABounds(B);
 end;
 
 
-
+(*
+ Rotates the bitmap using bilinear interpolation
+*)
 function __RotateBI(ImgArr:T2DIntArray; Angle:Single): T2DIntArray;
 var
-  i,j,x,y,R,G,B,mx,my,W,H,fX,fY,cX,cY: Int32;
-  dist, polAngle,rX,rY,dX,dY:Single;
+  i,j,R,G,B,mx,my,W,H,fX,fY,cX,cY: Int32;
+  rX,rY,dX,dY,cosa,sina:Single;
   p0,p1,p2,p3: TRGB32;
   topR,topG,topB,BtmR,btmG,btmB:Single;
 begin
   W := Length(ImgArr[0]);
   H := Length(ImgArr);
-
+  cosa := Cos(Angle);
+  sina := Sin(Angle);
   mX := W div 2;
   mY := H div 2;
   SetLength(Result, H,W);
+  w -= 1; h -= 1;
   for i := 0 to H-1 do begin
     for j := 0 to W-1 do begin
-      x := j - mX;
-      y := mY - i;
+      rx := (mx + cosa * (j - mx) - sina * (i - my));
+      ry := (my + sina * (j - mx) + cosa * (i - my));
 
-      dist := Sqrt(sqr(x) + sqr(y));
-      if (x = 0) then begin
-        if (y = 0) then begin
-            Result[i,j] := ImgArr[i,j];
-            Continue;
-        end else if (y < 0) then
-            polAngle := 1.5 * PI
-        else
-            polAngle := 0.5 * PI;
-      end else
-        polAngle := ArcTan2(y, x);
-
-      polAngle := polAngle - Angle;
-
-      rX := mX + (dist * Cos(polAngle));
-      rY := mY - (dist * Sin(polAngle));
-
-      fX := Floor(rX);
-      fY := Floor(rY);
+      fX := Trunc(rX);
+      fY := Trunc(rY);
       cX := Ceil(rX);
       cY := Ceil(rY);
 
-      if (fX < 0) or (cX < 0) or (fX >= W) or (cX >= W) or
-         (fY < 0) or (cY < 0) or (fY >= H) or (cY >= H) then
-        Continue;
+      if not((fX < 0) or (cX < 0) or (fX > W) or (cX > W) or
+             (fY < 0) or (cY < 0) or (fY > H) or (cY > H)) then
+      begin
+        dx := rX - fX;
+        dy := rY - fY;
 
-      dx := rX - fX;
-      dy := rY - fY;
+        p0 := TRGB32(ImgArr[fY, fX]);
+        p1 := TRGB32(ImgArr[fY, cX]);
+        p2 := TRGB32(ImgArr[cY, fX]);
+        p3 := TRGB32(ImgArr[cY, cX]);
 
-      p0 := TRGB32(ImgArr[fY, fX]);
-      p1 := TRGB32(ImgArr[fY, cX]);
-      p2 := TRGB32(ImgArr[cY, fX]);
-      p3 := TRGB32(ImgArr[cY, cX]);
+        TopR := (1 - dx) * p0.R + dx * p1.R;
+        TopG := (1 - dx) * p0.G + dx * p1.G;
+        TopB := (1 - dx) * p0.B + dx * p1.B;
+        BtmR := (1 - dx) * p2.R + dx * p3.R;
+        BtmG := (1 - dx) * p2.G + dx * p3.G;
+        BtmB := (1 - dx) * p2.B + dx * p3.B;
 
-      TopR := (1 - dx) * p0.R + dx * p1.R;
-      TopG := (1 - dx) * p0.G + dx * p1.G;
-      TopB := (1 - dx) * p0.B + dx * p1.B;
+        R := Round((1 - dy) * TopR + dy * BtmR);
+        G := Round((1 - dy) * TopG + dy * BtmG);
+        B := Round((1 - dy) * TopB + dy * BtmB);
 
-      BtmR := (1 - dx) * p2.R + dx * p3.R;
-      BtmG := (1 - dx) * p2.G + dx * p3.G;
-      BtmB := (1 - dx) * p2.B + dx * p3.B;
+        if (R < 0) then R := 0
+        else if (R > 255)then R := 255;
+        if (G < 0) then G := 0
+        else if (G > 255)then G := 255;
+        if (B < 0) then B := 0
+        else if (B > 255)then B := 255;
 
-      R := Round((1 - dy) * TopR + dy * BtmR);
-      G := Round((1 - dy) * TopG + dy * BtmG);
-      B := Round((1 - dy) * TopB + dy * BtmB);
-
-      if (R < 0)  then R := 0
-      else if (R > 255)then R := 255;
-      if (G < 0)  then G := 0
-      else if (G > 255)then G := 255;
-      if (B < 0)  then B := 0
-      else if (B > 255)then B := 255;
-
-      Result[i,j] := (B or (G shl 8) or (R shl 16));
+        Result[i,j] := B or (G shl 8) or (R shl 16);
+      end;
     end;
   end;
 end;
 
 
+(*
+ Rotates the bitmap using bilinear interpolation, does expand
+*)
 function __RotateExpandBI(ImgArr:T2DIntArray; Angle:Single): T2DIntArray;
 var
-  i,j,x,y,R,G,B,mx,my,W,H,nW,nH,fX,fY,cX,cY: Int32;
-  dist, polAngle,rX,rY,dX,dY:Single;
+  i,j,R,G,B,mx,my,W,H,nW,nH,fX,fY,cX,cY: Int32;
+  rX,rY,dX,dY,cosa,sina:Single;
   topR,topG,topB,BtmR,btmG,btmB:Single;
   p0,p1,p2,p3: TRGB32;
   NewB:TBox;
-  xxx:Int32;
 begin
   W := Length(ImgArr[0]);
   H := Length(ImgArr);
@@ -986,74 +967,61 @@ begin
   mX := nW div 2;
   mY := nH div 2;
   SetLength(Result,nH,nW);
-  for i := 0 to nH-1 do begin
-    for j := 0 to nW-1 do begin
-      x := j - mX;
-      y := mY - i;
+  cosa := Cos(Angle);
+  sina := Sin(Angle);
+  nW -= 1; nH -= 1;
+  for i := 0 to nH do begin
+    for j := 0 to nW do begin
+      rx := (mx + cosa * (j - mx) - sina * (i - my));
+      ry := (my + sina * (j - mx) + cosa * (i - my));
 
-      dist := Sqrt(sqr(x) + sqr(y));
-      if (x = 0) then begin
-        if (y = 0) then begin
-            Result[i,j] := ImgArr[i+NewB.y1, j+NewB.y1];
-            Continue;
-        end else if (y < 0) then
-            polAngle := 1.5 * PI
-        else
-            polAngle := 0.5 * PI;
-      end else
-        polAngle := ArcTan2(y, x);
-
-      polAngle := polAngle - Angle;
-
-      rX := mX + (dist * Cos(polAngle));
-      rY := mY - (dist * Sin(polAngle));
-
-      fX := Floor(rX)+NewB.x1;
-      fY := Floor(rY)+NewB.y1;
+      fX := Trunc(rX)+NewB.x1;
+      fY := Trunc(rY)+NewB.y1;
       cX := Ceil(rX)+NewB.x1;
       cY := Ceil(rY)+NewB.y1;
 
-      if (fX < 0) or (cX < 0) or (fX >= W) or (cX >= W) or
-         (fY < 0) or (cY < 0) or (fY >= H) or (cY >= H) then
-        Continue;
+      if not((fX < 0) or (cX < 0) or (fX >= W) or (cX >= W) or
+             (fY < 0) or (cY < 0) or (fY >= H) or (cY >= H)) then
+      begin
+        dx := rX - (fX - NewB.x1);
+        dy := rY - (fY - NewB.y1);
 
-      dx := rX - (fX - NewB.x1);
-      dy := rY - (fY - NewB.y1);
+        p0 := TRGB32(ImgArr[fY, fX]);
+        p1 := TRGB32(ImgArr[fY, cX]);
+        p2 := TRGB32(ImgArr[cY, fX]);
+        p3 := TRGB32(ImgArr[cY, cX]);
 
-      p0 := TRGB32(ImgArr[fY, fX]);
-      p1 := TRGB32(ImgArr[fY, cX]);
-      p2 := TRGB32(ImgArr[cY, fX]);
-      p3 := TRGB32(ImgArr[cY, cX]);
+        TopR := (1 - dx) * p0.R + dx * p1.R;
+        TopG := (1 - dx) * p0.G + dx * p1.G;
+        TopB := (1 - dx) * p0.B + dx * p1.B;
+        BtmR := (1 - dx) * p2.R + dx * p3.R;
+        BtmG := (1 - dx) * p2.G + dx * p3.G;
+        BtmB := (1 - dx) * p2.B + dx * p3.B;
 
-      TopR := (1 - dx) * p0.R + dx * p1.R;
-      TopG := (1 - dx) * p0.G + dx * p1.G;
-      TopB := (1 - dx) * p0.B + dx * p1.B;
+        R := Round((1 - dy) * TopR + dy * BtmR);
+        G := Round((1 - dy) * TopG + dy * BtmG);
+        B := Round((1 - dy) * TopB + dy * BtmB);
 
-      BtmR := (1 - dx) * p2.R + dx * p3.R;
-      BtmG := (1 - dx) * p2.G + dx * p3.G;
-      BtmB := (1 - dx) * p2.B + dx * p3.B;
+        if (R < 0) then R := 0
+        else if (R > 255) then R := 255;
+        if (G < 0) then G := 0
+        else if (G > 255) then G := 255;
+        if (B < 0) then B := 0
+        else if (B > 255) then B := 255;
 
-      R := Round((1 - dy) * TopR + dy * BtmR);
-      G := Round((1 - dy) * TopG + dy * BtmG);
-      B := Round((1 - dy) * TopB + dy * BtmB);
-
-      if (R < 0) then R := 0
-      else if (R > 255) then R := 255;
-      if (G < 0) then G := 0
-      else if (G > 255) then G := 255;
-      if (B < 0) then B := 0
-      else if (B > 255) then B := 255;
-
-      Result[i,j] := (B or (G shl 8) or (R shl 16));
+        Result[i,j] := (B or (G shl 8) or (R shl 16));
+      end;
     end;
   end;
 end;
 
 
+(*
+ Rotates the bitmap using nearest neighbor
+*)
 function __RotateNN(Mat:T2DIntArray; Angle:Single): T2DIntArray;
 var
-  W,H,x,y,mx,my:Int32;
-  PT:TPoint;
+  W,H,x,y,mx,my,i,j:Int32;
   cosa,sina:Single;
 begin
   W := High(Mat[0]);
@@ -1063,21 +1031,23 @@ begin
   SetLength(Result, H+1,W+1);
   cosa := cos(angle);
   sina := sin(angle);
-  for x:=0 to W do
-    for y:=0 to H do
+  for i:=0 to H do
+    for j:=0 to W do
     begin
-      pt.x := Round(mx + cosa * (x - mx) - sina * (y - my));
-      pt.y := Round(my + sina * (x - mx) + cosa * (y - my));
-      if pt.InBox(0,0,W-1,H-1) then
-        Result[y,x] := Mat[pt.y,pt.x];
+      x := Round(mx + cosa * (j - mx) - sina * (i - my));
+      y := Round(my + sina * (j - mx) + cosa * (i - my));
+      if (x >= 0) and (x < W) and (y >= 0) and (y < H) then
+        Result[i,j] := Mat[y,x];
     end;
 end;
 
 
+(*
+ Rotates the bitmap using nearest neighbor, does expand
+*)
 function __RotateExpandNN(Mat:T2DIntArray; Angle:Single): T2DIntArray;
 var
-  nW,nH,W,H,x,y,mx,my:Int32;
-  PT:TPoint;
+  nW,nH,W,H,x,y,mx,my,j,i:Int32;
   NewB:TBox;
   cosa,sina:Single;
 begin
@@ -1091,27 +1061,29 @@ begin
   SetLength(Result, nH,nW);
   cosa := cos(angle);
   sina := sin(angle);
-  for x:=0 to nW do
-    for y:=0 to nH do
+
+  nw -= 1; nh -= 1;
+  for i:=0 to nH do
+    for j:=0 to nW do
     begin
-      pt.x := Round(mx + cosa * (NewB.x1+x - mx) - sina * (NewB.y1+y - my));
-      pt.y := Round(my + sina * (NewB.x1+x - mx) + cosa * (NewB.y1+y - my));
-      if pt.InBox(0,0,W-1,H-1) then
-        Result[y,x] := Mat[pt.y,pt.x];
+      x := Round(mx + cosa * (NewB.x1+j - mx) - sina * (NewB.y1+i - my));
+      y := Round(my + sina * (NewB.x1+j - mx) + cosa * (NewB.y1+i - my));
+      if (x >= 0) and (x < W) and (y >= 0) and (y < H) then
+        Result[i,j] := Mat[y,x];
     end;
 end;
 
 
-function ImRotate(Mat:T2DIntArray; Angle:Single; Expand:Boolean; BiLinear:Boolean=True): T2DIntArray;
+function ImRotate(Mat:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray;
 begin
   case Expand of
     True:
-      case BiLinear of
+      case Bilinear of
         True: Result := __RotateExpandBI(Mat,Angle);
         False: Result := __RotateExpandNN(Mat,Angle);
       end;
     False:
-      case BiLinear of
+      case Bilinear of
         True: Result := __RotateBI(Mat,Angle);
         False: Result := __RotateNN(Mat,Angle);
       end;
