@@ -67,6 +67,54 @@ begin
 end; 
 
 
+function Slice(Arr:TFloatArray; Start,Stop:Int32; Step:Int32=1): TFloatArray; overload;
+var P,R:^Single; l,h:uInt32;
+begin
+  h := Length(Arr);
+  case (Step > 0) of
+    True:  if (Stop >= h) then Stop := h-1;
+    False: if (Start >= h) then Start := h-1;
+  end;
+  Start := Modulo(start,h);
+  Stop  := Modulo(stop,h);   
+
+  SetLength(Result, ((Stop-Start) div step)+1);
+  P := @Arr[start];
+  R := @Result[0];
+  L := uInt32(@Result[Length(Result)]);
+  while uInt32(R) < L do
+  begin
+    R^ := P^;
+    Inc(R);
+    Inc(P, step);
+  end;
+end; 
+
+
+function Slice(Arr:TDoubleArray; Start,Stop:Int32; Step:Int32=1): TDoubleArray; overload;
+var P,R:^Double; l,h:uInt32;
+begin
+  h := Length(Arr);
+  case (Step > 0) of
+    True:  if (Stop >= h) then Stop := h-1;
+    False: if (Start >= h) then Start := h-1;
+  end;
+  Start := Modulo(start,h);
+  Stop  := Modulo(stop,h);   
+
+  SetLength(Result, ((Stop-Start) div step)+1);
+  P := @Arr[start];
+  R := @Result[0];
+  L := uInt32(@Result[Length(Result)]);
+  while uInt32(R) < L do
+  begin
+    R^ := P^;
+    Inc(R);
+    Inc(P, step);
+  end;
+end;
+
+
 function Slice(Arr:TPointArray; Start,Stop:Int32; Step:Int32=1): TPointArray; overload;
 var P,R:^TPoint; l,h:uInt32;
 begin
@@ -180,6 +228,32 @@ end;
 
 
 function Slice(Arr:T2DExtArray; Start,Stop:Int32; Step:Int32=1): T2DExtArray; overload;
+var i,h:UInt32; tmp:TIntArray;
+begin
+  h := Length(Arr);
+  SetLength(TMP, h);
+  for i:=0 to h-1 do TMP[i] := i;
+  TMP := Slice(TMP,Start,Stop,Step);
+  SetLength(Result,Length(TMP));
+  for i:=0 to High(TMP) do
+    Result[i] := Copy(Arr[TMP[i]], 0, Length(Arr[TMP[i]]));
+end;
+
+
+function Slice(Arr:T2DFloatArray; Start,Stop:Int32; Step:Int32=1): T2DFloatArray; overload;
+var i,h:UInt32; tmp:TIntArray;
+begin
+  h := Length(Arr);
+  SetLength(TMP, h);
+  for i:=0 to h-1 do TMP[i] := i;
+  TMP := Slice(TMP,Start,Stop,Step);
+  SetLength(Result,Length(TMP));
+  for i:=0 to High(TMP) do
+    Result[i] := Copy(Arr[TMP[i]], 0, Length(Arr[TMP[i]]));
+end;
+
+
+function Slice(Arr:T2DDoubleArray; Start,Stop:Int32; Step:Int32=1): T2DDoubleArray; overload;
 var i,h:UInt32; tmp:TIntArray;
 begin
   h := Length(Arr);

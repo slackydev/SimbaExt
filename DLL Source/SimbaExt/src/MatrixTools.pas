@@ -17,12 +17,8 @@ function NewMatrix(W,H:Integer): T2DIntArray;
 function NewMatrixEx(W,H,Init:Integer): T2DIntArray; 
 function TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean): T2DIntArray; 
 function TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray; 
-procedure MatInsertTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer); 
 function NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray;   overload;
 function NormalizeMat(const Mat:T2DFloatArray; Alpha, Beta:Float): T2DFloatArray; overload;
-function MatGetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; 
-function MatGetCol(const Mat:T2DIntArray; Column:Integer): TIntArray; 
-function MatGetRow(const Mat:T2DIntArray; Row:Integer): TIntArray; 
 function MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray; 
 function MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer): T2DIntArray; 
 function MatGetArea(const Mat:T2DIntArray; x1,y1,x2,y2:Integer): T2DIntArray; 
@@ -131,17 +127,6 @@ end;
 
 
 {*
- Set the matrix coords that match the given TPoints to `Value`...
-*}
-procedure MatInsertTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer); 
-var i: Integer;
-begin
-  for i := 0 to High(TPA) do
-    Matrix[TPA[i].y][TPA[i].x] := Value;
-end;
-
-
-{*
  ...
 *}
 function NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray; overload;
@@ -194,58 +179,6 @@ begin
   for y:=0 to H do
     for x:=0 to W do
       Result[y][x] := Alpha + (Mat[y][x] * k);
-end;
-
-
-{*
-  Returns the values at each given point (TPA), in the Matrix.
-*}
-function MatGetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; 
-var
-  i,W,H,c,L:Integer;
-begin
-  L := High(Indices);
-  W := High(Mat[0]); 
-  H := High(Mat);
-  SetLength(Result, L+1);
-  c := 0;
-  for i:=0 to L do
-  begin 
-    if (Indices[i].x >= 0) and (Indices[i].y >= 0) then
-      if (Indices[i].x <= W) and (Indices[i].y <= H) then
-      begin
-        Result[c] := Mat[Indices[i].y][Indices[i].x];
-        Inc(c);
-      end;
-  end;
-  SetLength(Result, c);
-end;
-
-
-{*
-  Returns the TIA containing all the values in the given column.
-*}
-function MatGetCol(const Mat:T2DIntArray; Column:Integer): TIntArray; 
-var
-  y,H:Integer;
-begin
-  H := High(Mat);
-  SetLength(Result, H+1);
-  for y:=0 to H do
-    Result[y] := Mat[y][Column];
-end;
-
-
-{*
-  Returns the TIA containing all the values in the given row.
-*}
-function MatGetRow(const Mat:T2DIntArray; Row:Integer): TIntArray; 
-var
-  W:Integer;
-begin
-  W := High(Mat[0]);
-  SetLength(Result, W+1);
-  Move(Mat[Row][0], Result[0], (W+1)*SizeOf(Integer));
 end;
 
 

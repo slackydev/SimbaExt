@@ -117,13 +117,11 @@ type
 
   ColorLAB = packed record L, A, B: Single; end;
   ColorHSV = packed record H, S, V: Single; end;
-  ColorRGB = packed record R, G, B: UInt8;  end;
+  ColorRGB = packed record R, G, B, A: UInt8;  end;
   
   
   PRGB32 = ^TRGB32;
-  TRGB32 = packed record
-    B, G, R, A: Byte;
-  end;
+  TRGB32 = packed record B, G, R, A: UInt8; end;
   
 
 function Box(const x1,y1,x2,y2:Integer): TBox; Inline;

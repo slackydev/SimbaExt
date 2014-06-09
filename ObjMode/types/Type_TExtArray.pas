@@ -47,6 +47,32 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure TExtArray.Insert(idx:Int32; Value:Extended);
+  @desc: 
+    Inserts a new item `value` in the array at the given position. If position `idx` is greater then the length, 
+    it will append the item `value` to the end. If it's less then 0 it will substract the index from the length of the array.[br]
+    
+    `Arr.Insert(0, x)` inserts at the front of the list, and `Arr.Insert(length(a), x)` is equivalent to `Arr.Append(x)`.
+}
+procedure TExtArray.Insert(idx:Int32; Value:Extended);
+var l:Int32;
+begin
+  l := Length(Self);
+  if (idx < 0) then
+    idx := math.modulo(idx,l);
+
+  if (l <= idx) then begin
+    self.append(value);
+    Exit();
+  end;
+
+  SetLength(Self, l+1);
+  MemMove(Self[idx], self[idx+1], (L-Idx)*SizeOf(Extended));
+  Self[idx] := value;
+end; 
+
+
+{!DOCREF} {
   @method: procedure TExtArray.Del(idx:Int32);
   @desc: Removes the element at the given index c'idx'
 }

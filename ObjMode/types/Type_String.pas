@@ -181,7 +181,7 @@ end;
 
 {!DOCREF} {
   @method: function String.Capital(): String;
-  @desc:   Return a copy of the string with its first character capitalized and the rest lowercased.
+  @desc:   Return a copy of the string with the first character in each word capitalized.
 }
 function String.Capital(): String;
 begin
@@ -215,16 +215,16 @@ end;
   @desc:   Return true if all characters in the string are alphabetic or numerical and there is at least one character, false otherwise.
 }
 function String.IsAlphaNum(): Boolean;
-var ptr: PChar;
+var ptr: PChar; hiptr:UInt32;
 begin
   if Length(Self) = 0 then Exit(False);
   ptr := PChar(Self);
-  while ptr^ <> #0 do
-  begin
-    if not (ptr^ in ['A'..'Z', 'a'..'z','0'..'9']) then 
-      Exit(False);
-    Inc(ptr);
-  end;
+  hiptr := UInt32(UInt32(ptr) + Length(self));
+  while UInt32(ptr) < hiptr do
+    if not (ptr^ in ['0'..'9','a'..'z','A'..'Z']) then
+      Exit(False)
+    else
+      Inc(ptr);
   Result := True;
 end;
 
@@ -239,16 +239,16 @@ end;
   @desc:   Return true if all characters in the string are alphabetic and there is at least one character, false otherwise.
 }
 function String.IsAlpha(): Boolean;
-var ptr: PChar;
+var ptr: PChar; hiptr:UInt32;
 begin
   if Length(Self) = 0 then Exit(False);
   ptr := PChar(Self);
-  while ptr^ <> #0 do
-  begin
-    if not (ptr^ in ['A'..'Z', 'a'..'z']) then 
-      Exit(False);
-    Inc(ptr);
-  end;
+  hiptr := UInt32(UInt32(ptr) + Length(self));
+  while UInt32(ptr) < hiptr do
+    if not (ptr^ in ['A'..'Z', 'a'..'z']) then
+      Exit(False)
+    else
+      Inc(ptr);
   Result := True;
 end;
 
@@ -263,16 +263,16 @@ end;
   @desc:   Return true if all characters in the string are digits and there is at least one character, false otherwise.
 }
 function String.IsDigit(): Boolean;
-var ptr: PChar;
+var ptr: PChar; hiptr:UInt32;
 begin
   if Length(Self) = 0 then Exit(False);
   ptr := PChar(Self);
-  while ptr^ <> #0 do
-  begin
-    if not (ptr^ in ['0'..'9']) then 
-      Exit(False);
-    Inc(ptr);
-  end;
+  hiptr := UInt32(UInt32(ptr) + Length(self));
+  while UInt32(ptr) < hiptr do
+    if not (ptr^ in ['0'..'9']) then
+      Exit(False)
+    else
+      Inc(ptr);
   Result := True;
 end;
 

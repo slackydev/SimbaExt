@@ -16,16 +16,24 @@ uses
   
 function Radians(Dgrs: Extended): Extended; Inline;
 function Degrees(Rads: Extended): Extended; Inline;
+
+{* "Real" modulo operation *}
 function Modulo(X,Y:Extended): Extended; Inline; overload;
 function Modulo(X,Y:Double):  Double;  Inline; overload;
 function Modulo(X,Y:Single):  Single;  Inline; overload;
 function Modulo(X,Y:Integer): Integer; Inline; overload;
-function DeltaAngle(DegA,DegB:Extended): Extended; Inline; 
+
+{* Angle between two angles *}
+function DeltaAngle(DegA,DegB:Extended): Extended; Inline;
+
+{* Distance calcs *}
 function DistManhattan(const pt1,pt2: TPoint): Extended; Inline; 
 function DistEuclidean(const pt1,pt2: TPoint): Extended; Inline; 
 function DistChebyshev(const pt1,pt2: TPoint): Extended; Inline; 
 function DistOctagonal(const pt1,pt2: TPoint): Extended; Inline;
 function DistToLine(Pt, sA, sB: TPoint): Extended; Inline;
+
+{* In shape *}
 function InCircle(const  Pt,Center:TPoint; Radius: Integer): Boolean; Inline; 
 function InEllipse(const Pt,Center:TPoint; YRad, XRad: Integer): Boolean; Inline; 
 function InRect(const Pt:TPoint; const A,B,C,D:TPoint): Boolean; Inline; 
@@ -34,25 +42,37 @@ function InPolyR(x,y:Integer; const Poly:TPointArray): Boolean; Inline;
 function InPolyW(x,y:Integer; const Poly:TPointArray): Boolean; Inline; 
 function InBox(const Pt:TPoint; X1,Y1, X2,Y2: Integer): Boolean; Inline;
 function InTriangle(const Pt, v1, v2, v3:TPoint): Boolean; Inline;
+
+{* Prime *}
 function IsPrime(n: Integer): Boolean; Inline;
 function NextPrime(n: Integer): Integer; inline;
 function PrevPrime(n: Integer): Integer; inline;
+
+{* Next power of two minus 1 *}
 function NextPow2m1(n: Integer): Integer; Inline;
+
+{* Select min of 3 values *}
+function Min(X,Y,Z:Extended): Extended; Inline; overload;
+function Min(X,Y,Z:Double): Double; Inline; overload;
+function Min(X,Y,Z:Single): Single; Inline; overload;
+function Min(X,Y,Z:Int32): Int32; Inline; overload;
+
+{* Select max of 3 values *}
+function Max(X,Y,Z:Extended): Extended; Inline; overload;
+function Max(X,Y,Z:Double): Double; Inline; overload;
+function Max(X,Y,Z:Single): Single; Inline; overload;
+function Max(X,Y,Z:Int32): Int32; Inline; overload;
 
 
 //--------------------------------------------------
 implementation
 uses CoreMisc;
 
-{*
- Converts Degrees in to radian
-*}
+{* Converts Degrees in to radian *}
 function Radians(Dgrs: Extended): Extended; Inline;
 begin Result := Dgrs * (Pi/180); end;
 
-{*
- Converts Radian in to Degrees
-*}
+{* Converts Radian in to Degrees *}
 function Degrees(Rads: Extended): Extended; Inline;
 begin Result := Rads * (180/Pi); end;
 
@@ -366,6 +386,53 @@ begin
   n := n or (n shr 16);
   n := n or (n shr 32);
   Result := n;
+end;
+
+
+
+
+
+{* Select min of 3 values. *}
+function Min(X,Y,Z:Extended): Extended; Inline; overload;
+begin
+  Result := Min(x,Min(y,z));
+end;
+
+function Min(X,Y,Z:Double): Double; Inline; overload;
+begin
+  Result := Min(x,Min(y,z));
+end;
+
+function Min(X,Y,Z:Single): Single; Inline; overload;
+begin
+  Result := Min(x,Min(y,z));
+end;
+
+function Min(X,Y,Z:Int32): Int32; Inline; overload;
+begin
+  Result := Min(x,Min(y,z));
+end;
+
+
+{* Select max of 3 values. *}
+function Max(X,Y,Z:Extended): Extended; Inline; overload;
+begin
+  Result := Max(x,Max(y,z));
+end;
+
+function Max(X,Y,Z:Double): Double; Inline; overload;
+begin
+  Result := Max(x,Max(y,z));
+end;
+
+function Max(X,Y,Z:Single): Single; Inline; overload;
+begin
+  Result := Max(x,Max(y,z));
+end;
+
+function Max(X,Y,Z:Int32): Int32; Inline; overload;
+begin
+  Result := Max(x,Max(y,z));
 end;
 
 end.

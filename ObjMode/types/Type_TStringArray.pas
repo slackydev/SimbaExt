@@ -51,6 +51,33 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure TStringArray.Insert(idx:Int32; Value:String);
+  @desc: 
+    Inserts a new item `value` in the array at the given position. If position `idx` is greater then the length, 
+    it will append the item `value` to the end. If it's less then 0 it will substract the index from the length of the array.[br]
+    
+    `Arr.Insert(0, x)` inserts at the front of the list, and `Arr.Insert(length(a), x)` is equivalent to `Arr.Append(x)`.
+}
+procedure TStringArray.Insert(idx:Int32; Value:String);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (idx < 0) then
+    idx := math.modulo(idx,l);
+
+  if (l <= idx) then begin
+    self.append(value);
+    Exit();
+  end;
+
+  SetLength(Self, l+1);
+  for i:=l downto idx+1 do
+    Self[i] := Self[i-1];
+  Self[i] := Value;
+end;
+
+
+{!DOCREF} {
   @method: function TStringArray.Pop(): String;
   @desc: Removes and returns the last item in the array
 }

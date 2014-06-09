@@ -1,42 +1,42 @@
 {!DOCTOPIC}{ 
-  Type » TIntArray
+  Type » TDoubleArray
 }
 
 {!DOCREF} {
-  @method: function TIntArray.Clone(): TIntArray;
+  @method: function TDoubleArray.Clone(): TDoubleArray;
   @desc: Returns a copy of the array
 }
-function TIntArray.Clone(): TIntArray;
+function TDoubleArray.Clone(): TDoubleArray;
 begin
   Result := Copy(Self);
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Len(): Int32;
+  @method: function TDoubleArray.Len(): Int32;
   @desc: Returns the length of the array. Same as 'Length(arr)'
 }
-function TIntArray.Len(): Int32;
+function TDoubleArray.Len(): Int32;
 begin
   Result := Length(Self);
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.IsEmpty(): Boolean;
+  @method: function TDoubleArray.IsEmpty(): Boolean;
   @desc: Returns True if the array is empty. Same as 'Length(arr) = 0'
 }
-function TIntArray.IsEmpty(): Boolean;
+function TDoubleArray.IsEmpty(): Boolean;
 begin
   Result := Length(Self) = 0;
 end;
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Append(const Value:Int32);
+  @method: procedure TDoubleArray.Append(const Value:Double);
   @desc: Add another item to the array
 }
-procedure TIntArray.Append(const Value:Int32);
+procedure TDoubleArray.Append(const Value:Double);
 var
   l:Int32;
 begin
@@ -47,14 +47,14 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Insert(idx:Int32; Value:Int32);
+  @method: procedure TDoubleArray.Insert(idx:Int32; Value:Double);
   @desc: 
     Inserts a new item `value` in the array at the given position. If position `idx` is greater then the length, 
     it will append the item `value` to the end. If it's less then 0 it will substract the index from the length of the array.[br]
     
     `Arr.Insert(0, x)` inserts at the front of the list, and `Arr.Insert(length(a), x)` is equivalent to `Arr.Append(x)`.
 }
-procedure TIntArray.Insert(idx:Int32; Value:Int32);
+procedure TDoubleArray.Insert(idx:Int32; Value:Double);
 var l:Int32;
 begin
   l := Length(Self);
@@ -67,42 +67,42 @@ begin
   end;
 
   SetLength(Self, l+1);
-  MemMove(Self[idx], self[idx+1], (L-Idx)*SizeOf(Int32));
+  MemMove(Self[idx], self[idx+1], (L-Idx)*SizeOf(Double));
   Self[idx] := value;
 end; 
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Del(idx:Int32);
+  @method: procedure TDoubleArray.Del(idx:Int32);
   @desc: Removes the element at the given index c'idx'
 }
-procedure TIntArray.Del(idx:Int32);
+procedure TDoubleArray.Del(idx:Int32);
 var i,l:Int32;
 begin
   l := Length(Self);
   if (l <= idx) or (idx < 0) then 
     Exit();
   if (L-1 <> idx) then
-    MemMove(Self[idx+1], self[idx], (L-Idx)*SizeOf(Int32));
+    MemMove(Self[idx+1], self[idx], (L-Idx)*SizeOf(Double));
   SetLength(Self, l-1);
 end;
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Remove(Value:Int32);
+  @method: procedure TDoubleArray.Remove(Value:Double);
   @desc: Removes the first element from left which is equal to c'Value'
 }
-procedure TIntArray.Remove(Value:Int32);
+procedure TDoubleArray.Remove(Value:Double);
 begin
   Self.Del( Self.Find(Value) );
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Pop(): Int32;
+  @method: function TDoubleArray.Pop(): Double;
   @desc: Removes and returns the last item in the array
 }
-function TIntArray.Pop(): Int32;
+function TDoubleArray.Pop(): Double;
 var H:Int32;
 begin
   H := high(Self);
@@ -112,38 +112,29 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.PopLeft(): Int32;
+  @method: function TDoubleArray.PopLeft(): Double;
   @desc: Removes and returns the first item in the array
 }
-function TIntArray.PopLeft(): Int32;
+function TDoubleArray.PopLeft(): Double;
 begin
   Result := Self[0];
-  MemMove(Self[1], Self[0], SizeOf(Int32)*Length(Self));
+  MemMove(Self[1], Self[0], SizeOf(Double)*Length(Self));
   SetLength(Self, High(self));
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Slice(Start,Stop: Int32; Step:Int32=1): TIntArray;
+  @method: function TDoubleArray.Slice(Start,Stop: Int32; Step:Int32=1): TDoubleArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
     You can give it negative start, and stop, then it will wrap around based on length(..)
     
     If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
-
-    [b]Examples:[/b]
-    [code=pascal]
-    TIA := [0,1,2,3,4,5,6,7,8,9];
-    TIA.Slice(9,0,-1)  = [9,8,7,6,5,4,3,2,1,0]  //Copies from 9 downto 0, with a step-size of 1.
-    TIA.Slice(9,0,-2)  = [9,7,5,3,1]            //Copies from 9 downto 0, with a step-size of 2.
-    TIA.Slice(3,7,1)   = [3,4,5,6,7]            //Copies from 2 to 7
-    TIA.Slice(0,-2,1)  = [0,1,2,3,4,5,6,7,8]    //Copies from 1 to Len-2
-    [/code]
-
+    
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TIntArray.Slice(Start,Stop: Int32; Step:Int32=1): TIntArray;
+function TDoubleArray.Slice(Start,Stop: Int32; Step:Int32=1): TDoubleArray;
 begin
   if Step = 0 then Exit;
   try Result := exp_slice(Self, Start,Stop,Step);
@@ -152,91 +143,88 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Extend(Arr:TIntArray);
+  @method: procedure TDoubleArray.Extend(Arr:TDoubleArray);
   @desc: Extends the array with an array
 }
-procedure TIntArray.Extend(Arr:TIntArray);
+procedure TDoubleArray.Extend(Arr:TDoubleArray);
 var L:Int32;
 begin
   L := Length(Self);
   SetLength(Self, Length(Arr) + L);
-  MemMove(Arr[0],Self[L],Length(Arr)*SizeOf(Int32));
-end;  
+  MemMove(Arr[0],Self[L],Length(Arr)*SizeOf(Double));
+end; 
 
 
 {!DOCREF} {
-  @method: function TIntArray.Find(Value:Int32): Int32;
+  @method: function TDoubleArray.Find(Value:Double): Int32;
   @desc: Searces for the given value and returns the first position from the left.
 }
-function TIntArray.Find(Value:Int32): Int32;
+function TDoubleArray.Find(Value:Double): Int32;
 begin
   Result := exp_Find(Self,[Value]);
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Find(Sequence:TIntArray): Int32; overload;
+  @method: function TDoubleArray.Find(Sequence:TDoubleArray): Int32; overload;
   @desc: Searces for the given sequence and returns the first position from the left.
 }
-function TIntArray.Find(Sequence:TIntArray): Int32; overload;
+function TDoubleArray.Find(Sequence:TDoubleArray): Int32; overload;
 begin
   Result := exp_Find(Self,Sequence);
 end;
 
 
-
 {!DOCREF} {
-  @method: function TIntArray.FindAll(Value:Int32): TIntArray;
+  @method: function TDoubleArray.FindAll(Value:Double): TIntArray;
   @desc: Searces for the given value and returns all the position where it was found.
 }
-function TIntArray.FindAll(Value:Int32): TIntArray; overload;
+function TDoubleArray.FindAll(Value:Double): TIntArray;
 begin
   Result := exp_FindAll(Self,[value]);
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.FindAll(Sequence:TIntArray): TIntArray; overload;
+  @method: function TDoubleArray.FindAll(Sequence:TDoubleArray): TIntArray; overload;
   @desc: Searces for the given sequence and returns all the position where it was found.
 }
-function TIntArray.FindAll(Sequence:TIntArray): TIntArray; overload;
+function TDoubleArray.FindAll(Sequence:TDoubleArray): TIntArray; overload;
 begin
   Result := exp_FindAll(Self,sequence);
 end;
 
 
-
 {!DOCREF} {
-  @method: function TIntArray.Contains(val:Int32): Boolean;
+  @method: function TDoubleArray.Contains(val:Double): Boolean;
   @desc: Checks if the arr contains the given value c'val'
 }
-function TIntArray.Contains(val:Int32): Boolean;
+function TDoubleArray.Contains(val:Double): Boolean;
 begin
   Result := Self.Find(val) <> -1;
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Count(val:Int32): Int32;
+  @method: function TDoubleArray.Count(val:Double): Int32;
   @desc: Counts all the occurances of the given value c'val'
 }
-function TIntArray.Count(val:Int32): Int32;
+function TDoubleArray.Count(val:Double): Int32;
 begin
   Result := Length(Self.FindAll(val));
 end;
 
 
-
 {!DOCREF} {
-  @method: procedure TIntArray.Sort(key:TSortKey=sort_Default);
+  @method: procedure TDoubleArray.Sort(key:TSortKey=sort_Default);
   @desc: 
     Sorts the array
-    Supports the keys: c'sort_Default'
+    Supported keys: c'sort_Default'
 }
-procedure TIntArray.Sort(key:TSortKey=sort_Default);
+procedure TDoubleArray.Sort(key:TSortKey=sort_Default);
 begin
   case key of
-    sort_default: se.SortTIA(Self);
+    sort_default: se.SortTDA(Self);
   else 
     WriteLn('TSortKey not supported');
   end;
@@ -244,16 +232,16 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Sorted(key:TSortKey=sort_Default): TIntArray;
+  @method: function TDoubleArray.Sorted(key:TSortKey=sort_Default): TDoubleArray;
   @desc: 
     Returns a new sorted array from the input array.
-    Supports the keys: c'sort_Default'
+    Supported keys: c'sort_Default'
 }
-function TIntArray.Sorted(Key:TSortKey=sort_Default): TIntArray;
+function TDoubleArray.Sorted(Key:TSortKey=sort_Default): TDoubleArray;
 begin
   Result := Copy(Self);
   case key of
-    sort_default: se.SortTIA(Result);
+    sort_default: se.SortTDA(Result);
   else 
     WriteLn('TSortKey not supported');
   end;
@@ -261,21 +249,22 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Reversed(): TIntArray;
+  @method: function TDoubleArray.Reversed(): TDoubleArray;
   @desc:  
     Creates a reversed copy of the array
+  
 }
-function TIntArray.Reversed(): TIntArray;
+function TDoubleArray.Reversed(): TDoubleArray;
 begin
   Result := Self.Slice(-1,0,-1);
 end;
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Reverse();
+  @method: procedure TDoubleArray.Reverse();
   @desc: Reverses the array
 }
-procedure TIntArray.Reverse();
+procedure TDoubleArray.Reverse();
 begin
   Self := Self.Slice(-1,0,-1);
 end;
@@ -292,21 +281,33 @@ end;
 
 
 
+
+
 {!DOCREF} {
-  @method: function TIntArray.Sum(): Int64;
-  @desc: Adds up the TIA and returns the sum
+  @method: function TDoubleArray.Sum(): Double;
+  @desc: Adds up the array and returns the sum
 }
-function TIntArray.Sum(): Int64;
+function TDoubleArray.Sum(): Double;
 begin
-  Result := exp_SumPtr(PChar(Self),SizeOf(Int32),Length(Self),False);
+  Result := exp_SumFPtr(PChar(Self),SizeOf(Double),Length(Self));
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Mean(): Extended;
-  @desc:Returns the mean value of the array. Use round, trunc or floor to get an c'Int' value.
+  @method: function TDoubleArray.Sum64(): Double;
+  @desc: Adds up the array and returns the sum
 }
-function TIntArray.Mean(): Extended;
+function TDoubleArray.Sum64(): Double;
+begin
+  Result := exp_SumFPtr(PChar(Self),SizeOf(Double),Length(Self));
+end;
+
+
+{!DOCREF} {
+  @method: function TDoubleArray.Mean(): Double;
+  @desc:Returns the mean value of the array
+}
+function TDoubleArray.Mean(): Double;
 begin
   Result := Self.Sum() / Length(Self);
 end;
@@ -314,14 +315,14 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Stdev(): Extended;
+  @method: function TDoubleArray.Stdev(): Double;
   @desc: Returns the standard deviation of the array
 }
-function TIntArray.Stdev(): Extended;
+function TDoubleArray.Stdev(): Double;
 var
   i:Int32;
-  avg:Extended;
-  square:TExtArray;
+  avg:Double;
+  square:TDoubleArray;
 begin
   avg := Self.Mean();
   SetLength(square,Length(Self));
@@ -329,16 +330,15 @@ begin
   Result := sqrt(square.Mean());
 end;
 
-
 {!DOCREF} {
-  @method: function TIntArray.Variance(): Extended;
+  @method: function TDoubleArray.Variance(): Double;
   @desc: 
     Return the sample variance. 
     Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
-function TIntArray.Variance(): Extended;
+function TDoubleArray.Variance(): Double;
 var
-  avg:Extended;
+  avg:Double;
   i:Int32;
 begin
   avg := Self.Mean();
@@ -348,17 +348,18 @@ begin
 end; 
 
 
-
 {!DOCREF} {
-  @method: function TIntArray.Mode(): Int32;
+  @method: function TDoubleArray.Mode(Eps:Double=0.000001): Double;
   @desc:
-    Returns the sample mode of the array, which is the most frequently occurring value in the array.
+    Returns the sample mode of the array, which is the [u]most frequently occurring value[/u] in the array.
     When there are multiple values occurring equally frequently, mode returns the smallest of those values.
+    Takes an extra parameter c'Eps', can be used to allow some tolerance in the floating point comparison.
 }
-function TIntArray.Mode(): Int32;
+function TDoubleArray.Mode(Eps:Double=0.0000001): Double;
 var
-  arr:TIntArray;
-  i,cur,hits,best: Int32;
+  arr:TDoubleArray;
+  i,hits,best: Int32;
+  cur:Double;
 begin
   arr := self.sorted();
   cur := arr[0];
@@ -366,12 +367,12 @@ begin
   best := 0;
   for i:=1 to High(Arr) do
   begin
-    if (cur <> arr[i]) then
+    if (arr[i]-cur > eps) then //arr[i] <> cur
     begin
       if (hits > best) then
       begin
         best := hits;
-        Result := cur;
+        Result := (Cur+Arr[i-1]) / 2; //Eps fix
       end;
       hits := 0;
       cur := Arr[I];
@@ -382,38 +383,39 @@ begin
 end;
 
 
-
 {!DOCREF} {
-  @method: function TIntArray.VarMin(): Int32;
+  @method: function TDoubleArray.VarMin(): Double;
   @desc: Returns the minimum value in the array
 }
-function TIntArray.VarMin(): Int32;
-var _:Int32;
+function TDoubleArray.VarMin(): Double;
+var lo,hi:Extended;
 begin
-  se.MinMaxTIA(Self,Result,_);
+  exp_MinMaxFPtr(Pointer(self), 4, length(self), lo,hi);
+  Result := Lo;
 end;
 
 
 
 {!DOCREF} {
-  @method: function TIntArray.VarMax(): Int32;
+  @method: function TDoubleArray.VarMax(): Double;
   @desc: Returns the maximum value in the array
 }
-function TIntArray.VarMax(): Int32;
-var _:Int32;
+function TDoubleArray.VarMax(): Double;
+var lo,hi:Extended;
 begin
-  se.MinMaxTIA(Self,_,Result);
+  exp_MinMaxFPtr(Pointer(self), 4, length(self), lo,hi);
+  Result := Hi;
 end;
 
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMin(): Int32;
+  @method: function TDoubleArray.ArgMin(): Int32;
   @desc: Returns the index containing the smallest element in the array.
 }
-function TIntArray.ArgMin(): Int32;
+function TDoubleArray.ArgMin(): Int32;
 var 
-  mat:TIntMatrix;
+  mat:TDoubleMatrix;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
@@ -422,14 +424,14 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMin(n:int32): TIntArray; overload;
+  @method: function TDoubleArray.ArgMin(n:int32): TIntArray; overload;
   @desc: Returns the n-indices containing the smallest element in the array.
 }
-function TIntArray.ArgMin(n:Int32): TIntArray; overload;
+function TDoubleArray.ArgMin(n:Int32): TIntArray; overload;
 var 
   i: Int32;
   _:TIntArray;
-  mat:TIntMatrix;
+  mat:TDoubleMatrix;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
@@ -438,13 +440,13 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMin(Lo,Hi:int32): Int32; overload;
+  @method: function TDoubleArray.ArgMin(Lo,Hi:int32): Int32; overload;
   @desc: Returns the index containing the smallest element in the array within the lower and upper bounds c'lo, hi'.
 }
-function TIntArray.ArgMin(lo,hi:Int32): Int32; overload;
+function TDoubleArray.ArgMin(lo,hi:Int32): Int32; overload;
 var 
   B: TBox;
-  mat:TIntMatrix;
+  mat:TDoubleMatrix;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
@@ -455,12 +457,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMax(): Int32;
+  @method: function TDoubleArray.ArgMax(): Int32;
   @desc: Returns the index containing the largest element in the array.
 }
-function TIntArray.ArgMax(): Int32;
+function TDoubleArray.ArgMax(): Int32;
 var 
-  mat:TIntMatrix;
+  mat:TDoubleMatrix;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
@@ -469,14 +471,14 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMax(n:int32): TIntArray; overload;
+  @method: function TDoubleArray.ArgMin(n:int32): TIntArray; overload;
   @desc: Returns the n-indices containing the largest element in the array.
 }
-function TIntArray.ArgMax(n:Int32): TIntArray; overload;
+function TDoubleArray.ArgMax(n:Int32): TIntArray; overload;
 var 
   i: Int32;
   _:TIntArray;
-  mat:TIntMatrix;
+  mat:TDoubleMatrix;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
@@ -485,33 +487,16 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.ArgMax(Lo,Hi:int32): Int32; overload;
+  @method: function TDoubleArray.ArgMax(Lo,Hi:int32): Int32; overload;
   @desc: Returns the index containing the largest element in the array within the lower and upper bounds c'lo, hi'.
 }
-function TIntArray.ArgMax(lo,hi:Int32): Int32; overload;
+function TDoubleArray.ArgMax(lo,hi:Int32): Int32; overload;
 var 
   B: TBox;
-  mat:TIntMatrix;
+  mat:TDoubleMatrix;
 begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
   Result := exp_ArgMax(mat,B).x;
 end;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

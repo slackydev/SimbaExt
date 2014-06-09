@@ -81,11 +81,24 @@ function CombineMatrix(Mat1:T2DDoubleArray; Mat2:T2DDoubleArray; OP:Char): T2DDo
 function CombineMatrix(Mat1:T2DExtArray; Mat2:T2DExtArray; OP:Char): T2DExtArray; overload;
 
 
+function GetValues(const Mat:T2DByteArray; const Indices:TPointArray): CoreTypes.TByteArray; overload;
+function GetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; overload;
+function GetValues(const Mat:T2DFloatArray; const Indices:TPointArray): TFloatArray; overload;
+function GetValues(const Mat:T2DDoubleArray; const Indices:TPointArray): TDoubleArray; overload;
+function GetValues(const Mat:T2DExtArray; const Indices:TPointArray): TExtArray; overload;
+
+procedure PutValues(var Matrix:T2DByteArray; const Indices:TPointArray; Values:CoreTypes.TByteArray); 
+procedure PutValues(var Matrix:T2DIntArray; const Indices:TPointArray; Values:TIntArray); overload;
+procedure PutValues(var Matrix:T2DFloatArray; const Indices:TPointArray; Values:TFloatArray); overload;
+procedure PutValues(var Matrix:T2DDoubleArray; const Indices:TPointArray; Values:TDoubleArray); overload;
+procedure PutValues(var Matrix:T2DExtArray; const Indices:TPointArray; Values:TExtArray); overload;
+
 
 //-----------------------------------------------------------------------
 implementation
 
-uses BoxTools, CoreMisc; //WrapAround from Box, and Inc/Dec from CoreMisc
+uses BoxTools, CoreMisc;
+
 
 {$I Src/Core/Matrix/_ArgMinMax.pas}
 {$I Src/Core/Matrix/_MinMax.pas}
@@ -93,5 +106,7 @@ uses BoxTools, CoreMisc; //WrapAround from Box, and Inc/Dec from CoreMisc
 {$I Src/Core/Matrix/_VarMulti.pas}
 {$I Src/Core/Matrix/_ArgMulti.pas}
 {$I Src/Core/Matrix/_Combine.pas}
+{$I Src/Core/Matrix/_GetValues.pas}
+{$I Src/Core/Matrix/_PutValues.pas}
 
 end.

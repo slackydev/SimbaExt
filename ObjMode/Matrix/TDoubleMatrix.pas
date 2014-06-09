@@ -43,12 +43,157 @@ begin
 end;
 
 
+{!DOCREF} {
+  @method: function TDoubleMatrix.Get(const Indices:TPointArray): TDoubleArray; 
+  @desc:
+    Gets all the values at the given indices. If any of the points goes out
+    of bounds, it will simply be ignored.
+    [code=pascal]
+    var 
+      Matrix:TDoubleMatrix;
+    begin
+      Matrix.SetSize(100,100);
+      Matrix[10][10] := 100;
+      Matrix[10][13] := 29;
+      WriteLn( Matrix.GetValues([Point(10,10),Point(13,10),Point(20,20)]));
+    end;
+    [/code]
+}
+function TDoubleMatrix.Get(const Indices:TPointArray): TDoubleArray;  
+begin
+  Result := exp_GetValues(Self, Indices);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TDoubleMatrix.Put(const TPA:TPointArray; Values:TDoubleArray);  
+  @desc: Adds the points to the matrix with the given values.
+}
+procedure TDoubleMatrix.Put(const TPA:TPointArray; Values:TDoubleArray);  
+begin
+  exp_PutValues(Self, TPA, Values);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TDoubleMatrix.Put(const TPA:TPointArray; Value:Double); overload;  
+  @desc: Adds the points to the matrix with the given value.
+}
+procedure TDoubleMatrix.Put(const TPA:TPointArray; Value:Double); overload; 
+begin
+  exp_PutValues(Self, TPA, TDoubleArray([Value]));
+end;
+
+
+{!DOCREF} {
+  @method: function TDoubleMatrix.Merge(): TDoubleArray;
+  @desc: Merges the matrix is to a flat array of the same type.
+}
+function TDoubleMatrix.Merge(): TDoubleArray;
+var i,s,wid: Int32;
+begin
+  S := 0;
+  SetLength(Result, Self.Width()*Self.Height());
+  Wid := Self.Width();
+  for i:=0 to High(Self) do
+  begin
+    MemMove(Self[i][0], Result[S], Wid*SizeOf(Double));
+    S := S + Wid;
+  end; 
+end;
+
+
+{!DOCREF} {
+  @method: function TDoubleMatrix.Sum(): Double;
+  @desc: Returns the sum of the matrix
+}
+function TDoubleMatrix.Sum(): Double;
+var i: Integer;
+begin
+  for i:=0 to High(Self) do
+    Result := Result + Self[i].Sum();
+end;
+
+
+
+
+{!DOCREF} {
+  @method: function TDoubleMatrix.Mean(): Double;
+  @desc: Returns the mean of the matrix
+}
+function TDoubleMatrix.Mean(): Double;
+var i: Integer;
+begin
+  for i:=0 to High(Self) do
+    Result := Result + Self[i].Mean();
+  Result := Result / High(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function TDoubleMatrix.Stdev(): Double;
+  @desc: Returns the standard deviation of the matrix
+}
+function TDoubleMatrix.Stdev(): Double;
+var
+  x,y,i,W,H:Int32;
+  avg:Double;
+  square:TDoubleArray;
+begin
+  W := Self.Width() - 1;
+  H := Self.Height() - 1;
+  avg := Self.Mean();
+  SetLength(square,Self.Width()*Self.Height());
+  i := -1;
+  for y:=0 to H do
+    for x:=0 to W do
+      Square[inc(i)] := Sqr(Self[y][x] - avg);
+  Result := Sqrt(square.Mean());
+end;
+
+
+{!DOCREF} {
+  @method: function TDoubleMatrix.Variance(): Double;
+  @desc: 
+    Return the sample variance. 
+    Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the matrix. 
+    A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
+}
+function TDoubleMatrix.Variance(): Double;
+var
+  avg:Double;
+  x,y,w,h:Int32;
+begin
+  W := Self.Width() - 1;
+  H := Self.Height() - 1;
+
+  avg := Self.Mean();
+  for y:=0 to H do
+    for x:=0 to W do
+      Result := Result + Sqr(Self[y][x] - avg);
+  Result := Result / ((W+1) * (H+1));
+end; 
+
+
+{!DOCREF} {
+  @method: function TDoubleMatrix.Mode(Eps:Single=0.0000001): Double;
+  @desc:
+    Returns the sample mode of the matrix, which is the most frequently occurring value in the matrix.
+    When there are multiple values occurring equally frequently, mode returns the smallest of those values.
+}
+function TDoubleMatrix.Mode(Eps:Double=0.0000001): Double;
+begin
+  Result := Self.Merge().Mode(Eps);
+end;
+
+
+
 {------------|  Indices  |------------}
 {!DOCREF} {
   @method: function TDoubleMatrix.Indices(Value: Double; const Comparator:TComparator): TPointArray;
   @desc:
     Returns all the indices which matches the given value, and comperator.
-    EG: c'Matrix.Indices(10, __LT__)' would return all the items which are less then 10.
+    EG: c'TPA := Matrix.Indices(10, __LT__)' would return where all the items which are less then 10 is.
 }
 function TDoubleMatrix.Indices(Value: Double; const Comparator:TComparator): TPointArray;
 begin 

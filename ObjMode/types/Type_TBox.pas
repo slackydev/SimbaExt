@@ -139,7 +139,11 @@ end;
   @method: function TBox.Equals(Box:TBox): Boolean;
   @desc: Compares equal
 }
+{$IFNDEF SRL-6}
 function TBox.Equals(Box:TBox): Boolean;
+{$ELSE}
+function TBox.Equals(Box:TBox): Boolean; override;
+{$ENDIF}
 begin
   Result := (self.x1=box.x1) and (self.y1=box.y1) and 
             (self.x2=box.x2) and (self.y2=box.y2);

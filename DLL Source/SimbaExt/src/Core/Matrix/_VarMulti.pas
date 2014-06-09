@@ -7,37 +7,31 @@
  Find the N-minimum or N-maximum values in the matrix.
 *}
 function VarMulti(Mat:T2DByteArray; Count:Int32; HiLo:Boolean): CoreTypes.TByteArray; overload;
-var 
-  W,H,i,size,l: Int32;
-  tmp:CoreTypes.TByteArray;
+var
+  W,H,i,y,x,width: Int32;
   data:THeapArray;
 begin
   H := High(Mat);
   W := High(Mat[0]);
-  size := 0;
-  for i:=0 to H do
-  begin
-    L := W+1;
-    SetLength(tmp, size+L);
-    Move(Mat[i][0], tmp[size], L*SizeOf(Byte));
-    size += L;
-  end;
-  
+  width := w + 1;
+  SetLength(Data, 0);
   case HiLo of
     True:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] > Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, True);
-          hPush( data, tmp[i], i, True);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] > Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, True);
+            hPush( data, mat[y,x], y*width+x, True);
+          end;
     False:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] < Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, False);
-          hPush( data, tmp[i], i, False);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] < Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, False);
+            hPush( data, mat[y,x], y*width+x, False);
+          end;
   end;
 
   SetLength(Result, Length(data));
@@ -47,37 +41,31 @@ end;
 
 
 function VarMulti(Mat:T2DIntArray; Count:Int32; HiLo:Boolean): TIntArray; overload;
-var 
-  W,H,i,size,l: Int32;
-  tmp:TIntArray;
+var
+  W,H,i,y,x,width: Int32;
   data:THeapArrayI;
 begin
   H := High(Mat);
   W := High(Mat[0]);
-  size := 0;
-  for i:=0 to H do
-  begin
-    L := W+1;
-    SetLength(tmp, size+L);
-    Move(Mat[i][0], tmp[size], L*SizeOf(Int32));
-    size += L;
-  end;
-  
+  width := w + 1;
+  SetLength(Data, 0);
   case HiLo of
     True:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] > Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, True);
-          hPush( data, tmp[i], i, True);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] > Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, True);
+            hPush( data, mat[y,x], y*width+x, True);
+          end;
     False:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] < Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, False);
-          hPush( data, tmp[i], i, False);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] < Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, False);
+            hPush( data, mat[y,x], y*width+x, False);
+          end;
   end;
 
   SetLength(Result, Length(data));
@@ -87,37 +75,31 @@ end;
 
 
 function VarMulti(Mat:T2DExtArray; Count:Int32; HiLo:Boolean): TExtArray; overload;
-var 
-  W,H,i,size,l: Int32;
-  tmp:TExtArray;
+var
+  W,H,i,y,x,width: Int32;
   data:THeapArray;
 begin
   H := High(Mat);
   W := High(Mat[0]);
-  size := 0;
-  for i:=0 to H do
-  begin
-    L := W+1;
-    SetLength(tmp, size+L);
-    Move(Mat[i][0], tmp[size], L*SizeOf(Extended));
-    size += L;
-  end;
-  
+  width := w + 1;
+  SetLength(Data, 0);
   case HiLo of
     True:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] > Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, True);
-          hPush( data, tmp[i], i, True);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] > Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, True);
+            hPush( data, mat[y,x], y*width+x, True);
+          end;
     False:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] < Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, False);
-          hPush( data, tmp[i], i, False);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] < Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, False);
+            hPush( data, mat[y,x], y*width+x, False);
+          end;
   end;
 
   SetLength(Result, Length(data));
@@ -127,37 +109,31 @@ end;
 
 
 function VarMulti(Mat:T2DDoubleArray; Count:Int32; HiLo:Boolean): TDoubleArray; overload;
-var 
-  W,H,i,size,l: Int32;
-  tmp:TDoubleArray;
+var
+  W,H,i,y,x,width: Int32;
   data:THeapArrayD;
 begin
   H := High(Mat);
   W := High(Mat[0]);
-  size := 0;
-  for i:=0 to H do
-  begin
-    L := W+1;
-    SetLength(tmp, size+L);
-    Move(Mat[i][0], tmp[size], L*SizeOf(Double));
-    size += L;
-  end;
-  
+  width := w + 1;
+  SetLength(Data, 0);
   case HiLo of
     True:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] > Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, True);
-          hPush( data, tmp[i], i, True);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] > Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, True);
+            hPush( data, mat[y,x], y*width+x, True);
+          end;
     False:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] < Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, False);
-          hPush( data, tmp[i], i, False);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] < Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, False);
+            hPush( data, mat[y,x], y*width+x, False);
+          end;
   end;
 
   SetLength(Result, Length(data));
@@ -168,38 +144,31 @@ end;
 
 
 function VarMulti(Mat:T2DFloatArray; Count:Int32; HiLo:Boolean): TFloatArray; overload;
-var 
-  W,H,i,size,l: Int32;
-  tmp:TFloatArray;
+var
+  W,H,i,y,x,width: Int32;
   data:THeapArrayF;
 begin
   H := High(Mat);
   W := High(Mat[0]);
-  size := 0;
-
-  for i:=0 to H do
-  begin
-    L := W+1;
-    SetLength(tmp, size+L);
-    Move(Mat[i][0], tmp[size], L*SizeOf(Single));
-    size += L;
-  end;
-
+  width := w + 1;
+  SetLength(Data, 0);
   case HiLo of
     True:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] > Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, True);
-          hPush( data, tmp[i], i, True);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] > Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, True);
+            hPush( data, mat[y,x], y*width+x, True);
+          end;
     False:
-      for i:=0 to High(tmp) do
-        if (length(data) < count) or (tmp[i] < Data[0].value) then
-        begin
-          if (length(data) = count) then hPop(data, False);
-          hPush( data, tmp[i], i, False);
-        end;
+      for y:=0 to H do
+        for x:=0 to W do
+          if (length(data) < count) or (mat[y,x] < Data[0].value) then
+          begin
+            if (length(data) = count) then hPop(data, False);
+            hPush( data, mat[y,x], y*width+x, False);
+          end;
   end;
 
   SetLength(Result, Length(data));

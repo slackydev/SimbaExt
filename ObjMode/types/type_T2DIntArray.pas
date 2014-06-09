@@ -50,6 +50,34 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure T2DIntArray.Insert(idx:Int32; Value:TIntArray);
+  @desc: 
+    Inserts a new item `value` in the array at the given position. If position `idx` is greater then the length, 
+    it will append the item `value` to the end. If it's less then 0 it will substract the index from the length of the array.[br]
+    
+    `Arr.Insert(0, x)` inserts at the front of the list, and `Arr.Insert(length(a), x)` is equivalent to `Arr.Append(x)`.
+}
+procedure T2DIntArray.Insert(idx:Int32; Value:TIntArray);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (idx < 0) then
+    idx := math.modulo(idx,l);
+
+  if (l <= idx) then begin
+    self.append(value);
+    Exit();
+  end;
+
+  SetLength(Self, l+1);
+  for i:=l downto idx+1 do
+    Self[i] := Self[i-1];
+  Self[i] := Value;
+end;
+
+
+
+{!DOCREF} {
   @method: function T2DIntArray.Pop(): TIntArray;
   @desc: Removes and returns the last item in the array
 }
@@ -131,7 +159,7 @@ end;
 {!DOCREF} {
   @method: function T2DIntArray.Sorted(Key:TSortKey=sort_Default): T2DIntArray;
   @desc: 
-    Sorts a copy of the ATIA with the given key, returns a copy
+    Returns a new sorted array from the input array.
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
 function T2DIntArray.Sorted(Key:TSortKey=sort_Default): T2DIntArray;
@@ -223,29 +251,15 @@ end;
 
 
 
-
-
 {!DOCREF} {
-  @method: function T2DIntArray.Sum(): Int32;
-  @desc: Returns the sum of the 2d array (32 bit version only goes ~2,147,483,647)
+  @method: function T2DIntArray.Sum(): Int64;
+  @desc: Returns the sum of the 2d array
 }
-function T2DIntArray.Sum(): Int32;
+function T2DIntArray.Sum(): Int64;
 var i,L: Integer;
 begin
   for i:=0 to High(Self) do
     Result := Result + Self[i].Sum();
-end;
-
-
-{!DOCREF} {
-  @method: function T2DIntArray.Sum64(): Int64;
-  @desc: Returns the sum of the 2d array
-}
-function T2DIntArray.Sum64(): Int64;
-var i,L: Integer;
-begin
-  for i:=0 to High(Self) do
-    Result := Result + Self[i].Sum64();
 end;
 
 
@@ -276,7 +290,8 @@ end;
   @method: function T2DIntArray.Variance(): Extended;
   @desc: 
     Return the sample variance. 
-    Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
+    Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. 
+    A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
 function T2DIntArray.Variance(): Extended;
 var
@@ -300,49 +315,4 @@ end;
 function T2DIntArray.Mode(): Int32;
 begin
   Result := Self.Merge().Mode();
-end;
-
-
-{!DOCREF} {
-  @method: function T2DIntArray.VarMin(): Int32;
-  @desc: Returns the minimum value in the array
-}
-function T2DIntArray.VarMin(): Int32;
-var _:Int32;
-begin
-  exp_MinMax(Self,Result,_);
-end;
-
-
-
-{!DOCREF} {
-  @method: function T2DIntArray.VarMax(): Int32;
-  @desc: Returns the maximum value in the array
-}
-function T2DIntArray.VarMax(): Int32;
-var _:Int32;
-begin
-  exp_MinMax(Self,_,Result);
-end;
-
-
-{!DOCREF} {
-  @method: function T2DIntArray.ArgMin(): TPoint;
-  @desc: Returns the index containing the smallest element in the array
-}
-function T2DIntArray.ArgMin(): TPoint;
-begin
-  Result := exp_ArgMin(Self);
-end;
-
-
-
-{!DOCREF} {
-  @method: function T2DIntArray.ArgMax(): TPoint;
-  @desc: Returns the index containing the largest element in the array
-}
-function T2DIntArray.ArgMax(): TPoint;
-var i,j:Int32;
-begin
-  Result := exp_ArgMax(Self);
 end;

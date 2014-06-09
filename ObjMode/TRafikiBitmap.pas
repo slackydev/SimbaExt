@@ -32,24 +32,12 @@ type
  Regular intilaization
 |=============================================================================*)
 
-{!DOCREF} {
-  @method: procedure TRafBitmap.Create(W, H: Integer; Str:String);
-  @desc: ...
-}
-procedure TRafBitmap.Create(W, H: Integer; Str:String);
-begin
-  if Self.Loaded then Self.Free();
-  Self.Bitmap := BitmapFromString(W,H,Str);
-  GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
-  Self.Loaded := True;
-end;
-
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.Create(W,H: Integer); overload;
-  @desc: ...
+  @method: procedure TRafBitmap.Create(W,H: Integer);
+  @desc: Creates a bitmap of the given size.
 }
-procedure TRafBitmap.Create(W,H: Integer); overload;
+procedure TRafBitmap.Create(W,H: Integer);
 begin
   if Self.Loaded then Self.Free();
   Self.Bitmap := CreateBitmap(W,H);
@@ -60,8 +48,21 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure TRafBitmap.Create(W,H: Integer; Str:String); overload;
+  @desc: Creates a bitmap from a string.
+}
+procedure TRafBitmap.Create(W, H: Integer; Str:String); overload;
+begin
+  if Self.Loaded then Self.Free();
+  Self.Bitmap := BitmapFromString(W,H,Str);
+  GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
+  Self.Loaded := True;
+end;
+
+
+{!DOCREF} {
   @method: procedure TRafBitmap.Create(SimbaBitmap:Integer); overload;
-  @desc: Allows you to create a TRafBitmap-instance from a Simba-bitmap
+  @desc: Create a TRafBitmap-instance from a Simba-bitmap.
 }
 procedure TRafBitmap.Create(SimbaBitmap:Integer); overload;
 begin
@@ -208,7 +209,7 @@ end;
 }
 procedure TRafBitmap.LazyCrop(X1,Y1,X2,Y2:Integer);
 begin
-  if not(Self.IsLoaded('TRafBitmap.Crop()')) then Exit;
+  if not(Self.IsLoaded('TRafBitmap.LazyCrop()')) then Exit;
   CropBitmap(Self.Bitmap, X1,Y1,X2,Y2);
   GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
 end;
@@ -216,7 +217,7 @@ end;
 
 {!DOCREF} {
   @method: function TRafBitmap.GetPixels(TPA:TPointArray): TIntegerArray;
-  @desc: Returns all the pixels in the 'TPA' from the image
+  @desc: Returns all the pixels in the `TPA` from the image
 }
 function TRafBitmap.GetPixels(TPA:TPointArray): TIntegerArray;
 begin
@@ -227,7 +228,7 @@ end;
 
 {!DOCREF} {
   @method: function TRafBitmap.Pixel(x,y:Integer): Integer;
-  @desc: Gets the value at the given pixel-coordinate
+  @desc: Gets the color at the given pixel
 }
 function TRafBitmap.Pixel(x,y:Integer): Integer;
 begin
@@ -238,7 +239,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TRafBitmap.Pixel(x,y, color:Integer); overload;
-  @desc: Sets the given pixel-coordinate to the value 'color'
+  @desc: Sets the given pixels value to the value `color`
 }
 procedure TRafBitmap.Pixel(x,y, color:Integer); overload;
 begin
@@ -249,7 +250,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TRafBitmap.SetPixels(TPA:TPointArray; Color:Int32);
-  @desc: Sets all the given pixels to value 'color'
+  @desc: Sets all the given pixels to value `color`
 }
 procedure TRafBitmap.SetPixels(TPA:TPointArray; Color:Int32);
 var
@@ -272,7 +273,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TRafBitmap.SetPixelsEx(TPA:TPointArray; Color:Integer);
-  @desc: Sets all the given pixels to values in 'colors'
+  @desc: Sets all the given pixels `TPA` to values in `colors`
 }
 procedure TRafBitmap.SetPixelsEx(TPA:TPointArray; Colors:TIntArray);
 begin
@@ -283,7 +284,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TRafBitmap.ReplaceColor(OldColor, NewColor: Int32);
-  @desc: Replaces all the occurances of OldColor with NewColor
+  @desc: Replaces all the occurances of `OldColor` with `NewColor`
 }
 procedure TRafBitmap.ReplaceColor(OldColor, NewColor: Int32);
 begin
@@ -325,8 +326,8 @@ end;
 {!DOCREF} {
   @method: function TRafBitmap.FindColorTol(var TPA:TPointArray; Color:Integer; Area:TBox; Tolerance:Integer): Boolean;
   @desc: 
-    Searches for the given 'color' in the bitmap.
-    [note]@method is using a deprecated function. Disable warnings might be preferable '$DEFINE ERR_HIDE_ALL'[/note]  
+    Searches for the given `color` in the bitmap.
+    [note]method is using a deprecated function. That means params might change in the future[/note]  
   
 }
 function TRafBitmap.FindColorTol(var TPA:TPointArray; Color:Integer; Area:TBox; Tolerance:Integer): Boolean;
@@ -358,7 +359,7 @@ end;
   @method: function TRafBitmap.FindColor(var TPA:TPointArray; Color:Integer; Area:TBox): Boolean;
   @desc: 
     Searches for the given 'color' in the bitmap.
-    [note]@method is using a deprecated function. Disable warnings might be preferable '$DEFINE ERR_HIDE_ALL'[/note]  
+    [note]method is using a deprecated function. That means params might change in the future[/note]  
 }
 function TRafBitmap.FindColor(var TPA:TPointArray; Color:Integer; Area:TBox): Boolean;
 begin
@@ -370,7 +371,7 @@ end;
   @method: function TRafBitmap.FindColor(var TPA:TPointArray; Color:Integer): Boolean; overload;
   @desc: 
     Searches for the given 'color' in the bitmap.
-    [note]@method is using a deprecated function. Disable warnings might be preferable '$DEFINE ERR_HIDE_ALL'[/note]  
+    [note]method is using a deprecated function. That means params might change in the future[/note]  
   
 }
 function TRafBitmap.FindColor(var TPA:TPointArray; Color:Integer): Boolean; overload;
@@ -385,7 +386,7 @@ end;
 |=============================================================================*)
 {!DOCREF} {
   @method: procedure TRafBitmap.Resize(NewWidth, NewHeight:Integer);
-  @desc: Simple and quick bitmap resizing using NN.
+  @desc: Simple and quick bitmap resizing using nearest neighbor.
 }
 procedure TRafBitmap.Resize(NewWidth, NewHeight:Integer);
 begin
@@ -397,10 +398,10 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TResizeAlgo);
+  @method: procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TResizeAlgo=RA_BILINEAR);
   @desc: Allows you to resize the bitmap by not just using nearest neighbor, but also BICUBIC, and BILINEAR interpolation
 }
-procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TResizeAlgo);
+procedure TRafBitmap.ResizeEx(NewWidth, NewHeight:Integer; Resampler:TResizeAlgo=RA_BILINEAR);
 var
   Matrix:T2DIntegerArray;
 begin
@@ -412,8 +413,14 @@ end;
 
 
 {!DOCREF} {
-  @method: function TRafBitmap.Rotate(Degrees:Extended; Expand:Boolean; Smooth:Boolean=True): TRafBitmap;
-  @desc: Rotates a copy of the bitmap by the given angle using nearest neighbor interpolation
+  @method: function TRafBitmap.Rotate(Angle:Extended; Expand:Boolean; Smooth:Boolean=True): TRafBitmap;
+  @desc: 
+    Rotates a copy of the bitmap by the given angle. 
+    [params]
+    [b]Algle:[/b] The amount to rotate the bitmap, defined in radians
+    [b]Expand:[/b] `True` means that the result is expanded to fit the rotated image. `False` keeps original size.
+    [b]Smooth:[/b] `True` will use bilinear interpolation, while `False` will use nearest neighbor.
+    [/params]
 }
 function TRafBitmap.Rotate(Angle:Extended; Expand:Boolean; Smooth:Boolean=True): TRafBitmap;
 var Mat:TIntMatrix;
@@ -426,7 +433,7 @@ end;
 
 {!DOCREF} {
   @method: function TRafBitmap.Flip(Horizontal:Boolean): TRafBitmap;
-  @desc: Flips the bitmap Left->Right or Top->Down.
+  @desc: Flips the bitmap Left->Right `Horizontal=True` or Top->Down `Horizontal=False`
 }
 function TRafBitmap.Flip(Horizontal:Boolean): TRafBitmap;
 var 
@@ -445,7 +452,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TRafBitmap.Invert();
-  @desc: Inverts the bitmap
+  @desc: Inverts the colors in the bitmap
 }
 procedure TRafBitmap.Invert();
 begin
@@ -456,7 +463,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TRafBitmap.Blur(BlurSize: Integer; Iter:Integer=0);
-  @desc: Allows you to blur the bitmap 'iter' times, using a block of the size 'blursize'
+  @desc: Allows you to blur the bitmap `Iter` times, using a "block" of the size `BlurSize`
 }
 procedure TRafBitmap.Blur(BlurSize: Integer; Iter:Integer=0);
 var
@@ -488,7 +495,7 @@ end;
 
 {!DOCREF} {
   @method: procedure TRafBitmap.Median(MedianSize: Integer);
-  @desc: ...
+  @desc: Computes the median of the neighborhood of size `MedianSize` for each pixel in the image and sets the result pixel to that value. 
 }
 procedure TRafBitmap.Median(MedianSize: Integer);
 var
@@ -512,7 +519,9 @@ end;
 
 {!DOCREF} {
   @method: procedure TRafBitmap.Brightness(Amount:Extended; Legacy:Boolean);
-  @desc: Allows you to modify the brightness of the bitmap
+  @desc: 
+    Allows you to modify the brightness of the bitmap.
+    This function is still slightly bugged if `Legacy=False`.
 }
 procedure TRafBitmap.Brightness(Amount:Extended; Legacy:Boolean=True);
 var
@@ -528,7 +537,9 @@ end;
 
 {!DOCREF} {
   @method: function TRafBitmap.Blend(Other:TRafBitmap; Alpha:Single): TRafBitmap;
-  @desc: Belnds the two images in to one. Alpha must be in range of 0-1.
+  @desc: 
+    Belnds the two images in to one. Alpha must be in range of `0.0-1.0`.
+    Both images must also be the exact same size.
 }
 function TRafBitmap.Blend(Other:TRafBitmap; Alpha:Single): TRafBitmap;
 var
@@ -538,13 +549,37 @@ begin
     Exit;
   
   if not(Other.Loaded) then 
-    RaiseException(erException, '''Other'' bitmap is not loaded.');
+    RaiseException(erException, '"Other" bitmap is not loaded.');
     
   if not(Other.Width=Self.Width) or not(Other.Height=Self.Height) then 
     RaiseException(erException, 'Bitmaps must have the same size'); 
 
   Matrix := exp_ImBlend(Self.ToMatrix(), Other.ToMatrix(), Alpha);
   Result.FromMatrix(Matrix);
+end;
+
+
+{!DOCREF} {
+  @method: function TRafBitmap.Blend(Other:TRafBitmap; Alpha:Single): TRafBitmap;
+  @desc: ...
+}
+function TRafBitmap.Draw(Other:TRafBitmap; Pos:TPoint; AutoResize:Boolean=False): TRafBitmap;
+var nw,nh:Int32;
+begin
+  if not(Self.IsLoaded('TRafBitmap.Blend()')) then 
+    Exit;
+  
+  if AutoResize then
+  begin
+    NW := Self.Width;
+    NH := Self.Width; 
+    if Pos.x+Other.Width > Self.width then   NH := Pos.x+Other.Width;
+    if Pos.y+Other.Height > Self.Height then NW := Pos.y+Other.Height;
+    if (NH > Self.Height) or (NW > Self.Width) then
+      Self.SetSize(NW, NH);
+  end;
+  
+  FastDrawTransparent(Pos.x, Pos.y, other.bitmap, self.bitmap);
 end;
 
 
@@ -565,7 +600,7 @@ end;
 
 {!DOCREF} {
   @method: function TRafBitmap.ToString(): String;
-  @desc: Converts the bitmap in to an encoded string format. This format can then be used with 'TRafBitmap.Create(W,H:Int32; Str:String);' to recreate the bitmap
+  @desc: Converts the bitmap in to an encoded string format. This format can then be used with `TRafBitmap.Create(W,H:Int32; Str:String);` to recreate the bitmap.
 }
 function TRafBitmap.ToString(): String;
 begin

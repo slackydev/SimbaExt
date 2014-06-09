@@ -4,25 +4,47 @@
 
 {!DOCREF} {
   @method: procedure se.SortTBA(var Arr: TByteArray);  
-  @desc: Sorts the TBA from low to high
+  @desc: Sorts the array from low to high
 }
 procedure SimbaExt.SortTBA(var Arr: TByteArray);
 begin
   exp_SortTBA(Arr);
 end;
 
+
 {!DOCREF} {
   @method: procedure se.SortTIA(var Arr: TIntArray);  
-  @desc: Sorts the TIA from low to high
+  @desc: Sorts the array from low to high
 }
 procedure SimbaExt.SortTIA(var Arr: TIntArray);  
 begin
   exp_SortTIA(Arr);
 end;
 
+
+{!DOCREF} {
+  @method: procedure se.SortTFA(var Arr: TFloatArray);  
+  @desc: Sorts the array from low to high
+}
+procedure SimbaExt.SortTFA(var Arr: TFloatArray);  
+begin
+  exp_SortTFA(Arr);
+end;
+
+
+{!DOCREF} {
+  @method: procedure se.SortTDA(var Arr: TDoubleArray);  
+  @desc: Sorts the array from low to high
+}
+procedure SimbaExt.SortTDA(var Arr: TDoubleArray);  
+begin
+  exp_SortTDA(Arr);
+end;
+
+
 {!DOCREF} {
   @method: procedure se.SortTEA(var Arr: TExtArray);  
-  @desc: Sorts the TIA from low to high
+  @desc: Sorts the array from low to high
 }
 procedure SimbaExt.SortTEA(var Arr: TExtArray);  
 begin

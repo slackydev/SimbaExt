@@ -69,6 +69,58 @@ begin
 end;
 
 
+function FindAll(Arr:TFloatArray; Seq:TFloatArray): TIntArray; overload;
+var len,Seqlen,upper,i,j: Int32;
+begin
+  len := Length(Arr);
+  Seqlen := High(Seq);
+  upper := len-Seqlen;
+  i := 0;  j := 0;
+  while (i <= upper) do begin
+    if Arr[i] <> Seq[j] then begin
+      inc(i);
+      continue;
+    end;
+    while (Arr[i] = Seq[j]) do begin
+     Inc(i);
+     Inc(j);
+     if j > Seqlen then 
+     begin
+      TIAAppend(Result,i-Seqlen-1);
+      j := 0;
+      Break;
+     end;
+    end;
+  end;
+end;
+
+
+function FindAll(Arr:TDoubleArray; Seq:TDoubleArray): TIntArray; overload;
+var len,Seqlen,upper,i,j: Int32;
+begin
+  len := Length(Arr);
+  Seqlen := High(Seq);
+  upper := len-Seqlen;
+  i := 0;  j := 0;
+  while (i <= upper) do begin
+    if Arr[i] <> Seq[j] then begin
+      inc(i);
+      continue;
+    end;
+    while (Arr[i] = Seq[j]) do begin
+     Inc(i);
+     Inc(j);
+     if j > Seqlen then 
+     begin
+      TIAAppend(Result,i-Seqlen-1);
+      j := 0;
+      Break;
+     end;
+    end;
+  end;
+end;
+
+
 function FindAll(Arr:TPointArray; Seq:TPointArray): TIntArray; overload;
 var len,Seqlen,upper,i,j: Int32;
 begin

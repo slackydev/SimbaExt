@@ -84,35 +84,48 @@ begin Result := Slice(Arr, Start,Stop,Step); end;
 function exp_Slice2(Arr:TExtArray; Start,Stop,Step:Int32): TExtArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice3(Arr:TPointArray; Start,Stop,Step:Int32): TPointArray; cdecl;
+function exp_Slice3(Arr:TFloatArray; Start,Stop,Step:Int32): TFloatArray; cdecl;
+begin Result := Slice(Arr, Start,Stop,Step); end;
+
+function exp_Slice4(Arr:TDoubleArray; Start,Stop,Step:Int32): TDoubleArray; cdecl;
+begin Result := Slice(Arr, Start,Stop,Step); end;
+
+function exp_Slice5(Arr:TPointArray; Start,Stop,Step:Int32): TPointArray; cdecl;
 begin  Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice4(Arr:TByteArray; Start,Stop,Step:Int32): TByteArray; cdecl;
+function exp_Slice6(Arr:TByteArray; Start,Stop,Step:Int32): TByteArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice5(Arr:TBoxArray; Start,Stop,Step:Int32): TBoxArray; cdecl;
+function exp_Slice7(Arr:TBoxArray; Start,Stop,Step:Int32): TBoxArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice6(Arr:String; Start,Stop,Step:Int32): String; cdecl;
+function exp_Slice8(Arr:String; Start,Stop,Step:Int32): String; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice7(Arr:T2DIntArray; Start,Stop,Step:Int32): T2DIntArray; cdecl;
+function exp_Slice9(Arr:T2DIntArray; Start,Stop,Step:Int32): T2DIntArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice8(Arr:T2DExtArray; Start,Stop,Step:Int32): T2DExtArray; cdecl;
+function exp_Slice10(Arr:T2DExtArray; Start,Stop,Step:Int32): T2DExtArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice9(Arr:T2DPointArray; Start,Stop,Step:Int32): T2DPointArray; cdecl;
+function exp_Slice11(Arr:T2DFloatArray; Start,Stop,Step:Int32): T2DFloatArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice10(Arr:T2DByteArray; Start,Stop,Step:Int32): T2DByteArray; cdecl;
+function exp_Slice12(Arr:T2DDoubleArray; Start,Stop,Step:Int32): T2DDoubleArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice11(Arr:T2DBoxArray; Start,Stop,Step:Int32): T2DBoxArray; cdecl;
+function exp_Slice13(Arr:T2DPointArray; Start,Stop,Step:Int32): T2DPointArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
-function exp_Slice12(Arr:TStringArray; Start,Stop,Step:Int32): TStringArray; cdecl;
+function exp_Slice14(Arr:T2DByteArray; Start,Stop,Step:Int32): T2DByteArray; cdecl;
 begin Result := Slice(Arr, Start,Stop,Step); end;
+
+function exp_Slice15(Arr:T2DBoxArray; Start,Stop,Step:Int32): T2DBoxArray; cdecl;
+begin Result := Slice(Arr, Start,Stop,Step); end;
+
+function exp_Slice16(Arr:TStringArray; Start,Stop,Step:Int32): TStringArray; cdecl;
+begin Result := Slice(Arr, Start,Stop,Step); end;
+
 
 (* *)
 function exp_Find1(Arr:TIntArray; Seq:TIntArray): Int32; cdecl;
@@ -121,16 +134,22 @@ begin Result := Find(Arr,Seq); end;
 function exp_Find2(Arr:TExtArray; Seq:TExtArray): Int32; cdecl;
 begin Result := Find(Arr,Seq); end;
 
-function exp_Find3(Arr:TPointArray; Seq:TPointArray): Int32; cdecl;
+function exp_Find3(Arr:TFloatArray; Seq:TFloatArray): Int32; cdecl;
 begin Result := Find(Arr,Seq); end;
 
-function exp_Find4(Arr:TByteArray; Seq:TByteArray): Int32; cdecl;
+function exp_Find4(Arr:TDoubleArray; Seq:TDoubleArray): Int32; cdecl;
 begin Result := Find(Arr,Seq); end;
 
-function exp_Find5(Arr:TBoxArray; Seq:TBoxArray): Int32; cdecl;
+function exp_Find5(Arr:TPointArray; Seq:TPointArray): Int32; cdecl;
 begin Result := Find(Arr,Seq); end;
 
-function exp_Find6(Arr:String; Seq:String): Int32; cdecl;
+function exp_Find6(Arr:TByteArray; Seq:TByteArray): Int32; cdecl;
+begin Result := Find(Arr,Seq); end;
+
+function exp_Find7(Arr:TBoxArray; Seq:TBoxArray): Int32; cdecl;
+begin Result := Find(Arr,Seq); end;
+
+function exp_Find8(Arr:String; Seq:String): Int32; cdecl;
 begin Result := Find(Arr,Seq); end;
 
 
@@ -141,16 +160,22 @@ begin Result := FindAll(Arr,Seq); end;
 function exp_FindAll2(Arr:TExtArray; Seq:TExtArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-function exp_FindAll3(Arr:TPointArray; Seq:TPointArray): TIntArray; cdecl;
+function exp_FindAll3(Arr:TFloatArray; Seq:TFloatArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-function exp_FindAll4(Arr:TByteArray; Seq:TByteArray): TIntArray; cdecl;
+function exp_FindAll4(Arr:TDoubleArray; Seq:TDoubleArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-function exp_FindAll5(Arr:TBoxArray; Seq:TBoxArray): TIntArray; cdecl;
+function exp_FindAll5(Arr:TPointArray; Seq:TPointArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-function exp_FindAll6(Arr:String; Seq:String): TIntArray; cdecl;
+function exp_FindAll6(Arr:TByteArray; Seq:TByteArray): TIntArray; cdecl;
+begin Result := FindAll(Arr,Seq); end;
+
+function exp_FindAll7(Arr:TBoxArray; Seq:TBoxArray): TIntArray; cdecl;
+begin Result := FindAll(Arr,Seq); end;
+
+function exp_FindAll8(Arr:String; Seq:String): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
 
@@ -223,6 +248,16 @@ end;
 procedure exp_SortTIA(var Arr: TIntArray); Cdecl;
 begin
   SortTIA(Arr);
+end;
+
+procedure exp_SortTFA(var Arr: TFloatArray); Cdecl;
+begin
+  SortTFA(Arr);
+end;
+
+procedure exp_SortTDA(var Arr: TDoubleArray); Cdecl;
+begin
+  SortTDA(Arr);
 end;
 
 procedure exp_SortTEA(var Arr: TExtArray); Cdecl;
@@ -679,11 +714,6 @@ begin
   Result := NewMatrix(W,H);
 end;
 
-procedure exp_MatInsertTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer); Cdecl;
-begin
-  MatInsertTPA(Matrix,TPA, Value);
-end;
-
 function exp_TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray; cdecl;
 begin
   Result := TPAToMatrixEx(TPA,Init,Value,Align);
@@ -697,21 +727,6 @@ end;
 function exp_NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray; cdecl;
 begin
   Result := NormalizeMat(Mat, Alpha, Beta);
-end;
-
-function exp_MatGetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; cdecl;
-begin
-  Result := MatGetValues(Mat, Indices);
-end;
-
-function exp_MatGetCol(const Mat:T2DIntArray; Column:Integer): TIntArray; cdecl;
-begin
-  Result := MatGetCol(Mat, Column);
-end;
-
-function exp_MatGetRow(const Mat:T2DIntArray; Row:Integer): TIntArray; cdecl;
-begin
-  Result := MatGetRow(Mat, Row);
 end;
 
 function exp_MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray; cdecl;
@@ -1167,28 +1182,53 @@ begin
 end;
 
 
-{-------| ArgMulti |-------}
+
+{-------| CombineMatrix |-------}
 function exp_CombineMatB(const Mat1, Mat2:T2DByteArray; Op:Char): T2DByteArray; cdecl;
-begin
-  Result := CombineMatrix(Mat1, Mat2, Op);
-end;
+begin Result := CombineMatrix(Mat1, Mat2, Op); end;
 
 function exp_CombineMatI(const Mat1, Mat2:T2DIntArray; Op:Char): T2DIntArray; cdecl;
-begin
-  Result := CombineMatrix(Mat1, Mat2, Op);
-end;
+begin Result := CombineMatrix(Mat1, Mat2, Op); end;
 
 function exp_CombineMatF(const Mat1, Mat2:T2DFloatArray; Op:Char): T2DFloatArray; cdecl;
-begin
-  Result := CombineMatrix(Mat1, Mat2, Op);
-end;
+begin Result := CombineMatrix(Mat1, Mat2, Op); end;
 
 function exp_CombineMatD(const Mat1, Mat2:T2DDoubleArray; Op:Char): T2DDoubleArray; cdecl;
-begin
-  Result := CombineMatrix(Mat1, Mat2, Op);
-end;
+begin Result := CombineMatrix(Mat1, Mat2, Op); end;
 
 function exp_CombineMatE(const Mat1, Mat2:T2DExtArray; Op:Char): T2DExtArray; cdecl;
-begin
-  Result := CombineMatrix(Mat1, Mat2, Op);
-end;
+begin Result := CombineMatrix(Mat1, Mat2, Op); end;
+
+
+
+{-------| Get- & PutValues |-------}
+function exp_GetValuesB(const Mat:T2DByteArray; const Indices:TPointArray): TByteArray; cdecl;
+begin Result := GetValues(Mat, Indices); end;
+ 
+function exp_GetValuesI(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; cdecl;
+begin Result := GetValues(Mat, Indices); end;
+ 
+function exp_GetValuesF(const Mat:T2DFloatArray; const Indices:TPointArray): TFloatArray; cdecl;
+begin Result := GetValues(Mat, Indices); end;
+ 
+function exp_GetValuesD(const Mat:T2DDoubleArray; const Indices:TPointArray): TDoubleArray; cdecl;
+begin Result := GetValues(Mat, Indices); end;
+ 
+function exp_GetValuesE(const Mat:T2DExtArray; const Indices:TPointArray): TExtArray; cdecl;
+begin Result := GetValues(Mat, Indices); end;
+ 
+//Put
+procedure exp_PutValuesB(var Matrix:T2DByteArray; const Indices:TPointArray; Values:CoreTypes.TByteArray); cdecl;
+begin PutValues(Matrix, Indices, Values); end;
+
+procedure exp_PutValuesI(var Matrix:T2DIntArray; const Indices:TPointArray; Values:TIntArray); cdecl;
+begin PutValues(Matrix, Indices, Values); end;
+
+procedure exp_PutValuesF(var Matrix:T2DFloatArray; const Indices:TPointArray; Values:TFloatArray); cdecl;
+begin PutValues(Matrix, Indices, Values); end;
+
+procedure exp_PutValuesD(var Matrix:T2DDoubleArray; const Indices:TPointArray; Values:TDoubleArray); cdecl;
+begin PutValues(Matrix, Indices, Values); end;
+
+procedure exp_PutValuesE(var Matrix:T2DExtArray; const Indices:TPointArray; Values:TExtArray); cdecl;
+begin PutValues(Matrix, Indices, Values); end;

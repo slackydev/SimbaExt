@@ -50,6 +50,33 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure T2DExtArray.Insert(idx:Int32; Value:TExtArray);
+  @desc: 
+    Inserts a new item `value` in the array at the given position. If position `idx` is greater then the length, 
+    it will append the item `value` to the end. If it's less then 0 it will substract the index from the length of the array.[br]
+    
+    `Arr.Insert(0, x)` inserts at the front of the list, and `Arr.Insert(length(a), x)` is equivalent to `Arr.Append(x)`.
+}
+procedure T2DExtArray.Insert(idx:Int32; Value:TExtArray);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (idx < 0) then
+    idx := math.modulo(idx,l);
+
+  if (l <= idx) then begin
+    self.append(value);
+    Exit();
+  end;
+
+  SetLength(Self, l+1);
+  for i:=l downto idx+1 do
+    Self[i] := Self[i-1];
+  Self[i] := Value;
+end;
+
+
+{!DOCREF} {
   @method: function T2DExtArray.Pop(): TExtArray;
   @desc: Removes and returns the last item in the array
 }
@@ -120,7 +147,7 @@ end;
 {!DOCREF} {
   @method: function T2DExtArray.Sorted(Key:TSortKey=sort_Default): T2DExtArray;
   @desc: 
-    Sorts a copy of the ATEA with the given key, returns a copy
+    Returns a new sorted array from the input array.
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
 function T2DExtArray.Sorted(Key:TSortKey=sort_Default): T2DExtArray;
@@ -138,7 +165,7 @@ end;
 
 {!DOCREF} {
   @method: function T2DExtArray.Sorted(Index:Integer): T2DPointArray; overload;
-  @desc: Sorts a copy of the ATEA by the given index in each group
+  @desc: Returns a new sorted array from the input array. Sorts by the given index in each group.
 }
 function T2DExtArray.Sorted(Index:Integer): T2DExtArray; overload;
 begin
@@ -150,7 +177,7 @@ end;
 {!DOCREF} {
   @method: procedure T2DExtArray.Sort(Key:TSortKey=sort_Default);
   @desc: 
-    Sorts the ATIA with the given key, returns a copy
+    Sorts the array with the given key
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
 procedure T2DExtArray.Sort(Key:TSortKey=sort_Default);
@@ -168,7 +195,7 @@ end;
 {!DOCREF} {
   @method: procedure T2DExtArray.Sort(Index:Integer); overload;
   @desc: 
-    Sorts the ATEA by the given index in each group. If the group is not that large it will be set to the last item in that group.
+    Sorts the array by the given index in each group. If the group is not that the last index in the group is used.
     Negative 'index' will result in counting from right to left: High(Arr[i]) - index
   
 }
@@ -279,46 +306,3 @@ begin
   Result := Self.Merge().Mode(Eps);
 end;
 
-
-{!DOCREF} {
-  @method: function T2DExtArray.VarMin(): Extended;
-  @desc: Returns the minimum value in the array
-}
-function T2DExtArray.VarMin(): Extended;
-var _:Extended;
-begin
-  exp_MinMax(Self,Result,_);
-end;
-
-
-
-{!DOCREF} {
-  @method: function T2DExtArray.VarMax(): Extended;
-  @desc: Returns the maximum value in the array
-}
-function T2DExtArray.VarMax(): Extended;
-var _:Extended;
-begin
-  exp_MinMax(Self,_,Result);
-end;
-
-
-{!DOCREF} {
-  @method: function T2DExtArray.ArgMin(): TPoint;
-  @desc: Returns the index containing the smallest element in the array
-}
-function T2DExtArray.ArgMin(): TPoint;
-begin
-  Result := exp_ArgMin(Self);
-end;
-
-
-
-{!DOCREF} {
-  @method: function T2DExtArray.ArgMax(): TPoint;
-  @desc: Returns the index containing the largest element in the array
-}
-function T2DExtArray.ArgMax(): TPoint;
-begin
-  Result := exp_ArgMax(Self);
-end;

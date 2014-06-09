@@ -50,6 +50,33 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure T2DByteArray.Insert(idx:Int32; Value:TByteArray);
+  @desc: 
+    Inserts a new item `value` in the array at the given position. If position `idx` is greater then the length, 
+    it will append the item `value` to the end. If it's less then 0 it will substract the index from the length of the array.[br]
+    
+    `Arr.Insert(0, x)` inserts at the front of the list, and `Arr.Insert(length(a), x)` is equivalent to `Arr.Append(x)`.
+}
+procedure T2DByteArray.Insert(idx:Int32; Value:TByteArray);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (idx < 0) then
+    idx := math.modulo(idx,l);
+
+  if (l <= idx) then begin
+    self.append(value);
+    Exit();
+  end;
+
+  SetLength(Self, l+1);
+  for i:=l downto idx+1 do
+    Self[i] := Self[i-1];
+  Self[i] := Value;
+end;
+
+
+{!DOCREF} {
   @method: function T2DByteArray.Pop(): TByteArray;
   @desc: Removes and returns the last item in the array
 }
@@ -132,7 +159,7 @@ end;
 {!DOCREF} {
   @method: function T2DByteArray.Sorted(Key:TSortKey=sort_Default): T2DByteArray;
   @desc: 
-    Sorts a copy of the ATBA with the given key, returns a copy
+    Returns a new sorted array from the input array.
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
 function T2DByteArray.Sorted(Key:TSortKey=sort_Default): T2DByteArray;
@@ -299,48 +326,4 @@ end;
 function T2DByteArray.Mode(): Byte;
 begin
   Result := Self.Merge().Mode();
-end;
-
-
-{!DOCREF} {
-  @method: function T2DByteArray.VarMin(): Byte;
-  @desc: Returns the minimum value in the array
-}
-function T2DByteArray.VarMin(): Byte;
-var _:Byte;
-begin
-  exp_MinMax(Self,Result,_);
-end;
-
-
-
-{!DOCREF} {
-  @method: function T2DByteArray.VarMax(): Byte;
-  @desc: Returns the maximum value in the array
-}
-function T2DByteArray.VarMax(): Byte;
-var _:Byte;
-begin
-  exp_MinMax(Self,_,Result);
-end;
-
-
-{!DOCREF} {
-  @method: function T2DByteArray.ArgMin(): TPoint;
-  @desc: Returns the index containing the smallest element in the array
-}
-function T2DByteArray.ArgMin(): TPoint;
-begin
-  Result := exp_ArgMin(Self);
-end;
-
-
-
-{!DOCREF} {
-  @method: function T2DByteArray.ArgMax(): TPoint;
-  @desc: Returns the index containing the largest element in the array
-}
-function T2DByteArray.ArgMax(): TPoint;
-begin
-  Result := exp_ArgMax(Self);
 end;

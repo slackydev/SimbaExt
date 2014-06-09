@@ -416,7 +416,7 @@ end;
 }
 function SimbaExt.ImFindColorTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, Tol:Integer): Boolean;
 begin
-  RaiseWarning('ImFindColorTolEx is deprecated and will be removed, use "se.FindColorTolEx', ERR_DEPRECATED);
+  RaiseWarning('ImFindColorTolEx is deprecated and will be removed, use "se.FindColorEx', ERR_DEPRECATED);
   Result := exp_ImFindColorTolEx(ImgArr, TPA, Color, Tol);
 end;
 
@@ -427,7 +427,7 @@ end;
 }
 function SimbaExt.ImFindColorsTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
 begin
-  RaiseWarning('ImFindColorsTolEx is deprecated and will be removed, use "se.FindColorTolEx', ERR_DEPRECATED);
+  RaiseWarning('ImFindColorsTolEx is deprecated and will be removed, use "se.FindColorEx', ERR_DEPRECATED);
   Result := exp_ImFindColorsTolEx(ImgArr, TPA, Colors, Tol);
 end;
 
@@ -438,7 +438,7 @@ end;
 }
 function SimbaExt.ImFindColorTolExLCH(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
 begin
-  RaiseWarning('ImFindColorTolExLCH is deprecated and will be removed, use "se.FindColorTolEx', ERR_DEPRECATED);
+  RaiseWarning('ImFindColorTolExLCH is deprecated and will be removed, use "se.FindColorEx', ERR_DEPRECATED);
   Result := exp_ImFindColorTolExLCH(ImgArr, TPA, Color, ColorTol, LightTol);
 end;
 
@@ -449,6 +449,6 @@ end;
 }
 function SimbaExt.ImFindColorTolExLAB(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
 begin
-  RaiseWarning('ImFindColorTolExLAB is deprecated and will be removed, use "se.FindColorTolEx"', ERR_DEPRECATED);
+  RaiseWarning('ImFindColorTolExLAB is deprecated and will be removed, use "se.FindColorEx"', ERR_DEPRECATED);
   Result := exp_ImFindColorTolExLAB(ImgArr, TPA, Color, ColorTol, LightTol);
 end;

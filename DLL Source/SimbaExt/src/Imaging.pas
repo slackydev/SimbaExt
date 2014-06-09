@@ -111,7 +111,8 @@ end;
 function ImBlurFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; 
 var
   W,H,x,y,mid,fx,fy,size:Integer;
-  R,G,B,color,lx,ly,hx,hy:Integer;
+  R,G,B,lx,ly,hx,hy:Integer;
+  color:ColorRGB;
 begin
   if (Block<=1) or (Block mod 2 = 0) then Exit;
   W := High(ImgArr[0]);
@@ -132,10 +133,10 @@ begin
       for fy:=ly to hy do
         for fx:=lx to hx do
         begin
-          Color := ImgArr[fy][fx];
-          R := R + (Color and $FF);
-          G := G + ((Color shr 8) and $FF);
-          B := B + ((Color shr 16) and $FF);
+          Color := ColorRGB(ImgArr[fy][fx]);
+          R += Color.R;
+          G += Color.G;
+          B += Color.B;
           Inc(Size);
         end;
       Result[y][x] := (R div size) or
@@ -267,7 +268,7 @@ end;
    C: Based on the "mid"-value (127), if color is bellow then it gets weakened,
       if it's above then it gets enhanced.
 *}
-function ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended): T2DIntArray; 
+function ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended): T2DIntArray;
 var
   W,H,x,y,R,G,B:Integer;
   mid: Single;
@@ -291,15 +292,15 @@ begin
         R := R - Enhancement;
         if (R < 0) then R:=0;
       end;
-      
-      if G > mid then begin 
+
+      if G > mid then begin
         G := G + Enhancement;
         if (G > 255) then G:=255;
       end else begin
         G := G - Enhancement;
         if (G < 0) then G:=0;
       end;
-      
+
       if B > mid then begin
         B := B + Enhancement;
         if (B > 255) then B:=255;
@@ -307,7 +308,7 @@ begin
         B := B - Enhancement;
         if (B < 0) then B:=0;
       end;
-      
+
       Result[y][x] := (R) or (G shl 8) or (B shl 16);
     end;
 end;
@@ -429,7 +430,7 @@ end;
 
 {
   ImgArr is treated as a binary array, so 0s will be left alone, and anything above 0 will be checked.
-  You can use this with XT_Threshold or XT_ThresholdApdative.
+  You can use this with Threshold or ThresholdApdative.
   
   This will probably be changed to something more "proper".
 }

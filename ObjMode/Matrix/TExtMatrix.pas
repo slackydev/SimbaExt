@@ -44,10 +44,156 @@ end;
 
 
 {!DOCREF} {
+  @method: function TExtMatrix.Get(const Indices:TPointArray): TExtArray 
+  @desc:
+    Gets all the values at the given indices. If any of the points goes out
+    of bounds, it will simply be ignored.
+    [code=pascal]
+    var 
+      Matrix:TExtMatrix;
+    begin
+      Matrix.SetSize(100,100);
+      Matrix[10][10] := 100;
+      Matrix[10][13] := 29;
+      WriteLn( Matrix.GetValues([Point(10,10),Point(13,10),Point(20,20)]));
+    end;
+    [/code]
+}
+function TExtMatrix.Get(const Indices:TPointArray): TExtArray;  
+begin
+  Result := exp_GetValues(Self, Indices);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TExtMatrix.Put(const TPA:TPointArray; Values:TExtArray);  
+  @desc: Adds the points to the matrix with the given values.
+}
+procedure TExtMatrix.Put(const TPA:TPointArray; Values:TExtArray);  
+begin
+  exp_PutValues(Self, TPA, Values);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TExtMatrix.Put(const TPA:TPointArray; Value:Extended); overload;  
+  @desc: Adds the points to the matrix with the given value.
+}
+procedure TExtMatrix.Put(const TPA:TPointArray; Value:Extended); overload; 
+begin
+  exp_PutValues(Self, TPA, TExtArray([Value]));
+end;
+
+
+{!DOCREF} {
+  @method: function TExtMatrix.Merge(): TExtArray;
+  @desc: Merges the matrix is to a flat array of the same type.
+}
+function TExtMatrix.Merge(): TExtArray;
+var i,s,wid: Int32;
+begin
+  S := 0;
+  SetLength(Result, Self.Width()*Self.Height());
+  Wid := Self.Width();
+  for i:=0 to High(Self) do
+  begin
+    MemMove(Self[i][0], Result[S], Wid*SizeOf(Extended));
+    S := S + Wid;
+  end; 
+end;
+
+
+{!DOCREF} {
+  @method: function TExtMatrix.Sum(): Extended;
+  @desc: Returns the sum of the matrix
+}
+function TExtMatrix.Sum(): Extended;
+var i: Integer;
+begin
+  for i:=0 to High(Self) do
+    Result := Result + Self[i].Sum();
+end;
+
+
+
+
+{!DOCREF} {
+  @method: function TExtMatrix.Mean(): Extended;
+  @desc: Returns the mean of the matrix
+}
+function TExtMatrix.Mean(): Extended;
+var i: Integer;
+begin
+  for i:=0 to High(Self) do
+    Result := Result + Self[i].Mean();
+  Result := Result / High(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function TExtMatrix.Stdev(): Extended;
+  @desc: Returns the standard deviation of the matrix
+}
+function TExtMatrix.Stdev(): Extended;
+var
+  x,y,i,W,H:Int32;
+  avg:Extended;
+  square:TExtArray;
+begin
+  W := Self.Width() - 1;
+  H := Self.Height() - 1;
+  avg := Self.Mean();
+  SetLength(square,Self.Width()*Self.Height());
+  i := -1;
+  for y:=0 to H do
+    for x:=0 to W do
+      Square[inc(i)] := Sqr(Self[y][x] - avg);
+  Result := Sqrt(square.Mean());
+end;
+
+
+{!DOCREF} {
+  @method: function TExtMatrix.Variance(): Extended;
+  @desc: 
+    Return the sample variance. 
+    Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the matrix. 
+    A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
+}
+function TExtMatrix.Variance(): Extended;
+var
+  avg:Extended;
+  x,y,w,h:Int32;
+begin
+  W := Self.Width() - 1;
+  H := Self.Height() - 1;
+
+  avg := Self.Mean();
+  for y:=0 to H do
+    for x:=0 to W do
+      Result := Result + Sqr(Self[y][x] - avg);
+  Result := Result / ((W+1) * (H+1));
+end; 
+
+
+{!DOCREF} {
+  @method: function TExtMatrix.Mode(Eps:Extended=0.0000001): Extended;
+  @desc:
+    Returns the sample mode of the matrix, which is the most frequently occurring value in the matrix.
+    When there are multiple values occurring equally frequently, mode returns the smallest of those values.
+}
+function TExtMatrix.Mode(Eps:Extended=0.0000001): Extended;
+begin
+  Result := Self.Merge().Mode(Eps);
+end;
+
+
+
+{------------|  Indices  |------------}
+{!DOCREF} {
   @method: function TExtMatrix.Indices(Value: Extended; const Comparator:TComparator): TPointArray;
   @desc:
     Returns all the indices which matches the given value, and comperator.
-    EG: c'Matrix.Indices(10, __LT__)' would return all the items which are less then 10.
+    EG: c'TPA := Matrix.Indices(10, __LT__)' would return where all the items which are less then 10 is.
 }
 function TExtMatrix.Indices(Value: Extended; const Comparator:TComparator): TPointArray;
 begin 

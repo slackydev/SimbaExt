@@ -18,13 +18,20 @@ function SumPtr(Ptr:PChar; Size:UInt8; Len:LongInt; Signed:Boolean): Int64; cdec
 function SumTBA(const Arr: CoreTypes.TByteArray): Int64; Inline;
 function SumTIA(const Arr: TIntArray): Int64; Inline; 
 function SumTEA(const Arr: TExtArray): Extended; Inline; 
-function TIACombinations(const Arr: TIntArray; Seq:Integer): T2DIntArray; 
-function TEACombinations(const Arr: TExtArray; Seq:Integer): T2DExtArray; 
+
+procedure MinMaxFPtr(Ptr:PChar; Size:UInt8; Len:LongInt; var Min,Max:Extended); cdecl;
+procedure MinMaxPtr(Ptr:PChar; Size:UInt8; Len:LongInt; Signed:Boolean; var Min,Max:Int64); cdecl;
+
 procedure MinMaxTBA(const Arr: CoreTypes.TByteArray; var Min:Byte; var Max: Byte); Inline;
 procedure MinMaxTIA(const Arr: TIntArray; var Min:Integer; var Max: Integer); Inline; 
 procedure MinMaxTEA(const Arr: TExtArray; var Min:Extended; var Max: Extended); Inline; 
+
+
+function TIACombinations(const Arr: TIntArray; Seq:Integer): T2DIntArray; 
+function TEACombinations(const Arr: TExtArray; Seq:Integer): T2DExtArray; 
 function TIAMatches(const Arr1, Arr2:TIntArray; InPercent, Inversed:Boolean): Int32; 
 function LogscaleTIA(const Freq:TIntArray; Scale: Integer): TIntArray; 
+
 
 //--------------------------------------------------
 implementation
@@ -119,6 +126,128 @@ begin
 end;
 
 
+
+{*
+  Finds the minimum and maximum of a single-, double-, or extended array.
+*}
+procedure MinMaxFPtr(Ptr:PChar; Size:UInt8; Len:LongInt; var Min,Max:Extended);  cdecl;
+var l:Int32;
+begin
+  l := UInt32(ptr)+(len*size);
+  case size of
+    4 :begin Min := PFloat32(Ptr)^; Max := Min; end;
+    8 :begin Min := PFloat64(Ptr)^; Max := Min; end;
+    10:begin Min := PFloat80(Ptr)^; Max := Min; end;
+  end;
+  while (UInt32(ptr) < l) do begin
+    case size of
+      4 : if PFloat32(Ptr)^ < Min then        Min := PFloat32(Ptr)^
+          else if PFloat32(Ptr)^ > Max then   Max := PFloat32(Ptr)^;
+      8 : if PFloat64(Ptr)^ < Min then        Min := PFloat64(Ptr)^
+          else if PFloat64(Ptr)^ > Max then   Max := PFloat64(Ptr)^;
+      10: if PFloat80(Ptr)^ < Min then        Min := PFloat80(Ptr)^
+          else if PFloat80(Ptr)^ > Max then   Max := PFloat80(Ptr)^;
+    end;
+    Inc(ptr,size);
+  end;
+end;
+
+
+{*
+  Finds the minimum and maximum of any normal integer typed array.
+*}
+procedure MinMaxPtr(Ptr:PChar; Size:UInt8; Len:LongInt; Signed:Boolean; var Min,Max:Int64); cdecl;
+var l:Int32; tmp:Int64;
+begin
+  l := UInt32(ptr)+(len*size);
+  if signed then
+    case size of
+      1 :begin Min := PInt8(Ptr)^;  Max := Min; end;
+      2 :begin Min := PInt16(Ptr)^; Max := Min; end;
+      4 :begin Min := PInt32(Ptr)^; Max := Min; end;
+      8 :begin Min := PInt64(Ptr)^; Max := Min; end;
+    end
+  else
+    case size of
+      1 :begin Min := PUInt8(Ptr)^;  Max := Min; end;
+      2 :begin Min := PUInt16(Ptr)^; Max := Min; end;
+      4 :begin Min := PUInt32(Ptr)^; Max := Min; end;
+      8 :begin Min := PUInt64(Ptr)^; Max := Min; end;
+    end;
+
+  case signed of
+  True:
+    while (UInt32(ptr) < l) do begin
+      case size of
+        1: tmp := PUInt8(Ptr)^;
+        2: tmp := PUInt16(Ptr)^;
+        4: tmp := PUInt32(Ptr)^;
+        8: tmp := PUInt64(Ptr)^;
+      end;
+      if (tmp < Min) then Min := tmp else if (tmp > Max) then Max := tmp;
+      Inc(ptr,size);
+    end;
+  False:
+    while (UInt32(ptr) < l) do begin
+      case size of
+        1: tmp := PUInt8(Ptr)^;
+        2: tmp := PUInt16(Ptr)^;
+        4: tmp := PUInt32(Ptr)^;
+        8: tmp := PUInt64(Ptr)^;
+      end;
+      if (tmp < Min) then Min := tmp else if (tmp > Max) then Max := tmp;
+      Inc(ptr,size);
+    end;
+  end;
+end; 
+
+
+{*
+  Finds the minimum and maximum of a TBA.
+*}
+procedure MinMaxTBA(const Arr: CoreTypes.TByteArray; var Min:Byte; var Max: Byte); Inline;
+var i:Int32;
+begin
+  Min := Arr[0];
+  Max := Arr[0];
+  for i:=Low(Arr) to High(Arr) do
+    if (Arr[i] < Min) then Min := Arr[i] else if (Arr[i] > Max) then Max := Arr[i];
+end;
+
+
+{*
+  Finds the minimum and maximum of a TIA.
+*}
+procedure MinMaxTIA(const Arr: TIntArray; var Min:Integer; var Max: Integer); Inline; 
+var i:Int32;
+begin
+  Min := Arr[0];
+  Max := Arr[0];
+  for i:=Low(Arr) to High(Arr) do
+    if (Arr[i] < Min) then Min := Arr[i] else if (Arr[i] > Max) then Max := Arr[i];
+end;
+
+
+{*
+  Finds the minimum and maximum of a TEA.
+*}
+procedure MinMaxTEA(const Arr: TExtArray; var Min:Extended; var Max: Extended); Inline; 
+var i:Integer;
+begin
+  Min := Arr[0];
+  Max := Arr[0];
+  for i:=Low(Arr) to High(Arr) do
+    if (Arr[i] < Min) then Min := Arr[i] else if (Arr[i] > Max) then Max := Arr[i];
+end;
+
+
+
+
+{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]
+[--|  OLDER STUFF  |-----------------------------------------------------------------]
+[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}
+
+
 {*
   Combinations of size `seq` from given TIA `arr`.
 *}
@@ -191,61 +320,6 @@ begin
   end;
   SetLength(Indices, 0);
 end;
-
-
-{*
-  Finds the minimum and maximum of a TBA.
-*}
-procedure MinMaxTBA(const Arr: CoreTypes.TByteArray; var Min:Byte; var Max: Byte); Inline;
-var i:Integer;
-begin
-  Min := Arr[0];
-  Max := Arr[0];
-  for i:=Low(Arr) to High(Arr) do
-  begin
-    if Arr[i] < Min then
-      Min := Arr[i]
-    else if Arr[i] > Max then
-      Max := Arr[i];
-  end;
-end;
-
-
-{*
-  Finds the minimum and maximum of a TIA.
-*}
-procedure MinMaxTIA(const Arr: TIntArray; var Min:Integer; var Max: Integer); Inline; 
-var i:Integer;
-begin
-  Min := Arr[0];
-  Max := Arr[0];
-  for i:=Low(Arr) to High(Arr) do
-  begin
-    if Arr[i] < Min then
-      Min := Arr[i]
-    else if Arr[i] > Max then
-      Max := Arr[i];
-  end;
-end;
-
-
-{*
-  Finds the minimum and maximum of a TEA.
-*}
-procedure MinMaxTEA(const Arr: TExtArray; var Min:Extended; var Max: Extended); Inline; 
-var i:Integer;
-begin
-  Min := Arr[0];
-  Max := Arr[0];
-  for i:=Low(Arr) to High(Arr) do
-  begin
-    if Arr[i] < Min then
-      Min := Arr[i]
-    else if Arr[i] > Max then
-      Max := Arr[i];
-  end;
-end;
-
 
 {*
   Finds the amount of different indices, by comparing each index in "Arr1" to each index in "Arr2".

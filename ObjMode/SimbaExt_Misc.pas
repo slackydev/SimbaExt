@@ -4,6 +4,8 @@
 {$include_once Types/Type_TPointArray.pas}
 {$include_once Types/Type_TByteArray.pas}
 {$include_once Types/Type_TIntArray.pas}
+{$include_once Types/Type_TFloatArray.pas}
+{$include_once Types/Type_TDoubleArray.pas}
 {$include_once Types/Type_TExtArray.pas}
 {$include_once Types/Type_TBoxArray.pas}
 {$include_once Types/Type_TStringArray.pas}

@@ -87,60 +87,74 @@ begin
   AddCommand(@exp_DeltaAngle,	'function exp_DeltaAngle(DegA,DegB:Extended): Extended;');
 
 
-
   // Numeric.pas
   AddCommand(@SumPtr,         'function exp_SumPtr(Ptr:PChar; Size:UInt8; Len:LongInt; Signed:Boolean=False): Int64;');
   AddCommand(@SumFPtr,        'function exp_SumFPtr(Ptr:PChar; Size:UInt8; Len:LongInt): Extended;');
+  AddCommand(@MinMaxPtr,        'procedure exp_MinMaxPtr(Ptr:PChar; Size:UInt8; Len:LongInt; Signed:Boolean; var Min,Max:Int64);');
+  AddCommand(@MinMaxFPtr,       'procedure exp_MinMaxFPtr(Ptr:PChar; Size:UInt8; Len:LongInt; var Min,Max:Extended);');
   AddCommand(@exp_SumTBA,	    'function exp_SumTBA(const Arr: TByteArray): Int64;');
   AddCommand(@exp_SumTIA,	    'function exp_SumTIA(const Arr: TIntArray): Int64;');
   AddCommand(@exp_SumTEA,	    'function exp_SumTEA(const Arr: TExtArray): Extended;');
-  AddCommand(@exp_TIACombinations,	'function exp_TIACombinations(const Arr: TIntArray; Seq:Integer): T2DIntArray;');
-  AddCommand(@exp_TEACombinations,	'function exp_TEACombinations(const Arr: TExtArray; Seq:Integer): T2DExtArray;');
   AddCommand(@exp_MinMaxTBA,	'procedure exp_MinMaxTBA(const Arr: TByteArray; var Min:Byte; var Max:Byte);');
   AddCommand(@exp_MinMaxTIA,	'procedure exp_MinMaxTIA(const Arr: TIntArray; var Min:Integer; var Max: Integer);');
   AddCommand(@exp_MinMaxTEA,	'procedure exp_MinMaxTEA(const Arr: TExtArray; var Min:Extended; var Max: Extended);');
+  AddCommand(@exp_TIACombinations,	'function exp_TIACombinations(const Arr: TIntArray; Seq:Integer): T2DIntArray;');
+  AddCommand(@exp_TEACombinations,	'function exp_TEACombinations(const Arr: TExtArray; Seq:Integer): T2DExtArray;');
 
 
   // Std.pas
-  AddCommand(@exp_Slice1,	'function exp_Slice(Arr:TIntArray; Start,Stop,Step:Int32): TIntArray;');
-  AddCommand(@exp_Slice2,	'function exp_Slice(Arr:TExtArray; Start,Stop,Step:Int32): TExtArray; overload;');
-  AddCommand(@exp_Slice3,	'function exp_Slice(Arr:TPointArray; Start,Stop,Step:Int32): TPointArray; overload;');
-  AddCommand(@exp_Slice4,	'function exp_Slice(Arr:TByteArray; Start,Stop,Step:Int32): TByteArray; overload;');
-  AddCommand(@exp_Slice5,	'function exp_Slice(Arr:TBoxArray; Start,Stop,Step:Int32): TBoxArray; overload;');
-  AddCommand(@exp_Slice6,	'function exp_Slice(Arr:String; Start,Stop,Step:Int32): String; overload;');
-  AddCommand(@exp_Slice7,	'function exp_Slice(Arr:T2DIntArray; Start,Stop,Step:Int32): T2DIntArray; overload;');
-  AddCommand(@exp_Slice8,	'function exp_Slice(Arr:T2DExtArray; Start,Stop,Step:Int32): T2DExtArray; overload;');
-  AddCommand(@exp_Slice9,	'function exp_Slice(Arr:T2DPointArray; Start,Stop,Step:Int32): T2DPointArray; overload;');
-  AddCommand(@exp_Slice10,	'function exp_Slice(Arr:T2DByteArray; Start,Stop,Step:Int32): T2DByteArray; overload;');
-  AddCommand(@exp_Slice11,	'function exp_Slice(Arr:T2DBoxArray; Start,Stop,Step:Int32): T2DBoxArray; overload;');
-  AddCommand(@exp_Slice12,	'function exp_Slice(Arr:TStringArray; Start,Stop,Step:Int32): TStringArray; overload;');
+  (** Array slicing **)
+  AddCommand(@exp_Slice1,  'function exp_Slice(Arr:TIntArray; Start,Stop,Step:Int32): TIntArray; overload;');
+  AddCommand(@exp_Slice2,  'function exp_Slice(Arr:TExtArray; Start,Stop,Step:Int32): TExtArray; overload;');
+  AddCommand(@exp_Slice3,  'function exp_Slice(Arr:TFloatArray; Start,Stop,Step:Int32): TFloatArray; overload;');
+  AddCommand(@exp_Slice4,  'function exp_Slice(Arr:TDoubleArray; Start,Stop,Step:Int32): TDoubleArray; overload;');
+  AddCommand(@exp_Slice5,  'function exp_Slice(Arr:TPointArray; Start,Stop,Step:Int32): TPointArray; overload;');
+  AddCommand(@exp_Slice6,  'function exp_Slice(Arr:TByteArray; Start,Stop,Step:Int32): TByteArray; overload;');
+  AddCommand(@exp_Slice7,  'function exp_Slice(Arr:TBoxArray; Start,Stop,Step:Int32): TBoxArray; overload;');
+  AddCommand(@exp_Slice8,  'function exp_Slice(Arr:String; Start,Stop,Step:Int32): String; overload;');
+  AddCommand(@exp_Slice9,  'function exp_Slice(Arr:T2DIntArray; Start,Stop,Step:Int32): T2DIntArray; overload;');
+  AddCommand(@exp_Slice10, 'function exp_Slice(Arr:T2DExtArray; Start,Stop,Step:Int32): T2DExtArray; overload;');
+  AddCommand(@exp_Slice11, 'function exp_Slice(Arr:T2DFloatArray; Start,Stop,Step:Int32): T2DFloatArray; overload;');
+  AddCommand(@exp_Slice12, 'function exp_Slice(Arr:T2DDoubleArray; Start,Stop,Step:Int32): T2DDoubleArray; overload;');
+  AddCommand(@exp_Slice13, 'function exp_Slice(Arr:T2DPointArray; Start,Stop,Step:Int32): T2DPointArray; overload;');
+  AddCommand(@exp_Slice14, 'function exp_Slice(Arr:T2DByteArray; Start,Stop,Step:Int32): T2DByteArray; overload;');
+  AddCommand(@exp_Slice15, 'function exp_Slice(Arr:T2DBoxArray; Start,Stop,Step:Int32): T2DBoxArray; overload;');
+  AddCommand(@exp_Slice16, 'function exp_Slice(Arr:TStringArray; Start,Stop,Step:Int32): TStringArray; overload;');
 
-  AddCommand(@exp_Find1,	'function exp_Find(Arr:TIntArray; Seq:TIntArray): Int32;');
-  AddCommand(@exp_Find2,	'function exp_Find(Arr:TExtArray; Seq:TExtArray): Int32; overload;');
-  AddCommand(@exp_Find3,	'function exp_Find(Arr:TPointArray; Seq:TPointArray): Int32; overload;');
-  AddCommand(@exp_Find4,	'function exp_Find(Arr:TByteArray; Seq:TByteArray): Int32; overload;');
-  AddCommand(@exp_Find5,	'function exp_Find(Arr:TBoxArray; Seq:TBoxArray): Int32; overload;');
-  AddCommand(@exp_Find6,	'function exp_Find(Arr:String; Seq:String): Int32; overload;');
+  (** Array pos **)
+  AddCommand(@exp_Find1, 'function exp_Find(Arr:TIntArray; Seq:TIntArray): Int32; overload;');
+  AddCommand(@exp_Find2, 'function exp_Find(Arr:TExtArray; Seq:TExtArray): Int32; overload;');
+  AddCommand(@exp_Find3, 'function exp_Find(Arr:TFloatArray; Seq:TFloatArray): Int32; overload;');
+  AddCommand(@exp_Find4, 'function exp_Find(Arr:TDoubleArray; Seq:TDoubleArray): Int32; overload;');
+  AddCommand(@exp_Find5, 'function exp_Find(Arr:TPointArray; Seq:TPointArray): Int32; overload;');
+  AddCommand(@exp_Find6, 'function exp_Find(Arr:TByteArray; Seq:TByteArray): Int32; overload;');
+  AddCommand(@exp_Find7, 'function exp_Find(Arr:TBoxArray; Seq:TBoxArray): Int32; overload;');
+  AddCommand(@exp_Find8, 'function exp_Find(Arr:String; Seq:String): Int32; overload;');
 
-  AddCommand(@exp_FindAll1,	'function exp_FindAll(Arr:TIntArray; Seq:TIntArray): TIntArray;');
-  AddCommand(@exp_FindAll2,	'function exp_FindAll(Arr:TExtArray; Seq:TExtArray): TIntArray; overload;');
-  AddCommand(@exp_FindAll3,	'function exp_FindAll(Arr:TPointArray; Seq:TPointArray): TIntArray; overload;');
-  AddCommand(@exp_FindAll4,	'function exp_FindAll(Arr:TByteArray; Seq:TByteArray): TIntArray; overload;');
-  AddCommand(@exp_FindAll5,	'function exp_FindAll(Arr:TBoxArray; Seq:TBoxArray): TIntArray; overload;');
-  AddCommand(@exp_FindAll6,	'function exp_FindAll(Arr:String; Seq:String): TIntArray; overload;');
+  (** Array pos multi **)
+  AddCommand(@exp_FindAll1, 'function exp_FindAll(Arr:TIntArray; Seq:TIntArray): TIntArray; overload;');
+  AddCommand(@exp_FindAll2, 'function exp_FindAll(Arr:TExtArray; Seq:TExtArray): TIntArray; overload;');
+  AddCommand(@exp_FindAll3, 'function exp_FindAll(Arr:TFloatArray; Seq:TFloatArray): TIntArray; overload;');
+  AddCommand(@exp_FindAll4, 'function exp_FindAll(Arr:TDoubleArray; Seq:TDoubleArray): TIntArray; overload;');
+  AddCommand(@exp_FindAll5, 'function exp_FindAll(Arr:TPointArray; Seq:TPointArray): TIntArray; overload;');
+  AddCommand(@exp_FindAll6, 'function exp_FindAll(Arr:TByteArray; Seq:TByteArray): TIntArray; overload;');
+  AddCommand(@exp_FindAll7, 'function exp_FindAll(Arr:TBoxArray; Seq:TBoxArray): TIntArray; overload;');
+  AddCommand(@exp_FindAll8, 'function exp_FindAll(Arr:String; Seq:String): TIntArray; overload;');
   
 
   // Sorting.pas
   AddCommand(@exp_SortTBA,	'procedure exp_SortTBA(var Arr: TByteArray);');
-  AddCommand(@exp_SortTIA,	'procedure exp_SortTIA(var Arr: TIntegerArray);');
+  AddCommand(@exp_SortTIA,	'procedure exp_SortTIA(var Arr: TIntArray);');
+  AddCommand(@exp_SortTFA,	'procedure exp_SortTFA(var Arr: TFloatArray);');
+  AddCommand(@exp_SortTDA,	'procedure exp_SortTDA(var Arr: TDoubleArray);');
   AddCommand(@exp_SortTEA,	'procedure exp_SortTEA(var Arr: TExtendedArray);');
   AddCommand(@exp_SortTPA,	'procedure exp_SortTPA(var Arr: TPointArray);');
   AddCommand(@exp_SortTPAFrom,	'procedure exp_SortTPAFrom(var Arr: TPointArray; const From:TPoint);');
   AddCommand(@exp_SortTPAByRow,	'procedure exp_SortTPAByRow(var Arr: TPointArray);');
   AddCommand(@exp_SortTPAByColumn,	'procedure exp_SortTPAByColumn(var Arr: TPointArray);');
-  AddCommand(@exp_SortTPAByX,	'procedure exp_SortTPAByX(var Arr: TPointArray);');
-  AddCommand(@exp_SortTPAByY,	'procedure exp_SortTPAByY(var Arr: TPointArray);');
-  AddCommand(@exp_SortTSA,	'procedure exp_SortTSA(var Arr: TStringArray; CaseInsesitive:Boolean=False);');
+  AddCommand(@exp_SortTPAByX,           'procedure exp_SortTPAByX(var Arr: TPointArray);');
+  AddCommand(@exp_SortTPAByY,           'procedure exp_SortTPAByY(var Arr: TPointArray);');
+  AddCommand(@exp_SortTSA,              'procedure exp_SortTSA(var Arr: TStringArray; CaseInsesitive:Boolean=False);');
   AddCommand(@exp_SortTSANatural,	'procedure exp_SortTSANatural(var Arr: TStringArray);');
   AddCommand(@exp_SortATPAByLength,	'procedure exp_SortATPAByLength(var Arr:T2DPointArray);');
   AddCommand(@exp_SortATPAByMean,	'procedure exp_SortATPAByMean(var Arr:T2DPointArray);');
@@ -223,13 +237,9 @@ begin
   // MatrixTools.pas
   AddCommand(@exp_NewMatrixEx,	'function exp_NewMatrixEx(W,H, Init:Integer): T2DIntArray;');
   AddCommand(@exp_NewMatrix,	'function exp_NewMatrix(W,H:Integer): T2DIntArray;');
-  AddCommand(@exp_MatInsertTPA,	'procedure exp_MatInsertTPA(var Matrix:T2DIntArray; const TPA:TPointArray; Value:Integer);');
   AddCommand(@exp_TPAToMatrixEx,'function exp_TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray;');
   AddCommand(@exp_TPAToMatrix,	'function exp_TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean): T2DIntArray;');
   AddCommand(@exp_NormalizeMat,	'function exp_NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray;');
-  AddCommand(@exp_MatGetValues,	'function exp_MatGetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray;');
-  AddCommand(@exp_MatGetCol,	'function exp_MatGetCol(const Mat:T2DIntArray; Column:Integer): TIntArray;');
-  AddCommand(@exp_MatGetRow,	'function exp_MatGetRow(const Mat:T2DIntArray; Row:Integer): TIntArray;');
   AddCommand(@exp_MatGetCols,	'function exp_MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray;');
   AddCommand(@exp_MatGetRows,	'function exp_MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer): T2DIntArray;');
   AddCommand(@exp_MatGetArea,	'function exp_MatGetArea(const Mat:T2DIntArray; X1,Y1,X2,Y2:Integer): T2DIntArray;');
@@ -339,6 +349,19 @@ begin
   AddCommand(@exp_CombineMatF, 'function exp_CombineMatrix(const Mat1, Mat2:T2DFloatArray; Op:Char): T2DFloatArray; overload;');
   AddCommand(@exp_CombineMatD, 'function exp_CombineMatrix(const Mat1, Mat2:T2DDoubleArray; Op:Char): T2DDoubleArray; overload;');
   AddCommand(@exp_CombineMatE, 'function exp_CombineMatrix(const Mat1, Mat2:T2DExtArray; Op:Char): T2DExtArray; overload;');
+  
+  AddCommand(@exp_GetValuesB, 'function exp_GetValues(const Mat:T2DByteArray; const Indices:TPointArray): TByteArray;');
+  AddCommand(@exp_GetValuesI, 'function exp_GetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; overload;');
+  AddCommand(@exp_GetValuesF, 'function exp_GetValues(const Mat:T2DFloatArray; const Indices:TPointArray): TFloatArray; overload;');
+  AddCommand(@exp_GetValuesD, 'function exp_GetValues(const Mat:T2DDoubleArray; const Indices:TPointArray): TDoubleArray; overload;');
+  AddCommand(@exp_GetValuesE, 'function exp_GetValues(const Mat:T2DExtArray; const Indices:TPointArray): TExtArray; overload;');
+
+  AddCommand(@exp_PutValuesB, 'procedure exp_PutValues(var Matrix:T2DByteArray; const Indices:TPointArray; Values:TByteArray);');
+  AddCommand(@exp_PutValuesI, 'procedure exp_PutValues(var Matrix:T2DIntArray; const Indices:TPointArray; Values:TIntArray); overload;');
+  AddCommand(@exp_PutValuesF, 'procedure exp_PutValues(var Matrix:T2DFloatArray; const Indices:TPointArray; Values:TFloatArray); overload;');
+  AddCommand(@exp_PutValuesD, 'procedure exp_PutValues(var Matrix:T2DDoubleArray; const Indices:TPointArray; Values:TDoubleArray); overload;');
+  AddCommand(@exp_PutValuesE, 'procedure exp_PutValues(var Matrix:T2DExtArray; const Indices:TPointArray; Values:TExtArray); overload;');
+
 end;
 
 
@@ -410,7 +433,7 @@ begin
       end;
     1:begin
         StrPCopy(sType, 'TThreshAlgo');
-        StrPCopy(sTypeDef, '(TA_Mean, TA_MinMax);');
+        StrPCopy(sTypeDef, '(TA_MEAN, TA_MINMAX);');
       end;
     2:begin
         StrPCopy(sType, 'TCenterAlgo');
@@ -430,7 +453,7 @@ begin
       end;
     6:begin
         StrPCopy(sType, 'TChars');
-        StrPCopy(sTypeDef, 'Array of T2DIntegerArray;');
+        StrPCopy(sTypeDef, 'Array of T2DIntArray;');
       end;
     7:begin
         StrPCopy(sType, 'TCharsArray');

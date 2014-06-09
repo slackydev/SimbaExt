@@ -9,22 +9,17 @@
 }
 
 {!DOCREF} {
-  @method: function se.NewMatrixEx(W,H, Init:Int32): TIntMatrix;  
-  @desc: Creates a new matrix and fills each indix with the given c'init'-value.
+  @method: function se.NewMatrix(W,H:Int32; Init:Int32=0): TIntMatrix;
+  @desc: Creates a new matrix. Fills it with `Init`.
 }
-function SimbaExt.NewMatrixEx(W,H, Init:Int32): TIntMatrix;  
+function SimbaExt.NewMatrix(W,H:Int32; Init:Int32=0): TIntMatrix;  
 begin
-  Result := exp_NewMatrixEx(W,H, Init);
+  if Init = 0 then
+    SetLength(Result, H,W)
+  else
+    Result := exp_NewMatrixEx(W,H, Init);
 end;
 
-{!DOCREF} {
-  @method: function se.NewMatrix(W,H:Int32): TIntMatrix;
-  @desc: Creates a new matrix.
-}
-function SimbaExt.NewMatrix(W,H:Int32): TIntMatrix;  
-begin
-  Result := exp_NewMatrix(W,H);
-end;
 
 
 {!DOCREF} {
@@ -63,13 +58,155 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TIntMatrix.InsertTPA(const TPA:TPointArray; Value:Integer);  
+  @method: function TIntMatrix.Get(const Indices:TPointArray): TIntArray; 
+  @desc:
+    Gets all the values at the given indices. If any of the points goes out
+    of bounds, it will simply be ignored.
+    [code=pascal]
+    var 
+      Matrix:TIntMatrix;
+    begin
+      Matrix.SetSize(100,100);
+      Matrix[10][10] := 100;
+      Matrix[10][13] := 29;
+      WriteLn( Matrix.Get([Point(10,10),Point(13,10),Point(20,20)]));
+    end;
+    [/code]
+}
+function TIntMatrix.Get(const Indices:TPointArray): TIntArray;  
+begin
+  Result := exp_GetValues(Self, Indices);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TIntMatrix.Put(const TPA:TPointArray; Values:TIntArray);  
+  @desc: Adds the points to the matrix with the given values.
+}
+procedure TIntMatrix.Put(const TPA:TPointArray; Values:TIntArray);  
+begin
+  exp_PutValues(Self, TPA, Values);
+end;
+
+
+{!DOCREF} {
+  @method: procedure TIntMatrix.Put(const TPA:TPointArray; Value:Int32); overload;  
   @desc: Adds the points to the matrix with the given value.
 }
-procedure TIntMatrix.InsertTPA(const TPA:TPointArray; Value:Integer);  
+procedure TIntMatrix.Put(const TPA:TPointArray; Value:Int32); overload; 
 begin
-  exp_MatInsertTPA(Self, TPA, Value);
+  exp_PutValues(Self, TPA, TIntArray([Value]));
 end;
+
+
+
+{!DOCREF} {
+  @method: function TIntMatrix.Merge(): TIntArray;
+  @desc: Merges the matrix is to a flat array of the same type.
+}
+function TIntMatrix.Merge(): TIntArray;
+var i,s,wid: Int32;
+begin
+  S := 0;
+  SetLength(Result, Self.Width()*Self.Height());
+  Wid := Self.Width();
+  for i:=0 to High(Self) do
+  begin
+    MemMove(Self[i][0], Result[S], Wid*SizeOf(Int32));
+    S := S + Wid;
+  end; 
+end;
+
+
+{!DOCREF} {
+  @method: function TIntMatrix.Sum(): Int64;
+  @desc: Returns the sum of the matrix
+}
+function TIntMatrix.Sum(): Int64;
+var i: Integer;
+begin
+  for i:=0 to High(Self) do
+    Result := Result + Self[i].Sum();
+end;
+
+
+
+
+{!DOCREF} {
+  @method: function TIntMatrix.Mean(): Double;
+  @desc: Returns the mean of the matrix
+}
+function TIntMatrix.Mean(): Double;
+var i: Integer;
+begin
+  for i:=0 to High(Self) do
+    Result := Result + Self[i].Mean();
+  Result := Result / High(Self);
+end;
+
+
+{!DOCREF} {
+  @method: function TIntMatrix.Stdev(): Double;
+  @desc: Returns the standard deviation of the matrix
+}
+function TIntMatrix.Stdev(): Double;
+var
+  x,y,i,W,H:Int32;
+  avg:Single;
+  square:TDoubleArray;
+begin
+  W := Self.Width() - 1;
+  H := Self.Height() - 1;
+  avg := Self.Mean();
+  SetLength(square,Self.Width()*Self.Height());
+  i := -1;
+  for y:=0 to H do
+    for x:=0 to W do
+      Square[inc(i)] := Sqr(Self[y][x] - avg);
+  Result := Sqrt(square.Mean());
+end;
+
+
+{!DOCREF} {
+  @method: function TIntMatrix.Variance(): Double;
+  @desc: 
+    Return the sample variance. 
+    Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the matrix. 
+    A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
+}
+function TIntMatrix.Variance(): Double;
+var
+  avg:Single;
+  x,y,w,h:Int32;
+begin
+  W := Self.Width() - 1;
+  H := Self.Height() - 1;
+
+  avg := Self.Mean();
+  for y:=0 to H do
+    for x:=0 to W do
+      Result := Result + Sqr(Self[y][x] - avg);
+  Result := Result / ((W+1) * (H+1));
+end; 
+
+
+{!DOCREF} {
+  @method: function TIntMatrix.Mode(): Int64;
+  @desc:
+    Returns the sample mode of the matrix, which is the most frequently occurring value in the matrix.
+    When there are multiple values occurring equally frequently, mode returns the smallest of those values.
+}
+function TIntMatrix.Mode(): Int64;
+begin
+  Result := Self.Merge().Mode();
+end;
+
+
+
+
+
+//---------------------------------------------------------------------------------------------------\\
+
 
 {!DOCREF} {
   @method: function TIntMatrix.MatrixFromTPAEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): TIntMatrix;
@@ -81,6 +218,7 @@ function SimbaExt.MatrixFromTPAEx(const TPA:TPointArray; Init, Value:Integer; Al
 begin
   Result := exp_TPAToMatrixEx(TPA,Init,Value,Align);
 end;
+
 
 {!DOCREF} {
   @method: function se.MatrixFromTPA(const TPA:TPointArray; Value:Int32; Align:Boolean): TIntMatrix;
@@ -94,6 +232,7 @@ begin
   Result := exp_TPAToMatrix(TPA, Value, Align);
 end;
 
+
 {!DOCREF} {
   @method: function TIntMatrix.Normalize(Alpha, Beta:Int32): TIntMatrix;  
   @desc: Fits each element of the matrix within the values of Alpha and Beta.
@@ -103,44 +242,7 @@ begin
   Result := exp_NormalizeMat(Self, Alpha, Beta);
 end;
 
-{!DOCREF} {
-  @method: function TIntMatrix.GetValues(const Indices:TPointArray): TIntArray; 
-  @desc:
-    This function will iterate through the TPA, and return all the elements
-    of the given [i]indeices[/i].
-    [code=pascal]
-    var
-      M:TIntMatrix;
-    begin
-      M := se.NewMatrixEx(100,100,531);
-      M[10][10] := 100;
-      M[10][13] := 29;
-      WriteLn( M.GetValues([Point(10,10),Point(13,10),Point(20,20)]));
-    end;
-    [/code]
-}
-function TIntMatrix.GetValues(const Indices:TPointArray): TIntArray;  
-begin
-  Result := exp_MatGetValues(Self, Indices);
-end;
 
-{!DOCREF} {
-  @method: function TIntMatrix.GetCol(Column:Integer): TIntArray;  
-  @desc: Returns the column
-}
-function TIntMatrix.GetCol(Column:Integer): TIntArray;  
-begin
-  Result := exp_MatGetCol(Self, Column);
-end;
-
-{!DOCREF} {
-  @method: function TIntMatrix.GetRow(Row:Integer): TIntArray;
-  @desc: Returns the row
-}
-function TIntMatrix.GetRow(Row:Integer): TIntArray;  
-begin
-  Result := exp_MatGetRow(Self, Row);
-end;
 
 {!DOCREF} {
   @method: function TIntMatrix.GetCols(FromCol, ToCol:Integer): TIntMatrix;  
@@ -207,7 +309,7 @@ end;
   @method: function TIntMatrix.Indices(Value: Integer; const Comparator:TComparator): TPointArray;
   @desc:
     Returns all the indices which matches the given value, and comperator.
-    EG: c'Matrix.Indices(10, __LT__)' would return all the items which are less then 10.
+    EG: c'TPA := Matrix.Indices(10, __LT__)' would return where all the items which are less then 10 is.
 }
 function TIntMatrix.Indices(Value: Integer; const Comparator:TComparator): TPointArray;
 begin 
