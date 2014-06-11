@@ -7,49 +7,49 @@
 //Median of three - Integer.
 procedure TIAMedian3(var Arr:TIntArray; Left, Middle, Right:Integer); Inline;
 begin
-  if (Arr[Middle] < Arr[Left])  then ExchI(Arr[Left], Arr[Middle]);
-  if (Arr[Right] < Arr[Left])   then ExchI(Arr[Left], Arr[Right]);
-  if (Arr[Right] < Arr[Middle]) then ExchI(Arr[Middle], Arr[Right]);
+  if (Arr[Middle] < Arr[Left])  then Exch(Arr[Left], Arr[Middle]);
+  if (Arr[Right] < Arr[Left])   then Exch(Arr[Left], Arr[Right]);
+  if (Arr[Right] < Arr[Middle]) then Exch(Arr[Middle], Arr[Right]);
 end;
 
 //Median of three - Extended.
 procedure TEAMedian3(var Arr:TExtArray; Left, Middle, Right:Integer); Inline;
 begin
-  if (Arr[Middle] < Arr[Left])  then ExchE(Arr[Left], Arr[Middle]);
-  if (Arr[Right] < Arr[Left])   then ExchE(Arr[Left], Arr[Right]);
-  if (Arr[Right] < Arr[Middle]) then ExchE(Arr[Middle], Arr[Right]);
+  if (Arr[Middle] < Arr[Left])  then Exch(Arr[Left], Arr[Middle]);
+  if (Arr[Right] < Arr[Left])   then Exch(Arr[Left], Arr[Right]);
+  if (Arr[Right] < Arr[Middle]) then Exch(Arr[Middle], Arr[Right]);
 end;
 
 //Median of three - Double.
 procedure TDAMedian3(var Arr:TDoubleArray; Left, Middle, Right:Integer); Inline;
 begin
-  if (Arr[Middle] < Arr[Left])  then ExchD(Arr[Left], Arr[Middle]);
-  if (Arr[Right] < Arr[Left])   then ExchD(Arr[Left], Arr[Right]);
-  if (Arr[Right] < Arr[Middle]) then ExchD(Arr[Middle], Arr[Right]);
+  if (Arr[Middle] < Arr[Left])  then Exch(Arr[Left], Arr[Middle]);
+  if (Arr[Right] < Arr[Left])   then Exch(Arr[Left], Arr[Right]);
+  if (Arr[Right] < Arr[Middle]) then Exch(Arr[Middle], Arr[Right]);
 end;
 
 //Median of three - Single.
 procedure TFAMedian3(var Arr:TFloatArray; Left, Middle, Right:Integer); Inline;
 begin
-  if (Arr[Middle] < Arr[Left])  then ExchF(Arr[Left], Arr[Middle]);
-  if (Arr[Right] < Arr[Left])   then ExchF(Arr[Left], Arr[Right]);
-  if (Arr[Right] < Arr[Middle]) then ExchF(Arr[Middle], Arr[Right]);
+  if (Arr[Middle] < Arr[Left])  then Exch(Arr[Left], Arr[Middle]);
+  if (Arr[Right] < Arr[Left])   then Exch(Arr[Left], Arr[Right]);
+  if (Arr[Right] < Arr[Middle]) then Exch(Arr[Middle], Arr[Right]);
 end;
 
 //Median of three - TPoint with weight.
 procedure TPAMedian3(var Arr:TPointArray; var Weight:TIntArray; Left, Middle, Right:Integer); Inline;
 begin
   if (Weight[Middle] < Weight[Left]) then begin
-    ExchPt(Arr[Left], Arr[Middle]);
-    ExchI(Weight[Left], Weight[Middle]);
+    Exch(Arr[Left], Arr[Middle]);
+    Exch(Weight[Left], Weight[Middle]);
   end;
   if (Weight[Right] < Weight[Left]) then begin
-    ExchPt(Arr[Left], Arr[Right]);
-    ExchI(Weight[Left], Weight[Right]);
+    Exch(Arr[Left], Arr[Right]);
+    Exch(Weight[Left], Weight[Right]);
   end;
   if (Weight[Right] < Weight[Middle]) then begin
-    ExchPt(Arr[Middle], Arr[Right]);
-    ExchI(Weight[Middle], Weight[Right]);
+    Exch(Arr[Middle], Arr[Right]);
+    Exch(Weight[Middle], Weight[Right]);
   end;
 end;
 
@@ -139,8 +139,8 @@ begin
   for i := Left to Right do
     for j := i downto Left + 1 do begin
       if not (Weight[j] < Weight[j - 1]) then Break;
-      ExchPt(Arr[j-1], Arr[j]);
-      ExchI(Weight[j-1], Weight[j]);
+      Exch(Arr[j-1], Arr[j]);
+      Exch(Weight[j-1], Weight[j]);
     end;
 end;
 
@@ -162,7 +162,7 @@ begin
       j := i;
       while (j >= Gap) and (Arr[j] < Arr[j - Gap]) do
       begin
-        ExchI(Arr[j], Arr[j - Gap]);
+        Exch(Arr[j], Arr[j - Gap]);
         j := j - Gap;
       end;
     end;
@@ -183,7 +183,7 @@ begin
       j := i;
       while (j >= Gap) and (Arr[j] < Arr[j - Gap]) do
       begin
-        ExchE(Arr[j], Arr[j - Gap]);
+        Exch(Arr[j], Arr[j - Gap]);
         j := j - Gap;
       end;
     end;
@@ -204,7 +204,7 @@ begin
       j := i;
       while (j >= Gap) and (Arr[j] < Arr[j - Gap]) do
       begin
-        ExchD(Arr[j], Arr[j - Gap]);
+        Exch(Arr[j], Arr[j - Gap]);
         j := j - Gap;
       end;
     end;
@@ -225,7 +225,7 @@ begin
       j := i;
       while (j >= Gap) and (Arr[j] < Arr[j - Gap]) do
       begin
-        ExchF(Arr[j], Arr[j - Gap]);
+        Exch(Arr[j], Arr[j - Gap]);
         j := j - Gap;
       end;
     end;
@@ -246,8 +246,8 @@ begin
       j := i;
       while (j >= Gap) and (Weight[j] < Weight[j - Gap]) do
       begin
-        ExchPt(Arr[j], Arr[j - Gap]);
-        ExchI(Weight[j], Weight[j - Gap]);
+        Exch(Arr[j], Arr[j - Gap]);
+        Exch(Weight[j], Weight[j - Gap]);
         j := j - Gap;
       end;
     end;

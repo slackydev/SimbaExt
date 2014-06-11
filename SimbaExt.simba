@@ -166,30 +166,36 @@ var
   @desc: Needed for the global c'var SE.'
 }
 
+
 {!DOCREF} {
   @method: type TObjMath = type Pointer;
   @desc: Needed for the global c'var Math.'
 }
+
 
 {!DOCREF} {
   @method:type TObjRandom = type Pointer;
   @desc: Needed for the global c'var Rand.'
 }
 
+
 {!DOCREF} {
   @method: type TObjTime = type Pointer;
   @desc: Needed for the global c'var TimeUtils.'
 }
+
 
 {!DOCREF} {
   @method:type TObjOS = record path: TObjOSPath; end;
   @desc: Needed for the global c'var OS.', also holds another var: c'OS.Path.'
 }
 
+
 {!DOCREF} {
   @method: type TObjOSPath = type Pointer;
   @desc: Needed for the global c'var OS.Path.'
 }
+
 
 {!DOCREF} {
   @method:Global variables
@@ -203,7 +209,6 @@ var
     OS.Path   =>  TObjOSPath;
     [/code]
 }
-
 
 
 {!DOCREF} {

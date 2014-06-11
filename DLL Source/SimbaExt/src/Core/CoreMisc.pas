@@ -21,15 +21,22 @@ function Dec(var i: Int64): Int64; Inline; overload; //i--
   
   
 //Swapping / exchanging
-procedure ExchI(var A,B:Integer); Inline;
-procedure ExchE(var A,B:Extended); Inline;
-procedure ExchD(var A,B:Double); Inline;
+procedure Exch(var A,B:uInt8); Inline; overload;
+procedure Exch(var A,B:uInt16); Inline; overload;
+procedure Exch(var A,B:uInt32); Inline; overload;
+procedure Exch(var A,B:uInt64); Inline; overload;
 
-procedure ExchS(var A,B:Single); Inline;
-procedure ExchF(var A,B:Single); Inline;
+procedure Exch(var A,B:Int8); Inline; overload;
+procedure Exch(var A,B:Int16); Inline; overload;
+procedure Exch(var A,B:Int32); Inline; overload;
+procedure Exch(var A,B:Int64); Inline; overload;
 
-procedure ExchBt(var A,B:Byte); Inline;
-procedure ExchPt(var A,B:TPoint); Inline;
+procedure Exch(var A,B:Extended); Inline; overload;
+procedure Exch(var A,B:Double); Inline; overload;
+procedure Exch(var A,B:Single); Inline; overload;
+
+procedure Exch(var A,B:TPoint); Inline; overload;
+procedure Exch(var A,B:TBox); Inline; overload;
 
 
 //Safe move functionallity
@@ -72,41 +79,43 @@ begin Result := i;  i := i-1; end;
  
 
 (* 
-  Swapping values
+  Excahnging values between A and B 
 *)
-procedure ExchI(var A,B:Integer); Inline;
-var t: Integer;
-begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:uInt8); Inline; overload;
+var t: uInt8; begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:uInt16); Inline; overload;
+var t: uInt16; begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:uInt32); Inline; overload;
+var t: uInt32; begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:uInt64); Inline; overload;
+var t: uInt64; begin t := A;  A := B;  B := t; end;
 
-procedure ExchE(var A,B:Extended); Inline;
-var t: Extended;
-begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:Int8); Inline; overload;
+var t: Int8; begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:Int16); Inline; overload;
+var t: Int16; begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:Int32); Inline; overload;
+var t: Int32; begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:Int64); Inline; overload;
+var t: Int64; begin t := A;  A := B;  B := t; end;
 
-procedure ExchS(var A,B:Single); Inline;
-var t:Single;
-begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:Extended); Inline; overload;
+var t: Extended; begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:Double); Inline; overload;
+var t: Double; begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:Single); Inline; overload;
+var t: Single; begin t := A;  A := B;  B := t; end;
 
-procedure ExchF(var A,B:Single); Inline;
-var t:Single;
-begin t := A;  A := B;  B := t; end;
-
-procedure ExchD(var A,B:Double); Inline;
-var t:Double;
-begin t := A;  A := B;  B := t; end;
-
-procedure ExchBt(var A,B:Byte); Inline;
-var t: Byte;
-begin t := A;  A := B;  B := t; end;
-
-procedure ExchPt(var A,B:TPoint); Inline;
-var t: TPoint;
-begin t := A;  A := B;  B := t; end;
-
+procedure Exch(var A,B:TPoint); Inline; overload;
+var t: TPoint; begin t := A;  A := B;  B := t; end;
+procedure Exch(var A,B:TBox); Inline; overload;
+var t: TBox; begin t := A;  A := B;  B := t; end;
 
 
 
 (* 
   Move functionallity (safe) and routines related to it
+  !! Deprecated !!
 *)
 function ChopSize(D,S,L: Integer): Integer; Inline;
 begin

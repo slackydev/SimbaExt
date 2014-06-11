@@ -33,8 +33,8 @@ begin
           if (l = j) then Break;
         end;
       if (i >= j) then Break;
-      ExchPt(Arr[i], Arr[j]);
-      ExchI(Weight[i], Weight[j]);
+      Exch(Arr[i], Arr[j]);
+      Exch(Weight[i], Weight[j]);
       Inc(f);
       Inc(i);
       Dec(j);

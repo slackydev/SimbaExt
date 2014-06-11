@@ -272,12 +272,12 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.SetPixelsEx(TPA:TPointArray; Color:Integer);
+  @method: procedure TRafBitmap.SetPixels(TPA:TPointArray; Colors:TIntArray); overload;
   @desc: Sets all the given pixels `TPA` to values in `colors`
 }
-procedure TRafBitmap.SetPixelsEx(TPA:TPointArray; Colors:TIntArray);
+procedure TRafBitmap.SetPixels(TPA:TPointArray; Colors:TIntArray); overload;
 begin
-  if not(Self.IsLoaded('TRafBitmap.SetPixelsEx()')) then Exit;
+  if not(Self.IsLoaded('TRafBitmap.SetPixels()')) then Exit;
   FastSetPixels(Self.Bitmap, TPA, Colors);
 end;
 
@@ -478,9 +478,9 @@ begin
   if (BlurSize < 3) or (BlurSize mod 2 = 0) then
   begin
     {$IFDEF ERR_REAL_EXCEPTION}
-      RaiseException('TRafBitmap.Blur() expects an odd number greater then one.');
+      RaiseException('TRafBitmap.Blur() expects an odd size greater then one.');
     {$ELSE}
-      RaiseWarning('TRafBitmap.Blur() expects an odd number greater then one.', ERR_WARNING);
+      RaiseWarning('TRafBitmap.Blur() expects an odd size greater then one.', ERR_WARNING);
     {$ENDIF}
     Exit;
   end;
@@ -505,9 +505,9 @@ begin
   if (Mediansize < 3) or (Mediansize mod 2 = 0) then
   begin
     {$IFDEF ERR_REAL_EXCEPTION}
-      RaiseException('TRafBitmap.Median() expects an odd number greater then one.');
+      RaiseException('TRafBitmap.Median() expects an odd size greater then one.');
     {$ELSE}
-      RaiseWarning('TRafBitmap.Median() expects an odd number greater then one.', ERR_WARNING);
+      RaiseWarning('TRafBitmap.Median() expects an odd size greater then one.', ERR_WARNING);
     {$ENDIF}
     Exit;
   end;
@@ -560,8 +560,8 @@ end;
 
 
 {!DOCREF} {
-  @method: function TRafBitmap.Blend(Other:TRafBitmap; Alpha:Single): TRafBitmap;
-  @desc: ...
+  @method: function TRafBitmap.Draw(Other:TRafBitmap; Pos:TPoint; AutoResize:Boolean=False): TRafBitmap;
+  @desc: Draws the `other` image to the current image-instance at the given position `Pos`. If `AutoResize` is `True`, it will resize the current image-instance automaticly if needed.
 }
 function TRafBitmap.Draw(Other:TRafBitmap; Pos:TPoint; AutoResize:Boolean=False): TRafBitmap;
 var nw,nh:Int32;
@@ -628,7 +628,7 @@ begin
   Result := Self.Loaded;
   if not(Result) then
   begin
-    RaiseWarning('Bitmap is not initalized in "'+CallFrom+'"', ERR_NOTICE);
+    RaiseWarning(CallFrom+': Bitmap is not initalized', ERR_WARNING);
   end;
 end;
 

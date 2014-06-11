@@ -161,8 +161,8 @@ begin
     begin
       if not (Weight[TmpIdx] < Weight[TmpIdx - 1]) then
         Break;
-      ExchI(Arr[TmpIdx], Arr[TmpIdx - 1]);
-      ExchI(Weight[TmpIdx], Weight[TmpIdx - 1]);
+      Exch(Arr[TmpIdx], Arr[TmpIdx - 1]);
+      Exch(Weight[TmpIdx], Weight[TmpIdx - 1]);
     end;
 end;
 
@@ -329,13 +329,13 @@ var
   Tab: Array [0..256] of Byte;
 begin
   if Alpha >= Beta then Exit;
-  if Alpha > Beta then ExchBt(Alpha, Beta); 
+  if Alpha > Beta then Exch(Alpha, Beta);
 
   W := Length(ImgArr[0]);
   H := Length(ImgArr);
   SetLength(Result, H,W);
   
-  if Invert then ExchBt(Alpha, Beta); 
+  if Invert then Exch(Alpha, Beta);
   for i:=0 to (Threshold-1) do Tab[i] := Alpha;
   for i:=Threshold to 255 do Tab[i] := Beta;
   Dec(W); 
@@ -367,7 +367,7 @@ var
   Tab: Array [0..256] of Byte;   
 begin
   if Alpha >= Beta then Exit;
-  if Alpha > Beta then ExchBt(Alpha, Beta); 
+  if Alpha > Beta then Exch(Alpha, Beta);
   
   W := Length(ImgArr[0]);
   H := Length(ImgArr);
@@ -418,7 +418,7 @@ begin
   end;
   
   Threshold := Max(0, Min(Threshold, 255)); //In range 0..255
-  if Invert then ExchBt(Alpha, Beta);
+  if Invert then Exch(Alpha, Beta);
   for i:=0 to (Threshold-1) do Tab[i] := Alpha;
   for i:=Threshold to 255 do Tab[i] := Beta;  
   for y:=0 to H do
@@ -869,8 +869,8 @@ end;
 function __GetNewSizeRotated(W,H:Int32; Angle:Single): TBox;
   function Rotate(p:TPoint; angle:Single; mx,my:Int32): TPoint;
   begin
-    Result.X := Ceil(mx + cos(angle) * (p.x - mx) - sin(angle) * (p.y - my));
-    Result.Y := Ceil(my + sin(angle) * (p.x - mx) + cos(angle) * (p.y - my));
+    Result.X := Round(mx + cos(angle) * (p.x - mx) - sin(angle) * (p.y - my));
+    Result.Y := Round(my + sin(angle) * (p.x - mx) + cos(angle) * (p.y - my));
   end;
 var B: TPointArray;
 begin
@@ -894,16 +894,16 @@ var
   p0,p1,p2,p3: TRGB32;
   topR,topG,topB,BtmR,btmG,btmB:Single;
 begin
-  W := Length(ImgArr[0]);
-  H := Length(ImgArr);
+  W := High(ImgArr[0]);
+  H := High(ImgArr);
+  SetLength(Result, H+1, W+1);
   cosa := Cos(Angle);
   sina := Sin(Angle);
-  mX := W div 2;
-  mY := H div 2;
-  SetLength(Result, H,W);
-  w -= 1; h -= 1;
-  for i := 0 to H-1 do begin
-    for j := 0 to W-1 do begin
+  mX := (W+1) div 2;
+  mY := (H+1) div 2;
+
+  for i := 0 to H do begin
+    for j := 0 to W do begin
       rx := (mx + cosa * (j - mx) - sina * (i - my));
       ry := (my + sina * (j - mx) + cosa * (i - my));
 
@@ -962,7 +962,7 @@ begin
   W := Length(ImgArr[0]);
   H := Length(ImgArr);
 
-  NewB := __GetNewSizeRotated(W-1,H-1,Angle);
+  NewB := __GetNewSizeRotated(W,H,Angle);
   nW := NewB.Width;
   nH := NewB.Height;
   mX := nW div 2;
@@ -976,10 +976,10 @@ begin
       rx := (mx + cosa * (j - mx) - sina * (i - my));
       ry := (my + sina * (j - mx) + cosa * (i - my));
 
-      fX := Trunc(rX)+NewB.x1;
-      fY := Trunc(rY)+NewB.y1;
-      cX := Ceil(rX)+NewB.x1;
-      cY := Ceil(rY)+NewB.y1;
+      fX := (Trunc(rX)+ NewB.x1);
+      fY := (Trunc(rY)+ NewB.y1);
+      cX := (Ceil(rX) + NewB.x1);
+      cY := (Ceil(rY) + NewB.y1);
 
       if not((fX < 0) or (cX < 0) or (fX >= W) or (cX >= W) or
              (fY < 0) or (cY < 0) or (fY >= H) or (cY >= H)) then
@@ -1056,7 +1056,7 @@ begin
   H := Length(Mat);
   mx := W div 2;
   my := H div 2;
-  NewB := __GetNewSizeRotated(W-1,H-1,Angle);
+  NewB := __GetNewSizeRotated(W,H,Angle);
   nW := NewB.Width;
   nH := NewB.Height;
   SetLength(Result, nH,nW);

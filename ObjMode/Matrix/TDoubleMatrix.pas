@@ -55,7 +55,7 @@ end;
       Matrix.SetSize(100,100);
       Matrix[10][10] := 100;
       Matrix[10][13] := 29;
-      WriteLn( Matrix.GetValues([Point(10,10),Point(13,10),Point(20,20)]));
+      WriteLn( Matrix.Get([Point(10,10),Point(13,10),Point(20,20)]));
     end;
     [/code]
 }

@@ -236,7 +236,7 @@ begin
       tmp := Arr[i];
       Arr[i] := Arr[j];
       Arr[j] := tmp;
-      ExchI(Weight[i], Weight[j]);
+      Exch(Weight[i], Weight[j]);
       j:=j-1;
       i:=i+1;
     end;

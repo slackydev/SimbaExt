@@ -329,8 +329,8 @@ var
   p1,p2,p3: TPoint;
 begin
   p1:=v1; p2:=v2; p3:=v3;
-  if p3.y < p1.y then ExchPt(p1,p3);
-  if p1.x > p2.x then ExchPt(p1,p2);
+  if p3.y < p1.y then Exch(p1,p3);
+  if p1.x > p2.x then Exch(p1,p2);
   b1 := (pt.x - p2.x) * (p1.y - p2.y) - (p1.x - p2.x) * (pt.y - p2.y) < 0;
   b2 := (pt.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (pt.y - p3.y) < 0;
   if (b1 <> b2) then Exit;

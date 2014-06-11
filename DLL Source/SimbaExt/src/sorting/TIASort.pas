@@ -32,7 +32,7 @@ begin
           if (l = j) then Break;
         end;
       if (i >= j) then Break;
-      ExchI(Arr[i], Arr[j]);
+      Exch(Arr[i], Arr[j]);
       Inc(f);
       Inc(i);
       Dec(j);
