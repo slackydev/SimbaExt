@@ -33,12 +33,17 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <Units Count="1">
+    <Units Count="2">
       <Unit0>
         <Filename Value="SimbaExt.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SimbaExt"/>
       </Unit0>
+      <Unit1>
+        <Filename Value="..\Test\junk.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="junk"/>
+      </Unit1>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -49,7 +54,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Src;Src\Core;Src\Core\Matrix;Src\Core\MatrixMath;Src\Sorting;Src\Std"/>
+      <OtherUnitFiles Value="Src;Src\Core;Src\Core\Matrix;Src\Core\MatrixMath;Src\Sorting;Src\Std;..\Test"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

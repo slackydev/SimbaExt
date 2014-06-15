@@ -196,6 +196,18 @@ end;
 
 
 
-
-
-
+{!DOCREF} {
+  @method: function TObjMath.NextPow2m1(n:Int32): Int32;
+  @desc: Returns the next power of two minus 1, very quick!
+}
+function TObjMath.NextPow2m1(n:Int32): Int32;
+begin
+  n := n - 1;
+  n := n or (n shr 1);
+  n := n or (n shr 2);
+  n := n or (n shr 4);
+  n := n or (n shr 8);
+  n := n or (n shr 16);
+  n := n or (n shr 32);
+  Result := n;
+end;

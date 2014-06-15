@@ -174,6 +174,66 @@ end;
 
 
 {!DOCREF} {
+  @method: function StringArray.Find(Value:String): Int32;
+  @desc: Searces for the given value and returns the first position from the left.
+}
+function TStringArray.Find(Value:String): Int32;
+begin
+  Result := exp_Find(Self,TStringArray([Value]));
+end;
+
+
+{!DOCREF} {
+  @method: function TStringArray.Find(Sequence:TStringArray): Int32; overload;
+  @desc: Searces for the given sequence and returns the first position from the left.
+}
+function TStringArray.Find(Sequence:TStringArray): Int32; overload;
+begin
+  Result := exp_Find(Self,Sequence);
+end;
+
+
+{!DOCREF} {
+  @method: function TStringArray.FindAll(Value:String): TIntArray;
+  @desc: Searces for the given value and returns all the position where it was found.
+}
+function TStringArray.FindAll(Value:String): TIntArray;
+begin
+  Result := exp_FindAll(Self,TStringArray([Value]));
+end;
+
+
+{!DOCREF} {
+  @method: function TStringArray.FindAll(Sequence:TStringArray): TIntArray; overload;
+  @desc: Searces for the given sequence and returns all the position where it was found.
+}
+function TStringArray.FindAll(Sequence:TStringArray): TIntArray; overload;
+begin
+  Result := exp_FindAll(Self,sequence);
+end;
+
+
+{!DOCREF} {
+  @method: function TStringArray.Contains(Value:String): Boolean;
+  @desc: Checks if the array contains the given `Value`.
+}
+function TStringArray.Contains(Value:String): Boolean;
+begin
+  Result := Self.Find(Value) <> -1;
+end;
+
+
+{!DOCREF} {
+  @method: function TStringArray.Count(Value:String): Boolean;
+  @desc: Counts the number of occurances of the given `Value`.
+}
+function TStringArray.Count(Value:String): Boolean;
+begin
+  Result := Length(Self.FindAll(Value));
+end;
+
+
+{!DOCREF} {
   @method: function TStringArray.Reversed(): TStringArray;
   @desc: Creates a reversed copy of the array
 }
@@ -193,6 +253,20 @@ begin
 end;
 
 
+{!DOCREF} {
+  @method: function TStringArray.ToStr(): String;
+  @desc:  Convert the TSA to a string representing the items in the TSA.
+}
+function TStringArray.ToStr(): String;
+var i:=0;
+begin
+  Result := '';
+  if High(Self) = -1 then Exit('');
+  Result := '['+#39+Self[0]+#39;
+  for i:=1 to High(Self) do
+    Result := Result +', '+#39+Self[i]+#39;
+  Result := Result + ']';
+end;
 
 
 {=============================================================================}

@@ -202,6 +202,30 @@ end;
 
 
 //========| 2-dimesional  |===================================================|
+
+function Find(Arr:TStringArray; Seq:TStringArray): Int32; overload;
+var len,Seqlen,upper,i,j: Int32;
+begin
+  len := Length(Arr);
+  Seqlen := High(Seq);
+  upper := len-Seqlen;
+  i := 0;  j := 0;
+  while (i <= upper) do begin
+    if (Arr[i] <> Seq[j]) then begin
+      inc(i);
+      continue;
+    end;
+    j := 0;
+    while (Arr[i] = Seq[j]) do begin
+     Inc(i);
+     Inc(j);
+     if j > Seqlen then Exit(i-Seqlen-1);
+    end;
+  end;
+  Result := -1;
+end;
+
+
 (*
- Not supported
+ Other types not supported.
 *)

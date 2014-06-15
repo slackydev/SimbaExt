@@ -40,7 +40,7 @@ function Find(Arr:TPointArray; Seq:TPointArray): Int32; overload;
 function Find(Arr:TByteArray; Seq:TByteArray): Int32; overload; 
 function Find(Arr:TBoxArray; Seq:TBoxArray): Int32; overload; 
 function Find(Arr:String; Seq:String): Int32; overload; 
-
+function Find(Arr:TStringArray; Seq:TStringArray): Int32; overload; 
 
 (* *)
 function FindAll(Arr:TIntArray; Seq:TIntArray): TIntArray; overload; 
@@ -51,6 +51,7 @@ function FindAll(Arr:TPointArray; Seq:TPointArray): TIntArray; overload;
 function FindAll(Arr:TByteArray; Seq:TByteArray): TIntArray; overload; 
 function FindAll(Arr:TBoxArray; Seq:TBoxArray): TIntArray; overload; 
 function FindAll(Arr:String; Seq:String): TIntArray; overload;
+function FindAll(Arr:TStringArray; Seq:TStringArray): TIntArray; overload;
 
 
 //--------------------------------------------------

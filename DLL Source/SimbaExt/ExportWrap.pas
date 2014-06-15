@@ -127,7 +127,7 @@ function exp_Slice16(Arr:TStringArray; Start,Stop,Step:Int32): TStringArray; cde
 begin Result := Slice(Arr, Start,Stop,Step); end;
 
 
-(* *)
+(* Find item in Array *)
 function exp_Find1(Arr:TIntArray; Seq:TIntArray): Int32; cdecl;
 begin Result := Find(Arr,Seq); end;
 
@@ -152,8 +152,11 @@ begin Result := Find(Arr,Seq); end;
 function exp_Find8(Arr:String; Seq:String): Int32; cdecl;
 begin Result := Find(Arr,Seq); end;
 
+function exp_Find9(Arr:TStringArray; Seq:TStringArray): Int32; cdecl;
+begin Result := Find(Arr,Seq); end;
 
-(* *)
+
+(* Find items in Array *)
 function exp_FindAll1(Arr:TIntArray; Seq:TIntArray): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
@@ -178,7 +181,8 @@ begin Result := FindAll(Arr,Seq); end;
 function exp_FindAll8(Arr:String; Seq:String): TIntArray; cdecl;
 begin Result := FindAll(Arr,Seq); end;
 
-
+function exp_FindAll9(Arr:TStringArray; Seq:TStringArray): TIntArray; cdecl;
+begin Result := FindAll(Arr,Seq); end;
 
 {*-----------------------------------------------------------------------------|
 | Numeric.pas                                                                  |

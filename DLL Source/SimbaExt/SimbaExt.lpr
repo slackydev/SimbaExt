@@ -37,7 +37,7 @@ uses
   DensityMap,
   StringTools,
   CornerDet,
-  _Tests;
+  _Tests, junk;
 
 //Include Simba Wrapper
 {$I ExportWrap.pas}
@@ -130,6 +130,7 @@ begin
   AddCommand(@exp_Find6, 'function exp_Find(Arr:TByteArray; Seq:TByteArray): Int32; overload;');
   AddCommand(@exp_Find7, 'function exp_Find(Arr:TBoxArray; Seq:TBoxArray): Int32; overload;');
   AddCommand(@exp_Find8, 'function exp_Find(Arr:String; Seq:String): Int32; overload;');
+  AddCommand(@exp_Find9, 'function exp_Find(Arr:TStringArray; Seq:TStringArray): Int32; overload;');
 
   (** Array pos multi **)
   AddCommand(@exp_FindAll1, 'function exp_FindAll(Arr:TIntArray; Seq:TIntArray): TIntArray; overload;');
@@ -140,7 +141,7 @@ begin
   AddCommand(@exp_FindAll6, 'function exp_FindAll(Arr:TByteArray; Seq:TByteArray): TIntArray; overload;');
   AddCommand(@exp_FindAll7, 'function exp_FindAll(Arr:TBoxArray; Seq:TBoxArray): TIntArray; overload;');
   AddCommand(@exp_FindAll8, 'function exp_FindAll(Arr:String; Seq:String): TIntArray; overload;');
-  
+  AddCommand(@exp_FindAll9, 'function exp_FindAll(Arr:TStringArray; Seq:TStringArray): TIntArray; overload;');
 
   // Sorting.pas
   AddCommand(@exp_SortTBA,	'procedure exp_SortTBA(var Arr: TByteArray);');

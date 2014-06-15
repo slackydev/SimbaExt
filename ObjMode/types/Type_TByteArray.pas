@@ -505,9 +505,36 @@ end;
 
 
 
+{=============================================================================}
+// 
+//
+{=============================================================================}
 
 
+{!DOCREF} {
+  @method: function TByteArray.AsString(): String;
+  @desc: It converts the TBA to a string, by calling `chr()` on each index. Result will be forumlated as a propper string, EG:` Result := 'asd'`
+}
+function TByteArray.AsString(): String;
+var i:Int32;
+begin
+  SetLength(Result,Length(Self));
+  for i:=0 to High(Self) do
+    Result[i+1] := chr(Self[i]);
+end;
 
+
+{!DOCREF} {
+  @method: procedure TByteArray.FromString(str:String);
+  @desc: It converts the string to a TBA, by calling `ord()` on each index.
+}
+procedure TByteArray.FromString(str:String);
+var i:Int32;
+begin
+  SetLength(Self,Length(Str));
+  for i:=1 to Length(Str) do
+    Self[i-1] := ord(Str[i]);
+end;
 
 
 

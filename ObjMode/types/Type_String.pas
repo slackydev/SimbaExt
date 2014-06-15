@@ -55,7 +55,9 @@ function String.Slice(Start,Stop: Int32; Step:Int32=1): String;
 begin
   if (Step = 0) then Exit;
   try Result := exp_slice(Self, Start,Stop,Step);
-  except end;
+  except 
+    RaiseException(erOutOfRange,'Must be in range of "1..Length(Str)", given: Start: '+ToStr(Start)+', Stop: '+ToStr(Stop)+', Step: '+ToStr(Step));
+  end;
 end;
 
 
@@ -284,6 +286,40 @@ end;
 
 
 {!DOCREF} {
+  @method: function String.IsFloat(): Boolean;
+  @desc:   Return true if all characters in the string are digits + "." and there is at least one character, false otherwise.
+}
+function String.IsFloat(): Boolean;
+var ptr: PChar; hiptr:UInt32; i:Int32; dotAdded:Boolean;
+begin
+  if Length(Self) = 0 then Exit(False);
+  ptr := PChar(Self);
+  i:=0;
+  hiptr := UInt32(UInt32(ptr) + Length(self));
+  while UInt32(ptr) < hiptr do
+    if not (ptr^ in ['0'..'9']) then
+      if (i >= 1) and (ptr^ = '.') and not(dotAdded) then
+      begin
+        Inc(ptr);
+        inc(i);
+        dotAdded:=True;
+      end else
+        Exit(False)
+    else begin
+      Inc(ptr);
+      inc(i);
+    end;
+  Result := True;
+end;
+
+function Char.IsFloat(): Boolean;
+begin
+  Result := String(Self).IsFloat();
+end;
+
+
+
+{!DOCREF} {
   @method: function String.GetNumbers(): TIntArray;
   @desc:   Returns all the numbers in the string, does not handle floating point numbers
 }
@@ -312,6 +348,53 @@ begin
       end;
     end;
 end;
+
+
+{!DOCREF} {
+  @method: function String.SplitNum(): TStringArray;
+  @desc:   Splits the text in to sentances, and numbers, result will EG be: `['My number is', '123', 'sometimes its', '7.5']`
+}
+function String.SplitNum(): TStringArray;
+var
+  i,j,l:Int32;
+begin
+  L := Length(Self);
+  Self := Self + #0#0;
+  SetLength(Result, 1);
+  j := 0;  i := 1;
+  while i <= L do
+  begin
+    if Self[i].IsDigit() then begin
+      Result[j] := Result[j] + Self[i];
+      inc(i);
+      while (Self[i].IsDigit()) or ((Self[i] = '.') and (Self[i+1].IsDigit())) do
+      begin
+        Result[j] := Result[j] + Self[i];
+        inc(i);
+        if (i > L) then break;
+      end;
+      if (i > L) then break;
+      SetLength(Result, length(Result)+1);
+      inc(j);
+    end else
+    begin
+      if (Result[j] = '') and (Self[i] = ' ') then 
+      begin 
+        inc(i)
+        if Self[i].IsDigit() then continue;
+      end;
+      if not(Self[i+1].IsDigit() and (Self[i] = ' ')) then
+        Result[j] := Result[j] + Self[i];
+      if Self[i+1].IsDigit() then begin
+        SetLength(Result, length(Result)+1);
+        inc(j);
+      end;
+    end;
+    inc(i);
+  end;
+  SetLength(Self, L);
+end;
+
 
 
 {!DOCREF} {
