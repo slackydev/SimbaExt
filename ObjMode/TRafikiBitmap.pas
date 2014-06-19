@@ -391,7 +391,7 @@ end;
 procedure TRafBitmap.Resize(NewWidth, NewHeight:Integer);
 begin
   if not(Self.IsLoaded('TRafBitmap.Resize()')) then Exit;
-  ResizeBitmapEx(Self.Bitmap, RM_Nearest, NewWidth, NewHeight);
+  ResizeBitmapEx(Self.Bitmap, RM_Bilinear, NewWidth, NewHeight);
   Self.Width := NewWidth;
   Self.Height := NewHeight;
 end;
@@ -462,57 +462,52 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.Blur(BlurSize: Integer; Iter:Integer=0);
-  @desc: Allows you to blur the bitmap `Iter` times, using a "block" of the size `BlurSize`
+  @method: procedure TRafBitmap.Blur(Radius: Integer; Iter:Integer=0);
+  @desc: Allows you to blur the bitmap `Iter` times, with a radius of the size `Radius`
 }
-procedure TRafBitmap.Blur(BlurSize: Integer; Iter:Integer=0);
+procedure TRafBitmap.Blur(Radius: Integer; Iter:Integer=0);
 var
   i:Int32;
   Matrix:TIntMatrix;
   function BlurMore(Mat:TIntMatrix; Box:Int32):TIntMatrix;
-  begin
-    Result := exp_ImBlurFilter(Mat, Box);
-  end;
+  begin Result := exp_ImBlur(Mat, Box); end;
 begin
   if not(Self.IsLoaded('TRafBitmap.Blur()')) then Exit;
-  if (BlurSize < 3) or (BlurSize mod 2 = 0) then
-  begin
-    {$IFDEF ERR_REAL_EXCEPTION}
-      RaiseException('TRafBitmap.Blur() expects an odd size greater then one.');
-    {$ELSE}
-      RaiseWarning('TRafBitmap.Blur() expects an odd size greater then one.', ERR_WARNING);
-    {$ENDIF}
-    Exit;
-  end;
 
   Matrix := Self.ToMatrix();
-  WriteLn(Length(Matrix));
   for i:=0 to Iter do
-    Matrix := BlurMore(Matrix, BlurSize);
+    Matrix := BlurMore(Matrix, Radius);
   Self.FromMatrix(Matrix); 
 end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.Median(MedianSize: Integer);
-  @desc: Computes the median of the neighborhood of size `MedianSize` for each pixel in the image and sets the result pixel to that value. 
+  @method: procedure TRafBitmap.MedianBlur(Radius: Integer);
+  @desc: Computes the median of the neighborhood of radius `Radius` for each pixel in the image and sets the result pixel to that value. 
 }
-procedure TRafBitmap.Median(MedianSize: Integer);
+procedure TRafBitmap.Median(Radius: Integer);
 var
   Matrix:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.Median()')) then Exit;
-  if (Mediansize < 3) or (Mediansize mod 2 = 0) then
-  begin
-    {$IFDEF ERR_REAL_EXCEPTION}
-      RaiseException('TRafBitmap.Median() expects an odd size greater then one.');
-    {$ELSE}
-      RaiseWarning('TRafBitmap.Median() expects an odd size greater then one.', ERR_WARNING);
-    {$ENDIF}
-    Exit;
-  end;
 
-  Matrix := exp_ImMedianFilter(Self.ToMatrix(), MedianSize);
+  Matrix := exp_ImMedianBlur(Self.ToMatrix(), Radius);
+  Self.FromMatrix(Matrix); 
+end;
+
+
+{!DOCREF} {
+  @method: procedure TRafBitmap.GuassianBlur(Radius: Integer; Sigma:Single=1.5);
+  @desc: Appends a guassion blur to the bitmap, with a radius of the size `Radius`. Sigma is a modifier, higher sigma = less focus on center.
+}
+procedure TRafBitmap.GaussianBlur(Radius: Integer; Sigma:Single=1.5);
+var
+  i:Int32;
+  Matrix:TIntMatrix;
+begin
+  if not(Self.IsLoaded('TRafBitmap.GuassianBlur()')) then Exit;
+
+  Matrix := exp_ImGaussBlur(Self.ToMatrix(), Radius, sigma);
   Self.FromMatrix(Matrix); 
 end;
 

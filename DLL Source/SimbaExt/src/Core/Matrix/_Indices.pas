@@ -20,12 +20,12 @@ begin
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;
@@ -43,12 +43,12 @@ begin
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;
@@ -67,12 +67,12 @@ begin
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;
@@ -90,12 +90,12 @@ begin
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;
@@ -114,12 +114,12 @@ begin
   for Y:=B.y1 to B.y2 do
     for X:=B.x1 to B.x2 do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;
@@ -141,12 +141,12 @@ begin
   for Y:=0 to H do
     for X:=0 to W do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;
@@ -162,12 +162,12 @@ begin
   for Y:=0 to H do
     for X:=0 to W do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;
@@ -185,12 +185,12 @@ begin
   for Y:=0 to H do
     for X:=0 to W do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;
@@ -207,12 +207,12 @@ begin
   for Y:=0 to H do
     for X:=0 to W do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;
@@ -229,12 +229,12 @@ begin
   for Y:=0 to H do
     for X:=0 to W do
       case Comparator of
-        __LT__: if Mat[y][x] < Value then  Result[Inc(i)] := Point(x,y);
-        __GT__: if Mat[y][x] > Value then  Result[Inc(i)] := Point(x,y);
-        __EQ__: if Mat[y][x] = Value then  Result[Inc(i)] := Point(x,y);
-        __LE__: if Mat[y][x] <= Value then Result[Inc(i)] := Point(x,y);
-        __GE__: if Mat[y][x] >= Value then Result[Inc(i)] := Point(x,y);
-        __NE__: if Mat[y][x] <> Value then Result[Inc(i)] := Point(x,y);
+        __LT__: if Mat[y][x] < Value then  Result[Asc(i)] := Point(x,y);
+        __GT__: if Mat[y][x] > Value then  Result[Asc(i)] := Point(x,y);
+        __EQ__: if Mat[y][x] = Value then  Result[Asc(i)] := Point(x,y);
+        __LE__: if Mat[y][x] <= Value then Result[Asc(i)] := Point(x,y);
+        __GE__: if Mat[y][x] >= Value then Result[Asc(i)] := Point(x,y);
+        __NE__: if Mat[y][x] <> Value then Result[Asc(i)] := Point(x,y);
       end;
   SetLength(Result, i);
 end;

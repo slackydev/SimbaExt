@@ -19,7 +19,7 @@ function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integ
 //-----------------------------------------------------------------------
 implementation
 uses
-  Windows, SysUtils, PointList, MatrixMath, MatrixTools, PointTools, Math;
+  Windows, SysUtils, Imaging, PointList, MatrixMath, MatrixTools, PointTools, Math;
 
 
 (*=============================================================================|
@@ -45,14 +45,11 @@ end;
 
 
 (*=============================================================================|
- 2D Convolution.
- I can't find any way to speed it up :|
+ 2D Convolution
 |=============================================================================*)
-function Convolve(const Source:T2DIntArray; Mask:T2DFloatArray): T2DIntArray;
+function SobelConvolve(const Source:T2DIntArray; Mask:T2DIntArray): T2DIntArray;
 var
-  W,H,x,y,yy,xx: Integer;
-  mW,mH,mid:Integer;
-  val: Single;
+  W,H,x,y: Integer;
 begin
   W := High(source[0]);
   H := High(source);
@@ -60,29 +57,15 @@ begin
   for y:=0 to H do
     Move(Source[y][0],Result[y][0], (W+1)*SizeOf(Int32));
 
-  mW := High(mask[0]);
-  mH := High(mask);
-  mid := (mW+1) div 2;
-  W := W-mid;
-  H := H-mid;
-  case (mid = 1) of
-   False:
-    for y:=mid to H do
-      for x:=mid to W do begin
-        val := 0;
-        for yy:=0 to mH do
-          for xx:=0 to mW do
-            val := val + (mask[yy][xx] * Source[y + yy - mid][x + xx - mid]);
-        Result[y][x] := Round(val);
-      end;
-   True:
-    for y:=mid to H do
-      for x:=mid to W do
-        Result[y][x] := Round(
-            (mask[0][0] * Source[y-1][x-1]) + (mask[1][0] * Source[y-1][x+0]) + (mask[2][0] * Source[y-1][x+1]) +
-            (mask[0][1] * Source[y][x-1])   + (mask[1][1] * Source[y][x])     + (mask[2][1] * Source[y][x+1])   +
-            (mask[0][2] * Source[y+1][x-1]) + (mask[1][2] * Source[y+1][x+0]) + (mask[2][2] * Source[y+1][x+1]));
-  end;
+  W := W-1;
+  H := H-1;
+  for y:=1 to H do
+    for x:=1 to W do
+      Result[y,x] := (
+          (mask[0][0] * Source[y-1][x-1]) + (mask[1][0] * Source[y-1][x+0]) + (mask[2][0] * Source[y-1][x+1]) +
+          (mask[0][1] * Source[y][x-1])   + (mask[1][1] * Source[y][x])     + (mask[2][1] * Source[y][x+1])   +
+          (mask[0][2] * Source[y+1][x-1]) + (mask[1][2] * Source[y+1][x+0]) + (mask[2][2] * Source[y+1][x+1])
+      );
 end;
 
 
@@ -91,59 +74,77 @@ end;
 |=============================================================================*)
 function Sobel(const Mat:T2DIntArray; Axis:Char): T2DIntArray;
 var
-  xmask, ymask: T2DFloatArray;
+  xmask, ymask: T2DIntArray;
 begin
   SetLength(xmask, 3,3);
-  xmask[0][0] := -1; xmask[0][1] := 0; xmask[0][2] := 1;
-  xmask[1][0] := -2; xmask[1][1] := 0; xmask[1][2] := 2;
-  xmask[2][0] := -1; xmask[2][1] := 0; xmask[2][2] := 1;
+  xmask[0,0] := -1; xmask[0,1] := 0; xmask[0,2] := 1;
+  xmask[1,0] := -2; xmask[1,1] := 0; xmask[1,2] := 2;
+  xmask[2,0] := -1; xmask[2,1] := 0; xmask[2,2] := 1;
   
   SetLength(ymask, 3,3);
-  ymask[0][0] := -1; ymask[0][1] := -2; ymask[0][2] := -1;
-  ymask[1][0] :=  0; ymask[1][1] :=  0; ymask[1][2] := 0;
-  ymask[2][0] :=  1; ymask[2][1] :=  2; ymask[2][2] := 1;
+  ymask[0,0] := -1; ymask[0,1] := -2; ymask[0,2] := -1;
+  ymask[1,0] :=  0; ymask[1,1] :=  0; ymask[1,2] := 0;
+  ymask[2,0] :=  1; ymask[2,1] :=  2; ymask[2,2] := 1;
 
-  if axis = 'y' then Result := convolve(Mat,ymask);
-  if axis = 'x' then Result := convolve(Mat,xmask);
+  if axis = 'y' then Result := SobelConvolve(Mat,ymask);
+  if axis = 'x' then Result := SobelConvolve(Mat,xmask);
 end; 
 
 
 (*=============================================================================|
  Gassuian blur and related functions
 |=============================================================================*)
-function GaussKernel(KernelRadius:Integer; Sigma:Single): T2DFloatArray;
+function GaussianBlur(ImArr:T2DIntArray; Radius:Int32; Sigma:Single): T2DIntArray;
 var
-  hkernel:TFloatArray;
-  Size,i,x,y:Integer;
-  sum:Single;
-begin
-  Size := 2*KernelRadius+1;
-  SetLength(hkernel, Size);
-  for i:=0 to Size-1 do
-    hkernel[i] := Exp(-(Sqr((i-KernelRadius) / Sigma)) / 2.0);
+  x,y,wid,hei,xx,yy,offset,block:Int32;
+  gauss:Single;
+  tmp:T2DFloatArray;
+  kernel:TFloatArray;
 
-  SetLength(Result, Size, Size);
-  sum:=0;
-  for y:=0 to Size-1 do
-    for x:=0 to Size-1 do
+  function InBounds(lo,hi,pos:Int32): Int32; inline;
+  begin
+    if (pos < lo) then Exit(lo); if (pos > hi) then Exit(hi);
+    Result := pos;
+  end;
+
+begin
+  block := Radius*2;
+  Wid := High(ImArr[0]);
+  Hei := High(ImArr);
+  SetLength(Result, hei+1,wid+1);
+  SetLength(tmp, hei+1,wid+1);
+
+  kernel := GaussKernel1D(Radius, Sigma); // Compute our gaussian 1d kernel
+
+  // y direction
+  for y:=0 to hei do
+    for x:=0 to wid do
     begin
-      Result[y][x] := hkernel[x]*hkernel[y];
-      Sum := Sum + Result[y][x];
+      gauss := 0.0;
+      for offset:=0 to block do
+      begin
+        xx := InBounds(0,wid,(x-Radius)+offset);
+        gauss += ImArr[y, xx] * kernel[offset];
+      end;
+      tmp[y,x] := gauss;
     end;
 
-  for y := 0 to Size-1 do
-    for x := 0 to Size-1 do
-      Result[y][x] := Result[y][x] / sum;
-end; 
+  // x direction
+  for y:=0 to hei do
+    for x:=0 to wid do
+    begin
+      gauss := 0.0;
+      for offset:=0 to block do
+      begin
+        yy := InBounds(0,hei,(y-Radius)+offset);
+        gauss += tmp[yy, x] * kernel[offset];
+      end;
+      Result[y,x] := Round(gauss);
+    end;
+end;  
 
 
-function GaussianBlur(Mat:T2DIntArray; Sigma:Single; KernelSize:Integer): T2DIntArray;
-begin
-  Result := Convolve(Mat, GaussKernel(KernelSize, Sigma));
-end;
-
-
-function QuickBlur3(Mat:T2DIntArray): T2DFloatArray;
+function BoxBlur3(Mat:T2DIntArray): T2DFloatArray;
 var W,H,x,y:Int32;
 begin
   W := High(Mat[0]);
@@ -169,16 +170,16 @@ var
   blur,imx,imy:T2DIntArray;
   wxx,wyy,wxy: T2DFloatArray;
 begin
-  blur := GaussianBlur(Intesity(Mat), GaussDev, KSize);
+  blur := GaussianBlur(Intesity(Mat), KSize, GaussDev);
   imx := Sobel(blur, 'x');
   imy := Sobel(blur, 'y');
 
   (*Wxx := ToSingle(GaussianBlur(imx*imx, 3.0, 1));
     Wyy := ToSingle(GaussianBlur(imy*imy, 3.0, 1));
     Wxy := ToSingle(GaussianBlur(imx*imy, 3.0, 1));*)
-  Wxx := QuickBlur3(imx*imx);
-  Wyy := QuickBlur3(imy*imy);
-  Wxy := QuickBlur3(imx*imy);
+  Wxx := BoxBlur3(imx*imx);
+  Wyy := BoxBlur3(imy*imy);
+  Wxy := BoxBlur3(imx*imy);
 
   Result := ((Wxx*Wyy) - (Wxy*Wxy)) / (Wxx+Wyy);
 end; 

@@ -776,14 +776,14 @@ begin
   Result := GaussKernel(KernelRadius, Sigma);
 end;
 
-function exp_ImBlurFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; cdecl;
+function exp_ImBlur(ImgArr: T2DIntArray; Radius:Integer): T2DIntArray; cdecl;
 begin
-  Result := ImBlurFilter(ImgArr, Block);
+  Result := ImBlur(ImgArr, Radius);
 end;
 
-function exp_ImMedianFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; cdecl;
+function exp_ImMedianBlur(ImgArr: T2DIntArray; Radius:Integer): T2DIntArray; cdecl;
 begin
-  Result := ImMedianFilter(ImgArr, Block);
+  Result := ImMedianBlur(ImgArr, Radius);
 end;
 
 function exp_ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean): T2DIntArray; cdecl;

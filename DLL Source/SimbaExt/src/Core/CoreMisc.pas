@@ -11,14 +11,16 @@ uses
   CoreTypes;
 
 //Increse, and Decrease but with a result (Similar to i++, and i-- in C)
-function Inc(var i: Integer): Integer; Inline; overload; //i++
-function Inc(var i: uInt32): uInt32; Inline;  overload; //i++
-function Inc(var i: Int64): Int64; Inline;  overload; //i++
+function Asc(var i: Int32): Int32; Inline; overload; //i++
+function Asc(var i: uInt32): uInt32; Inline;  overload; //i++
+function Asc(var i: Int64): Int64; Inline;  overload; //i++
+function Asc(var i: uInt64): uInt64; Inline;  overload; //i++
 
-function Dec(var i: Integer): Integer; Inline; overload; //i--
-function Dec(var i: uInt32): uInt32; Inline; overload; //i--
-function Dec(var i: Int64): Int64; Inline; overload; //i--
-  
+function Desc(var i: Int32): Int32; Inline; overload; //i--
+function Desc(var i: uInt32): uInt32; Inline; overload; //i--
+function Desc(var i: Int64): Int64; Inline; overload; //i--
+function Desc(var i: uInt64): uInt64; Inline; overload; //i--
+
   
 //Swapping / exchanging
 procedure Exch(var A,B:uInt8); Inline; overload;
@@ -39,11 +41,27 @@ procedure Exch(var A,B:TPoint); Inline; overload;
 procedure Exch(var A,B:TBox); Inline; overload;
 
 
+// Excahnging values: only if a > b
+procedure ExchMin(var a,b:UInt8); Inline; Overload;
+procedure ExchMin(var a,b:UInt16); Inline; Overload;
+procedure ExchMin(var a,b:UInt32); Inline; Overload;
+procedure ExchMin(var a,b:UInt64); Inline; Overload;
+
+procedure ExchMin(var a,b:Int8); Inline; Overload;
+procedure ExchMin(var a,b:Int16); Inline; Overload;
+procedure ExchMin(var a,b:Int32); Inline; Overload;
+procedure ExchMin(var a,b:Int64); Inline; Overload;
+
+procedure ExchMin(var a,b:Single); Inline; Overload;
+procedure ExchMin(var a,b:Double); Inline; Overload;
+procedure ExchMin(var a,b:Extended); Inline; Overload;
+
+
 //Safe move functionallity
-procedure Move(const InArr:AnsiString; var DestArr:AnsiString; source, dest, size:Integer); overload;
-procedure Move(const InArr:TIntArray; var DestArr:TIntArray; source, dest, size:Integer); overload;
-procedure Move(const InArr:TExtArray; var DestArr:TExtArray; source, dest, size:Integer); overload;
-procedure Move(const InArr:TPointArray; var DestArr:TPointArray; source, dest, size:Integer); overload;
+//procedure Move(const InArr:AnsiString; var DestArr:AnsiString; source, dest, size:Integer); overload;
+//procedure Move(const InArr:TIntArray; var DestArr:TIntArray; source, dest, size:Integer); overload;
+//procedure Move(const InArr:TExtArray; var DestArr:TExtArray; source, dest, size:Integer); overload;
+//procedure Move(const InArr:TPointArray; var DestArr:TPointArray; source, dest, size:Integer); overload;
 
 
 
@@ -52,30 +70,34 @@ implementation
 
  
 (* 
-  Increase of the value (value+1), returning the current value
+  Increase of the value (value+1), returning the current value (i++)
 *)
-function Inc(var i: Integer): Integer; Inline; //i++
-begin Result := i;  i := i+1; end;
+function Asc(var i: Int32): Int32; Inline;
+begin Result:=i;  i+=1; end;
 
-function Inc(var i: uInt32): uInt32; Inline; //i++
-begin Result := i;  i := i+1; end;
+function Asc(var i: uInt32): uInt32; Inline;
+begin Result:=i;  i+=1; end;
 
-function Inc(var i: Int64): Int64; Inline; //i++
-begin Result := i;  i := i+1; end;
+function Asc(var i: Int64): Int64; Inline;
+begin Result:=i; i+=1; end;
 
+function Asc(var i: uInt64): uInt64; Inline;
+begin Result:=i;  i+=1; end;
 
 (* 
-  Decrease the value (value+1), returning the current value
+  Decrease the value (value+1), returning the current value (i--)
 *)
-function Dec(var i: Integer): Integer; Inline; //i--
-begin Result := i;  i := i-1; end;
+function Desc(var i: Int32): Int32; Inline;
+begin Result:=i;  i-=1; end;
  
-function Dec(var i: uInt32): uInt32; Inline; //i--
-begin Result := i;  i := i-1; end;
+function Desc(var i: uInt32): uInt32; Inline;
+begin Result:=i;  i-=1; end;
 
-function Dec(var i: Int64): Int64; Inline; //i--
-begin Result := i;  i := i-1; end;
+function Desc(var i: Int64): Int64; Inline;
+begin Result:=i;  i-=1; end;
  
+function Desc(var i: uInt64): uInt64; Inline;
+begin Result:=i;  i-=1; end;
  
 
 (* 
@@ -112,11 +134,40 @@ procedure Exch(var A,B:TBox); Inline; overload;
 var t: TBox; begin t := A;  A := B;  B := t; end;
 
 
+(* 
+  Excahnging values between A and B, but only if a > b.
+*)
+procedure ExchMin(var a,b:UInt8); Inline; Overload;
+var t:UInt8; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+procedure ExchMin(var a,b:UInt16); Inline; Overload;
+var t:UInt16; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+procedure ExchMin(var a,b:UInt32); Inline; Overload;
+var t:UInt32; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+procedure ExchMin(var a,b:UInt64); Inline; Overload;
+var t:UInt64; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+
+procedure ExchMin(var a,b:Int8); Inline; Overload;
+var t:Int8; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+procedure ExchMin(var a,b:Int16); Inline; Overload;
+var t:Int16; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+procedure ExchMin(var a,b:Int32); Inline; Overload;
+var t:Int32; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+procedure ExchMin(var a,b:Int64); Inline; Overload;
+var t:Int64; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+
+procedure ExchMin(var a,b:Single); Inline; Overload;
+var t:Single; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+procedure ExchMin(var a,b:Double); Inline; Overload;
+var t:Double; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+procedure ExchMin(var a,b:Extended); Inline; Overload;
+var t:Extended; begin if (a > b) then begin t := a; a := b; b := t; end; end;
+
 
 (* 
   Move functionallity (safe) and routines related to it
   !! Deprecated !!
 *)
+(*
 function ChopSize(D,S,L: Integer): Integer; Inline;
 begin
   Result := S;
@@ -158,7 +209,7 @@ begin
   if (L = 0) or (source >= L) then Exit;
   Move(InArr[source], DestArr[dest], size * SizeOf(TPoint));
 end;
-
+*)
 
 
 end.

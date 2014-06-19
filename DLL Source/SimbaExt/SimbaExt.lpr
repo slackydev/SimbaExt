@@ -37,7 +37,7 @@ uses
   DensityMap,
   StringTools,
   CornerDet,
-  _Tests, junk;
+  _Tests;
 
 //Include Simba Wrapper
 {$I ExportWrap.pas}
@@ -250,15 +250,15 @@ begin
 
 
   // Imaging.pas
-  AddCommand(@exp_GaussKernel,	'function exp_GaussKernel(KernelRadius:Integer; Sigma:Single): T2DFloatArray;');
-  AddCommand(@exp_ImBlurFilter,	'function exp_ImBlurFilter(ImgArr: T2DIntegerArray; Block:Integer): T2DIntArray;');
-  AddCommand(@exp_ImMedianFilter,	'function exp_ImMedianFilter(ImgArr: T2DIntegerArray; Block:Integer): T2DIntArray;');
-  AddCommand(@exp_ImBrighten,	'function exp_ImBrighten(ImgArr:T2DIntegerArray; Amount:Extended; Legacy:Boolean): T2DIntArray;');
-  AddCommand(@exp_ImEnhance,	'function exp_ImEnhance(ImgArr:T2DIntegerArray; Enhancement:Byte; C:Extended): T2DIntArray;');
-  AddCommand(@exp_ImThreshold,	'function exp_ImThreshold(const ImgArr:T2DIntegerArray; Threshold, Alpha, Beta:Byte; Invert:Boolean): T2DIntArray;');
-  AddCommand(@exp_ImThresholdAdaptive,	'function exp_ImThresholdAdaptive(const ImgArr:T2DIntegerArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Integer): T2DIntArray;');
+  AddCommand(@exp_GaussKernel,	  'function exp_GaussKernel(KernelRadius:Integer; Sigma:Single): T2DFloatArray;');
+  AddCommand(@exp_ImBlur,	  'function exp_ImBlur(ImgArr: T2DIntArray; Radius:Integer): T2DIntArray;');
+  AddCommand(@exp_ImMedianBlur,   'function exp_ImMedianBlur(ImgArr: T2DIntArray; Radius:Integer): T2DIntArray;');
+  AddCommand(@exp_ImBrighten,     'function exp_ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean): T2DIntArray;');
+  AddCommand(@exp_ImEnhance,      'function exp_ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended): T2DIntArray;');
+  AddCommand(@exp_ImThreshold,	  'function exp_ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Invert:Boolean): T2DIntArray;');
+  AddCommand(@exp_ImThresholdAdaptive,	'function exp_ImThresholdAdaptive(const ImgArr:T2DIntArray; Alpha, Beta: Byte; Invert:Boolean; Method:TThreshAlgo; C:Integer): T2DIntArray;');
   AddCommand(@exp_ImFindContours,       'function exp_ImFindContours(const ImgArr:T2DIntegerArray; Outlines:Boolean): T2DPointArray;');
-  AddCommand(@exp_ImCEdges,	    'function exp_ImCEdges(const ImgArr: T2DIntegerArray; MinDiff: Integer): TPointArray;');
+  AddCommand(@exp_ImCEdges,	        'function exp_ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray;');
   AddCommand(@exp_ImSobel,          'function exp_ImSobel(const ImgArr: T2DIntArray): T2DIntArray;');
   AddCommand(@exp_ImConvolve,       'function exp_ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;');
   AddCommand(@exp_ImGaussBlur,      'function exp_ImGaussBlur(const ImgArr: T2DIntArray; Radius: Integer; Sigma: Single): T2DIntArray;');
@@ -266,6 +266,7 @@ begin
   AddCommand(@exp_ImResize,         'procedure exp_ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);');
   AddCommand(@exp_ImRotate,         'function exp_ImRotate(Mat:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray;');
 
+  
   // SimpleOCR.pas
   AddCommand(@exp_ImGetText,     'function exp_ImGetText(ImgArr:T2DIntArray; Font:TChars; MinCharSpace, MinSpace, TextPixTol: Integer; Range:AnsiString): AnsiString;');
 

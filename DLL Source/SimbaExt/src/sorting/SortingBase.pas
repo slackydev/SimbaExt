@@ -4,8 +4,12 @@
  For more info see: Copyright.txt
 [=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
+//------------------------------------------------------------------------------||
+//------------------------------------------------------------------------------||
+// Miedian of three
+
 //Median of three - Integer.
-procedure TIAMedian3(var Arr:TIntArray; Left, Middle, Right:Integer); Inline;
+procedure Median3(var Arr:TIntArray; Left, Middle, Right:Integer); Inline; overload;
 begin
   if (Arr[Middle] < Arr[Left])  then Exch(Arr[Left], Arr[Middle]);
   if (Arr[Right] < Arr[Left])   then Exch(Arr[Left], Arr[Right]);
@@ -13,7 +17,7 @@ begin
 end;
 
 //Median of three - Extended.
-procedure TEAMedian3(var Arr:TExtArray; Left, Middle, Right:Integer); Inline;
+procedure Median3(var Arr:TExtArray; Left, Middle, Right:Integer); Inline; overload;
 begin
   if (Arr[Middle] < Arr[Left])  then Exch(Arr[Left], Arr[Middle]);
   if (Arr[Right] < Arr[Left])   then Exch(Arr[Left], Arr[Right]);
@@ -21,7 +25,7 @@ begin
 end;
 
 //Median of three - Double.
-procedure TDAMedian3(var Arr:TDoubleArray; Left, Middle, Right:Integer); Inline;
+procedure Median3(var Arr:TDoubleArray; Left, Middle, Right:Integer); Inline; overload;
 begin
   if (Arr[Middle] < Arr[Left])  then Exch(Arr[Left], Arr[Middle]);
   if (Arr[Right] < Arr[Left])   then Exch(Arr[Left], Arr[Right]);
@@ -29,7 +33,7 @@ begin
 end;
 
 //Median of three - Single.
-procedure TFAMedian3(var Arr:TFloatArray; Left, Middle, Right:Integer); Inline;
+procedure Median3(var Arr:TFloatArray; Left, Middle, Right:Integer); Inline; overload;
 begin
   if (Arr[Middle] < Arr[Left])  then Exch(Arr[Left], Arr[Middle]);
   if (Arr[Right] < Arr[Left])   then Exch(Arr[Left], Arr[Right]);
@@ -37,7 +41,7 @@ begin
 end;
 
 //Median of three - TPoint with weight.
-procedure TPAMedian3(var Arr:TPointArray; var Weight:TIntArray; Left, Middle, Right:Integer); Inline;
+procedure Median3(var Arr:TPointArray; var Weight:TIntArray; Left, Middle, Right:Integer); Inline; overload;
 begin
   if (Weight[Middle] < Weight[Left]) then begin
     Exch(Arr[Left], Arr[Middle]);
@@ -51,6 +55,66 @@ begin
     Exch(Arr[Middle], Arr[Right]);
     Exch(Weight[Middle], Weight[Right]);
   end;
+end;
+
+
+
+//------------------------------------------------------------------------------||
+//------------------------------------------------------------------------------||
+// Miedian of Five
+function MedianOfFive(a,b,c,d,e:uInt8): uInt8;
+begin
+    ExchMin(a,b);
+    ExchMin(c,d);
+    if (c < a) then begin Exch(b,d); c := a; end;
+    a := e;
+    ExchMin(a,b);
+    if (a < c) then begin Exch(b,d); a := c; end;
+    Result := Min(d, a);
+end;
+
+function MedianOfFive(a,b,c,d,e:Int8): Int8;
+begin
+    ExchMin(a,b);
+    ExchMin(c,d);
+    if (c < a) then begin Exch(b,d); c := a; end;
+    a := e;
+    ExchMin(a,b);
+    if (a < c) then begin Exch(b,d); a := c; end;
+    Result := Min(d, a);
+end;
+
+function MedianOfFive(a,b,c,d,e:Int32): Int32;
+begin
+    ExchMin(a,b);
+    ExchMin(c,d);
+    if (c < a) then begin Exch(b,d); c := a; end;
+    a := e;
+    ExchMin(a,b);
+    if (a < c) then begin Exch(b,d); a := c; end;
+    Result := Min(d, a);
+end;
+
+function MedianOfFive(a,b,c,d,e:Single): Single;
+begin
+    ExchMin(a,b);
+    ExchMin(c,d);
+    if (c < a) then begin Exch(b,d); c := a; end;
+    a := e;
+    ExchMin(a,b);
+    if (a < c) then begin Exch(b,d); a := c; end;
+    Result := Min(d, a);
+end;
+
+function MedianOfFive(a,b,c,d,e:Double): Double;
+begin
+    ExchMin(a,b);
+    ExchMin(c,d);
+    if (c < a) then begin Exch(b,d); c := a; end;
+    a := e;
+    ExchMin(a,b);
+    if (a < c) then begin Exch(b,d); a := c; end;
+    Result := Min(d, a);
 end;
 
 

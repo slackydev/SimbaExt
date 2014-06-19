@@ -14,9 +14,10 @@ uses
 
 procedure ImGetRGB(Img: T2DIntArray; out R,G,B:T2DByteArray);
 function ImMergeRGB(R,G,B:T2DByteArray): T2DIntArray;  
-function GaussKernel(KernelRadius:Integer; Sigma:Single): T2DFloatArray;
-function ImBlurFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; 
-function ImMedianFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; 
+function GaussKernel(KernelRadius:Int32; Sigma:Single): T2DFloatArray;
+function GaussKernel1D(KernelRadius:Int32; Sigma:Single): TFloatArray;
+function ImBlur(ImgArr: T2DIntArray; Radius:Integer): T2DIntArray; 
+function ImMedianBlur(ImgArr: T2DIntArray; Radius:Integer): T2DIntArray; 
 function ImBrighten(ImgArr:T2DIntArray; Amount:Extended; Legacy:Boolean): T2DIntArray; 
 function ImEnhance(ImgArr:T2DIntArray; Enhancement:Byte; C:Extended): T2DIntArray; 
 function ImThreshold(const ImgArr:T2DIntArray; Threshold, Alpha, Beta:Byte; Invert:Boolean): T2DIntArray; 
@@ -25,7 +26,7 @@ function ImFindContours(const ImgArr:T2DIntArray; Outlines:Boolean): T2DPointArr
 function ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray; 
 function ImSobel(const ImgArr: T2DIntArray): T2DIntArray; 
 function ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;
-function ImGaussBlur(const ImgArr:T2DIntArray; Radius: Integer; Sigma: Single): T2DIntArray;
+function ImGaussBlur(const ImgArr:T2DIntArray; Radius:Int32; Sigma:Single): T2DIntArray;
 function ImBlend(Img1, Img2: T2DIntArray; Alpha:Single=0.5): T2DIntArray; //not exported yet..
 function ImFilterGray(const ImgArr:T2DIntArray; MinDark, MaxDark:Byte; Replace, Tol:Integer): T2DIntArray;
 procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);
@@ -76,45 +77,74 @@ end;
   
   
 {*
- Generates a gaussian filter. 
+ Generates a 2D gaussian filter. 
 *}
-function GaussKernel(KernelRadius:Integer; Sigma:Single): T2DFloatArray;
+function GaussKernel(KernelRadius:Int32; Sigma:Single): T2DFloatArray;
 var
   hkernel:TExtArray;
   Size,i,x,y:Integer;
   sum:Single;
 begin
-  Size := 2*KernelRadius+1;
-  SetLength(hkernel, Size);
-  for i:=0 to Size-1 do
+  Size := 2*KernelRadius;
+  SetLength(hkernel, Size+1);
+  for i:=0 to Size do
     hkernel[i] := Exp(-(Sqr((i-KernelRadius) / Sigma)) / 2.0);
 
-  SetLength(Result, Size, Size);
+  SetLength(Result, Size+1, Size+1);
   sum:=0;
-  for y:=0 to Size-1 do
-    for x:=0 to Size-1 do
+  for y:=0 to Size do
+    for x:=0 to Size do
     begin
       Result[y][x] := hkernel[x]*hkernel[y];
       Sum := Sum + Result[y][x];
     end;
 
-  for y := 0 to Size-1 do
-    for x := 0 to Size-1 do
+  for y := 0 to Size do
+    for x := 0 to Size do
       Result[y][x] := Result[y][x] / sum;
 end;
 
 
 {*
- Returns a blurred version of the Matrix/ImgArray.
- Block is the radius of the blur: 3,5,7,9...
+ Generates 1D a gaussian filter. 
 *}
-function ImBlurFilter(ImgArr: T2DIntArray; Block:Integer): T2DIntArray; 
+function GaussKernel1D(KernelRadius:Int32; Sigma:Single): TFloatArray;
 var
-  W,H,x,y,mid,fx,fy,size:Integer;
+  size,r,i:Int32;
+  invRad2,sum,x,v:Single;
+begin
+  size := 2*KernelRadius;
+  SetLength(Result,size+1);
+  invRad2 := 1.0 / (2.0 * sqr(KernelRadius));
+
+  r := -KernelRadius;
+  sum := 0.0;
+  for i:=0 to size do
+  begin
+    v := (1.0 / (Sqrt(2.0 * PI) * KernelRadius)) * Exp(-sqr(r * sigma) * invRad2);
+    Result[i] := v;
+
+    sum += v;
+    inc(r);
+  end;
+
+   for i:=0 to size do
+    Result[i] /= sum;
+end;
+
+
+{*
+ Returns a blurred version of the Matrix/ImgArray.
+ Block is the radius of the blur: 1,2,3,4...
+*}
+function ImBlur(ImgArr: T2DIntArray; Radius:Integer): T2DIntArray; 
+var
+  W,H,x,y,mid,fx,fy,size,block:Integer;
   R,G,B,lx,ly,hx,hy:Integer;
   color:ColorRGB;
 begin
-  if (Block<=1) or (Block mod 2 = 0) then Exit;
+  block := Radius*2+1;
+  if (Block<=1) then Exit();
   W := High(ImgArr[0]);
   H := High(ImgArr);
   SetLength(Result, H+1,W+1);
@@ -133,7 +163,7 @@ begin
       for fy:=ly to hy do
         for fx:=lx to hx do
         begin
-          Color := ColorRGB(ImgArr[fy][fx]);
+          Color := ColorRGB(ImgArr[fy,fx]);
           R += Color.R;
           G += Color.G;
           B += Color.B;
@@ -149,7 +179,7 @@ end;
 
 {*
  Filter a matrix/ImgArr with a Median Filter.
- Block is the radius of the filter, 3,5,7,9...
+ Block is the radius of the filter, 1,2,3,4...
 *}
 {** __PRIVATE__ **}
 procedure __SortRGB(var Arr, Weight: TIntArray); Inline;
@@ -166,12 +196,13 @@ begin
     end;
 end;
 
-function ImMedianFilter(ImgArr: T2DIntArray; Block:Integer):T2DIntArray; 
+function ImMedianBlur(ImgArr: T2DIntArray; Radius:Integer):T2DIntArray; 
 var
-  W,H,j,x,y,fx,fy,low,mid,size,color:Integer;
+  W,H,j,x,y,fx,fy,low,mid,size,color,block:Integer;
   lx,ly,hx,hy:Integer;
   Filter,Colors:TIntArray;
 begin
+  Block := Radius*2+1;
   Size := Block * Block;
   if (Size<=1) or (Block mod 2 = 0) then Exit;
   W := High(ImgArr[0]);
@@ -462,6 +493,7 @@ begin
 end;
 
 
+
 {
   Given a matrix that represents an image this algorithm extacts the contrast edge points.
   The result is an Array of TPoint (TPointArray).
@@ -622,15 +654,74 @@ begin
 end;
 
 
+
+
+
+
+
 {*
-  Returns a gaussion blurred version of the Matrix/ImgArray.
+  Returns a gaussion blured version of the Matrix/ImgArray.
   @parmas:
-    Radius can be any number, but should keep it low, like: 1-9
-    Sigma is usually around 1.0-3.0. 
+    Radius can be any number. 1-11 = normal range.
+    Sigma is usually set around 1.0-3.0.
 *}
-function ImGaussBlur(const ImgArr:T2DIntArray; Radius: Integer; Sigma: Single): T2DIntArray;
+function ImGaussBlur(const ImgArr:T2DIntArray; Radius:Int32; Sigma:Single): T2DIntArray;
+var
+  x,y,wid,hei,xx,yy,offset,block:Int32;
+  gR,gG,gB:Single;
+  tmp:Array of T2DFloatArray;
+  kernel:TFloatArray;
+
+  function InBounds(lo,hi,pos:Int32): Int32; Inline;
+  begin
+    if (pos < lo) then Exit(lo); if (pos > hi) then Exit(hi);
+    Result := pos;
+  end;
+
 begin
-  Result := ImConvolve(ImgArr, GaussKernel(Radius,Sigma));
+  block := Radius*2;
+  Wid := High(ImgArr[0]);
+  Hei := High(ImgArr);
+  SetLength(Result, hei+1,wid+1);
+  SetLength(tmp, hei+1,wid+1,3);
+
+  kernel := GaussKernel1D(Radius, Sigma);
+
+  // x direction
+  for y:=0 to hei do
+    for x:=0 to wid do
+    begin
+      gR := 0.0;
+      gG := 0.0;
+      gB := 0.0;
+      for offset:=0 to block do
+      begin
+        xx := InBounds(0,wid,(x-Radius)+offset);
+        gR += (ImgArr[y,xx] and $FF) * kernel[offset];
+        gG += ((ImgArr[y,xx] shr 8) and $FF) * kernel[offset];
+        gB += ((ImgArr[y,xx] shr 16) and $FF) * kernel[offset];
+      end;
+      tmp[y,x,0] := gR;
+      tmp[y,x,1] := gG;
+      tmp[y,x,2] := gB;
+    end;
+
+  // y direction
+  for y:=0 to hei do
+    for x:=0 to wid do
+    begin
+      gR := 0.0;
+      gG := 0.0;
+      gB := 0.0;
+      for offset:=0 to block do
+      begin
+        yy := InBounds(0,hei,(y-Radius)+offset);
+        gR += tmp[yy,x,0] * kernel[offset];
+        gG += tmp[yy,x,1] * kernel[offset];
+        gB += tmp[yy,x,2] * kernel[offset];
+      end;
+      Result[y,x] := (Round(gR)) or (Round(gG) shl 8) or (Round(gB) shl 16);
+    end;
 end;
 
 

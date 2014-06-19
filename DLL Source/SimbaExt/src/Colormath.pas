@@ -41,23 +41,29 @@ function LCHDiff(L0,a0,b0, L1,a1,b1: Single): Single; Inline;
 implementation
 
 
-// Cuberoot spezialised for the computation of RGB to LAB
-// Ranges are 0.005 to 1.000 || Avg error in this range is 0.1%
+// Cuberoot spezialised for quick computation of RGB to LAB
+// Ranges are 0.0 to 1.500  +/-
 function LABCbrt(x:Single): Single; Inline;
 begin
-  if x <= 0.012 then Exit(0.190 - ((0.007 - x) / 0.10));
-  if x <= 0.025 then Exit(0.220 - ((0.014 - x) / 0.10));
-  if x <= 0.050 then Exit(0.300 - ((0.027 - x) / 0.27));
-  if x <= 0.075 then Exit(0.400 - ((0.064 - x) / 0.48));
-  if x <= 0.125 then Exit(0.450 - ((0.091 - x) / 0.60));
-  if x <= 0.185 then Exit(0.580 - ((0.200 - x) / 1.00));
-  if x <= 0.330 then Exit(0.625 - ((0.244 - x) / 1.175));
-  if x <= 0.470 then Exit(0.725 - ((0.381 - x) / 1.575));
-  if x <= 0.640 then Exit(0.800 - ((0.512 - x) / 1.92));
-  if x <= 0.900 then Exit(0.900 - ((0.730 - x) / 2.43));
-  if x <= 1.500 then Exit(1.000 - ((1.000 - x) / 3.00));
-  Result := 1.1;
-end;
+  if x <= 0.0 then Exit(0.0)
+  else if x <= 0.0015 then Result:= (0.075 - (0.0004 - x) / 0.017)
+  else if x <= 0.012 then Result := (0.188 - (0.0066 - x) / 0.106)
+  else if x <= 0.020 then Result := (0.195 - (0.0110 - x) / 0.110)
+  else if x <= 0.025 then Result := (0.220 - (0.0140 - x) / 0.130)
+  else if x <= 0.035 then Result := (0.290 - (0.0270 - x) / 0.270)
+  else if x <= 0.050 then Result := (0.307 - (0.0320 - x) / 0.300)
+  else if x <= 0.075 then Result := (0.400 - (0.0640 - x) / 0.480)
+  else if x <= 0.125 then Result := (0.450 - (0.0910 - x) / 0.600)
+  else if x <= 0.185 then Result := (0.580 - (0.2000 - x) / 1.000)
+  else if x <= 0.330 then Result := (0.625 - (0.2440 - x) / 1.175)
+  else if x <= 0.470 then Result := (0.725 - (0.3810 - x) / 1.575)
+  else if x <= 0.640 then Result := (0.800 - (0.5120 - x) / 1.910)
+  else if x <= 0.900 then Result := (0.900 - (0.7300 - x) / 2.430)
+  else if x <= 1.500 then Result := (1.000 - (1.0000 - x) / 3.000)
+  else Result := sqrt(x);
+
+  Result := Result - (Result*Result*Result - x) / (3.0 * Result * Result);
+end;  
     
 procedure ColorToRGB(Color:Integer; out R,G,B:Byte); Inline;
 begin

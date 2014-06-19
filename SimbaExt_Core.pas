@@ -58,6 +58,27 @@ type
   TSortKey = (sort_Default, sort_Magnitude, sort_ByColumn, sort_ByRow, sort_ByX,
               sort_ByY, sort_Length, sort_First, sort_Index, sort_Mean, sort_Lex, sort_Logical);
   
+
+  (* Prefixes for SimbaExt modules *)
+  //SE.***
+  SimbaExt = type Pointer;
+  //Math.***
+  TObjMath = type Pointer;
+  //Rand.***
+  TObjRandom = type Pointer;
+  //Time.***
+  TObjTime = type Pointer;
+  //OS.*** & OS.Path.***
+  TObjOSPath = type Pointer;
+  TObjOS = record path: TObjOSPath; end; 
+var  
+  SE: SimbaExt; 
+  Math: TObjMath; 
+  Rand: TObjRandom; 
+  TimeUtils: TObjTime;
+  OS: TObjOS;
+  
+
   
 //LoadLibrary from current folder 
 {$IFNDEF CODEINSIGHT}
@@ -125,24 +146,3 @@ begin
   end;
   {$ENDIF}
 end;
-
-
-
-type 
-  //SE.***
-  SimbaExt = type Pointer;
-  //Math.***
-  TObjMath = type Pointer;
-  //Rand.***
-  TObjRandom = type Pointer;
-  //Time.***
-  TObjTime = type Pointer;
-  //OS.*** & OS.Path.***
-  TObjOSPath = type Pointer;
-  TObjOS = record path: TObjOSPath; end; 
-var  
-  SE: SimbaExt; 
-  Math: TObjMath; 
-  Rand: TObjRandom; 
-  TimeUtils: TObjTime;
-  OS: TObjOS;

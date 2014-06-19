@@ -16,8 +16,8 @@ begin
   if (Left + 15 <= Right) then
   begin
     Mid := Left + (Right-Left) shr 1;
-    TPAMedian3(Arr, Weight, Left, Mid, Right);
-    TPAMedian3(Arr, Weight, (Left+(Mid-Left) shr 1), Mid, (Mid+(Right-Mid) shr 1));
+    Median3(Arr, Weight, Left, Mid, Right);
+    Median3(Arr, Weight, (Left+(Mid-Left) shr 1), Mid, (Mid+(Right-Mid) shr 1));
     Pivot := Weight[Mid];
     f := 0;
     i := Left;

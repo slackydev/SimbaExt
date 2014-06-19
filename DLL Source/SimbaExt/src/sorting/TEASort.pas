@@ -16,8 +16,8 @@ begin
   if (Left + 15 <= Right) then
   begin
     Mid := Left + (Right-Left) shr 1;
-    TEAMedian3(Arr, Left, Mid, Right);
-    TEAMedian3(Arr, (Left+(Mid-Left) shr 1), Mid, (Mid+(Right-Mid) shr 1));
+    Median3(Arr, Left, Mid, Right);
+    Median3(Arr, (Left+(Mid-Left) shr 1), Mid, (Mid+(Right-Mid) shr 1));
     Pivot := Arr[Mid];
     f := 0;
     i := Left;

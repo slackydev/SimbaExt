@@ -12,22 +12,22 @@ begin
 end;
 
 {!DOCREF} {
-  @method: function se.ImBlurFilter(ImgArr: TIntMatrix; Block:Integer):  TIntMatrix;    
-  @desc: Applies a box-blur to the image. Running it multiple times with a small blur results similarly as to what a gaussian blur would.
+  @method: function se.ImBlurFilter(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;    
+  @desc: Applies a box-blur to the image. Running it multiple times with a small blur results similarly as to what a gaussian blur would, but larger.
 }
-function SimbaExt.ImBlurFilter(ImgArr: TIntMatrix; Block:Integer):  TIntMatrix;  
+function SimbaExt.ImBlur(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;  
 begin
-  Result := exp_ImBlurFilter(ImgArr, Block);
+  Result := exp_ImBlur(ImgArr, Radius);
 end;
 
 
 {!DOCREF} {
-  @method: function se.ImMedianFilter(ImgArr: TIntMatrix; Block:Integer):  TIntMatrix;  
-  @desc: Applies a median filter. Picks the median pixel value in a window with the given size c'Block'.
+  @method: function se.ImMedianFilter(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;  
+  @desc: Applies a median filter. Picks the median pixel value in a window with the given radius `Radius`.
 }
-function SimbaExt.ImMedianFilter(ImgArr: TIntMatrix; Block:Integer):  TIntMatrix;  
+function SimbaExt.ImMedianBlur(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;  
 begin
-  Result := exp_ImMedianFilter(ImgArr, Block);
+  Result := exp_ImMedianBlur(ImgArr, Radius);
 end;
 
 
@@ -136,10 +136,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function se.ImGaussBlur(const ImgArr:TIntMatrix; Radius: Int32; Sigma:Single): TIntMatrix;  
+  @method: function se.ImGaussBlur(const ImgArr:TIntMatrix; Radius: Int32; Sigma:Single=1.5): TIntMatrix;  
   @desc: Applies a gaussian blur to the image. 
 }
-function SimbaExt.ImGaussBlur(const ImgArr:TIntMatrix; Radius: Int32; Sigma:Single): TIntMatrix;  
+function SimbaExt.ImGaussBlur(const ImgArr:TIntMatrix; Radius: Int32; Sigma:Single=1.5): TIntMatrix;  
 begin
   Result := exp_ImGaussBlur(ImgArr, Radius, Sigma);
 end;
@@ -166,14 +166,14 @@ end;
 
 
 {!DOCREF} {
-  @method: function ImRotate(ImgArr:T2DIntArray; Angle:Single; Expand:Boolean; BiLinear:Boolean=True): T2DIntArray;
+  @method: function se.ImRotate(ImgArr:T2DIntArray; Angle:Single; Expand:Boolean; BiLinear:Boolean=True): T2DIntArray;
   @desc: 
     Returns a rotated version of the image matrix, you can choose if you want to `expand` it, and if it should use `bilinear` interpolation (smoother rotation).
     Angle should be given in radians.
 }
-function ImRotate(ImgArr:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray; 
+function SimbaExt.ImRotate(ImgArr:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray; 
 begin
-  Result := ImRotate(ImgArr, Angle, Expand, Bilinear);
+  Result := exp_ImRotate(ImgArr, Angle, Expand, Bilinear);
 end;
 
 

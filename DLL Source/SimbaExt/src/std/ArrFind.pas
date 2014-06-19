@@ -211,7 +211,7 @@ begin
   upper := len-Seqlen;
   i := 0;  j := 0;
   while (i <= upper) do begin
-    if (Arr[i] <> Seq[j]) then begin
+    if not(Arr[i] = Seq[j]) then begin
       inc(i);
       continue;
     end;

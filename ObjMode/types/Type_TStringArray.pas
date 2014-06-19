@@ -225,7 +225,7 @@ end;
 
 {!DOCREF} {
   @method: function TStringArray.Count(Value:String): Boolean;
-  @desc: Counts the number of occurances of the given `Value`.
+  @desc:   Counts the number of occurances of the given `Value`.
 }
 function TStringArray.Count(Value:String): Boolean;
 begin
@@ -235,7 +235,7 @@ end;
 
 {!DOCREF} {
   @method: function TStringArray.Reversed(): TStringArray;
-  @desc: Creates a reversed copy of the array
+  @desc:   Creates a reversed copy of the array
 }
 function TStringArray.Reversed(): TStringArray;
 begin
@@ -254,17 +254,17 @@ end;
 
 
 {!DOCREF} {
-  @method: function TStringArray.ToStr(): String;
-  @desc:  Convert the TSA to a string representing the items in the TSA.
+  @method: function TStringArray.ToStr(Sep:String=', '): String;
+  @desc:   Convert the TSA to a string representing the items in the TSA.
 }
-function TStringArray.ToStr(): String;
+function TStringArray.ToStr(Sep:String=', '): String;
 var i:=0;
 begin
   Result := '';
   if High(Self) = -1 then Exit('');
   Result := '['+#39+Self[0]+#39;
   for i:=1 to High(Self) do
-    Result := Result +', '+#39+Self[i]+#39;
+    Result := Result + sep +#39+Self[i]+#39;
   Result := Result + ']';
 end;
 
@@ -290,8 +290,35 @@ var i:Int32;
 begin
   Result := Self.Clone();
   for i:=0 to High(Self) do
-    Capitalize(Result[i]);
+    Result[i] := Capitalize(Result[i]);
 end;
+
+
+{!DOCREF} {
+  @method: function TStringArray.Lower(): TStringArray;
+  @desc: Return a copy of the array with each string lowercased.
+}
+function TStringArray.Lower(): TStringArray;
+var i:Int32;
+begin
+  Result := Self.Clone();
+  for i:=0 to High(Self) do
+    Result[i] := LowerCase(Result[i]);
+end;
+
+
+{!DOCREF} {
+  @method: function TStringArray.Upper(): TStringArray;
+  @desc: Return a copy of the array with each string uppercased.
+}
+function TStringArray.Upper(): TStringArray;
+var i:Int32;
+begin
+  Result := Self.Clone();
+  for i:=0 to High(Self) do
+    Result[i] := UpperCase(Result[i]);
+end;
+
 
 
 {!DOCREF} {
