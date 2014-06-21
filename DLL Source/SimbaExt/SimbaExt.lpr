@@ -261,7 +261,7 @@ begin
   AddCommand(@exp_ImCEdges,	        'function exp_ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray;');
   AddCommand(@exp_ImSobel,          'function exp_ImSobel(const ImgArr: T2DIntArray): T2DIntArray;');
   AddCommand(@exp_ImConvolve,       'function exp_ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;');
-  AddCommand(@exp_ImGaussBlur,      'function exp_ImGaussBlur(const ImgArr: T2DIntArray; Radius: Integer; Sigma: Single): T2DIntArray;');
+  AddCommand(@exp_ImGaussBlur,      'procedure exp_ImGaussBlur(const ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single);');
   AddCommand(@exp_ImBlend,          'function exp_ImBlend(ImgArr1,ImgArr2: T2DIntArray; Alpha: Single): T2DIntArray;');
   AddCommand(@exp_ImResize,         'procedure exp_ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);');
   AddCommand(@exp_ImRotate,         'function exp_ImRotate(Mat:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray;');
@@ -345,12 +345,6 @@ begin
   AddCommand(@exp_ArgMultiE, 'function exp_ArgMulti(const Mat:T2DExtArray; Count: Int32; HiLo:Boolean): TPointArray; overload;');
   AddCommand(@exp_ArgMultiD, 'function exp_ArgMulti(const Mat:T2DDoubleArray; Count: Int32; HiLo:Boolean): TPointArray; overload;');
   AddCommand(@exp_ArgMultiF, 'function exp_ArgMulti(const Mat:T2DFloatArray; Count: Int32; HiLo:Boolean): TPointArray; overload;');
-
-  AddCommand(@exp_CombineMatB, 'function exp_CombineMatrix(const Mat1, Mat2:T2DByteArray; Op:Char): T2DByteArray;');
-  AddCommand(@exp_CombineMatI, 'function exp_CombineMatrix(const Mat1, Mat2:T2DIntArray; Op:Char): T2DIntArray; overload;');
-  AddCommand(@exp_CombineMatF, 'function exp_CombineMatrix(const Mat1, Mat2:T2DFloatArray; Op:Char): T2DFloatArray; overload;');
-  AddCommand(@exp_CombineMatD, 'function exp_CombineMatrix(const Mat1, Mat2:T2DDoubleArray; Op:Char): T2DDoubleArray; overload;');
-  AddCommand(@exp_CombineMatE, 'function exp_CombineMatrix(const Mat1, Mat2:T2DExtArray; Op:Char): T2DExtArray; overload;');
   
   AddCommand(@exp_GetValuesB, 'function exp_GetValues(const Mat:T2DByteArray; const Indices:TPointArray): TByteArray;');
   AddCommand(@exp_GetValuesI, 'function exp_GetValues(const Mat:T2DIntArray; const Indices:TPointArray): TIntArray; overload;');
@@ -364,6 +358,11 @@ begin
   AddCommand(@exp_PutValuesD, 'procedure exp_PutValues(var Matrix:T2DDoubleArray; const Indices:TPointArray; Values:TDoubleArray); overload;');
   AddCommand(@exp_PutValuesE, 'procedure exp_PutValues(var Matrix:T2DExtArray; const Indices:TPointArray; Values:TExtArray); overload;');
 
+  AddCommand(@exp_CombineMatB, 'function exp_CombineMatrix(const Mat1, Mat2:T2DByteArray; Op:Char): T2DByteArray;');
+  AddCommand(@exp_CombineMatI, 'function exp_CombineMatrix(const Mat1, Mat2:T2DIntArray; Op:Char): T2DIntArray; overload;');
+  AddCommand(@exp_CombineMatF, 'function exp_CombineMatrix(const Mat1, Mat2:T2DFloatArray; Op:Char): T2DFloatArray; overload;');
+  AddCommand(@exp_CombineMatD, 'function exp_CombineMatrix(const Mat1, Mat2:T2DDoubleArray; Op:Char): T2DDoubleArray; overload;');
+  AddCommand(@exp_CombineMatE, 'function exp_CombineMatrix(const Mat1, Mat2:T2DExtArray; Op:Char): T2DExtArray; overload;');
 end;
 
 

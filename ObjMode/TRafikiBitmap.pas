@@ -312,8 +312,12 @@ procedure TRafBitmap.FromMatrix(Matrix: TIntMatrix);
 begin
   if Self.Loaded then
   begin
-    DrawMatrixBitmap(Self.Bitmap, Matrix);
-    GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
+    try
+      DrawMatrixBitmap(Self.Bitmap, Matrix);
+      GetBitmapSize(Self.Bitmap, Self.Width, Self.Height);
+    except
+      RaiseWarning('TRafBitmap.FromMatrix: Matrix is not initalized', ERR_WARNING);
+    end;
   end else
   begin
     Self.Create(1,1);
@@ -501,13 +505,12 @@ end;
   @desc: Appends a guassion blur to the bitmap, with a radius of the size `Radius`. Sigma is a modifier, higher sigma = less focus on center.
 }
 procedure TRafBitmap.GaussianBlur(Radius: Integer; Sigma:Single=1.5);
-var
-  i:Int32;
-  Matrix:TIntMatrix;
+var i:Int32;
+    Matrix:TIntMatrix;
 begin
-  if not(Self.IsLoaded('TRafBitmap.GuassianBlur()')) then Exit;
-
-  Matrix := exp_ImGaussBlur(Self.ToMatrix(), Radius, sigma);
+  if not(Self.IsLoaded('TRafBitmap.GuassianBlur()')) then Exit();
+  SetLength(Matrix, Self.Height,Self.Width);
+  exp_ImGaussBlur(Self.ToMatrix(), Matrix, Radius, sigma);
   Self.FromMatrix(Matrix); 
 end;
 

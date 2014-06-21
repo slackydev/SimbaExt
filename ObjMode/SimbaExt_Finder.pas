@@ -87,17 +87,18 @@ end;
      Image:      Image to search in
      Color:      Color to search for
      MatchAlgo:  Algorithm used to compute difference: `CC_EUCLID`, `CC_EUCLID_NORMED`, `CC_EUCLID_SQUARED`, `CC_CHEB` or `CC_CHEB_NORMED`
-     Colorspace: Colorspace used in computation: `_RGB_`, `_XYZ_`, `_LAB_` or `_LCH_`
+     ColorSpace: Color-space used in computation: `_RGB_`, `_XYZ_`, `_LAB_` or `_LCH_`
     [/params]
 }
-function SimbaExt.MatchColor(Image:TRafBitmap; Color:Int32; MatchAlgo:TCCorrMode; Colorspace:TColorSpace): TFloatMatrix;
+function SimbaExt.MatchColor(Image:TRafBitmap; Color:Int32; MatchAlgo:TCCorrMode; ColorSpace:TColorSpace): TFloatMatrix;
+var Mat:TIntMatrix;
 begin
-
-  case Colorspace of
-    _RGB_: Result := exp_MatchColorRGB(Image.ToMatrix(), Color, MatchAlgo);
-    _XYZ_: Result := exp_MatchColorXYZ(Image.ToMatrix(), Color, MatchAlgo);
-    _LAB_: Result := exp_MatchColorLAB(Image.ToMatrix(), Color, MatchAlgo);
-    _LCH_: Result := exp_MatchColorLCH(Image.ToMatrix(), Color, MatchAlgo);
+  Mat := Image.ToMatrix();
+  case ColorSpace of
+    _RGB_: Result := exp_MatchColorRGB(Mat, Color, MatchAlgo);
+    _XYZ_: Result := exp_MatchColorXYZ(Mat, Color, MatchAlgo);
+    _LAB_: Result := exp_MatchColorLAB(Mat, Color, MatchAlgo);
+    _LCH_: Result := exp_MatchColorLCH(Mat, Color, MatchAlgo);
   end;
 end;
 

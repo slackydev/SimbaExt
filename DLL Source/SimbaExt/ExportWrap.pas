@@ -827,9 +827,9 @@ begin
   Result := ImConvolve(ImgArr, Mask);
 end;
 
-function exp_ImGaussBlur(const ImgArr: T2DIntArray; Radius: Integer; Sigma: Single): T2DIntArray; cdecl;
+procedure exp_ImGaussBlur(const ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single); cdecl;
 begin
-  Result := ImGaussBlur(ImgArr, Radius, Sigma); 
+  ImGaussBlur(ImgArr, Dest, Radius, Sigma);
 end;
 
 function exp_ImBlend(ImgArr1,ImgArr2: T2DIntArray; Alpha: Single): T2DIntArray; cdecl;

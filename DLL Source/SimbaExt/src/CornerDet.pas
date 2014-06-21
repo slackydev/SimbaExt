@@ -101,12 +101,6 @@ var
   tmp:T2DFloatArray;
   kernel:TFloatArray;
 
-  function InBounds(lo,hi,pos:Int32): Int32; inline;
-  begin
-    if (pos < lo) then Exit(lo); if (pos > hi) then Exit(hi);
-    Result := pos;
-  end;
-
 begin
   block := Radius*2;
   Wid := High(ImArr[0]);
@@ -123,7 +117,8 @@ begin
       gauss := 0.0;
       for offset:=0 to block do
       begin
-        xx := InBounds(0,wid,(x-Radius)+offset);
+        xx := (x-Radius)+offset;
+        if (xx < 0) then xx := 0 else if (xx > wid) then xx := wid;
         gauss += ImArr[y, xx] * kernel[offset];
       end;
       tmp[y,x] := gauss;
@@ -136,7 +131,8 @@ begin
       gauss := 0.0;
       for offset:=0 to block do
       begin
-        yy := InBounds(0,hei,(y-Radius)+offset);
+        yy := (y-Radius)+offset;
+        if (yy < 0) then yy := 0 else if (yy > hei) then yy := hei;
         gauss += tmp[yy, x] * kernel[offset];
       end;
       Result[y,x] := Round(gauss);

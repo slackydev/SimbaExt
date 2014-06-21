@@ -191,7 +191,7 @@ begin
   H := High(ImgArr);
   SetLength(Result, H+1,W+1);
   if CCMode in [CC_CHEB, CC_CHEB_NORMED, CC_EUCLID_SQUARED] then begin
-    WriteLn('Error: not supported TCCorrMode use: CC_Euclid|CC_EuclidNormed');
+    WriteLn('Error: not supported TCCorrMode use: CC_EUCLID | CC_EUICLID_NORMED');
     Exit;
   end;
 

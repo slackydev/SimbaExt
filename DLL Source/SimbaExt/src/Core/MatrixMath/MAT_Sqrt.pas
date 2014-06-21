@@ -1,7 +1,7 @@
 
 
 
-function Sqrt(mat: T2DExtended): T2DExtended; overload; cdecl;
+function Sqrt(mat: T2DExtended): T2DExtended; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -15,7 +15,7 @@ end;
 
 
 
-function Sqrt(mat: T2DDouble): T2DDouble; overload; cdecl;
+function Sqrt(mat: T2DDouble): T2DDouble; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -29,7 +29,7 @@ end;
 
 
 
-function Sqrt(mat: T2DSingle): T2DSingle; overload; cdecl;
+function Sqrt(mat: T2DSingle): T2DSingle; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -43,7 +43,7 @@ end;
 
 
 
-function Sqrt(mat: T2DUInt64): T2DExtended; overload; cdecl;
+function Sqrt(mat: T2DUInt64): T2DExtended; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -57,7 +57,7 @@ end;
 
 
 
-function Sqrt(mat: T2DInt64): T2DExtended; overload; cdecl;
+function Sqrt(mat: T2DInt64): T2DExtended; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -71,7 +71,7 @@ end;
 
 
 
-function Sqrt(mat: T2DUInt32): T2DDouble; overload; cdecl;
+function Sqrt(mat: T2DUInt32): T2DDouble; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -85,7 +85,7 @@ end;
 
 
 
-function Sqrt(mat: T2DInt32): T2DDouble; overload; cdecl;
+function Sqrt(mat: T2DInt32): T2DDouble; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -99,7 +99,7 @@ end;
 
 
 
-function Sqrt(mat: T2DUInt8): T2DSingle; overload; cdecl;
+function Sqrt(mat: T2DUInt8): T2DSingle; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);
@@ -113,7 +113,7 @@ end;
 
 
 
-function Sqrt(mat: T2DInt8): T2DSingle; overload; cdecl;
+function Sqrt(mat: T2DInt8): T2DSingle; overload; 
 var W,H,i,j: Int32; 
 begin 
   H := High(mat);

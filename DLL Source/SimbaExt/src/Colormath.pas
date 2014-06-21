@@ -61,7 +61,7 @@ begin
   else if x <= 0.900 then Result := (0.900 - (0.7300 - x) / 2.430)
   else if x <= 1.500 then Result := (1.000 - (1.0000 - x) / 3.000)
   else Result := sqrt(x);
-
+  // Run 1 step newton to finallize the result.
   Result := Result - (Result*Result*Result - x) / (3.0 * Result * Result);
 end;  
     

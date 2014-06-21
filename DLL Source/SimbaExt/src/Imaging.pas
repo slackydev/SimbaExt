@@ -26,7 +26,7 @@ function ImFindContours(const ImgArr:T2DIntArray; Outlines:Boolean): T2DPointArr
 function ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray; 
 function ImSobel(const ImgArr: T2DIntArray): T2DIntArray; 
 function ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;
-function ImGaussBlur(const ImgArr:T2DIntArray; Radius:Int32; Sigma:Single): T2DIntArray;
+procedure ImGaussBlur(ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single);
 function ImBlend(Img1, Img2: T2DIntArray; Alpha:Single=0.5): T2DIntArray; //not exported yet..
 function ImFilterGray(const ImgArr:T2DIntArray; MinDark, MaxDark:Byte; Replace, Tol:Integer): T2DIntArray;
 procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:TResizeAlgo);
@@ -106,12 +106,12 @@ end;
 
 
 {*
- Generates 1D a gaussian filter. 
+ Generates a 1D gaussian filter.
 *}
 function GaussKernel1D(KernelRadius:Int32; Sigma:Single): TFloatArray;
 var
   size,r,i:Int32;
-  invRad2,sum,x,v:Single;
+  invRad2,sum,v:Single;
 begin
   size := 2*KernelRadius;
   SetLength(Result,size+1);
@@ -123,7 +123,6 @@ begin
   begin
     v := (1.0 / (Sqrt(2.0 * PI) * KernelRadius)) * Exp(-sqr(r * sigma) * invRad2);
     Result[i] := v;
-
     sum += v;
     inc(r);
   end;
@@ -131,6 +130,7 @@ begin
    for i:=0 to size do
     Result[i] /= sum;
 end;
+
 
 
 {*
@@ -665,62 +665,59 @@ end;
     Radius can be any number. 1-11 = normal range.
     Sigma is usually set around 1.0-3.0.
 *}
-function ImGaussBlur(const ImgArr:T2DIntArray; Radius:Int32; Sigma:Single): T2DIntArray;
+procedure ImGaussBlur(ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single);
+type TFRGB = record R,G,B:Single; end;
 var
-  x,y,wid,hei,xx,yy,offset,block:Int32;
-  gR,gG,gB:Single;
-  tmp:Array of T2DFloatArray;
-  kernel:TFloatArray;
-
-  function InBounds(lo,hi,pos:Int32): Int32; Inline;
-  begin
-    if (pos < lo) then Exit(lo); if (pos > hi) then Exit(hi);
-    Result := pos;
-  end;
-
+  x,y,wid,hei,xx,yy,s,offset,dia,width:Int32;
+  ptr:^TFRGB; f:TFRGB;
+  tmp:Array of TFRGB;
+  kernel:TFloatArray; 
 begin
-  block := Radius*2;
+  dia := Radius * 2 + 1;
   Wid := High(ImgArr[0]);
   Hei := High(ImgArr);
-  SetLength(Result, hei+1,wid+1);
-  SetLength(tmp, hei+1,wid+1,3);
+  width := wid + 1;
+  s := (hei+1) * width;
+
+  if Hei <> High(Dest) then {if Dest is not pre-initalized then initalize it}
+    SetLength(Dest, hei+1,wid+1);
 
   kernel := GaussKernel1D(Radius, Sigma);
-
-  // x direction
-  for y:=0 to hei do
-    for x:=0 to wid do
-    begin
-      gR := 0.0;
-      gG := 0.0;
-      gB := 0.0;
-      for offset:=0 to block do
-      begin
-        xx := InBounds(0,wid,(x-Radius)+offset);
-        gR += (ImgArr[y,xx] and $FF) * kernel[offset];
-        gG += ((ImgArr[y,xx] shr 8) and $FF) * kernel[offset];
-        gB += ((ImgArr[y,xx] shr 16) and $FF) * kernel[offset];
-      end;
-      tmp[y,x,0] := gR;
-      tmp[y,x,1] := gG;
-      tmp[y,x,2] := gB;
-    end;
+  SetLength(tmp, s);
 
   // y direction
+  offset := 0;
+  repeat
+    ptr := @tmp[0];
+    for y:=0 to hei do
+      for x:=0 to wid do
+      begin
+        xx := (x-Radius)+offset;
+        if (xx < 0) then xx := 0 else if (xx > wid) then xx := wid;
+        ptr^.R += (ImgArr[y,xx] and $FF) * kernel[offset];
+        ptr^.G += ((ImgArr[y,xx] shr 8) and $FF) * kernel[offset];
+        ptr^.B += ((ImgArr[y,xx] shr 16) and $FF) * kernel[offset];
+        inc(ptr);
+      end;
+    inc(offset);
+  until offset = dia;
+
+  // x direction + result
   for y:=0 to hei do
     for x:=0 to wid do
     begin
-      gR := 0.0;
-      gG := 0.0;
-      gB := 0.0;
-      for offset:=0 to block do
-      begin
-        yy := InBounds(0,hei,(y-Radius)+offset);
-        gR += tmp[yy,x,0] * kernel[offset];
-        gG += tmp[yy,x,1] * kernel[offset];
-        gB += tmp[yy,x,2] * kernel[offset];
-      end;
-      Result[y,x] := (Round(gR)) or (Round(gG) shl 8) or (Round(gB) shl 16);
+      f.R := 0; f.G := 0; f.B := 0;
+      ptr := @f;
+      offset := 0;
+      repeat
+        yy := (y-Radius)+offset;
+        if (yy < 0) then yy := 0 else if (yy > hei) then yy := hei;
+        ptr^.R += tmp[yy*width+x].R * kernel[offset];
+        ptr^.G += tmp[yy*width+x].G * kernel[offset];
+        ptr^.B += tmp[yy*width+x].B * kernel[offset];
+        inc(offset);
+      until offset = dia;
+      Dest[y,x] := (Round(ptr^.R)) or (Round(ptr^.G) shl 8) or (Round(ptr^.B) shl 16);
     end;
 end;
 

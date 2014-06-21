@@ -141,7 +141,8 @@ end;
 }
 function SimbaExt.ImGaussBlur(const ImgArr:TIntMatrix; Radius: Int32; Sigma:Single=1.5): TIntMatrix;  
 begin
-  Result := exp_ImGaussBlur(ImgArr, Radius, Sigma);
+  SetLength(Result, Length(ImgArr), Length(ImgArr[0]));
+  exp_ImGaussBlur(ImgArr, Result, Radius, Sigma);
 end;
 
 

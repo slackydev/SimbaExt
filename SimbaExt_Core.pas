@@ -59,17 +59,13 @@ type
               sort_ByY, sort_Length, sort_First, sort_Index, sort_Mean, sort_Lex, sort_Logical);
   
 
-  (* Prefixes for SimbaExt modules *)
-  //SE.***
-  SimbaExt = type Pointer;
-  //Math.***
-  TObjMath = type Pointer;
-  //Rand.***
-  TObjRandom = type Pointer;
-  //Time.***
-  TObjTime = type Pointer;
-  //OS.*** & OS.Path.***
-  TObjOSPath = type Pointer;
+{|=====| Prefixes for SimbaExt modules |=====}
+type
+  SimbaExt = type Pointer;                          //SE.***
+  TObjMath = type Pointer;                          //Math.***
+  TObjRandom = type Pointer;                        //Rand.***
+  TObjTime = type Pointer;                          //Time.***
+  TObjOSPath = type Pointer;                        //OS.*** & OS.Path.***
   TObjOS = record path: TObjOSPath; end; 
 var  
   SE: SimbaExt; 
@@ -77,7 +73,6 @@ var
   Rand: TObjRandom; 
   TimeUtils: TObjTime;
   OS: TObjOS;
-  
 
   
 //LoadLibrary from current folder 
@@ -86,7 +81,7 @@ var
   {$loadlib \..\includes\simbaext\seextra.dll}
   {$loadlib \..\includes\simbaext\matchTempl.dll}
 {$ELSE}
-//types are exported from SimbaExt.dll, but we must show am in codeinsight
+//Types are exported from SimbaExt.dll, but we should show am in codeinsight:
   type TAlignAlgo  = (AA_BOUNDS, AA_CHULL, AA_BBOX);
   type TThreshAlgo = (TA_MEAN, TA_MINMAX);
   type TCenterAlgo = (CA_BOUNDS, CA_BBOX, CA_MEAN, CA_MEDIAN);

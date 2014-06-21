@@ -4,17 +4,16 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="56">
+    <Units Count="47">
       <Unit0>
         <Filename Value="SimbaExt.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SimbaExt"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="233"/>
-        <CursorPos X="41" Y="257"/>
-        <UsageCount Value="176"/>
+        <TopLine Value="245"/>
+        <CursorPos X="78" Y="264"/>
+        <UsageCount Value="218"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -23,7 +22,7 @@
         <UnitName Value="junk"/>
         <TopLine Value="1"/>
         <CursorPos X="22" Y="11"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="93"/>
       </Unit1>
       <Unit2>
         <Filename Value="src\PointTools.pas"/>
@@ -31,506 +30,423 @@
         <WindowIndex Value="0"/>
         <TopLine Value="85"/>
         <CursorPos X="1" Y="98"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="5"/>
       </Unit2>
       <Unit3>
-        <Filename Value="src\Colormath.pas"/>
-        <UnitName Value="ColorMath"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="97"/>
-        <CursorPos X="21" Y="78"/>
-        <UsageCount Value="5"/>
-      </Unit3>
-      <Unit4>
         <Filename Value="src\Imaging.pas"/>
         <UnitName Value="Imaging"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="686"/>
-        <CursorPos X="67" Y="703"/>
-        <UsageCount Value="14"/>
+        <TopLine Value="657"/>
+        <CursorPos X="63" Y="671"/>
+        <UsageCount Value="46"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="src\Finder.pas"/>
+        <UnitName Value="Finder"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="41" Y="52"/>
+        <UsageCount Value="89"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="src\Finder.pas"/>
-        <UnitName Value="Finder"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="124"/>
-        <CursorPos X="65" Y="143"/>
-        <UsageCount Value="68"/>
-      </Unit5>
-      <Unit6>
         <Filename Value="src\CornerDet.pas"/>
         <UnitName Value="CornerDet"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="97"/>
+        <CursorPos X="29" Y="109"/>
+        <UsageCount Value="75"/>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="ExportWrap.pas"/>
+        <UnitName Value="ExportWrap"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="31"/>
-        <CursorPos X="53" Y="59"/>
-        <UsageCount Value="42"/>
+        <TopLine Value="811"/>
+        <CursorPos X="37" Y="846"/>
+        <UsageCount Value="105"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="ExportWrap.pas"/>
-        <UnitName Value="ExportWrap"/>
-        <EditorIndex Value="1"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="797"/>
-        <CursorPos X="10" Y="425"/>
-        <UsageCount Value="73"/>
-        <Loaded Value="True"/>
-      </Unit7>
-      <Unit8>
         <Filename Value="src\Core\MatrixOps.pas"/>
         <UnitName Value="MatrixOps"/>
         <WindowIndex Value="0"/>
         <TopLine Value="69"/>
         <CursorPos X="65" Y="89"/>
-        <UsageCount Value="35"/>
-      </Unit8>
-      <Unit9>
+        <UsageCount Value="29"/>
+      </Unit7>
+      <Unit8>
         <Filename Value="src\Core\CoreMath.pas"/>
         <UnitName Value="CoreMath"/>
         <WindowIndex Value="0"/>
         <TopLine Value="311"/>
         <CursorPos X="27" Y="333"/>
-        <UsageCount Value="11"/>
-      </Unit9>
-      <Unit10>
+        <UsageCount Value="5"/>
+      </Unit8>
+      <Unit9>
         <Filename Value="src\SimpleOCR.pas"/>
         <UnitName Value="SimpleOCR"/>
         <WindowIndex Value="0"/>
         <TopLine Value="20"/>
         <CursorPos X="58" Y="38"/>
-        <UsageCount Value="39"/>
-      </Unit10>
-      <Unit11>
+        <UsageCount Value="33"/>
+      </Unit9>
+      <Unit10>
         <Filename Value="src\Core\CoreTypes.pas"/>
         <UnitName Value="CoreTypes"/>
         <WindowIndex Value="0"/>
         <TopLine Value="80"/>
         <CursorPos X="21" Y="99"/>
-        <UsageCount Value="36"/>
-      </Unit11>
-      <Unit12>
+        <UsageCount Value="30"/>
+      </Unit10>
+      <Unit11>
         <Filename Value="src\HashMap.pas"/>
         <UnitName Value="HashMap"/>
         <WindowIndex Value="0"/>
         <TopLine Value="276"/>
         <CursorPos X="40" Y="308"/>
-        <UsageCount Value="32"/>
-      </Unit12>
-      <Unit13>
+        <UsageCount Value="26"/>
+      </Unit11>
+      <Unit12>
         <Filename Value="src\Sorting.pas"/>
         <UnitName Value="Sorting"/>
         <WindowIndex Value="0"/>
         <TopLine Value="20"/>
         <CursorPos X="66" Y="27"/>
-        <UsageCount Value="57"/>
-      </Unit13>
-      <Unit14>
+        <UsageCount Value="51"/>
+      </Unit12>
+      <Unit13>
         <Filename Value="src\StringTools.pas"/>
         <UnitName Value="StringTools"/>
         <WindowIndex Value="0"/>
         <TopLine Value="278"/>
         <CursorPos X="58" Y="285"/>
-        <UsageCount Value="57"/>
-      </Unit14>
-      <Unit15>
+        <UsageCount Value="51"/>
+      </Unit13>
+      <Unit14>
         <Filename Value="src\sorting\ATPASort.pas"/>
         <UnitName Value="ATPASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="5"/>
         <CursorPos X="11" Y="26"/>
-        <UsageCount Value="10"/>
-      </Unit15>
-      <Unit16>
+        <UsageCount Value="4"/>
+      </Unit14>
+      <Unit15>
         <Filename Value="src\sorting\TIASort.pas"/>
         <UnitName Value="TIASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="18"/>
         <CursorPos X="5" Y="19"/>
-        <UsageCount Value="37"/>
-      </Unit16>
-      <Unit17>
+        <UsageCount Value="31"/>
+      </Unit15>
+      <Unit16>
         <Filename Value="src\sorting\ATIASort.pas"/>
         <UnitName Value="ATIASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="5"/>
         <CursorPos X="11" Y="26"/>
-        <UsageCount Value="37"/>
-      </Unit17>
-      <Unit18>
+        <UsageCount Value="31"/>
+      </Unit16>
+      <Unit17>
         <Filename Value="src\sorting\ATEASort.pas"/>
         <UnitName Value="ATEASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="6"/>
         <CursorPos X="11" Y="27"/>
-        <UsageCount Value="37"/>
-      </Unit18>
-      <Unit19>
+        <UsageCount Value="31"/>
+      </Unit17>
+      <Unit18>
         <Filename Value="src\sorting\ATBASort.pas"/>
         <UnitName Value="ATBASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="5"/>
         <CursorPos X="11" Y="26"/>
-        <UsageCount Value="37"/>
-      </Unit19>
-      <Unit20>
+        <UsageCount Value="31"/>
+      </Unit18>
+      <Unit19>
         <Filename Value="src\Numeric.pas"/>
         <UnitName Value="Numeric"/>
         <WindowIndex Value="0"/>
         <TopLine Value="151"/>
         <CursorPos X="50" Y="171"/>
-        <UsageCount Value="59"/>
-      </Unit20>
-      <Unit21>
+        <UsageCount Value="53"/>
+      </Unit19>
+      <Unit20>
         <Filename Value="src\sorting\TBASort.pas"/>
         <UnitName Value="TBASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="78" Y="16"/>
-        <UsageCount Value="37"/>
-      </Unit21>
-      <Unit22>
+        <UsageCount Value="31"/>
+      </Unit20>
+      <Unit21>
         <Filename Value="C:\lazarus\fpc\2.6.2\source\rtl\inc\systemh.inc"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="129"/>
-        <CursorPos X="11" Y="866"/>
-        <UsageCount Value="9"/>
-      </Unit22>
-      <Unit23>
+        <TopLine Value="293"/>
+        <CursorPos X="3" Y="314"/>
+        <UsageCount Value="10"/>
+      </Unit21>
+      <Unit22>
         <Filename Value="src\Std.pas"/>
         <UnitName Value="Std"/>
         <WindowIndex Value="0"/>
         <TopLine Value="13"/>
         <CursorPos X="64" Y="45"/>
-        <UsageCount Value="26"/>
-      </Unit23>
-      <Unit24>
-        <Filename Value="src\std\ArrSlice.pas"/>
-        <UnitName Value="ArrSlice"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="132"/>
-        <CursorPos X="73" Y="148"/>
-        <UsageCount Value="4"/>
-      </Unit24>
-      <Unit25>
-        <Filename Value="src\std\ArrFind.pas"/>
-        <UnitName Value="ArrFind"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="91"/>
-        <CursorPos X="5" Y="109"/>
-        <UsageCount Value="4"/>
-      </Unit25>
-      <Unit26>
+        <UsageCount Value="20"/>
+      </Unit22>
+      <Unit23>
         <Filename Value="src\std\ArrFindAll.pas"/>
         <UnitName Value="ArrFindAll"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="10"/>
         <CursorPos X="63" Y="38"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="46"/>
         <Loaded Value="True"/>
-      </Unit26>
-      <Unit27>
-        <Filename Value="src\Core\MAT_ADD.pas"/>
-        <UnitName Value="MAT_ADD"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="185"/>
-        <CursorPos X="31" Y="203"/>
-        <UsageCount Value="4"/>
-      </Unit27>
-      <Unit28>
-        <Filename Value="src\Core\MAT_MUL.pas"/>
-        <UnitName Value="MAT_MUL"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="3425"/>
-        <CursorPos X="25" Y="3443"/>
-        <UsageCount Value="4"/>
-      </Unit28>
-      <Unit29>
-        <Filename Value="src\Core\MAT_DIV.pas"/>
-        <UnitName Value="MAT_DIV"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="2033"/>
-        <CursorPos X="44" Y="2047"/>
-        <UsageCount Value="4"/>
-      </Unit29>
-      <Unit30>
+      </Unit23>
+      <Unit24>
         <Filename Value="src\Core\MatrixMath.pas"/>
         <UnitName Value="MatrixMath"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1944"/>
         <CursorPos X="24" Y="1972"/>
-        <UsageCount Value="32"/>
-      </Unit30>
-      <Unit31>
-        <Filename Value="src\Core\MatrixMath\MAT_ToDouble.pas"/>
-        <UnitName Value="MAT_ToDouble"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="39" Y="28"/>
-        <UsageCount Value="5"/>
-      </Unit31>
-      <Unit32>
-        <Filename Value="src\Core\MatrixMath\MAT_Modulo.pas"/>
-        <UnitName Value="MAT_Modulo"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="50" Y="22"/>
-        <UsageCount Value="4"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="src\Core\MatrixMath\MAT_Abs.pas"/>
-        <UnitName Value="MAT_Abs"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="37"/>
-        <CursorPos X="37" Y="54"/>
-        <UsageCount Value="4"/>
-      </Unit33>
-      <Unit34>
-        <Filename Value="src\_Tests.pas"/>
-        <UnitName Value="_Tests"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="54"/>
-        <CursorPos X="45" Y="71"/>
-        <UsageCount Value="5"/>
-      </Unit34>
-      <Unit35>
+        <UsageCount Value="26"/>
+      </Unit24>
+      <Unit25>
         <Filename Value="C:\lazarus\fpc\2.6.2\source\rtl\inc\mathh.inc"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="60"/>
-        <CursorPos X="14" Y="78"/>
-        <UsageCount Value="4"/>
-      </Unit35>
-      <Unit36>
+        <TopLine Value="55"/>
+        <CursorPos X="40" Y="73"/>
+        <UsageCount Value="34"/>
+      </Unit25>
+      <Unit26>
         <Filename Value="src\sorting\TFASort.pas"/>
         <UnitName Value="TFASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="5" Y="20"/>
-        <UsageCount Value="26"/>
-      </Unit36>
-      <Unit37>
+        <UsageCount Value="20"/>
+      </Unit26>
+      <Unit27>
         <Filename Value="src\sorting\TDASort.pas"/>
         <UnitName Value="TDASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="5" Y="20"/>
-        <UsageCount Value="26"/>
-      </Unit37>
-      <Unit38>
+        <UsageCount Value="20"/>
+      </Unit27>
+      <Unit28>
         <Filename Value="src\Core\Matrix\_ArgMulti.pas"/>
         <UnitName Value="_ArgMulti"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="10"/>
-        <UsageCount Value="18"/>
-      </Unit38>
-      <Unit39>
+        <UsageCount Value="12"/>
+      </Unit28>
+      <Unit29>
         <Filename Value="src\Core\Matrix\_VarMulti.pas"/>
         <UnitName Value="_VarMulti"/>
         <WindowIndex Value="0"/>
         <TopLine Value="4"/>
         <CursorPos X="61" Y="19"/>
-        <UsageCount Value="33"/>
-      </Unit39>
-      <Unit40>
+        <UsageCount Value="27"/>
+      </Unit29>
+      <Unit30>
         <Filename Value="src\Core\Matrix\SimpleHeap.pas"/>
         <UnitName Value="SimpleHeap"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="49" Y="23"/>
-        <UsageCount Value="24"/>
-      </Unit40>
-      <Unit41>
+        <UsageCount Value="18"/>
+      </Unit30>
+      <Unit31>
         <Filename Value="C:\lazarus\fpc\2.6.2\source\rtl\inc\variants.pp"/>
         <UnitName Value="variants"/>
         <WindowIndex Value="0"/>
         <TopLine Value="487"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="9"/>
-      </Unit41>
-      <Unit42>
+        <UsageCount Value="3"/>
+      </Unit31>
+      <Unit32>
         <Filename Value="src\MatrixTools.pas"/>
         <UnitName Value="MatrixTools"/>
         <WindowIndex Value="0"/>
         <TopLine Value="308"/>
         <CursorPos X="24" Y="350"/>
-        <UsageCount Value="18"/>
-      </Unit42>
-      <Unit43>
+        <UsageCount Value="12"/>
+      </Unit32>
+      <Unit33>
         <Filename Value="src\Core\Matrix\_Combine.pas"/>
         <UnitName Value="_Combine"/>
         <WindowIndex Value="0"/>
         <TopLine Value="69"/>
         <CursorPos X="12" Y="103"/>
-        <UsageCount Value="17"/>
-      </Unit43>
-      <Unit44>
+        <UsageCount Value="11"/>
+      </Unit33>
+      <Unit34>
         <Filename Value="C:\lazarus\fpc\2.6.2\source\rtl\objpas\math.pp"/>
         <UnitName Value="math"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1918"/>
         <CursorPos X="14" Y="1929"/>
-        <UsageCount Value="11"/>
-      </Unit44>
-      <Unit45>
+        <UsageCount Value="5"/>
+      </Unit34>
+      <Unit35>
         <Filename Value="src\Core\Matrix\_GetValues.pas"/>
         <UnitName Value="_GetValues"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="42" Y="15"/>
-        <UsageCount Value="9"/>
-      </Unit45>
-      <Unit46>
+        <UsageCount Value="3"/>
+      </Unit35>
+      <Unit36>
         <Filename Value="src\Core\Matrix\_PutValues.pas"/>
         <UnitName Value="_PutValues"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="41" Y="25"/>
-        <UsageCount Value="14"/>
-      </Unit46>
-      <Unit47>
+        <UsageCount Value="8"/>
+      </Unit36>
+      <Unit37>
         <Filename Value="src\sorting\SortingBase.pas"/>
         <UnitName Value="SortingBase"/>
         <WindowIndex Value="0"/>
         <TopLine Value="214"/>
         <CursorPos X="14" Y="250"/>
-        <UsageCount Value="10"/>
-      </Unit47>
-      <Unit48>
+        <UsageCount Value="4"/>
+      </Unit37>
+      <Unit38>
         <Filename Value="src\sorting\TPASort.pas"/>
         <UnitName Value="TPASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="12" Y="20"/>
-        <UsageCount Value="10"/>
-      </Unit48>
-      <Unit49>
+        <UsageCount Value="4"/>
+      </Unit38>
+      <Unit39>
         <Filename Value="src\sorting\TEASort.pas"/>
         <UnitName Value="TEASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="5" Y="20"/>
-        <UsageCount Value="10"/>
-      </Unit49>
-      <Unit50>
+        <UsageCount Value="4"/>
+      </Unit39>
+      <Unit40>
         <Filename Value="src\sorting\TSASort.pas"/>
         <UnitName Value="TSASort"/>
         <WindowIndex Value="0"/>
         <TopLine Value="204"/>
         <CursorPos X="11" Y="239"/>
-        <UsageCount Value="10"/>
-      </Unit50>
-      <Unit51>
+        <UsageCount Value="4"/>
+      </Unit40>
+      <Unit41>
         <Filename Value="src\Spline.pas"/>
         <UnitName Value="Spline"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="56" Y="12"/>
-        <UsageCount Value="10"/>
-      </Unit51>
-      <Unit52>
+        <UsageCount Value="4"/>
+      </Unit41>
+      <Unit42>
         <Filename Value="C:\Users\slacky\Documents\FPC 2.7\fpmake.pp"/>
         <UnitName Value="fpmake"/>
         <TopLine Value="1"/>
         <CursorPos X="18" Y="22"/>
-        <UsageCount Value="10"/>
-      </Unit52>
-      <Unit53>
+        <UsageCount Value="4"/>
+      </Unit42>
+      <Unit43>
         <Filename Value="src\Core\CoreMisc.pas"/>
         <UnitName Value="CoreMisc"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="53" Y="94"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="45"/>
         <Loaded Value="True"/>
-      </Unit53>
-      <Unit54>
+      </Unit43>
+      <Unit44>
         <Filename Value="src\Core\Matrix\_Indices.pas"/>
         <UnitName Value="_Indices"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="37" Y="16"/>
-        <UsageCount Value="10"/>
-      </Unit54>
-      <Unit55>
+        <UsageCount Value="4"/>
+      </Unit44>
+      <Unit45>
         <Filename Value="src\Core\MatrixMath\MAT_ToByte.pas"/>
         <UnitName Value="MAT_ToByte"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="86"/>
         <CursorPos X="59" Y="26"/>
+        <UsageCount Value="43"/>
+        <Loaded Value="True"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="src\Colormath.pas"/>
+        <UnitName Value="ColorMath"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="39"/>
+        <CursorPos X="42" Y="53"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-      </Unit55>
+      </Unit46>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="15" HistoryIndex="14">
+    <JumpHistory Count="11" HistoryIndex="10">
       <Position1>
-        <Filename Value="src\std\ArrFindAll.pas"/>
-        <Caret Line="131" Column="31" TopLine="1"/>
-      </Position1>
-      <Position2>
-        <Filename Value="src\std\ArrFindAll.pas"/>
-        <Caret Line="251" Column="36" TopLine="225"/>
-      </Position2>
-      <Position3>
-        <Filename Value="SimbaExt.lpr"/>
-        <Caret Line="191" Column="44" TopLine="22"/>
-      </Position3>
-      <Position4>
-        <Filename Value="src\Core\CoreMisc.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position4>
-      <Position5>
         <Filename Value="src\Core\MatrixMath\MAT_ToByte.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
-      </Position5>
-      <Position6>
-        <Filename Value="src\Imaging.pas"/>
-        <Caret Line="221" Column="69" TopLine="209"/>
-      </Position6>
-      <Position7>
-        <Filename Value="src\Imaging.pas"/>
-        <Caret Line="663" Column="29" TopLine="648"/>
-      </Position7>
-      <Position8>
+      </Position1>
+      <Position2>
         <Filename Value="src\CornerDet.pas"/>
         <Caret Line="248" Column="3" TopLine="220"/>
-      </Position8>
-      <Position9>
+      </Position2>
+      <Position3>
         <Filename Value="src\CornerDet.pas"/>
         <Caret Line="106" Column="20" TopLine="81"/>
-      </Position9>
-      <Position10>
+      </Position3>
+      <Position4>
         <Filename Value="src\CornerDet.pas"/>
         <Caret Line="118" Column="20" TopLine="96"/>
-      </Position10>
-      <Position11>
+      </Position4>
+      <Position5>
         <Filename Value="src\CornerDet.pas"/>
         <Caret Line="178" Column="40" TopLine="157"/>
-      </Position11>
-      <Position12>
+      </Position5>
+      <Position6>
         <Filename Value="src\CornerDet.pas"/>
         <Caret Line="53" Column="8" TopLine="32"/>
-      </Position12>
-      <Position13>
+      </Position6>
+      <Position7>
         <Filename Value="src\CornerDet.pas"/>
         <Caret Line="52" Column="16" TopLine="31"/>
-      </Position13>
-      <Position14>
-        <Filename Value="src\Imaging.pas"/>
-        <Caret Line="680" Column="19" TopLine="665"/>
-      </Position14>
-      <Position15>
+      </Position7>
+      <Position8>
         <Filename Value="SimbaExt.lpr"/>
-        <Caret Line="134" Column="25" TopLine="156"/>
-      </Position15>
+        <Caret Line="33" Column="5" TopLine="4"/>
+      </Position8>
+      <Position9>
+        <Filename Value="ExportWrap.pas"/>
+        <Caret Line="829" Column="1" TopLine="811"/>
+      </Position9>
+      <Position10>
+        <Filename Value="src\Imaging.pas"/>
+        <Caret Line="716" Column="33" TopLine="686"/>
+      </Position10>
+      <Position11>
+        <Filename Value="src\Finder.pas"/>
+        <Caret Line="214" Column="29" TopLine="193"/>
+      </Position11>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>
