@@ -8,11 +8,10 @@ interface
 (*
  Some very basic hashing.. You need to write your own hash function if you want
  the Key to be anything else then UInt32/Cardinal/LongWord.
-
 *)
-
 {$mode objfpc}{$H+}
 {$macro on}
+{$modeswitch advancedrecords}
 {$inline on}
 
 uses
@@ -21,7 +20,7 @@ uses
 type
   //----------------------------------------\\
   //-----------<UInt32, ColorLAB>-----------\\
-  TEntryLAB = record  Key: UInt32; Value: ColorLAB; Isset:Boolean; end;
+  TEntryLAB = record  Key: UInt32; Value: ColorLAB; end;
   TLABHash = class
   private
     FTable: Array of Array of TEntryLAB;
@@ -35,7 +34,7 @@ type
   
   //----------------------------------------\\
   //-------------<UInt32, Int32>------------\\
-  TEntryI32 = record Key: UInt32; Value: Int32; Isset:Boolean; end;
+  TEntryI32 = record Key: UInt32; Value: Int32; end;
   TI32Hash = class
   private
     FTable: Array of Array of TEntryI32;
@@ -62,6 +61,23 @@ type
     Destructor Destroy; override;
   end;
 
+  
+  
+
+  //----------------------------------------\\
+  //--------------<Key, Value>--------------\\
+  generic THashMap<K,V> = record
+  private
+    FHashFunc: function(const key:K): UInt32;
+    FTable: Array of Array of record Key: UInt32; Value: Single; end;
+    FLen: Integer;
+  public
+    procedure Create(Size:Int32; HashFunc:Pointer);
+    function Get(Key: K; var Value: V): Boolean; Inline;
+    function Add(Key: K; Value:V): Boolean;      Inline;
+    procedure Destroy;
+  end;
+  
 
 
 //Hash-functions to go with the hashtable.
@@ -83,7 +99,7 @@ uses CoreMath;
 
 
 (******************************* Hash Functions *******************************)
-//Hash Byte - ofc this will only result in max 255 buckets.
+//Hash Byte - ofc this will only result in max 255 buckets no matter.
 function Hash(const k: Byte): UInt32; Inline; overload;
 begin
   Result := k;
@@ -104,21 +120,19 @@ end;
 //Hash a Int64
 function Hash(const k: Int64): UInt32; Inline; overload;
 begin
-  Result := UInt32(k); // meh..
+  Result := UInt32(k);
 end;
 
 //Hash 4 byte floating point (Single)
 function Hash(const k: Single): UInt32; Inline; overload;
-var p:^UInt32;
 begin
-  p := @k;
-  Result := p^ and $FFFFF000;
+  Result := UInt32(k);
 end;
 
 //Hash a TPoint (x,y record) | Should work up to a degree
 function Hash(const k: TPoint; Seed:UInt32=3158): UInt32; Inline; overload;
 begin
-  Result := (919 + k.y) * Seed + k.x * 14;
+  Result := UInt32((919 + k.y) * Seed + k.x * 14);
 end;
 
 //Hash a string.. think this should work.
@@ -165,7 +179,7 @@ begin
   h := Key and FLen;
   l := Length(Self.FTable[h]);
   for i:=0 to l-1 do
-    if(self.FTable[h][i].Key = Key) and (Self.FTable[h][i].Isset) then
+    if(self.FTable[h][i].Key = Key) then
     begin
       Self.FTable[h][i].Value := Value;
       Exit(True);
@@ -187,7 +201,7 @@ begin
     if(self.FTable[h][i].Key = Key) then
     begin
       Value := Self.FTable[h][i].Value;
-      Exit(Self.FTable[h][i].Isset);
+      Exit(True);
     end;
   Result := False;
 end;
@@ -226,7 +240,7 @@ begin
   h := Key and FLen;
   l := Length(Self.FTable[h]);
   for i:=0 to l-1 do
-    if(self.FTable[h][i].Key = Key) and (self.FTable[h][i].Isset) then
+    if(self.FTable[h][i].Key = Key) then
     begin
       Self.FTable[h][i].Value := Value;
       Exit(True);
@@ -248,7 +262,7 @@ begin
     if(self.FTable[h][i].Key = Key) then
     begin
       Value := Self.FTable[h][i].Value;
-      Exit(Self.FTable[h][i].Isset);
+      Exit(True);
     end;
   Result := False;
 end;
@@ -305,6 +319,79 @@ var
   h,i,l: Int32;
 begin
   h := Key and FLen;
+  l := Length(Self.FTable[h]) - 1;
+  for i:=0 to l do
+    if(self.FTable[h][i].Key = Key) then
+    begin
+      Value := Self.FTable[h][i].Value;
+      Exit(True);
+    end;
+  Result := False;
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
+  <Key, Value>
+
+  A supersimple hashmap, should be pretty decent performancewise as long as
+  enough space is allocated, what ever size you give it it will allocate
+  NextPowerOfTwo(size*1.25) mem, this allows us to use bitshifting instead of
+  division (mod-operator).
+
+  FTable is like an "array of buckets", where each bucket represents a hash-index.
+}
+procedure THashMap.Create(Size:Int32; HashFunc:Pointer);
+type THashFunc = function(const key:K): UInt32;
+begin
+  FHashFunc := THashFunc(HashFunc);
+  FLen := NextPow2m1(Trunc(Size * 1.25));
+  SetLength(FTable, FLen+1);
+end;
+
+
+procedure THashMap.Destroy;
+begin
+  SetLength(FTable, 0);
+end;
+
+
+function THashMap.Add(Key: K; Value: V): Boolean; Inline;
+var h,l,i: Int32;
+begin
+  h := FHashFunc(Key) and FLen;
+  l := Length(Self.FTable[h]);
+  for i:=0 to l-1 do
+    if(self.FTable[h][i].Key = Key) then
+      begin
+        Self.FTable[h][i].Value := Value;
+        Exit(True);
+      end;
+  SetLength(Self.FTable[h], l+1);
+  Self.FTable[h][l].Key := Key;
+  Self.FTable[h][l].Value := Value;
+  Result := True;
+end;
+
+
+function THashMap.Get(Key: K; var Value: V): Boolean; Inline;
+var
+  h,i,l: Int32;
+begin
+  h := FHashFunc(Key) and FLen;
   l := Length(Self.FTable[h]) - 1;
   for i:=0 to l do
     if(self.FTable[h][i].Key = Key) then

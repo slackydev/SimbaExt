@@ -178,8 +178,10 @@ end;
   @desc: Searces for the given value and returns the first position from the left.
 }
 function TStringArray.Find(Value:String): Int32;
+var TSA:TStringArray;
 begin
-  Result := exp_Find(Self,TStringArray([Value]));
+  TSA := [Value];
+  Result := exp_Find(Self,TSA);
 end;
 
 
@@ -198,8 +200,10 @@ end;
   @desc: Searces for the given value and returns all the position where it was found.
 }
 function TStringArray.FindAll(Value:String): TIntArray;
+var TSA:TStringArray;
 begin
-  Result := exp_FindAll(Self,TStringArray([Value]));
+  TSA := [Value];
+  Result := exp_FindAll(Self,TSA);
 end;
 
 

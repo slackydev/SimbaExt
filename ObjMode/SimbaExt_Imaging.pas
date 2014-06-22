@@ -12,7 +12,7 @@ begin
 end;
 
 {!DOCREF} {
-  @method: function se.ImBlurFilter(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;    
+  @method: function se.ImBlur(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;    
   @desc: Applies a box-blur to the image. Running it multiple times with a small blur results similarly as to what a gaussian blur would, but larger.
 }
 function SimbaExt.ImBlur(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;  
@@ -22,7 +22,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function se.ImMedianFilter(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;  
+  @method: function se.ImMedianBlur(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;  
   @desc: Applies a median filter. Picks the median pixel value in a window with the given radius `Radius`.
 }
 function SimbaExt.ImMedianBlur(ImgArr: TIntMatrix; Radius:Integer):  TIntMatrix;  

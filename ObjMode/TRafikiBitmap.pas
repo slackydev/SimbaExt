@@ -501,14 +501,14 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.GuassianBlur(Radius: Integer; Sigma:Single=1.5);
-  @desc: Appends a guassion blur to the bitmap, with a radius of the size `Radius`. Sigma is a modifier, higher sigma = less focus on center.
+  @method: procedure TRafBitmap.GaussianBlur(Radius: Integer; Sigma:Single=1.5);
+  @desc: Appends a gaussion blur to the bitmap, with a radius of the size `Radius`. Sigma is a modifier, higher sigma = less focus on center.
 }
 procedure TRafBitmap.GaussianBlur(Radius: Integer; Sigma:Single=1.5);
 var i:Int32;
     Matrix:TIntMatrix;
 begin
-  if not(Self.IsLoaded('TRafBitmap.GuassianBlur()')) then Exit();
+  if not(Self.IsLoaded('TRafBitmap.GaussianBlur()')) then Exit();
   SetLength(Matrix, Self.Height,Self.Width);
   exp_ImGaussBlur(Self.ToMatrix(), Matrix, Radius, sigma);
   Self.FromMatrix(Matrix); 

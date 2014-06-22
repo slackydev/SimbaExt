@@ -366,6 +366,201 @@ end;
 
 
 
+{!DOCREF} {
+  @method: function se.Filter(Func:Pointer; Arr:<1d array type>; Args:TVaraintArray): <1d array type>; overload;
+  @desc: 
+    Returns a array consisting of those items from the array for which `func(item)` is True. 
+    The result will always be of the same type as Arr.[br] 
+    
+    For example, to filter out points not within a circle:
+    
+    [code=pascal]
+    function FilterDist(Pt:TPoint; Args:TVariantArray): Boolean;
+    begin
+      Result := Math.DistEuclidean( pt, Point(Args[0],Args[1]) ) < Args[2];
+    end;
+    [br]
+    var
+      TPA:TPointArray;
+      BMP:TRafBitmap;
+    begin
+      TPA := TPAFromBox(ToBox(0,0,250,250));
+      TPA := se.Filter( @FilterDist, TPA, TVariantArray([100,100,100.0]) );
+      [br]
+      BMP.Create(300,300);
+      BMP.SetPixels(TPA,255);
+      BMP.Debug();
+      BMP.Free();
+    end.
+    [/code]
+    Output: [i]run the code to see[/i]
+    
+    [params]
+      [b]Func:[/b] function that takes 2 parameter `x`:same type as array items | `Args`:TVariantArray | Return a boolean
+      [b]Arr:[/b] TByteArray, TIntArray, TFloatArray, TDoubleArray, TExtArray, TPointArray, TBoxArray
+      [b]Args:[/b] TVaraintArray used to pass extra infomation to the filter function.
+    [/params]
+}
+
+
+{$IFNDEF CODEINSIGHT}
+type
+  __TFilterExTBtA = function (x:Byte; Args:TVariantArray): Boolean;
+  __TFilterExTIA  = function (x:Int32; Args:TVariantArray): Boolean;
+  __TFilterExTFA  = function (x:Single; Args:TVariantArray): Boolean;
+  __TFilterExTDA  = function (x:Double; Args:TVariantArray): Boolean;
+  __TFilterExTEA  = function (x:Extended; Args:TVariantArray): Boolean;
+  __TFilterExTPA  = function (x:TPoint; Args:TVariantArray): Boolean;
+  __TFilterExTBA  = function (x:TBox; Args:TVariantArray): Boolean;
+{$ENDIF}
+
+//---| TBtA |---\\
+function SimbaExt.Filter(Func:Pointer; Arr:TByteArray; Args:TVariantArray): TByteArray; overload;
+var
+  i,l,j:Int32; Def:__TFilterExTBtA;
+begin
+  l := High(Arr);
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr));
+  j := 0;
+  for i:=0 to High(Arr) do
+    if Def(Arr[i], Args) then
+    begin
+      Result[j] := Arr[i];
+      Inc(j);
+    end;
+  SetLength(Result, j);
+end;
+
+
+//---| TIA |---\\
+function SimbaExt.Filter(Func:Pointer; Arr:TIntArray; Args:TVariantArray): TIntArray; overload;
+var
+  i,l,j:Int32; Def:__TFilterExTIA;
+begin
+  l := High(Arr);
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr));
+  j := 0;
+
+  for i:=0 to High(Arr) do
+    if Def(Arr[i],Args) then
+    begin
+      Result[j] := Arr[i];
+      Inc(j);
+    end;
+  SetLength(Result, j);
+end;
+
+
+//---| TFA |---\\
+function SimbaExt.Filter(Func:Pointer; Arr:TFloatArray; Args:TVariantArray): TFloatArray; overload;
+var
+  i,l,j:Int32; Def:__TFilterExTFA;
+begin
+  l := High(Arr);
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr));
+  j := 0;
+  for i:=0 to High(Arr) do
+    if Def(Arr[i],Args) then
+    begin
+      Result[j] := Arr[i];
+      Inc(j);
+    end;
+  SetLength(Result, j);
+end;
+
+
+//---| TDA |---\\
+function SimbaExt.Filter(Func:Pointer; Arr:TDoubleArray; Args:TVariantArray): TDoubleArray; overload;
+var
+  i,l,j:Int32; Def:__TFilterExTDA;
+begin
+  l := High(Arr);
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr));
+  j := 0;
+  for i:=0 to High(Arr) do
+    if Def(Arr[i],Args) then
+    begin
+      Result[j] := Arr[i];
+      Inc(j);
+    end;
+  SetLength(Result, j);
+end;
+
+
+//---| TEA |---\\
+function SimbaExt.Filter(Func:Pointer; Arr:TExtArray; Args:TVariantArray): TExtArray; overload;
+var
+  i,l,j:Int32; Def:__TFilterExTEA;
+begin
+  l := High(Arr);
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr));
+  j := 0;
+  for i:=0 to High(Arr) do
+    if Def(Arr[i],Args) then
+    begin
+      Result[j] := Arr[i];
+      Inc(j);
+    end;
+  SetLength(Result, j);
+end;
+
+
+//---| TPA |---\\
+function SimbaExt.Filter(Func:Pointer; Arr:TPointArray; Args:TVariantArray): TPointArray; overload;
+var
+  i,l,j:Int32; Def:__TFilterExTPA;
+begin
+  l := High(Arr);
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr));
+  j := 0;
+  for i:=0 to High(Arr) do
+    if Def(Arr[i],Args) then
+    begin
+      Result[j] := Arr[i];
+      Inc(j);
+    end;
+  SetLength(Result, j);
+end;
+
+
+//---| TBA |---\\
+function SimbaExt.Filter(Func:Pointer; Arr:TBoxArray; Args:TVariantArray): TBoxArray; overload;
+var
+  i,l,j:Int32; Def:__TFilterExTBA;
+begin
+  l := High(Arr);
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr));
+  j := 0;
+  for i:=0 to High(Arr) do
+    if Def(Arr[i],Args) then
+    begin
+      Result[j] := Arr[i];
+      Inc(j);
+    end;
+  SetLength(Result, j);
+end;
+
+
+
+
+
+
+
+
 
 
 {!DOCREF} {

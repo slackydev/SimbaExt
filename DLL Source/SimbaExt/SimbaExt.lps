@@ -35,28 +35,28 @@
       <Unit3>
         <Filename Value="src\Imaging.pas"/>
         <UnitName Value="Imaging"/>
-        <EditorIndex Value="6"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="657"/>
-        <CursorPos X="63" Y="671"/>
+        <TopLine Value="76"/>
+        <CursorPos X="45" Y="111"/>
         <UsageCount Value="46"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="src\Finder.pas"/>
         <UnitName Value="Finder"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="41" Y="52"/>
+        <CursorPos X="73" Y="17"/>
         <UsageCount Value="89"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="src\CornerDet.pas"/>
         <UnitName Value="CornerDet"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="97"/>
         <CursorPos X="29" Y="109"/>
@@ -66,7 +66,7 @@
       <Unit6>
         <Filename Value="ExportWrap.pas"/>
         <UnitName Value="ExportWrap"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="811"/>
         <CursorPos X="37" Y="846"/>
@@ -108,10 +108,12 @@
       <Unit11>
         <Filename Value="src\HashMap.pas"/>
         <UnitName Value="HashMap"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="276"/>
-        <CursorPos X="40" Y="308"/>
+        <TopLine Value="54"/>
+        <CursorPos X="72" Y="67"/>
         <UsageCount Value="26"/>
+        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="src\Sorting.pas"/>
@@ -203,7 +205,7 @@
       <Unit23>
         <Filename Value="src\std\ArrFindAll.pas"/>
         <UnitName Value="ArrFindAll"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="10"/>
         <CursorPos X="63" Y="38"/>
@@ -363,7 +365,7 @@
       <Unit43>
         <Filename Value="src\Core\CoreMisc.pas"/>
         <UnitName Value="CoreMisc"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="53" Y="94"/>
@@ -381,7 +383,7 @@
       <Unit45>
         <Filename Value="src\Core\MatrixMath\MAT_ToByte.pas"/>
         <UnitName Value="MAT_ToByte"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="86"/>
         <CursorPos X="59" Y="26"/>
@@ -391,7 +393,7 @@
       <Unit46>
         <Filename Value="src\Colormath.pas"/>
         <UnitName Value="ColorMath"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="39"/>
         <CursorPos X="42" Y="53"/>
@@ -402,7 +404,7 @@
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="11" HistoryIndex="10">
+    <JumpHistory Count="13" HistoryIndex="12">
       <Position1>
         <Filename Value="src\Core\MatrixMath\MAT_ToByte.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
@@ -447,6 +449,14 @@
         <Filename Value="src\Finder.pas"/>
         <Caret Line="214" Column="29" TopLine="193"/>
       </Position11>
+      <Position12>
+        <Filename Value="src\HashMap.pas"/>
+        <Caret Line="308" Column="40" TopLine="276"/>
+      </Position12>
+      <Position13>
+        <Filename Value="src\Imaging.pas"/>
+        <Caret Line="671" Column="63" TopLine="657"/>
+      </Position13>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

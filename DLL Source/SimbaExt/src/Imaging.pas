@@ -109,28 +109,20 @@ end;
  Generates a 1D gaussian filter.
 *}
 function GaussKernel1D(KernelRadius:Int32; Sigma:Single): TFloatArray;
-var
-  size,r,i:Int32;
-  invRad2,sum,v:Single;
+var sum:Single; i,size:Int32;
 begin
   size := 2*KernelRadius;
-  SetLength(Result,size+1);
-  invRad2 := 1.0 / (2.0 * sqr(KernelRadius));
+  SetLength(Result, size+1);
 
-  r := -KernelRadius;
   sum := 0.0;
-  for i:=0 to size do
-  begin
-    v := (1.0 / (Sqrt(2.0 * PI) * KernelRadius)) * Exp(-sqr(r * sigma) * invRad2);
-    Result[i] := v;
-    sum += v;
-    inc(r);
+  for i:=0 to size do begin
+    Result[i] := Exp(-(Sqr((i-KernelRadius) / sigma)) / 2.0);
+    sum += Result[i];
   end;
-
-   for i:=0 to size do
+  WriteLn(Sum);
+  for i:=0 to size do
     Result[i] /= sum;
 end;
-
 
 
 {*
