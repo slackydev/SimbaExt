@@ -10,23 +10,38 @@
 {======| Table of contents |====================================================]
 
 function TObjMath.Modulo(X,Y:Extended): Extended; overload; 
-function TObjMath.Modulo(X,Y:Int32): Int32; overload;  
-function TObjMath.Sign(X:Int32): Int32; overload; 
-function TObjMath.Sign(X:Single): Int32; overload; 
-function TObjMath.Sign(X:Double): Int32; overload; 
-function TObjMath.Sign(X:Extended): Int32; overload; 
-function TObjMath.DeltaAngle(x,y:Extended): Extended;  
+function TObjMath.Modulo(X,Y:Int32): Int32; overload;
+
+function TObjMath.Sign(X:Int32): Int8; overload;
+function TObjMath.Sign(X:Int64): Int8; overload;
+function TObjMath.Sign(X:Single): Int8; overload;
+function TObjMath.Sign(X:Double): Int8; overload;
+function TObjMath.Sign(X:Extended): Int8; overload;
+
+function TObjMath.DeltaAngle(x,y:Extended): Extended;
+
 function TObjMath.DistManhattan(pt1,pt2: TPoint): Extended; 
 function TObjMath.DistEuclidean(pt1,pt2: TPoint): Extended;  
 function TObjMath.DistChebyshev(pt1,pt2: TPoint): Extended;  
 function TObjMath.DistQuasiEuclidean(pt1,pt2: TPoint): Extended;
+
 function TObjMath.DistToLine(Pt,sA,sB:TPoint): Extended;
+
 function TObjMath.InCircle(const Pt, Center: TPoint; Radius: Integer): Boolean; 
 function TObjMath.InEllipse(const Pt,Center:TPoint; YRad, XRad: Integer): Boolean; 
 function TObjMath.InRect(const Pt:TPoint; const A,B,C,D:TPoint): Boolean;  
 function TObjMath.InPoly(x,y:Integer; const Poly:TPointArray): Boolean;  
 function TObjMath.InPolyR(x,y:Integer; const Poly:TPointArray): Boolean;  
 function TObjMath.InPolyW(x,y:Integer; const Poly:TPointArray): Boolean;  
+
+(* Prime *)
+function TObjMath.IsPrime(n: Int64): Boolean; Inline;
+function TObjMath.NextPrime(n: Int64): Int64; inline;
+function TObjMath.PrevPrime(n: Int64): Int64; inline;
+
+(* Next power of two minus 1 *)
+function TObjMath.NextPow2m1(n:Int32): Int32;
+
 
 [===============================================================================}
 
@@ -52,45 +67,11 @@ end;
 
 
 {!DOCREF} {
-  @method: function Math.Sign(X:Int32): Int32; overload;
-  @desc: 
-    Results: c'-1 if x < 0'  ||  c'0 if x = 0'  ||  c'1 if x > 0' 
-    Supports: Int8, Int32, Single, Double, Extended
+  @method: function Math.Sign(X:Extended): Int8;
+  @desc:   Results: c'-1 if x < 0'  ||  c'0 if x = 0'  ||  c'1 if x > 0'
 }
-function TObjMath.Sign(X:Int32): Int32;
-begin
-  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
-end;
-
-function TObjMath.Sign(X:Int8): Int8; overload; 
-begin
-  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
-end;
-
-function TObjMath.Sign(X:Single): Int32; overload; 
-begin
-  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
-end;
-
-function TObjMath.Sign(X:Double): Int32; overload; 
-begin
-  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
-end;
-
-function TObjMath.Sign(X:Extended): Int32; overload; 
-begin
-  if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); 
-end;
-
-
-{!DOCREF} {
-  @method: function Math.DeltaAngle(x,y:Extended): Extended;
-  @desc: Computes the delta of two angles. The result is in range of -180..180.
-}
-function TObjMath.DeltaAngle(x,y:Extended): Extended;  
-begin
-  Result := exp_DeltaAngle(x,y);
-end;
+function TObjMath.Sign(X:Extended): uInt8; overload;
+begin if (x > 0) then Exit(1) else if (x < 0) then Exit(-1) else Exit(0); end;
 
 
 {!DOCREF} {
@@ -197,7 +178,52 @@ end;
 
 
 {!DOCREF} {
-  @method: function TObjMath.NextPow2m1(n:Int32): Int32;
+  @method: function Math.IsPrime(n: Int64): Boolean; Inline;
+  @desc: Returns `True` if `n` is a prime number, otherwise it returns `False`
+}
+function TObjMath.IsPrime(n: Int64): Boolean;
+var i:Integer; Hi: Single;
+begin
+  if (n = 2) then Exit(True);
+  if (n and 2 = 0) or (n<=1) then Exit(False);
+  Hi := Sqrt(n)+1;
+  i := 3;
+  while i <= Hi do begin
+    if ((n mod i) = 0) then Exit(False);
+    i := i + 2;
+  end;
+  Result := True;
+end;
+
+
+{!DOCREF} {
+  @method: function Math.NextPrime(n: Int64): Int64;
+  @desc: Returns the prime that comes next after the number `n`.
+}
+function TObjMath.NextPrime(n: Int64): Int64;
+begin
+  Inc(n);
+  while Not(IsPrime(n)) do
+    Inc(n);
+  Result := n;
+end;
+
+
+{!DOCREF} {
+  @method: function Math.PrevPrime(n: Int64): Int64;
+  @desc: Returns the prime before `n`.
+}
+function TObjMath.PrevPrime(n: Int64): Int64;
+begin
+  Dec(n);
+  while Not(IsPrime(n)) do
+    Dec(n);
+  Result := n;
+end;
+
+
+{!DOCREF} {
+  @method: function Math.NextPow2m1(n:Int32): Int32;
   @desc: Returns the next power of two minus 1, very quick!
 }
 function TObjMath.NextPow2m1(n:Int32): Int32;

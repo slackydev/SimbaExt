@@ -55,21 +55,26 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TPoint.Offset(Pt:TPoint);
+  @method: procedure TPoint.Offset(pt:TPoint);
   @desc: Moves the point
 }
-procedure TPoint.Offset(Pt:TPoint);
+{$IFNDEF SRL6}
+procedure TPoint.Offset(pt:TPoint);
 begin
-  Self.x := Self.x + Pt.x;
-  Self.y := Self.y + Pt.y;
+  Self.x := Self.x + pt.x;
+  Self.y := Self.y + pt.y;
 end;
-
+{$ENDIF}
 
 {!DOCREF} {
   @method: function TPoint.Rotate(Angle:Extended; cx,cy:Integer): TPoint;
   @desc: Rotates the point, lazy method (returns a new point).
 }
+{$IFNDEF SRL6}
 function TPoint.Rotate(Angle:Extended; cx,cy:Integer): TPoint;
+{$ELSE}
+function TPoint._Rotate(Angle:Extended; cx,cy:Integer): TPoint;
+{$ENDIF}
 begin
   Result := RotatePoint(Self, Angle, cx,cy); 
 end;
@@ -86,14 +91,15 @@ end;
 
 
 {!DOCREF} {
-  @method: function TPoint.Equals(Pt:TPoint): Boolean;
+  @method: function TPoint.Equals(PT:TPoint): Boolean;
   @desc: Compares equal
 }
-function TPoint.Equals(Pt:TPoint): Boolean;
+{$IFNDEF SRL6}
+function TPoint.Equals(PT:TPoint): Boolean;
 begin
-  Result := (Self.x = Pt.x) and (Self.y = Pt.y);
+  Result := (Self.x = PT.x) and (Self.y = PT.y);
 end;
-
+{$ENDIF}
 
 {!DOCREF} {
   @method: function TPoint.Compare(Pt:TPoint): TComparator;
@@ -110,6 +116,7 @@ begin
 end;
 
 
+{$IFNDEF SRL6}
 {!DOCREF} {
   @method: procedure TPoint.Swap(var PT:TPoint);
   @desc: Swaps the points
@@ -121,6 +128,7 @@ begin
   Self := Pt;
   PT   := tmp;
 end;
+{$ENDIF}
 
 
 {!DOCREF} {
@@ -132,9 +140,9 @@ begin
   Result := InRange(Self.x, B.x1, B.x2) and InRange(Self.y, B.y1, B.y2);
 end;
 
-
+{$IFNDEF SRL6}
 {!DOCREF} {
-  @method: function TPoint.RandRange(x1,y1,x2,y2:Int32): TPoint;
+  @method: function TPoint.RandRange(lo,hi:Int32): TPoint;
   @desc: Randomizes a point by the given lower and upper bounds.
 }
 function TPoint.RandRange(lo,hi:Int32): TPoint;
@@ -152,6 +160,7 @@ begin
   Result.x := Self.x + Rand.RandInt(x1,x2);
   Result.y := Self.y + Rand.RandInt(y1,y2);
 end;
+{$ENDIF}
 
 
 {!DOCREF} {
@@ -160,7 +169,11 @@ end;
 }
 function TPoint.Gauss(Stddev: Extended): TPoint;
 begin
+  {$IFDEF SRL6}
+  Result := Randm.GaussPt(Self,Stddev);
+  {$ELSE}
   Result := Rand.GaussPt(Self,Stddev);
+  {$ENDIF}
 end;
 
 
@@ -172,7 +185,11 @@ end;
 }
 function TPoint.Gauss(Stddev,MaxDev: Extended): TPoint; overload;
 begin
+  {$IFDEF SRL6}
+  Result := Randm.GaussPt(Self,StdDev, MaxDev);
+  {$ELSE}
   Result := Rand.GaussPt(Self,StdDev, MaxDev);
+  {$ENDIF}
 end;
 
 

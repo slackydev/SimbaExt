@@ -85,7 +85,10 @@ begin
   AddCommand(@exp_InPolyR,	  'function exp_InPolyR(x,y:Integer; const Poly:TPointArray): Boolean;');
   AddCommand(@exp_InPolyW,	  'function exp_InPolyW(x,y:Integer; const Poly:TPointArray): Boolean;');
   AddCommand(@exp_DeltaAngle,	'function exp_DeltaAngle(DegA,DegB:Extended): Extended;');
-
+  AddCommand(@exp_Min3f,	'function Min(X,Y,Z:Extended): Extended; overload;');
+  AddCommand(@exp_Min3i,	'function Min(X,Y,Z:Int64): Int64; overload;');
+  AddCommand(@exp_Max3f,	'function Max(X,Y,Z:Extended): Extended; overload;');
+  AddCommand(@exp_Max3i,	'function Max(X,Y,Z:Int64): Int64; overload;');
 
   // Numeric.pas
   AddCommand(@SumPtr,         'function exp_SumPtr(Ptr:PChar; Size:UInt8; Len:LongInt; Signed:Boolean=False): Int64;');
@@ -467,7 +470,6 @@ begin
 end;
 
 
-
 exports GetPluginABIVersion;
 exports SetPluginMemManager;
 exports GetTypeCount;
@@ -475,5 +477,6 @@ exports GetTypeInfo;
 exports GetFunctionCount;
 exports GetFunctionInfo;
 exports OnDetach;
+
 
 end.

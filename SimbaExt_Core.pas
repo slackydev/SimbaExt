@@ -19,7 +19,8 @@ type
   
   
   //Arr
-  TIntArray    = TIntegerArray;
+  TStrArray    = Array of String; //Silly SRL...
+  TIntArray    = TIntegerArray; //arg...
   TFloatArray  = Array of Float32;
   TDoubleArray = Array of Float64;
   TExtArray    = Array of Float80;
@@ -36,12 +37,12 @@ type
   
   
   //Array of Array ..
-  (*T2DIntArray     = Array of TIntArray;*)
+  //T2DIntArray     = Array of TIntArray; 
   T2DExtArray     = Array of TExtArray;
   T2DFloatArray   = Array of TFloatArray;
   T2DDoubleArray  = Array of TDoubleArray;
   T2DBoxArray     = Array of TBoxArray;
-  
+  T2DBoolArray    = Array of TBoolArray;
   
   //Matrix ..
   TByteMatrix   = Array of TByteArray;
@@ -58,6 +59,8 @@ type
   TSortKey = (sort_Default, sort_Magnitude, sort_ByColumn, sort_ByRow, sort_ByX,
               sort_ByY, sort_Length, sort_First, sort_Index, sort_Mean, sort_Lex, sort_Logical);
   
+  
+  TSize2D = packed record W,H:Int32; end;
 
 {|=====| Prefixes for SimbaExt modules |=====}
 type
@@ -70,7 +73,7 @@ type
 var  
   SE: SimbaExt; 
   Math: TObjMath; 
-  Rand: TObjRandom; 
+  {$IFDEF SRL6}Randm{$ELSE}Rand{$ENDIF}: TObjRandom;
   TimeUtils: TObjTime;
   OS: TObjOS;
 

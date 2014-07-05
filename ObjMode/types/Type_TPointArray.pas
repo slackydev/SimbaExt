@@ -2,13 +2,14 @@
   Type » TPointArray
 }
 
+
 {!DOCREF} {
   @method: function TPointArray.Clone(): TPointArray;
   @desc: Returns a copy of the array
 }
 function TPointArray.Clone(): TPointArray;
 begin
-  Result := Copy(Self);
+  Result := Self.Slice(0,-1);
 end;
 
 
@@ -36,7 +37,11 @@ end;
   @method: procedure TPointArray.Append(const PT:TPoint);
   @desc: Add another TP to the TPA
 }
+{$IFNDEF SRL6}
 procedure TPointArray.Append(const PT:TPoint);
+{$ELSE}
+procedure TPointArray.Append(const PT:TPoint); override;
+{$ENDIF}
 var
   l:Int32;
 begin
@@ -145,12 +150,15 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TPointArray.Extend(TPA:TPointArray);
-  @desc: Extends the TPA with a TPA
+  @method: procedure TPointArray.Extend(Arr:TPointArray);
+  @desc: Extends the TPA with a TPA `Arr`
 }
-procedure TPointArray.Extend(TPA:TPointArray);
+procedure TPointArray.Extend(Arr:TPointArray);
+var L:Int32;
 begin
-  Self := se.UniteTPA(Self, TPA, False);
+  L := Length(Self);
+  SetLength(Self, Length(Arr) + L);
+  MemMove(Arr[0],Self[L],Length(Arr)*SizeOf(TPoint));
 end; 
 
 
@@ -313,7 +321,11 @@ end;
   @method: function TPointArray.Combine(TPA:TPointArray): TPointArray;
   @desc: Combines two TPAs and returns the resulting TPA
 }
+{$IFNDEF SRL6}
 function TPointArray.Combine(TPA:TPointArray): TPointArray;
+{$ELSE}
+function TPointArray._Combine(TPA:TPointArray): TPointArray;
+{$ENDIF}
 begin
   Result := se.UniteTPA(Self, TPA, False);
 end; 
@@ -353,7 +365,11 @@ end;
   @method: function TPointArray.Invert(): TPointArra
   @desc: Inverts the TPA based on the bounds of the TPA, so each point within the bounds, but not in the TPA is returned
 }
+{$IFNDEF SRL6}
 function TPointArray.Invert(): TPointArray;
+{$ELSE}
+function TPointArray._Invert(): TPointArray;
+{$ENDIF}
 begin
   Result := se.InvertTPA(self);
 end; 
@@ -363,7 +379,11 @@ end;
   @method: function TPointArray.Cluster(Dist:Int32; Eightway:Boolean=True): T2DPointArray;
   @desc: Clusters the TPA in to groups separated by a given minimum distance
 }
+{$IFNDEF SRL6}
 function TPointArray.Cluster(Dist:Int32; Eightway:Boolean=True): T2DPointArray;
+{$ELSE}
+function TPointArray.Cluster(Dist:Int32; Eightway:Boolean): T2DPointArray; overload;
+{$ENDIF}
 begin
   Result := se.ClusterTPA(Self, dist, eightway);
 end;
@@ -415,10 +435,15 @@ end;
     Rotates the TPA
     [note][b]Not[/b] the same as RotatePoints in Simba![/note]
 }
+{$IFNDEF SRL6}
 function TPointArray.Rotate(Angle:Extended): TPointArray;
+{$ELSE}
+function TPointArray._Rotate(Angle:Extended): TPointArray;
+{$ENDIF}
 begin
   Result := se.RotateTPA(Self, Angle);
 end;
+
 
 
 {!DOCREF} {
@@ -437,7 +462,11 @@ end;
   @method: procedure TPointArray.Offset(OffX,OffY: Int32);
   @desc: offsets each point in the TPA, both horizontally, and vertically by the given amount
 }
+{$IFNDEF SRL6}
 procedure TPointArray.Offset(OffX,OffY: Int32);
+{$ELSE}
+procedure TPointArray.Offset(OffX,OffY: Int32); overload;
+{$ENDIF}
 begin
   OffsetTPA(Self, Point(OffX, OffY));
 end;

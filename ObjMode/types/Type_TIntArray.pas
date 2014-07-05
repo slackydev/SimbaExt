@@ -36,7 +36,11 @@ end;
   @method: procedure TIntArray.Append(const Value:Int32);
   @desc: Add another item to the array
 }
+{$IFNDEF SRL6}
 procedure TIntArray.Append(const Value:Int32);
+{$ELSE}
+procedure TIntArray.Append(const Value:Int32); override;
+{$ENDIF}
 var
   l:Int32;
 begin
@@ -296,7 +300,11 @@ end;
   @method: function TIntArray.Sum(): Int64;
   @desc: Adds up the TIA and returns the sum
 }
+{$IFNDEF SRL6}
 function TIntArray.Sum(): Int64;
+{$ELSE}
+function TIntArray.Sum(): Int32; override;
+{$ENDIF}
 begin
   Result := exp_SumPtr(PChar(Self),SizeOf(Int32),Length(Self),False);
 end;

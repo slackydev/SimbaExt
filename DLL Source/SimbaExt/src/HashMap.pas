@@ -85,7 +85,7 @@ function Hash(const k: Byte): UInt32; Inline; overload;
 function Hash(const k: UInt32): UInt32; Inline; overload;
 function Hash(const k: Int32): UInt32; Inline; overload;
 function Hash(const k: Int64): UInt32; Inline; overload;
-function Hash(const k: TPoint; Seed:UInt32=3158): UInt32; Inline; overload;
+function Hash(const k: TPoint): UInt32; Inline; overload;
 function Hash(const k: Single): UInt32; Inline; overload;
 function Hash(const k: AnsiString): UInt32; Inline; overload;
 
@@ -129,13 +129,14 @@ begin
   Result := UInt32(k);
 end;
 
-//Hash a TPoint (x,y record) | Should work up to a degree
-function Hash(const k: TPoint; Seed:UInt32=3158): UInt32; Inline; overload;
+//Hash a TPoint (x,y record) | Should work well.
+function Hash(const k: TPoint): UInt32; Inline; overload;
 begin
-  Result := UInt32((919 + k.y) * Seed + k.x * 14);
+  Result := UInt32((k.y * $0f0f1f1f) xor k.x);
 end;
 
-//Hash a string.. think this should work.
+
+//Hash a string.. untested.
 function Hash(const k: AnsiString): UInt32; Inline; overload;
 var i: Int32;
 begin
@@ -156,7 +157,7 @@ end;
   A supersimple hashmap, should be pretty decent performancewise as long as
   enough space is allocated, what ever size you give it it will allocate
   NextPowerOfTwo(size*1.25) mem, this allows us to use bitshifting instead of
-  division (mod-operator).
+  division (mod-operator), the "1.25" is just to overallocate a bit, for performance.
 
   FTable is like an "array of buckets", where each bucket represents a hash-index.
 }

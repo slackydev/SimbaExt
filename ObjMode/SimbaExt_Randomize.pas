@@ -7,6 +7,7 @@
   @desc: 
     This module provides you with a few Random-functions. 
     More functions will probably be introduced later.
+    if SRL-6 is imported module is renamed to "Randm" :/
 }
 
 

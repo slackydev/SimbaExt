@@ -151,23 +151,23 @@ end;
 |=============================================================================*)
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.SetSize(NewWidth,NewHeight:Integer);
+  @method: procedure TRafBitmap.SetSize(NewWidth,NewHeight:Int32);
   @desc: Will increse, or decrease the size of the image, it the size is increased, the image will be extended with a black background.
 }
-procedure TRafBitmap.SetSize(NewWidth,NewHeight:Integer);
+procedure TRafBitmap.SetSize(NewWidth,NewHeight:Int32);
 begin
   if not(Self.IsLoaded('TRafBitmap.SetSize()')) then Exit;
-  SetBitmapSize(Self.Bitmap,NewWidth,NewHeight);
+  SetBitmapSize(Self.Bitmap, NewWidth, NewHeight);
   Self.Width  := NewWidth;
   Self.Height := NewHeight;
 end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.Clear(Color:Integer);
+  @method: procedure TRafBitmap.Clear(Color:Int32);
   @desc: Clears the image and paints over with the given color.
 }
-procedure TRafBitmap.Clear(Color:Integer);
+procedure TRafBitmap.Clear(Color:Int32);
 begin
   if not(Self.IsLoaded('TRafBitmap.Clear()')) then Exit;
   FastDrawClear(Self.Bitmap, Color);
@@ -189,10 +189,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TRafBitmap.Crop(X1,Y1,X2,Y2:Integer): TRafBitmap;
+  @method: function TRafBitmap.Crop(X1,Y1,X2,Y2:Int32): TRafBitmap;
   @desc:   Crops the image down to the given bounds. 
 }
-function TRafBitmap.Crop(X1,Y1,X2,Y2:Integer): TRafBitmap;
+function TRafBitmap.Crop(X1,Y1,X2,Y2:Int32): TRafBitmap;
 var m:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.Crop()')) then Exit;
@@ -202,12 +202,12 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.LazyCrop(X1,Y1,X2,Y2:Integer);
+  @method: procedure TRafBitmap.LazyCrop(X1,Y1,X2,Y2:Int32);
   @desc: 
     Crops the image down to the given bounds. 
     [note]Modifies the image, does not make a copy[/note]
 }
-procedure TRafBitmap.LazyCrop(X1,Y1,X2,Y2:Integer);
+procedure TRafBitmap.LazyCrop(X1,Y1,X2,Y2:Int32);
 begin
   if not(Self.IsLoaded('TRafBitmap.LazyCrop()')) then Exit;
   CropBitmap(Self.Bitmap, X1,Y1,X2,Y2);
@@ -570,13 +570,12 @@ begin
   if AutoResize then
   begin
     NW := Self.Width;
-    NH := Self.Width; 
-    if Pos.x+Other.Width > Self.width then   NH := Pos.x+Other.Width;
-    if Pos.y+Other.Height > Self.Height then NW := Pos.y+Other.Height;
+    NH := Self.Height;
+    if Pos.x+Other.Width >= Self.Width then   NW := Pos.x+Other.Width;
+    if Pos.y+Other.Height >= Self.Height then NH := Pos.y+Other.Height;
     if (NH > Self.Height) or (NW > Self.Width) then
       Self.SetSize(NW, NH);
   end;
-  
   FastDrawTransparent(Pos.x, Pos.y, other.bitmap, self.bitmap);
 end;
 

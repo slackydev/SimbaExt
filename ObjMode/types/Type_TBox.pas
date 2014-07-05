@@ -54,10 +54,14 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TBox.Expand(const SizeChange: Integer);
+  @method: procedure TBox.Expand(SizeChange: Int32);
   @desc: Expand (shrink if negative) the TBox by 'sizechange'.
 }
-procedure TBox.Expand(const SizeChange: Integer);
+{$IFNDEF SRL6}
+procedure TBox.Expand(SizeChange: Int32);
+{$ELSE}
+procedure TBox.Expand(const SizeChange: Int32); override;
+{$ENDIF}
 begin
   Self.X1 := Self.X1 - SizeChange;
   Self.Y1 := Self.Y1 - SizeChange;
@@ -92,7 +96,11 @@ end;
   @method: function TBox.Combine(Other:TBox): TBox;
   @desc: Combine two boxes - Lazy (does not expand on current)
 }
+{$IFNDEF SRL6}
 function TBox.Combine(Other:TBox): TBox;
+{$ELSE}
+function TBox.Combine(Other:TBox): TBox; override;
+{$ENDIF}
 begin
   Result := ToBox(Min(Min(Other.X1, Other.X2), Min(Self.X1, Self.X2)),
                   Min(Min(Other.Y1, Other.Y2), Min(Self.Y1, Self.Y2)),
@@ -125,26 +133,26 @@ begin
 end;
 
 
+{$IFNDEF SRL6}
 {!DOCREF} {
-  @method: function TBox.Offset(offx,offy:Int32): TBox;
+  @method: function TBox.Offset(Offs:TPoint): TBox;
   @desc: Offsets the TBox, returns a new box.
 }
-function TBox.Offset(offx,offy:Int32): TBox;
+function TBox.Offset(Offs:TPoint): TBox;
 begin
-  Result := [self.x1+offx, self.y1+offy, self.x2+offx, self.y2+offy];
+  Result := ToBox(self.x1+Offs.x, self.y1+Offs.y, self.x2+Offs.x, self.y2+Offs.y);
 end;
+{$ENDIF}
 
 
 {!DOCREF} {
   @method: function TBox.Equals(Box:TBox): Boolean;
   @desc: Compares equal
 }
-{$IFNDEF SRL-6}
+{$IFNDEF SRL6}
 function TBox.Equals(Box:TBox): Boolean;
-{$ELSE}
-function TBox.Equals(Box:TBox): Boolean; override;
-{$ENDIF}
 begin
   Result := (self.x1=box.x1) and (self.y1=box.y1) and 
             (self.x2=box.x2) and (self.y2=box.y2);
 end;
+{$ENDIF}

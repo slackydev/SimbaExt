@@ -1,7 +1,8 @@
 //Define types used in SimbaExt 
 {$IFDEF LAPE}
 {$DEFINE SIMBAEXT}
-{$X+}
+{$X+} //Extended syntax
+{$C+} //Assertion 
 
 {$include_once SimbaExt_Core.pas}
 {$include_once ObjMode/TRafikiBitmap.pas}
@@ -129,5 +130,6 @@
 }
 
 
+{$C-}
 {$X-}
 {$ENDIF}

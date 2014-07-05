@@ -51,7 +51,6 @@ begin
   Result := InRect(Pt, A,B,C,D);
 end;
 
-//
 function exp_InPoly(x,y:Integer; const Poly:TPointArray): Boolean; Cdecl;
 begin
   Result := InPoly(x,y, poly);
@@ -71,6 +70,15 @@ function exp_DeltaAngle(DegA,DegB:Extended): Extended; Cdecl;
 begin
   Result := DeltaAngle(DegA,DegB);
 end;
+
+
+{* Select min of 3 values *}
+function exp_Min3f(X,Y,Z:Extended): Extended; cdecl; begin Result := Min(x,y,z); end;
+function exp_Min3i(X,Y,Z:Int64): Int64; cdecl; begin Result := Min(x,y,z); end;
+
+{* Select max of 3 values *}
+function exp_Max3f(X,Y,Z:Extended): Extended; cdecl; begin Result := Max(x,y,z); end;
+function exp_Max3i(X,Y,Z:Int64): Int64; cdecl; begin Result := Max(x,y,z); end;
 
 
 {*-----------------------------------------------------------------------------|

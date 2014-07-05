@@ -2,6 +2,56 @@
 
 
 {!DOCREF} {
+  @method: function se.IndexOf(var Haystack, Needle; HaystkLen:UInt32; ElmntSize:SizeInt): Int32;
+  @desc:
+    Finds the position of the Needle in the Haystack. Both needle and haystack can be [u]any data-type[/u], tho haystack should always be an Array.
+    
+    Requres information about the array, and the size of the elements in the array | Use: `SizeOf(<DataType>)`.
+    
+    [b]Example:[/b]
+    [code=pascal]
+    var Arr:TIntArray; Item:Int32;
+    begin
+      Arr := [0,2,4,6,8,10];
+      Item := 8;
+      
+      WriteLn( se.IndexOf(Arr[0], Item, Length(Arr), SizeOf(Integer)) );
+    end;  
+    [/code]>> `4`
+    
+    [params]
+      [b]Haystack:[/b]  Referance to the haystack position.
+      [b]Needle:[/b]    The needle.
+      [b]HaystkLen:[/b] Number of elements in haystack
+      [b]ElmntSize:[/b] Size of each element.
+    [/params]
+}
+function SimbaExt.IndexOf(var Haystack,Needle; HaystkLen:UInt32; ElmntSize:SizeInt): Int32;
+var
+  i,hi,lo,ss:Int32;
+  PBData,PBSeek,P,Q:PChar;
+begin
+  PBData := PChar(@Haystack);
+  PBSeek := PChar(@Needle);
+  P := PBData[0];
+  Q := PBSeek[0];
+  lo := Int32(PBData[0]);
+  hi := Int32(PBData[HaystkLen*ElmntSize] - ElmntSize);
+  while hi > UInt32(P) do
+  begin
+    if (Q^ <> P^) then begin
+      inc(p,ElmntSize);
+      continue;
+    end;
+    if CompareMem(Q, P, ElmntSize) then
+      Exit((UInt32(P)-lo) div ElmntSize);
+    inc(p,ElmntSize);
+  end;
+  Exit(-1);
+end;
+
+
+{!DOCREF} {
   @method: function se.Reduce(Func:Pointer; Arr:<1d array type>): <data type>;
   @desc: 
     Returns a single value constructed by calling the function `func` on the first two items of the sequence, then on the result 
@@ -695,6 +745,143 @@ end;
 
 
 
+
+{!DOCREF} {
+  @method: function se.Map(Func:Pointer; Arr1, Arr2:<1d array type>): <1d array type>;
+  @desc: 
+    Calls `Func(item)` for each of the array's items and returns an array of the return values.
+    The result type will always be the same as the input type.[br]
+    
+    For example, to multiply all values in arr1 with values in arr2:
+    [code=pascal]
+    function F(x,y:Int32): Int32;
+    begin Result := x*y; end; 
+    [br]
+    WriteLn( se.Map(@F, [1,2,3,4,5,6,7,8,9,10], [1,2,3,4,5,6,7,8,9,10]) );
+    [/code]
+    Output: `[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]`
+    
+    [params]
+    [b]Func:[/b] function that takes two parameters (same type as array items), and returns a the same type as the array items.
+    [b]Arr1:[/b] TByteArray, TIntArray, TFloatArray, TDoubleArray, TExtArray, TPointArray, TBoxArray
+    [b]Arr2:[/b] Same array type as array 1.
+    [/params]
+}
+
+{$IFNDEF CODEINSIGHT}
+type
+  __TMapExTBtA = function (x,y:Byte): Int32;
+  __TMapExTIA  = function (x,y:Int32): Int32;
+  __TMapExTFA  = function (x,y:Single): Extended;
+  __TMapExTDA  = function (x,y:Double): Extended;
+  __TMapExTEA  = function (x,y:Extended): Extended;
+  __TMapExTPA  = function (x,y:TPoint): TPoint;
+  __TMapExTBA  = function (x,y:TBox): TBox;
+{$ENDIF}
+
+//---| TBtA |---\\
+function SimbaExt.Map(Func:Pointer; Arr1,Arr2:TByteArray): TByteArray; overload;
+var
+  i,l:Int32; Def:__TMapExTBtA;
+begin
+  l := High(Arr1);
+  if High(Arr1) > l then RaiseException('se.Map: Out Of Range');
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr1));
+  for i:=0 to High(Arr1) do
+    Result[i] := Def(Arr1[i],Arr2[i]);
+end;
+
+
+//---| TIA |---\\
+function SimbaExt.Map(Func:Pointer; Arr1,Arr2:TIntArray): TIntArray; overload;
+var
+  i,l:Int32; Def:__TMapExTIA;
+begin
+  l := High(Arr1);
+  if High(Arr1) > l then RaiseException('se.Map: Out Of Range');
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr1));
+  for i:=0 to High(Arr1) do
+    Result[i] := Def(Arr1[i],Arr2[i]);
+end;
+
+
+//---| TFA |---\\
+function SimbaExt.Map(Func:Pointer; Arr1,Arr2:TFloatArray): TFloatArray; overload;
+var
+  i,l:Int32; Def:__TMapExTFA;
+begin
+  l := High(Arr1);
+  if High(Arr1) > l then RaiseException('se.Map: Out Of Range');
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr1));
+  for i:=0 to High(Arr1) do
+    Result[i] := Def(Arr1[i],Arr2[i]);
+end;
+
+
+//---| TDA |---\\
+function SimbaExt.Map(Func:Pointer; Arr1,Arr2:TDoubleArray): TDoubleArray; overload;
+var
+  i,l:Int32; Def:__TMapExTDA;
+begin
+  l := High(Arr1);
+  if High(Arr1) > l then RaiseException('se.Map: Out Of Range');
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr1));
+  for i:=0 to High(Arr1) do
+    Result[i] := Def(Arr1[i],Arr2[i]);
+end;
+
+
+//---| TEA |---\\
+function SimbaExt.Map(Func:Pointer; Arr1,Arr2:TExtArray): TExtArray; overload;
+var
+  i,l:Int32; Def:__TMapExTEA;
+begin
+  l := High(Arr1);
+  if High(Arr1) > l then RaiseException('se.Map: Out Of Range');
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr1));
+  for i:=0 to High(Arr1) do
+    Result[i] := Def(Arr1[i],Arr2[i]);
+end;
+
+
+//---| TPA |---\\
+function SimbaExt.Map(Func:Pointer; Arr1,Arr2:TPointArray): TPointArray; overload;
+var
+  i,l:Int32; Def:__TMapExTPA;
+begin
+  l := High(Arr1);
+  if High(Arr1) > l then RaiseException('se.Map: Out Of Range');
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr1));
+  for i:=0 to High(Arr1) do
+    Result[i] := Def(Arr1[i],Arr2[i]);
+end;
+
+
+//---| TBA |---\\
+function SimbaExt.Map(Func:Pointer; Arr1,Arr2:TBoxArray): TBoxArray; overload;
+var
+  i,l:Int32; Def:__TMapExTBA;
+begin
+  l := High(Arr1);
+  if High(Arr1) > l then RaiseException('se.Map: Out Of Range');
+  if l < 0 then Exit();
+  Def := Func;
+  SetLength(Result, Length(Arr1));
+  for i:=0 to High(Arr1) do
+    Result[i] := Def(Arr1[i],Arr2[i]);
+end;
 
 
 

@@ -21,7 +21,7 @@ function Degrees(Rads: Extended): Extended; Inline;
 function Modulo(X,Y:Extended): Extended; Inline; overload;
 function Modulo(X,Y:Double):  Double;  Inline; overload;
 function Modulo(X,Y:Single):  Single;  Inline; overload;
-function Modulo(X,Y:Integer): Integer; Inline; overload;
+function Modulo(X,Y:Int32): Int32; Inline; overload;
 
 {* Angle between two angles *}
 function DeltaAngle(DegA,DegB:Extended): Extended; Inline;
@@ -55,12 +55,14 @@ function NextPow2m1(n: Integer): Integer; Inline;
 function Min(X,Y,Z:Extended): Extended; Inline; overload;
 function Min(X,Y,Z:Double): Double; Inline; overload;
 function Min(X,Y,Z:Single): Single; Inline; overload;
+function Min(X,Y,Z:Int64): Int64; Inline; overload;
 function Min(X,Y,Z:Int32): Int32; Inline; overload;
 
 {* Select max of 3 values *}
 function Max(X,Y,Z:Extended): Extended; Inline; overload;
 function Max(X,Y,Z:Double): Double; Inline; overload;
 function Max(X,Y,Z:Single): Single; Inline; overload;
+function Max(X,Y,Z:Int64): Int64; Inline; overload;
 function Max(X,Y,Z:Int32): Int32; Inline; overload;
 
 
@@ -79,7 +81,6 @@ begin Result := Rads * (180/Pi); end;
 
 {*
  "Real" modulus function as seen in: WolframAlpha, MatLab and Python, and many more "modern" programming languages.
- No overload due to inlineing, and (possibly) exporting.
 *}
 function Modulo(X,Y:Extended): Extended; Inline; overload;
 begin
@@ -96,7 +97,7 @@ begin
   Result := X - Floor(X / Y) * Y;
 end;
 
-function Modulo(X,Y:Integer): Integer; Inline; overload;
+function Modulo(X,Y:Int32): Int32; Inline; overload;
 begin
   Result := X - Floor(X / Y) * Y;
 end;
@@ -408,6 +409,11 @@ begin
   Result := Min(x,Min(y,z));
 end;
 
+function Min(X,Y,Z:Int64): Int64; Inline; overload;
+begin
+  Result := Min(x,Min(y,z));
+end;
+
 function Min(X,Y,Z:Int32): Int32; Inline; overload;
 begin
   Result := Min(x,Min(y,z));
@@ -426,6 +432,11 @@ begin
 end;
 
 function Max(X,Y,Z:Single): Single; Inline; overload;
+begin
+  Result := Max(x,Max(y,z));
+end;
+
+function Max(X,Y,Z:Int64): Int64; Inline; overload;
 begin
   Result := Max(x,Max(y,z));
 end;

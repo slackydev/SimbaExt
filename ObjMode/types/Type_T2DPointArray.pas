@@ -138,7 +138,11 @@ end;
   @method: function T2DPointArray.Merge(): TPointArray;
   @desc: Merges all the groups in the ATPA, and return the TPA
 }
+{$IFNDEF SRL6}
 function T2DPointArray.Merge(): TPointArray;
+{$ELSE}
+function T2DPointArray.Merge(): TPointArray; override;
+{$ENDIF}
 begin
   Result := MergeATPA(Self);
 end;

@@ -145,6 +145,151 @@ begin
 end;
 
 
+{!DOCREF} {
+  @method: function String.Strip(const Chars:String=' '): String;
+  @desc:
+    Return a copy of the string with leading and trailing characters removed. If chars is omitted, whitespace characters are removed. 
+    If chars is given, the characters in the string will be stripped from the both ends of the string this method is called on.
+    [code=pascal]
+      >>> WriteLn( '   spacious   '.Strip() );
+      'spacious'
+      >>> WriteLn( 'www.example.com'.Strip('cmow.') ); 
+      'example'
+    [/code]
+}
+function String.Strip(const Chars:String=' '): String;
+begin
+  Result := exp_StrStrip(Self, Chars);
+end;
+
+
+{!DOCREF} {
+  @method: function String.lStrip(const Chars:String=' '): String;
+  @desc:
+    Return a copy of the string with leading removed. If chars is omitted, whitespace characters are removed. 
+    If chars is given, the characters in the string will be stripped from the beginning  of the string this method is called on.
+    [code=pascal]
+      >>> WriteLn( '   spacious   '.lStrip() );
+      'spacious   '
+      >>> WriteLn( 'www.example.com'.lStrip('cmowz.') ); 
+      'example.com'
+    [/code]
+}
+function String.lStrip(const Chars:String=' '): String;
+begin
+  Result := exp_StrStripL(Self, Chars);
+end;
+
+
+{!DOCREF} {
+  @method: function String.rStrip(const Chars:String=' '): String;
+  @desc:
+    Return a copy of the string with trailing removed. If chars is omitted, whitespace characters are removed. 
+    If chars is given, the characters in the string will be stripped from the end  of the string this method is called on.
+    [code=pascal]
+      >>> WriteLn( '   spacious   '.rStrip() );
+      '   spacious'
+      >>> WriteLn( 'mississippi'.rStrip('ipz') ); 
+      'mississ'
+    [/code]
+}
+function String.rStrip(const Chars:String=' '): String;
+begin
+  Result := exp_StrStripR(Self, Chars);
+end;
+
+
+{!DOCREF} {
+  @method: function String.Reversed(): String;
+  @desc: Creates a reversed copy of the string
+
+}
+function String.Reversed():string;
+begin
+  Result := Self.Slice(-1,1,-1);
+end;
+
+
+{!DOCREF} {
+  @method: procedure String.Reverse();
+  @desc: Reverses the string
+}
+procedure String.Reverse();
+begin
+  Self := Self.Slice(-1,1,-1);
+end;
+
+
+{!DOCREF} {
+  @method: function String.Replace(old, new:String; Flags:TReplaceFlags): String;
+  @desc:   
+    Return a copy of the string with all occurrences of substring old replaced by new.
+    [note]Should be a much faster then Simbas c'Replace(...)'[/note]
+}
+function String.Replace(old, new:String; Flags:TReplaceFlags): String;
+begin
+  Result := se.StrReplace(Self, old, new, Flags);
+end;
+
+
+{!DOCREF} {
+  @method: function String.Split(sep:String): TStringArray;
+  @desc:
+    Return an array of the words in the string, using 'sep' as the delimiter string.
+    [note]Should be a tad faster then Simbas c'Explode(...)'[/note]
+}
+function String.Split(Sep:String): TStringArray;
+begin
+  Result := se.StrExplode(self,sep);
+end;
+
+
+{!DOCREF} {
+  @method: function String.Join(TSA:TStringArray): String;
+  @desc:
+    Return a string which is the concatenation of the strings in the array 'TSA'. 
+    The separator between elements is the string providing this method. 
+}
+function String.Join(TSA:TStringArray): String;
+begin
+  Result := Implode(Self, TSA);
+end;
+//fix for single char evaulation.
+function Char.Join(TSA:TStringArray): String;
+begin
+  Result := Implode(Self, TSA);
+end;
+
+
+{!DOCREF} {
+  @method: function String.Mul(x:uInt32): String;
+  @desc:   Repeats the string `x` times
+}
+function String.Mul(x:Int32): String;
+var
+  i,H: Int32;
+begin
+  if Length(Self) = 0 then 
+    Exit('');
+  Result := Self;
+  H := Length(Self);
+  SetLength(Result, H*x);
+  Dec(x);
+  for i:=1 to x do
+    MemMove(Self[1], Result[1+H*i], H);
+end;
+
+function Char.Mul(x:Int32): String;
+var
+  i,H: Int32;
+begin
+  Result := Self;
+  dec(x);
+  for i:=1 to x do
+    Result := Result + Self;
+end;
+
+
 
 {!DOCREF} {
   @method: function String.StartsWith(Prefix:String): Boolean;
@@ -394,124 +539,3 @@ begin
   end;
   SetLength(Self, L);
 end;
-
-
-
-{!DOCREF} {
-  @method: function String.Strip(const Chars:String=' '): String;
-  @desc:
-    Return a copy of the string with leading and trailing characters removed. If chars is omitted, whitespace characters are removed. 
-    If chars is given, the characters in the string will be stripped from the both ends of the string this method is called on.
-    [code=pascal]
-      >>> WriteLn( '   spacious   '.Strip() );
-      'spacious'
-      >>> WriteLn( 'www.example.com'.Strip('cmow.') ); 
-      'example'
-    [/code]
-}
-function String.Strip(const Chars:String=' '): String;
-begin
-  Result := exp_StrStrip(Self, Chars);
-end;
-
-
-{!DOCREF} {
-  @method: function String.lStrip(const Chars:String=' '): String;
-  @desc:
-    Return a copy of the string with leading removed. If chars is omitted, whitespace characters are removed. 
-    If chars is given, the characters in the string will be stripped from the beginning  of the string this method is called on.
-    [code=pascal]
-      >>> WriteLn( '   spacious   '.lStrip() );
-      'spacious   '
-      >>> WriteLn( 'www.example.com'.lStrip('cmowz.') ); 
-      'example.com'
-    [/code]
-}
-function String.lStrip(const Chars:String=' '): String;
-begin
-  Result := exp_StrStripL(Self, Chars);
-end;
-
-
-{!DOCREF} {
-  @method: function String.rStrip(const Chars:String=' '): String;
-  @desc:
-    Return a copy of the string with trailing removed. If chars is omitted, whitespace characters are removed. 
-    If chars is given, the characters in the string will be stripped from the end  of the string this method is called on.
-    [code=pascal]
-      >>> WriteLn( '   spacious   '.rStrip() );
-      '   spacious'
-      >>> WriteLn( 'mississippi'.rStrip('ipz') ); 
-      'mississ'
-    [/code]
-}
-function String.rStrip(const Chars:String=' '): String;
-begin
-  Result := exp_StrStripR(Self, Chars);
-end;
-
-
-{!DOCREF} {
-  @method: function String.Reversed(): String;
-  @desc: Creates a reversed copy of the string
-
-}
-function String.Reversed():string;
-begin
-  Result := Self.Slice(-1,1,-1);
-end;
-
-
-{!DOCREF} {
-  @method: procedure String.Reverse();
-  @desc: Reverses the string
-}
-procedure String.Reverse();
-begin
-  Self := Self.Slice(-1,1,-1);
-end;
-
-
-{!DOCREF} {
-  @method: function String.Replace(old, new:String; Flags:TReplaceFlags): String;
-  @desc:   
-    Return a copy of the string with all occurrences of substring old replaced by new.
-    [note]Should be a much faster then Simbas c'Replace(...)'[/note]
-}
-function String.Replace(old, new:String; Flags:TReplaceFlags): String;
-begin
-  Result := se.StrReplace(Self, old, new, Flags);
-end;
-
-
-{!DOCREF} {
-  @method: function String.Split(sep:String): TStringArray;
-  @desc:
-    Return an array of the words in the string, using 'sep' as the delimiter string.
-    [note]Should be a tad faster then Simbas c'Explode(...)'[/note]
-}
-function String.Split(Sep:String): TStringArray;
-begin
-  Result := se.StrExplode(self,sep);
-end;
-
-
-{!DOCREF} {
-  @method: function String.Join(TSA:TStringArray): String;
-  @desc:
-    Return a string which is the concatenation of the strings in the array 'TSA'. 
-    The separator between elements is the string providing this method. 
-}
-function String.Join(TSA:TStringArray): String;
-begin
-  Result := Implode(Self, TSA);
-end;
-//fix for single char evaulation.
-function Char.Join(TSA:TStringArray): String;
-begin
-  Result := Implode(Self, TSA);
-end;
-
-
-
-
