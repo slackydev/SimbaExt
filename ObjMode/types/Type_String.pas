@@ -221,12 +221,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function String.Replace(old, new:String; Flags:TReplaceFlags): String;
+  @method: function String.Replace(old, new:String; Flags:TReplaceFlags=[rfReplaceAll]): String;
   @desc:   
     Return a copy of the string with all occurrences of substring old replaced by new.
     [note]Should be a much faster then Simbas c'Replace(...)'[/note]
 }
-function String.Replace(old, new:String; Flags:TReplaceFlags): String;
+function String.Replace(old, new:String; Flags:TReplaceFlags=[rfReplaceAll]): String;
 begin
   Result := se.StrReplace(Self, old, new, Flags);
 end;
@@ -238,7 +238,7 @@ end;
     Return an array of the words in the string, using 'sep' as the delimiter string.
     [note]Should be a tad faster then Simbas c'Explode(...)'[/note]
 }
-function String.Split(Sep:String): TStringArray;
+function String.Split(Sep:String=' '): TStringArray;
 begin
   Result := se.StrExplode(self,sep);
 end;

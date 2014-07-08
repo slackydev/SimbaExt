@@ -40,7 +40,7 @@ end;
   @method: procedure TStrngArray.Append(const Str:String);
   @desc: Add another string to the array
 }
-procedure TStringArray.Append(const Str:String);
+procedure TStringArray.Append(const Str:String); {$IFDEF SRL6}override;{$ENDIF}
 var
   l:Int32;
 begin

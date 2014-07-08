@@ -7,11 +7,7 @@
   @method: function TBox.Width(): Int32;
   @desc: Returns the width of the TBox
 }
-{$IFNDEF AeroLib}
-function TBox.Width(): Int32;
-{$ELSE}
-function TBox.Width(): Int32; override;
-{$ENDIF}
+function TBox.Width(): Int32; {$IFDEF AeroLib}override;{$ENDIF}
 begin
   Result := (Self.X2 - Self.X1 + 1);
 end;
@@ -21,11 +17,7 @@ end;
   @method: function TBox.Height(): Int32;
   @desc: Returns the height of the TBox
 }
-{$IFNDEF AeroLib}
-function TBox.Height(): Int32;
-{$ELSE}
-function TBox.Height(): Int32; override;
-{$ENDIF}
+function TBox.Height(): Int32; {$IFDEF AeroLib}override;{$ENDIF}
 begin
   Result := (Self.Y2 - Self.Y1 + 1);
 end;
@@ -57,11 +49,7 @@ end;
   @method: procedure TBox.Expand(SizeChange: Int32);
   @desc: Expand (shrink if negative) the TBox by 'sizechange'.
 }
-{$IFNDEF SRL6}
-procedure TBox.Expand(SizeChange: Int32);
-{$ELSE}
-procedure TBox.Expand(const SizeChange: Int32); override;
-{$ENDIF}
+procedure TBox.Expand(const SizeChange: Int32); {$IFDEF SRL6}override;{$ENDIF}
 begin
   Self.X1 := Self.X1 - SizeChange;
   Self.Y1 := Self.Y1 - SizeChange;
@@ -96,11 +84,7 @@ end;
   @method: function TBox.Combine(Other:TBox): TBox;
   @desc: Combine two boxes - Lazy (does not expand on current)
 }
-{$IFNDEF SRL6}
-function TBox.Combine(Other:TBox): TBox;
-{$ELSE}
-function TBox.Combine(Other:TBox): TBox; override;
-{$ENDIF}
+function TBox.Combine(Other:TBox): TBox; {$IFDEF SRL6}override;{$ENDIF}
 begin
   Result := ToBox(Min(Min(Other.X1, Other.X2), Min(Self.X1, Self.X2)),
                   Min(Min(Other.Y1, Other.Y2), Min(Self.Y1, Self.Y2)),
@@ -119,7 +103,7 @@ begin
                 Min(Min(Other.Y1, Other.Y2), Min(Self.Y1, Self.Y2)),
                 Max(Max(Other.X1, Other.X2), Max(Self.X1, Self.X2)),
                 Max(Max(Other.Y1, Other.Y2), Max(Self.Y1, Self.Y2)));
-end;  
+end;
 
 
 {!DOCREF} {
@@ -146,13 +130,32 @@ end;
 
 
 {!DOCREF} {
-  @method: function TBox.Equals(Box:TBox): Boolean;
-  @desc: Compares equal
+  @method: function TBox.EQ(Box:TBox): Boolean;
+  @desc: Compares "EQual"
 }
-{$IFNDEF SRL6}
-function TBox.Equals(Box:TBox): Boolean;
+function TBox.EQ(Box:TBox): Boolean;
 begin
   Result := (self.x1=box.x1) and (self.y1=box.y1) and 
             (self.x2=box.x2) and (self.y2=box.y2);
 end;
-{$ENDIF}
+
+
+{!DOCREF} {
+  @method: function TBox.LT(Box:TBox): Boolean;
+  @desc: Compares "Less Then" (compares the size)
+}
+function TBox.LT(Box:TBox): Boolean;
+begin
+  Result := ((self.x2-self.x1+1)*(self.y2-self.y1+1) < (box.x2-box.x1+1)*(box.y2-box.y1+1));
+end;
+
+
+{!DOCREF} {
+  @method: function TBox.LT(Box:TBox): Boolean;
+  @desc: Compares "Greater Then" (compares the size)
+}
+function TBox.GT(Box:TBox): Boolean;
+begin
+  Result := ((self.x2-self.x1+1)*(self.y2-self.y1+1) > (box.x2-box.x1+1)*(box.y2-box.y1+1));
+end;
+

@@ -91,15 +91,34 @@ end;
 
 
 {!DOCREF} {
-  @method: function TPoint.Equals(PT:TPoint): Boolean;
-  @desc: Compares equal
+  @method: function TPoint.EQ(PT:TPoint): Boolean;
+  @desc: Compares "EQual"
 }
-{$IFNDEF SRL6}
-function TPoint.Equals(PT:TPoint): Boolean;
+function TPoint.EQ(PT:TPoint): Boolean;
 begin
   Result := (Self.x = PT.x) and (Self.y = PT.y);
 end;
-{$ENDIF}
+
+
+{!DOCREF} {
+  @method: function TPoint.LT(PT:TPoint): Boolean;
+  @desc: Compares "Less Then"
+}
+function TPoint.LT(PT:TPoint): Boolean;
+begin
+  Result := (Self.X < PT.X) and (Self.Y < PT.Y);
+end;
+
+
+{!DOCREF} {
+  @method: function TPoint.GT(PT:TPoint): Boolean;
+  @desc: Compares "Greater Then"
+}
+function TPoint.GT(PT:TPoint): Boolean;
+begin
+  Result := not((Self.X <= PT.X) and (Self.Y <= PT.Y));
+end;
+
 
 {!DOCREF} {
   @method: function TPoint.Compare(Pt:TPoint): TComparator;
