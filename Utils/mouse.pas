@@ -45,17 +45,17 @@ end;
 
 procedure TMouseObj.DragTo(PT:TPoint; btn:TMouseButton);
 begin
-  Self.ButtonDown(__MouseConvert[UInt32(btn)]);
+  Self.ButtonDown(btn);
   Self.Move(PT);
-  Self.ButtonUp(__MouseConvert[UInt32(btn)]);
+  Self.ButtonUp(btn);
 end;
 
 
 procedure TMouseObj.DragTo(Box:TBox; btn:TMouseButton); overload;
 begin
-  Self.ButtonDown(__MouseConvert[UInt32(btn)]);
+  Self.ButtonDown(btn);
   Self.Move(Box);
-  Self.ButtonUp(__MouseConvert[UInt32(btn)]);
+  Self.ButtonUp(btn);
 end;
 
 
@@ -176,18 +176,18 @@ end;
 
 procedure TMouseObj.Click(btn:TMouseButton);
 begin
-  Self.ButtonDown(__MouseConvert[UInt32(btn)]);
+  Self.ButtonDown(btn);
   Wait(Round(rand.Gauss(61,16)));
-  Self.ButtonUp(__MouseConvert[UInt32(btn)]);
+  Self.ButtonUp(btn);
 end;
 
 
 procedure TMouseObj.Click(PT:TPoint; btn:TMouseButton); overload;
 begin
   Self.Move(PT);
-  Self.ButtonDown(__MouseConvert[UInt32(btn)]);
+  Self.ButtonDown(btn);
   Wait(Round(rand.Gauss(61,16)));
-  Self.ButtonUp(__MouseConvert[UInt32(btn)]);
+  Self.ButtonUp(btn);
 end;
 
 
@@ -197,9 +197,9 @@ begin
   PT := rand.GaussPtOval(Box.Center(), Box.Width/5.0, Box.Height/5.0,
                                        Box.Width/2.0, Box.Height/2.0);
   Self.Move(PT);
-  Self.ButtonDown(__MouseConvert[UInt32(btn)]);
+  Self.ButtonDown(btn);
   Wait(Round(rand.Gauss(61,16)));
-  Self.ButtonUp(__MouseConvert[UInt32(btn)]);
+  Self.ButtonUp(btn);
 end;
 
 
@@ -210,9 +210,9 @@ begin
   PT := rand.GaussPtOval(Box.Center(), Box.Width/5.0, Box.Height/5.0,
                                        Box.Width/2.0, Box.Height/2.0);
   Self.Move(PT);
-  Self.ButtonDown(__MouseConvert[UInt32(btn)]);
+  Self.ButtonDown(btn);
   Wait(Round(rand.Gauss(61,16)));
-  Self.ButtonUp(__MouseConvert[UInt32(btn)]);
+  Self.ButtonUp(btn);
 
   Wait(Round(rand.Gauss(115,26)));
   Self.Move(S);

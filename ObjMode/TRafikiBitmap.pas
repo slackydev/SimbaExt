@@ -436,6 +436,25 @@ end;
 
 
 {!DOCREF} {
+  @method: procedure TRafBitmap.LazyRotate(Angle:Extended; Expand:Boolean; Smooth:Boolean=True);
+  @desc: 
+    Rotates a copy of the bitmap by the given angle. 
+    [params]
+    [b]Algle:[/b] The amount to rotate the bitmap, defined in radians
+    [b]Expand:[/b] `True` means that the result is expanded to fit the rotated image. `False` keeps original size.
+    [b]Smooth:[/b] `True` will use bilinear interpolation, while `False` will use nearest neighbor.
+    [/params]
+}
+procedure TRafBitmap.LazyRotate(Angle:Extended; Expand:Boolean; Smooth:Boolean=True);
+var Mat:TIntMatrix;
+begin
+  if not(Self.IsLoaded('TRafBitmap.RotateCopy()')) then Exit;
+  Mat := exp_ImRotate(Self.ToMatrix(), Angle, Expand, Smooth);
+  Self.FromMatrix(Mat);
+end;
+
+
+{!DOCREF} {
   @method: function TRafBitmap.Flip(Horizontal:Boolean): TRafBitmap;
   @desc: Flips the bitmap Left->Right `Horizontal=True` or Top->Down `Horizontal=False`
 }
