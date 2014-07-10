@@ -19,11 +19,11 @@ function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integ
 //-----------------------------------------------------------------------
 implementation
 uses
-  Windows, SysUtils, Imaging, PointList, MatrixMath, MatrixTools, PointTools, Math;
+  SysUtils, Imaging, PointList, MatrixMath, MatrixOps, PointTools, Math;
 
 
 (*=============================================================================|
- Convert Matrix to byte values (0-255) - values represents pircel intensity
+ Convert Matrix to byte values (0-255) - pixel-values represents color-intensity
 |=============================================================================*)
 function Intesity(const Mat:T2DIntArray): T2DIntArray;
 var
@@ -195,7 +195,7 @@ begin
   W := High(Response[0]);
   H := High(Response);
   SetLength(Result, (W+1)*(H+1));
-  Response := NormalizeMat(Response, 0, 1.0);
+  Response := Normalize(Response, 0, 1.0);
   k := 0;
   for y:=footprint to H-footprint do
     for x:=footprint to W-footprint do

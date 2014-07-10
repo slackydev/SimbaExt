@@ -736,11 +736,6 @@ begin
   Result := TPAToMatrix(TPA, Value, Align);
 end;
 
-function exp_NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray; cdecl;
-begin
-  Result := NormalizeMat(Mat, Alpha, Beta);
-end;
-
 function exp_MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray; cdecl;
 begin
   Result := MatGetCols(Mat, FromCol, ToCol);
@@ -1244,3 +1239,20 @@ begin PutValues(Matrix, Indices, Values); end;
 
 procedure exp_PutValuesE(var Matrix:T2DExtArray; const Indices:TPointArray; Values:TExtArray); cdecl;
 begin PutValues(Matrix, Indices, Values); end;
+
+
+{-------| Normalize (matrix) |-------}
+function exp_NormalizeMatB(const Mat:T2DByteArray; Alpha, Beta: Byte): T2DByteArray; cdecl;
+begin Result := Normalize(Mat, Alpha, Beta); end;
+
+function exp_NormalizeMatI(const Mat:T2DIntArray; Alpha, Beta: Int32): T2DIntArray; cdecl;
+begin Result := Normalize(Mat, Alpha, Beta); end;
+
+function exp_NormalizeMatF(const Mat:T2DFloatArray; Alpha, Beta: Single): T2DFloatArray; cdecl;
+begin Result := Normalize(Mat, Alpha, Beta); end;
+
+function exp_NormalizeMatD(const Mat:T2DDoubleArray; Alpha, Beta: Double): T2DDoubleArray; cdecl;
+begin Result := Normalize(Mat, Alpha, Beta); end;
+
+function exp_NormalizeMatE(const Mat:T2DExtArray; Alpha, Beta: Extended): T2DExtArray; cdecl;
+begin Result := Normalize(Mat, Alpha, Beta); end;

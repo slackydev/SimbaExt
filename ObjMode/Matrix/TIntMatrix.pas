@@ -204,7 +204,6 @@ end;
 
 
 
-
 //---------------------------------------------------------------------------------------------------\\
 
 
@@ -231,17 +230,6 @@ function SimbaExt.MatrixFromTPA(const TPA:TPointArray; Value:Int32; Align:Boolea
 begin
   Result := exp_TPAToMatrix(TPA, Value, Align);
 end;
-
-
-{!DOCREF} {
-  @method: function TIntMatrix.Normalize(Alpha, Beta:Int32): TIntMatrix;  
-  @desc: Fits each element of the matrix within the values of Alpha and Beta.
-}
-function TIntMatrix.Normalize(Alpha, Beta:Int32): TIntMatrix;  
-begin
-  Result := exp_NormalizeMat(Self, Alpha, Beta);
-end;
-
 
 
 {!DOCREF} {
@@ -472,21 +460,19 @@ begin
 end;
 
 
-{------------|  CombineMatrix  |------------}
+{------------|  CombineMatrix (Math operations)  |------------}
 {!DOCREF} {
   @method: function TIntMatrix.Combine(Other:TIntMatrix; OP:Char='+'): TIntMatrix;
   @desc: 
-    Merges the two matrices in to one matrix.. Supports different operatrions/methods for combining ['+','-','*','/'].
+    Merges the two matrices in to one matrix.. Supports different math-operatrions for combining ['+','-','*','/'].
     
     [code=pascal]
     var Mat:TIntMatrix;
     begin
       SetLength(Mat, 3);
-
       Mat[0] := [1,1,1];
       Mat[1] := [2,2,2];
       Mat[2] := [3,3,3];
-
       WriteLn( Mat.Combine(Mat, '*') );
     end. 
     [/code]
@@ -497,4 +483,29 @@ end;
 function TIntMatrix.Combine(Other:TIntMatrix; OP:Char='+'): TIntMatrix;
 begin 
   Result := exp_CombineMatrix(Self, Other, OP); 
+end;
+
+//....
+function TIntMatrix.Multiply(Other:TIntMatrix): TIntMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '*'); end;
+
+function TIntMatrix.Add(Other:TIntMatrix): TIntMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '+'); end;
+
+function TIntMatrix.Divide(Other:TIntMatrix): TIntMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '/'); end;
+
+function TIntMatrix.Subtract(Other:TIntMatrix): TIntMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '-'); end;
+
+
+{------------|  Normalize (Matrix)  |------------}
+
+{!DOCREF} {
+  @method: function TIntMatrix.Normalize(Alpha, Beta:Int32): TIntMatrix;  
+  @desc: Fits each element of the matrix within the values of Alpha and Beta.
+}
+function TIntMatrix.Normalize(Alpha, Beta:Int32): TIntMatrix;  
+begin
+  Result := exp_Normalize(Self, Alpha, Beta);
 end;

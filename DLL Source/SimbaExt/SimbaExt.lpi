@@ -54,7 +54,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Src;Src\Core;Src\Core\Matrix;Src\Core\MatrixMath;Src\Sorting;Src\Std;..\Test"/>
+      <OtherUnitFiles Value="Src;Src\Core;Src\Matrix;Src\Core\MatrixMath;Src\Sorting;Src\Std"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

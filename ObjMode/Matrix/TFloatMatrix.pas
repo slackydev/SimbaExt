@@ -360,7 +360,6 @@ begin
 end;
 
 
-
 {------------|  CombineMatrix  |------------}
 {!DOCREF} {
   @method: function TFloatMatrix.Combine(Other:TFloatMatrix; OP:Char='+'): TFloatMatrix;
@@ -384,4 +383,30 @@ end;
 function TFloatMatrix.Combine(Other:TFloatMatrix; OP:Char='+'): TFloatMatrix;
 begin 
   Result := exp_CombineMatrix(Self, Other, OP); 
+end;
+
+
+//....
+function TFloatMatrix.Multiply(Other:TFloatMatrix): TFloatMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '*'); end;
+
+function TFloatMatrix.Add(Other:TFloatMatrix): TFloatMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '+'); end;
+
+function TFloatMatrix.Divide(Other:TFloatMatrix): TFloatMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '/'); end;
+
+function TFloatMatrix.Subtract(Other:TFloatMatrix): TFloatMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '-'); end;
+
+
+{------------|  Normalize (Matrix)  |------------}
+
+{!DOCREF} {
+  @method: function TFloatMatrix.Normalize(Alpha, Beta:Single): TFloatMatrix;  
+  @desc: Fits each element of the matrix within the values of Alpha and Beta.
+}
+function TFloatMatrix.Normalize(Alpha, Beta:Single): TFloatMatrix;  
+begin
+  Result := exp_Normalize(Self, Alpha, Beta);
 end;

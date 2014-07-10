@@ -168,6 +168,7 @@ end;
 }
 function TPointArray.Find(Value:TPoint): Int32;
 begin
+  if Self.Len() = 0 then Exit(-1);
   Result := exp_Find(Self,[Value]);
 end;
 
@@ -178,6 +179,7 @@ end;
 }
 function TPointArray.Find(Sequence:TPointArray): Int32; overload;
 begin
+  if Self.Len() = 0 then Exit(-1);
   Result := exp_Find(Self,Sequence);
 end;
 
@@ -188,6 +190,7 @@ end;
 }
 function TPointArray.FindAll(Value:TPoint): TIntArray;
 begin
+  if Self.Len() = 0 then Exit();
   Result := exp_FindAll(Self,[Value]);
 end;
 
@@ -198,6 +201,7 @@ end;
 }
 function TPointArray.FindAll(Sequence:TPointArray): TIntArray; overload;
 begin
+  if Self.Len() = 0 then Exit();
   Result := exp_FindAll(Self,sequence);
 end;
 

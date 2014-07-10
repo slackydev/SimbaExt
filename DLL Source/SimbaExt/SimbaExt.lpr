@@ -36,8 +36,7 @@ uses
   Morphology,
   DensityMap,
   StringTools,
-  CornerDet,
-  _Tests;
+  CornerDet;
 
 //Include Simba Wrapper
 {$I ExportWrap.pas}
@@ -243,7 +242,6 @@ begin
   AddCommand(@exp_NewMatrix,	'function exp_NewMatrix(W,H:Integer): T2DIntArray;');
   AddCommand(@exp_TPAToMatrixEx,'function exp_TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray;');
   AddCommand(@exp_TPAToMatrix,	'function exp_TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean): T2DIntArray;');
-  AddCommand(@exp_NormalizeMat,	'function exp_NormalizeMat(const Mat:T2DIntArray; Alpha, Beta:Integer): T2DIntArray;');
   AddCommand(@exp_MatGetCols,	'function exp_MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray;');
   AddCommand(@exp_MatGetRows,	'function exp_MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer): T2DIntArray;');
   AddCommand(@exp_MatGetArea,	'function exp_MatGetArea(const Mat:T2DIntArray; X1,Y1,X2,Y2:Integer): T2DIntArray;');
@@ -366,6 +364,12 @@ begin
   AddCommand(@exp_CombineMatF, 'function exp_CombineMatrix(const Mat1, Mat2:T2DFloatArray; Op:Char): T2DFloatArray; overload;');
   AddCommand(@exp_CombineMatD, 'function exp_CombineMatrix(const Mat1, Mat2:T2DDoubleArray; Op:Char): T2DDoubleArray; overload;');
   AddCommand(@exp_CombineMatE, 'function exp_CombineMatrix(const Mat1, Mat2:T2DExtArray; Op:Char): T2DExtArray; overload;');
+
+  AddCommand(@exp_NormalizeMatB, 'function exp_Normalize(const Mat:T2DByteArray; Alpha, Beta: Byte): T2DByteArray;');
+  AddCommand(@exp_NormalizeMatI, 'function exp_Normalize(const Mat:T2DIntArray; Alpha, Beta: Int32): T2DIntArray; overload;');
+  AddCommand(@exp_NormalizeMatF, 'function exp_Normalize(const Mat:T2DFloatArray; Alpha, Beta: Single): T2DFloatArray; overload;');
+  AddCommand(@exp_NormalizeMatD, 'function exp_Normalize(const Mat:T2DDoubleArray; Alpha, Beta: Double): T2DDoubleArray; overload;');
+  AddCommand(@exp_NormalizeMatE, 'function exp_Normalize(const Mat:T2DExtArray; Alpha, Beta: Extended): T2DExtArray; overload;');
 end;
 
 

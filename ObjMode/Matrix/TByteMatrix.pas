@@ -384,3 +384,15 @@ function TByteMatrix.Combine(Other:TByteMatrix; OP:Char='+'): TByteMatrix;
 begin 
   Result := exp_CombineMatrix(Self, Other, OP); 
 end;
+
+
+{------------|  Normalize (Matrix)  |------------}
+
+{!DOCREF} {
+  @method: function TByteMatrix.Normalize(Alpha, Beta:Byte): TByteMatrix;  
+  @desc: Fits each element of the matrix within the values of Alpha and Beta.
+}
+function TByteMatrix.Normalize(Alpha, Beta:Byte): TByteMatrix;  
+begin
+  Result := exp_Normalize(Self, Alpha, Beta);
+end;

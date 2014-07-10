@@ -380,3 +380,15 @@ function TExtMatrix.Combine(Other:TExtMatrix; OP:Char='+'): TExtMatrix;
 begin 
   Result := exp_CombineMatrix(Self, Other, OP); 
 end;
+
+
+{------------|  Normalize (Matrix)  |------------}
+
+{!DOCREF} {
+  @method: function TExtMatrix.Normalize(Alpha, Beta:Extended): TExtMatrix;  
+  @desc: Fits each element of the matrix within the values of Alpha and Beta.
+}
+function TExtMatrix.Normalize(Alpha, Beta:Extended): TExtMatrix;  
+begin
+  Result := exp_Normalize(Self, Alpha, Beta);
+end;

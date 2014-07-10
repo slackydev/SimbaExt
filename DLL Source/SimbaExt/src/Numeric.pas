@@ -352,7 +352,7 @@ end;
  EG:
  > Freq := [0,1,2,3,4]
  > Scale := 2;
- > Result := [0, 1,1, 2,2,2,2, 3,3,3,3,3,3,3,3, 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4];
+ > Result := [0, 1,1, 2,2,2,2, 3,3,3,3,3,3,3,3, ...];
 *}
 function LogscaleTIA(const Freq:TIntArray; Scale: Integer): TIntArray; 
 var
