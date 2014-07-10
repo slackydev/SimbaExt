@@ -127,7 +127,7 @@ var i: Integer;
 begin
   for i:=0 to High(Self) do
     Result := Result + Self[i].Mean();
-  Result := Result / High(Self);
+  Result := Result / Length(Self);
 end;
 
 
@@ -148,7 +148,7 @@ begin
   i := -1;
   for y:=0 to H do
     for x:=0 to W do
-      Square[inc(i)] := Sqr(Self[y][x] - avg);
+      Square[inc(i)] := Sqr(Self[y,x] - avg);
   Result := Sqrt(square.Mean());
 end;
 
@@ -171,7 +171,7 @@ begin
   avg := Self.Mean();
   for y:=0 to H do
     for x:=0 to W do
-      Result := Result + Sqr(Self[y][x] - avg);
+      Result := Result + Sqr(Self[y,x] - avg);
   Result := Result / ((W+1) * (H+1));
 end; 
 
