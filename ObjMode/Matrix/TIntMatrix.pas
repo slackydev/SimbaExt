@@ -231,34 +231,6 @@ begin
   Result := exp_TPAToMatrix(TPA, Value, Align);
 end;
 
-
-{!DOCREF} {
-  @method: function TIntMatrix.GetCols(FromCol, ToCol:Integer): TIntMatrix;  
-  @desc: Returns all the wanted columns as a new matrix.
-}
-function TIntMatrix.GetCols(FromCol, ToCol:Integer): TIntMatrix;  
-begin
-  Result := exp_MatGetCols(Self, FromCol, ToCol);
-end;
-
-{!DOCREF} {
-  @method: function TIntMatrix.GetRows(FromRow, ToRow:Integer): TIntMatrix;  
-  @desc: Returns all the wanted rows as a new matrix.
-}
-function TIntMatrix.GetRows(FromRow, ToRow:Integer): TIntMatrix;  
-begin
-  Result :=  exp_MatGetRows(Self, FromRow, ToRow);
-end;
-
-{!DOCREF} {
-  @method: function TIntMatrix.GetArea(X1,Y1,X2,Y2:Integer): TIntMatrix;  
-  @desc: Crops the matrix to the given box and returns that area.
-}
-function TIntMatrix.GetArea(X1,Y1,X2,Y2:Integer): TIntMatrix;  
-begin
-  Result := exp_MatGetArea(Self, X1,Y1,X2,Y2);
-end;
-
 {!DOCREF} {
   @method: function se.MatrixFromTIA(const Arr:TIntegerArray; Width,Height:Integer):  TIntMatrix; 
   @desc: Converts a TIntArray to a TIntMatrix of the given width, and height.
@@ -289,10 +261,60 @@ end;
 
 
 
-{*=========================================================================================|
-| Matrix/xxx.pas                                                                           |
-|=========================================================================================*}
+{------------|  GetArea, GetCols, GetRows  |------------}
+{!DOCREF} {
+  @method: function TIntMatrix.Area(X1,Y1,X2,Y2:Int32): TIntMatrix;  
+  @desc: Crops the matrix to the given box and returns that area.
+}
+function TIntMatrix.Area(X1,Y1,X2,Y2:Int32): TIntMatrix;  
+begin
+  Result := exp_GetArea(Self, X1,Y1,X2,Y2);
+end;
 
+{!DOCREF} {
+  @method: function TIntMatrix.Cols(FromCol, ToCol:Integer): TIntMatrix;  
+  @desc: Returns all the wanted columns as a new matrix.
+}
+function TIntMatrix.Cols(FromCol, ToCol:Integer): TIntMatrix;  
+begin
+  Result := exp_GetCols(Self, FromCol, ToCol);
+end;
+
+{!DOCREF} {
+  @method: function TIntMatrix.Rows(FromRow, ToRow:Integer): TIntMatrix;  
+  @desc: Returns all the wanted rows as a new matrix.
+}
+function TIntMatrix.Rows(FromRow, ToRow:Integer): TIntMatrix;  
+begin
+  Result :=  exp_GetRows(Self, FromRow, ToRow);
+end;
+
+
+
+{------------|  FlipMat  |------------}
+{!DOCREF} {
+  @method: function TIntMatrix.Rows(FromRow, ToRow:Integer): TIntMatrix;  
+  @desc: 
+    Order of the items in the array is flipped, meaning x becomes y, and y becomes x.
+    Example:
+    [code=pascal]
+    var
+      x:TIntMatrix;
+    begin
+      x := [[1,2,3],[1,2,3],[1,2,3]];
+      WriteLn(x.Flip());
+    end.  
+    [/code]
+    >> `[[1, 1, 1], [2, 2, 2], [3, 3, 3]]`
+}
+function TIntMatrix.Flip(): TIntMatrix;  
+begin
+  Result :=  exp_Flip(Self);
+end;
+
+
+
+{------------|  Indices  |------------}
 {!DOCREF} {
   @method: function TIntMatrix.Indices(Value: Integer; const Comparator:TComparator): TPointArray;
   @desc:

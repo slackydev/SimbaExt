@@ -12,6 +12,9 @@ var
   data:THeapArray;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   width := w + 1;
   SetLength(Data, 0);
@@ -49,6 +52,9 @@ var
   data:THeapArrayI;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   width := w + 1;
   SetLength(Data, 0);
@@ -86,6 +92,9 @@ var
   data:THeapArray;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   width := w + 1;
   SetLength(Data, 0);
@@ -123,6 +132,9 @@ var
   data:THeapArrayD;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   width := w + 1;
   SetLength(Data, 0);
@@ -161,6 +173,9 @@ var
   data:THeapArrayF;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   width := w + 1;
   SetLength(Data, 0);

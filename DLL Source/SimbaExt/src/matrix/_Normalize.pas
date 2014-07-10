@@ -6,13 +6,15 @@
 {*
  Normalizes the matrix in the range `Alpha` -> `Beta`
 *}
-function Normalize(Mat:T2DByteArray; Alpha,Beta:Byte): T2DByteArray; overload;
+function Normalize(const Mat:T2DByteArray; Alpha,Beta:Byte): T2DByteArray; overload;
 var
   Lo,Hi,oldRange,newRange:Byte;
   X,Y,W,H: Int32;
 begin
   H := High(Mat);
-  if H = -1 then Exit();
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   SetLength(Result, H+1,W+1);
 
@@ -25,7 +27,7 @@ begin
       Result[Y,X] := Round((Mat[Y,X] - lo) / oldRange * newRange + Alpha);
 end;
 
-function Normalize(Mat:T2DIntArray; Alpha,Beta:Int32): T2DIntArray; overload;
+function Normalize(const Mat:T2DIntArray; Alpha,Beta:Int32): T2DIntArray; overload;
 var
   Lo,Hi,oldRange,newRange:Int32;
   X,Y,W,H: Int32;
@@ -45,13 +47,15 @@ begin
 end;
 
 
-function Normalize(Mat:T2DExtArray; Alpha,Beta:Extended): T2DExtArray; overload;
+function Normalize(const Mat:T2DExtArray; Alpha,Beta:Extended): T2DExtArray; overload;
 var
   Lo,Hi,oldRange,newRange:Extended;
   X,Y,W,H: Int32;
 begin
   H := High(Mat);
-  if H = -1 then Exit();
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   SetLength(Result, H+1,W+1);
 
@@ -65,13 +69,15 @@ begin
 end;
 
 
-function Normalize(Mat:T2DDoubleArray; Alpha,Beta:Double): T2DDoubleArray; overload;
+function Normalize(const Mat:T2DDoubleArray; Alpha,Beta:Double): T2DDoubleArray; overload;
 var
   Lo,Hi,oldRange,newRange:Double;
   X,Y,W,H: Int32;
 begin
   H := High(Mat);
-  if H = -1 then Exit();
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   SetLength(Result, H+1,W+1);
 
@@ -85,13 +91,15 @@ begin
 end;
 
 
-function Normalize(Mat:T2DFloatArray; Alpha,Beta:Single): T2DFloatArray; overload;
+function Normalize(const Mat:T2DFloatArray; Alpha,Beta:Single): T2DFloatArray; overload;
 var
   Lo,Hi,oldRange,newRange:Single;
   X,Y,W,H: Int32;
 begin
   H := High(Mat);
-  if H = -1 then Exit();
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   SetLength(Result, H+1,W+1);
 

@@ -190,18 +190,69 @@ end;
 
 
 
+{------------|  GetArea, GetCols, GetRows  |------------}
+{!DOCREF} {
+  @method: function TFloatMatrix.Area(X1,Y1,X2,Y2:Int32): TFloatMatrix;  
+  @desc: Crops the matrix to the given box and returns that area.
+}
+function TFloatMatrix.Area(X1,Y1,X2,Y2:Int32): TFloatMatrix;  
+begin
+  Result := exp_GetArea(Self, X1,Y1,X2,Y2);
+end;
+
+{!DOCREF} {
+  @method: function TFloatMatrix.Cols(FromCol, ToCol:Integer): TFloatMatrix;  
+  @desc: Returns all the wanted columns as a new matrix.
+}
+function TFloatMatrix.Cols(FromCol, ToCol:Integer): TFloatMatrix;  
+begin
+  Result := exp_GetCols(Self, FromCol, ToCol);
+end;
+
+{!DOCREF} {
+  @method: function TFloatMatrix.Rows(FromRow, ToRow:Integer): TFloatMatrix;  
+  @desc: Returns all the wanted rows as a new matrix.
+}
+function TFloatMatrix.Rows(FromRow, ToRow:Integer): TFloatMatrix;  
+begin
+  Result :=  exp_GetRows(Self, FromRow, ToRow);
+end;
+
+
+
+{------------|  FlipMat  |------------}
+{!DOCREF} {
+  @method: function TFloatMatrix.Rows(FromRow, ToRow:Integer): TFloatMatrix;  
+  @desc: 
+    Order of the items in the array is flipped, meaning x becomes y, and y becomes x.
+    Example:
+    [code=pascal]
+    var
+      x:TFloatMatrix;
+    begin
+      x := [[1,2,3],[1,2,3],[1,2,3]];
+      WriteLn(x.Flip());
+    end.  
+    [/code]
+    >> `[[1, 1, 1], [2, 2, 2], [3, 3, 3]]`
+}
+function TFloatMatrix.Flip(): TFloatMatrix;  
+begin
+  Result :=  exp_Flip(Self);
+end;
+
+
 
 {------------|  Indices  |------------}
 {!DOCREF} {
   @method: function TFloatMatrix.Indices(Value: Single; const Comparator:TComparator): TPointArray;
   @desc:
     Returns all the indices which matches the given value, and comperator.
-    EG: c'TPA := Matrix.Indices(10, __LT__)' would return where all the items which are less then 10 is.
+    EG: `TPA := Matrix.Indices(10, __LT__)` would return where all the items which are less then 10 is.
 }
 function TFloatMatrix.Indices(Value: Single; const Comparator:TComparator): TPointArray;
 begin
-  if Length(Self) > 0 then
-    Result := exp_Indices(Self, Value, Comparator);
+  Result := exp_Indices(Self, Value, Comparator);
 end;   
 
 

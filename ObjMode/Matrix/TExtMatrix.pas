@@ -188,6 +188,60 @@ end;
 
 
 
+
+{------------|  GetArea, GetCols, GetRows  |------------}
+{!DOCREF} {
+  @method: function TExtMatrix.Area(X1,Y1,X2,Y2:Int32): TExtMatrix;  
+  @desc: Crops the matrix to the given box and returns that area.
+}
+function TExtMatrix.Area(X1,Y1,X2,Y2:Int32): TExtMatrix;  
+begin
+  Result := exp_GetArea(Self, X1,Y1,X2,Y2);
+end;
+
+{!DOCREF} {
+  @method: function TExtMatrix.Cols(FromCol, ToCol:Integer): TExtMatrix;  
+  @desc: Returns all the wanted columns as a new matrix.
+}
+function TExtMatrix.Cols(FromCol, ToCol:Integer): TExtMatrix;  
+begin
+  Result := exp_GetCols(Self, FromCol, ToCol);
+end;
+
+{!DOCREF} {
+  @method: function TExtMatrix.Rows(FromRow, ToRow:Integer): TExtMatrix;  
+  @desc: Returns all the wanted rows as a new matrix.
+}
+function TExtMatrix.Rows(FromRow, ToRow:Integer): TExtMatrix;  
+begin
+  Result :=  exp_GetRows(Self, FromRow, ToRow);
+end;
+
+
+
+{------------|  FlipMat  |------------}
+{!DOCREF} {
+  @method: function TExtMatrix.Rows(FromRow, ToRow:Integer): TExtMatrix;  
+  @desc: 
+    Order of the items in the array is flipped, meaning x becomes y, and y becomes x.
+    Example:
+    [code=pascal]
+    var
+      x:TExtMatrix;
+    begin
+      x := [[1,2,3],[1,2,3],[1,2,3]];
+      WriteLn(x.Flip());
+    end.  
+    [/code]
+    >> `[[1, 1, 1], [2, 2, 2], [3, 3, 3]]`
+}
+function TExtMatrix.Flip(): TExtMatrix;  
+begin
+  Result :=  exp_Flip(Self);
+end;
+
+
+
 {------------|  Indices  |------------}
 {!DOCREF} {
   @method: function TExtMatrix.Indices(Value: Extended; const Comparator:TComparator): TPointArray;
@@ -380,6 +434,19 @@ function TExtMatrix.Combine(Other:TExtMatrix; OP:Char='+'): TExtMatrix;
 begin 
   Result := exp_CombineMatrix(Self, Other, OP); 
 end;
+
+//....
+function TExtMatrix.Multiply(Other:TExtMatrix): TExtMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '*'); end;
+
+function TExtMatrix.Add(Other:TExtMatrix): TExtMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '+'); end;
+
+function TExtMatrix.Divide(Other:TExtMatrix): TExtMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '/'); end;
+
+function TExtMatrix.Subtract(Other:TExtMatrix): TExtMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '-'); end;
 
 
 {------------|  Normalize (Matrix)  |------------}

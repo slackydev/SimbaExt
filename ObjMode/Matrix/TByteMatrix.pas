@@ -190,6 +190,58 @@ end;
 
 
 
+{------------|  GetArea, GetCols, GetRows  |------------}
+{!DOCREF} {
+  @method: function TByteMatrix.Area(X1,Y1,X2,Y2:Int32): TByteMatrix;  
+  @desc: Crops the matrix to the given box and returns that area.
+}
+function TByteMatrix.Area(X1,Y1,X2,Y2:Int32): TByteMatrix;  
+begin
+  Result := exp_GetArea(Self, X1,Y1,X2,Y2);
+end;
+
+{!DOCREF} {
+  @method: function TByteMatrix.Cols(FromCol, ToCol:Integer): TByteMatrix;  
+  @desc: Returns all the wanted columns as a new matrix.
+}
+function TByteMatrix.Cols(FromCol, ToCol:Integer): TByteMatrix;  
+begin
+  Result := exp_GetCols(Self, FromCol, ToCol);
+end;
+
+{!DOCREF} {
+  @method: function TByteMatrix.Rows(FromRow, ToRow:Integer): TByteMatrix;  
+  @desc: Returns all the wanted rows as a new matrix.
+}
+function TByteMatrix.Rows(FromRow, ToRow:Integer): TByteMatrix;  
+begin
+  Result :=  exp_GetRows(Self, FromRow, ToRow);
+end;
+
+
+
+{------------|  FlipMat  |------------}
+{!DOCREF} {
+  @method: function TByteMatrix.Rows(FromRow, ToRow:Integer): TByteMatrix;  
+  @desc: 
+    Order of the items in the array is flipped, meaning x becomes y, and y becomes x.
+    Example:
+    [code=pascal]
+    var
+      x:TByteMatrix;
+    begin
+      x := [[1,2,3],[1,2,3],[1,2,3]];
+      WriteLn(x.Flip());
+    end.  
+    [/code]
+    >> `[[1, 1, 1], [2, 2, 2], [3, 3, 3]]`
+}
+function TByteMatrix.Flip(): TByteMatrix;  
+begin
+  Result :=  exp_Flip(Self);
+end;
+
+
 
 {------------|  Indices  |------------}
 {!DOCREF} {
@@ -200,8 +252,7 @@ end;
 }
 function TByteMatrix.Indices(Value: Byte; const Comparator:TComparator): TPointArray;
 begin
-  if Length(Self) > 0 then
-    Result := exp_Indices(Self, Value, Comparator);
+  Result := exp_Indices(Self, Value, Comparator);
 end;   
 
 
@@ -384,6 +435,20 @@ function TByteMatrix.Combine(Other:TByteMatrix; OP:Char='+'): TByteMatrix;
 begin 
   Result := exp_CombineMatrix(Self, Other, OP); 
 end;
+
+//....
+function TByteMatrix.Multiply(Other:TByteMatrix): TByteMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '*'); end;
+
+function TByteMatrix.Add(Other:TByteMatrix): TByteMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '+'); end;
+
+function TByteMatrix.Divide(Other:TByteMatrix): TByteMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '/'); end;
+
+function TByteMatrix.Subtract(Other:TByteMatrix): TByteMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '-'); end;
+
 
 
 {------------|  Normalize (Matrix)  |------------}

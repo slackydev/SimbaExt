@@ -196,7 +196,7 @@ function TRafBitmap.Crop(X1,Y1,X2,Y2:Int32): TRafBitmap;
 var m:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.Crop()')) then Exit;
-  M := Self.ToMatrix().GetArea(x1,y1,x2,y2);
+  M := Self.ToMatrix().Area(x1,y1,x2,y2);
   Result.FromMatrix(M);
 end;
 
@@ -350,7 +350,7 @@ begin
   if (Area.X1 > Area.X2) or (Area.Y1 > Area.Y2) then Exit;
   
   Matrix := Self.ToMatrix();
-  Matrix := Matrix.GetArea(Area.x1,Area.y1,Area.x2,Area.y2);
+  Matrix := Matrix.Area(Area.x1,Area.y1,Area.x2,Area.y2);
   Result := exp_ImFindColorTolEx(Matrix, TPA, Color, Tolerance);
   SetLength(Matrix, 0);
   if not(Result) then Exit;

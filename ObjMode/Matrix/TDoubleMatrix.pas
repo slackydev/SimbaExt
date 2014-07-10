@@ -188,6 +188,60 @@ end;
 
 
 
+
+{------------|  GetArea, GetCols, GetRows  |------------}
+{!DOCREF} {
+  @method: function TDoubleMatrix.Area(X1,Y1,X2,Y2:Int32): TDoubleMatrix;  
+  @desc: Crops the matrix to the given box and returns that area.
+}
+function TDoubleMatrix.Area(X1,Y1,X2,Y2:Int32): TDoubleMatrix;  
+begin
+  Result := exp_GetArea(Self, X1,Y1,X2,Y2);
+end;
+
+{!DOCREF} {
+  @method: function TDoubleMatrix.Cols(FromCol, ToCol:Integer): TDoubleMatrix;  
+  @desc: Returns all the wanted columns as a new matrix.
+}
+function TDoubleMatrix.Cols(FromCol, ToCol:Integer): TDoubleMatrix;  
+begin
+  Result := exp_GetCols(Self, FromCol, ToCol);
+end;
+
+{!DOCREF} {
+  @method: function TDoubleMatrix.Rows(FromRow, ToRow:Integer): TDoubleMatrix;  
+  @desc: Returns all the wanted rows as a new matrix.
+}
+function TDoubleMatrix.Rows(FromRow, ToRow:Integer): TDoubleMatrix;  
+begin
+  Result :=  exp_GetRows(Self, FromRow, ToRow);
+end;
+
+
+
+{------------|  FlipMat  |------------}
+{!DOCREF} {
+  @method: function TDoubleMatrix.Rows(FromRow, ToRow:Integer): TDoubleMatrix;  
+  @desc: 
+    Order of the items in the array is flipped, meaning x becomes y, and y becomes x.
+    Example:
+    [code=pascal]
+    var
+      x:TDoubleMatrix;
+    begin
+      x := [[1,2,3],[1,2,3],[1,2,3]];
+      WriteLn(x.Flip());
+    end.  
+    [/code]
+    >> `[[1, 1, 1], [2, 2, 2], [3, 3, 3]]`
+}
+function TDoubleMatrix.Flip(): TDoubleMatrix;  
+begin
+  Result :=  exp_Flip(Self);
+end;
+
+
+
 {------------|  Indices  |------------}
 {!DOCREF} {
   @method: function TDoubleMatrix.Indices(Value: Double; const Comparator:TComparator): TPointArray;
@@ -381,6 +435,19 @@ function TDoubleMatrix.Combine(Other:TDoubleMatrix; OP:Char='+'): TDoubleMatrix;
 begin 
   Result := exp_CombineMatrix(Self, Other, OP); 
 end;
+
+//....
+function TDoubleMatrix.Multiply(Other:TDoubleMatrix): TDoubleMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '*'); end;
+
+function TDoubleMatrix.Add(Other:TDoubleMatrix): TDoubleMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '+'); end;
+
+function TDoubleMatrix.Divide(Other:TDoubleMatrix): TDoubleMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '/'); end;
+
+function TDoubleMatrix.Subtract(Other:TDoubleMatrix): TDoubleMatrix;
+begin Result := exp_CombineMatrix(Self, Other, '-'); end;
 
 
 {------------|  Normalize (Matrix)  |------------}

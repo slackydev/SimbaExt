@@ -12,9 +12,9 @@ var
 begin
   L := High(Indices);
   H := High(Mat);
-  if H < 0 then begin
-    WriteLn('Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix must be initalized');
+
   W := High(Mat[0]);
   SetLength(Result, L+1);
   c := 0;
@@ -34,9 +34,9 @@ var
 begin
   L := High(Indices);
   H := High(Mat);
-  if H < 0 then begin
-    WriteLn('Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix must be initalized');
+
   W := High(Mat[0]);
   SetLength(Result, L+1);
   c := 0;
@@ -57,9 +57,9 @@ var
 begin
   L := High(Indices);
   H := High(Mat);
-  if H < 0 then begin
-    WriteLn('Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix must be initalized');
+
   W := High(Mat[0]);
   SetLength(Result, L+1);
   c := 0;
@@ -80,9 +80,9 @@ var
 begin
   L := High(Indices);
   H := High(Mat);
-  if H < 0 then begin
-    WriteLn('Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix must be initalized');
+
   W := High(Mat[0]);
   SetLength(Result, L+1);
   c := 0;
@@ -103,9 +103,9 @@ var
 begin
   L := High(Indices);
   H := High(Mat);
-  if H < 0 then begin
-    WriteLn('Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix must be initalized');
+
   W := High(Mat[0]);
   SetLength(Result, L+1);
   c := 0;

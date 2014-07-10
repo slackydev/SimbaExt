@@ -94,17 +94,45 @@ procedure PutValues(var Matrix:T2DDoubleArray; const Indices:TPointArray; Values
 procedure PutValues(var Matrix:T2DExtArray; const Indices:TPointArray; Values:TExtArray); overload;
 
 
-function Normalize(Mat:T2DByteArray; Alpha,Beta:Byte): T2DByteArray; overload;
-function Normalize(Mat:T2DIntArray; Alpha,Beta:Int32): T2DIntArray; overload;
-function Normalize(Mat:T2DFloatArray; Alpha,Beta:Single): T2DFloatArray; overload;
-function Normalize(Mat:T2DDoubleArray; Alpha,Beta:Double): T2DDoubleArray; overload;
-function Normalize(Mat:T2DExtArray; Alpha,Beta:Extended): T2DExtArray; overload;
+function Normalize(const Mat:T2DByteArray; Alpha,Beta:Byte): T2DByteArray; overload;
+function Normalize(const Mat:T2DIntArray; Alpha,Beta:Int32): T2DIntArray; overload;
+function Normalize(const Mat:T2DFloatArray; Alpha,Beta:Single): T2DFloatArray; overload;
+function Normalize(const Mat:T2DDoubleArray; Alpha,Beta:Double): T2DDoubleArray; overload;
+function Normalize(const Mat:T2DExtArray; Alpha,Beta:Extended): T2DExtArray; overload;
+
+
+function GetArea(const Mat:T2DByteArray; x1,y1,x2,y2:Int32): T2DByteArray; overload;
+function GetArea(const Mat:T2DIntArray; x1,y1,x2,y2:Int32): T2DIntArray; overload;
+function GetArea(const Mat:T2DFloatArray; x1,y1,x2,y2:Int32): T2DFloatArray; overload;
+function GetArea(const Mat:T2DDoubleArray; x1,y1,x2,y2:Int32): T2DDoubleArray; overload;
+function GetArea(const Mat:T2DExtArray; x1,y1,x2,y2:Int32): T2DExtArray; overload;
+
+
+function GetCols(const Mat:T2DByteArray; FromCol, ToCol:Int32): T2DByteArray; overload;
+function GetCols(const Mat:T2DIntArray; FromCol, ToCol:Int32): T2DIntArray; overload;
+function GetCols(const Mat:T2DFloatArray; FromCol, ToCol:Int32): T2DFloatArray; overload;
+function GetCols(const Mat:T2DDoubleArray; FromCol, ToCol:Int32): T2DDoubleArray; overload;
+function GetCols(const Mat:T2DExtArray; FromCol, ToCol:Int32): T2DExtArray; overload;
+
+
+function GetRows(const Mat:T2DByteArray; FromRow, ToRow:Int32): T2DByteArray; overload;
+function GetRows(const Mat:T2DIntArray; FromRow, ToRow:Int32): T2DIntArray; overload;
+function GetRows(const Mat:T2DFloatArray; FromRow, ToRow:Int32): T2DFloatArray; overload;
+function GetRows(const Mat:T2DDoubleArray; FromRow, ToRow:Int32): T2DDoubleArray; overload;
+function GetRows(const Mat:T2DExtArray; FromRow, ToRow:Int32): T2DExtArray; overload;
+
+
+function FlipMat(const Mat:T2DByteArray): T2DByteArray; overload;
+function FlipMat(const Mat:T2DIntArray): T2DIntArray; overload;
+function FlipMat(const Mat:T2DFloatArray): T2DFloatArray; overload;
+function FlipMat(const Mat:T2DDoubleArray): T2DDoubleArray; overload;
+function FlipMat(const Mat:T2DExtArray): T2DExtArray; overload;
 
 
 //-----------------------------------------------------------------------
 implementation
 
-uses BoxTools, CoreMisc;
+uses Math, BoxTools, CoreMisc, ExceptionMgr;
 
 
 {$I Src/Matrix/_ArgMinMax.pas}
@@ -116,5 +144,10 @@ uses BoxTools, CoreMisc;
 {$I Src/Matrix/_GetValues.pas}
 {$I Src/Matrix/_PutValues.pas}
 {$I Src/Matrix/_Normalize.pas}
+{$I Src/Matrix/_GetArea.pas}
+{$I Src/Matrix/_GetCols.pas}
+{$I Src/Matrix/_GetRows.pas}
+{$I Src/Matrix/_Flip.pas}
+
 
 end.

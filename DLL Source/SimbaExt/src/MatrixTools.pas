@@ -16,10 +16,7 @@ uses
 function NewMatrix(W,H:Integer): T2DIntArray; 
 function NewMatrixEx(W,H,Init:Integer): T2DIntArray; 
 function TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean): T2DIntArray; 
-function TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray; 
-function MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray; 
-function MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer): T2DIntArray; 
-function MatGetArea(const Mat:T2DIntArray; x1,y1,x2,y2:Integer): T2DIntArray; 
+function TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray;
 function MatFromTIA(const TIA:TIntArray; Width,Height:Integer): T2DIntArray; 
 procedure PadMatrix(var Matrix:T2DIntArray; HPad, WPad:Integer); 
 function FloodFillMatrix(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean): TPointArray; 
@@ -121,54 +118,6 @@ begin
           Result[TPA[i].y][TPA[i].x] := Value;
       end;
   end;
-end;
-
-
-{*
-  Returns the Matrix containing all the values in the given columns.
-*}
-function MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray; 
-var
-  y,H,NewW:Integer;
-begin
-  ToCol := Min(ToCol, High(Mat[0]));
-  H := High(Mat);
-  NewW := (ToCol - FromCol) + 1;
-  SetLength(Result, H+1, NewW);
-  for y:=0 to H do
-    Move(Mat[y][FromCol], Result[y][0], NewW*SizeOf(Integer));
-end;
-
-
-{*
-  Returns the Mat containing all the values in the given rows.
-*}
-function MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer): T2DIntArray; 
-var
-  y,W:Integer;
-begin
-  W := Length(Mat[0]);
-  ToRow := Min(ToRow, High(Mat));
-  SetLength(Result, ToRow-FromRow+1, W);
-  for y:=FromRow to ToRow do
-    Move(Mat[y][0], Result[y-FromRow][0], W*SizeOf(Integer));
-end;
-
-
-{*
-  Returns the matrix containing all the values in the given box.
-*}
-function MatGetArea(const Mat:T2DIntArray; x1,y1,x2,y2:Integer): T2DIntArray; 
-var
-  y,W,H:Integer;
-begin
-  W := High(Mat[0]);
-  H := High(Mat);
-  x2 := Min(x2, W);
-  y2 := Min(y2, H);
-  SetLength(Result, y2-y1+1, x2-x1+1);
-  for y:=y1 to y2 do
-    Move(Mat[y][x1], Result[y-y1][0], (x2-x1+1)*SizeOf(Integer));
 end;
 
 

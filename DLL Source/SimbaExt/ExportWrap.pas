@@ -736,21 +736,6 @@ begin
   Result := TPAToMatrix(TPA, Value, Align);
 end;
 
-function exp_MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray; cdecl;
-begin
-  Result := MatGetCols(Mat, FromCol, ToCol);
-end;
-
-function exp_MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer): T2DIntArray; cdecl;
-begin
-  Result := MatGetRows(Mat, FromRow, ToRow);
-end;
-
-function exp_MatGetArea(const Mat:T2DIntArray; X1,Y1,X2,Y2:Integer): T2DIntArray; cdecl;
-begin
-  Result := MatGetArea(Mat, X1,Y1,X2,Y2);
-end;
-
 function exp_MatFromTIA(const Arr:TIntArray; Width,Height:Integer): T2DIntArray; cdecl;
 begin
   Result := MatFromTIA(Arr, Width, Height);
@@ -1241,6 +1226,7 @@ procedure exp_PutValuesE(var Matrix:T2DExtArray; const Indices:TPointArray; Valu
 begin PutValues(Matrix, Indices, Values); end;
 
 
+
 {-------| Normalize (matrix) |-------}
 function exp_NormalizeMatB(const Mat:T2DByteArray; Alpha, Beta: Byte): T2DByteArray; cdecl;
 begin Result := Normalize(Mat, Alpha, Beta); end;
@@ -1256,3 +1242,76 @@ begin Result := Normalize(Mat, Alpha, Beta); end;
 
 function exp_NormalizeMatE(const Mat:T2DExtArray; Alpha, Beta: Extended): T2DExtArray; cdecl;
 begin Result := Normalize(Mat, Alpha, Beta); end;
+
+
+
+{-------| GetArea (matrix) |-------}
+function exp_GetAreaB(const Mat:T2DByteArray; X1,Y1,X2,Y2:Integer): T2DByteArray; cdecl;
+begin Result := GetArea(Mat, X1,Y1,X2,Y2); end;
+
+function exp_GetAreaI(const Mat:T2DIntArray; X1,Y1,X2,Y2:Integer): T2DIntArray; cdecl;
+begin Result := GetArea(Mat, X1,Y1,X2,Y2); end;
+
+function exp_GetAreaF(const Mat:T2DFloatArray; X1,Y1,X2,Y2:Integer): T2DFloatArray; cdecl;
+begin Result := GetArea(Mat, X1,Y1,X2,Y2); end;
+
+function exp_GetAreaD(const Mat:T2DDoubleArray; X1,Y1,X2,Y2:Integer): T2DDoubleArray; cdecl;
+begin Result := GetArea(Mat, X1,Y1,X2,Y2); end;
+
+function exp_GetAreaE(const Mat:T2DExtArray; X1,Y1,X2,Y2:Integer): T2DExtArray; cdecl;
+begin Result := GetArea(Mat, X1,Y1,X2,Y2); end;
+
+
+
+{-------| GetCols (matrix) |-------}
+function exp_GetColsB(const Mat:T2DByteArray; FromCol, ToCol:Int32): T2DByteArray; cdecl;
+begin Result := GetCols(Mat, FromCol,ToCol); end;
+
+function exp_GetColsI(const Mat:T2DIntArray; FromCol, ToCol:Int32): T2DIntArray; cdecl;
+begin Result := GetCols(Mat, FromCol,ToCol); end;
+
+function exp_GetColsF(const Mat:T2DFloatArray; FromCol, ToCol:Int32): T2DFloatArray; cdecl;
+begin Result := GetCols(Mat, FromCol,ToCol); end;
+
+function exp_GetColsD(const Mat:T2DDoubleArray; FromCol, ToCol:Int32): T2DDoubleArray; cdecl;
+begin Result := GetCols(Mat, FromCol,ToCol); end;
+
+function exp_GetColsE(const Mat:T2DExtArray; FromCol, ToCol:Int32): T2DExtArray; cdecl;
+begin Result := GetCols(Mat, FromCol,ToCol); end;
+
+
+{-------| GetRows (matrix) |-------}
+function exp_GetRowsB(const Mat:T2DByteArray; FromRow, ToRow:Int32): T2DByteArray; cdecl;
+begin Result := GetRows(Mat, FromRow,ToRow); end;
+
+function exp_GetRowsI(const Mat:T2DIntArray; FromRow, ToRow:Int32): T2DIntArray; cdecl;
+begin Result := GetRows(Mat, FromRow,ToRow); end;
+
+function exp_GetRowsF(const Mat:T2DFloatArray; FromRow, ToRow:Int32): T2DFloatArray; cdecl;
+begin Result := GetRows(Mat, FromRow,ToRow); end;
+
+function exp_GetRowsD(const Mat:T2DDoubleArray; FromRow, ToRow:Int32): T2DDoubleArray; cdecl;
+begin Result := GetRows(Mat, FromRow,ToRow); end;
+
+function exp_GetRowsE(const Mat:T2DExtArray; FromRow, ToRow:Int32): T2DExtArray; cdecl;
+begin Result := GetRows(Mat, FromRow,ToRow); end;
+
+
+{-------| FlipMat (matrix) |-------}
+function exp_FlipMatB(const Mat:T2DByteArray): T2DByteArray; cdecl;
+begin Result := FlipMat(Mat); end;
+
+function exp_FlipMatI(const Mat:T2DIntArray): T2DIntArray; cdecl;
+begin Result := FlipMat(Mat); end;
+
+function exp_FlipMatF(const Mat:T2DFloatArray): T2DFloatArray; cdecl;
+begin Result := FlipMat(Mat); end;
+
+function exp_FlipMatD(const Mat:T2DDoubleArray): T2DDoubleArray; cdecl;
+begin Result := FlipMat(Mat); end;
+
+function exp_FlipMatE(const Mat:T2DExtArray): T2DExtArray; cdecl;
+begin Result := FlipMat(Mat); end;
+
+
+

@@ -12,14 +12,12 @@ var
 begin
   L := High(Indices);
   H := High(Matrix);
-  if H < 0 then begin
-    WriteLn('Matrix.Put(): Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix is not initalized');
   W := High(Matrix[0]);
 
-  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then begin
-    WriteLn('Matrix.Put(): Length of Values must be 1, or same length as Indices'); Exit();
-  end;
+  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then
+    NewException('Length of Values must be 1, or same length as Indices');
 
   c := 0;
   if (Length(Values) = 1) then begin
@@ -44,14 +42,12 @@ var
 begin
   L := High(Indices);
   H := High(Matrix);
-  if H < 0 then begin
-    WriteLn('Matrix.Put(): Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix is not initalized');
   W := High(Matrix[0]);
 
-  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then begin
-    WriteLn('Matrix.Put(): Length of Values must be 1, or same length as Indices'); Exit();
-  end;
+  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then
+    NewException('Length of Values must be 1, or same length as Indices');
 
   c := 0;
   if (Length(Values) = 1) then begin
@@ -76,14 +72,13 @@ var
 begin
   L := High(Indices);
   H := High(Matrix);
-  if H < 0 then begin
-    WriteLn('Matrix.Put(): Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix is not initalized');
+
   W := High(Matrix[0]);
 
-  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then begin
-    WriteLn('Matrix.Put(): Length of Values must be 1, or same length as Indices'); Exit();
-  end;
+  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then
+    NewException('Length of Values must be 1, or same length as Indices');
 
   c := 0;
   if (Length(Values) = 1) then begin
@@ -108,14 +103,13 @@ var
 begin
   L := High(Indices);
   H := High(Matrix);
-  if H < 0 then begin
-    WriteLn('Matrix.Put(): Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix is not initalized');
+
   W := High(Matrix[0]);
 
-  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then begin
-    WriteLn('Matrix.Put(): Length of Values must be 1, or same length as Indices'); Exit();
-  end;
+  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then
+    NewException('Length of Values must be 1, or same length as Indices');
 
   c := 0;
   if (Length(Values) = 1) then begin
@@ -140,14 +134,13 @@ var
 begin
   L := High(Indices);
   H := High(Matrix);
-  if H < 0 then begin
-    WriteLn('Matrix.Put(): Matrix must be initalized'); Exit();
-  end;
+  if H < 0 then
+    NewException('Matrix is not initalized');
+
   W := High(Matrix[0]);
 
-  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then begin
-    WriteLn('Matrix.Put(): Length of Values must be 1, or same length as Indices'); Exit();
-  end;
+  if (Length(Values) <> 1) and (Length(Values) <> Length(Indices)) then
+    NewException('Length of Values must be 1, or same length as Indices');
 
   c := 0;
   if (Length(Values) = 1) then begin

@@ -12,10 +12,10 @@ library SimbaExt;
 uses
   SysUtils,
   Classes,
-  Windows,
   Math,
 
   CoreTypes,
+  ExceptionMgr,
   CoreMath,
   CoreMisc,
   MatrixMath,
@@ -70,6 +70,8 @@ end;
 procedure SetupCommands;
 begin
   // CoreMath.pas
+  AddCommand(@PopException, 'function exp_GetException(var Msg:String): Boolean;');
+
   AddCommand(@exp_DistManhattan,	'function exp_DistManhattan(pt1,pt2: TPoint): Extended;');
   AddCommand(@exp_DistEuclidean,	'function exp_DistEuclidean(pt1,pt2: TPoint): Extended;');
   AddCommand(@exp_DistChebyshev,	'function exp_DistChebyshev(pt1,pt2: TPoint): Extended;');
@@ -242,9 +244,6 @@ begin
   AddCommand(@exp_NewMatrix,	'function exp_NewMatrix(W,H:Integer): T2DIntArray;');
   AddCommand(@exp_TPAToMatrixEx,'function exp_TPAToMatrixEx(const TPA:TPointArray; Init, Value:Integer; Align:Boolean): T2DIntArray;');
   AddCommand(@exp_TPAToMatrix,	'function exp_TPAToMatrix(const TPA:TPointArray; Value:Integer; Align:Boolean): T2DIntArray;');
-  AddCommand(@exp_MatGetCols,	'function exp_MatGetCols(const Mat:T2DIntArray; FromCol, ToCol:Integer): T2DIntArray;');
-  AddCommand(@exp_MatGetRows,	'function exp_MatGetRows(const Mat:T2DIntArray; FromRow, ToRow:Integer): T2DIntArray;');
-  AddCommand(@exp_MatGetArea,	'function exp_MatGetArea(const Mat:T2DIntArray; X1,Y1,X2,Y2:Integer): T2DIntArray;');
   AddCommand(@exp_MatFromTIA,	'function exp_MatFromTIA(const Arr:TIntArray; Width,Height:Integer): T2DIntArray;');
   AddCommand(@exp_PadMatrix,	'procedure exp_PadMatrix(var Matrix:T2DIntArray; HPad,WPad:Integer);');
   AddCommand(@exp_FloodFillMatrix,	'function exp_FloodFillMatrix(ImgArr:T2DIntArray; const Start:TPoint; EightWay:Boolean): TPointArray;');
@@ -370,6 +369,31 @@ begin
   AddCommand(@exp_NormalizeMatF, 'function exp_Normalize(const Mat:T2DFloatArray; Alpha, Beta: Single): T2DFloatArray; overload;');
   AddCommand(@exp_NormalizeMatD, 'function exp_Normalize(const Mat:T2DDoubleArray; Alpha, Beta: Double): T2DDoubleArray; overload;');
   AddCommand(@exp_NormalizeMatE, 'function exp_Normalize(const Mat:T2DExtArray; Alpha, Beta: Extended): T2DExtArray; overload;');
+
+  AddCommand(@exp_GetAreaB, 'function exp_GetArea(const Mat:T2DByteArray; X1,Y1,X2,Y2:Integer): T2DByteArray;');
+  AddCommand(@exp_GetAreaI, 'function exp_GetArea(const Mat:T2DIntArray; X1,Y1,X2,Y2:Integer): T2DIntArray; overload;');
+  AddCommand(@exp_GetAreaF, 'function exp_GetArea(const Mat:T2DFloatArray; X1,Y1,X2,Y2:Integer): T2DFloatArray; overload;');
+  AddCommand(@exp_GetAreaD, 'function exp_GetArea(const Mat:T2DDoubleArray; X1,Y1,X2,Y2:Integer): T2DDoubleArray; overload;');
+  AddCommand(@exp_GetAreaE, 'function exp_GetArea(const Mat:T2DExtArray; X1,Y1,X2,Y2:Integer): T2DExtArray; overload;');
+
+  AddCommand(@exp_GetColsB, 'function exp_GetCols(const Mat:T2DByteArray; FromCol, ToCol:Int32): T2DByteArray;');
+  AddCommand(@exp_GetColsI, 'function exp_GetCols(const Mat:T2DIntArray; FromCol, ToCol:Int32): T2DIntArray; overload;');
+  AddCommand(@exp_GetColsF, 'function exp_GetCols(const Mat:T2DFloatArray; FromCol, ToCol:Int32): T2DFloatArray; overload;');
+  AddCommand(@exp_GetColsD, 'function exp_GetCols(const Mat:T2DDoubleArray; FromCol, ToCol:Int32): T2DDoubleArray; overload;');
+  AddCommand(@exp_GetColsE, 'function exp_GetCols(const Mat:T2DExtArray; FromCol, ToCol:Int32): T2DExtArray; overload;');
+
+  AddCommand(@exp_GetRowsB, 'function exp_GetRows(const Mat:T2DByteArray; FromRow, ToRow:Int32): T2DByteArray;');
+  AddCommand(@exp_GetRowsI, 'function exp_GetRows(const Mat:T2DIntArray; FromRow, ToRow:Int32): T2DIntArray; overload;');
+  AddCommand(@exp_GetRowsF, 'function exp_GetRows(const Mat:T2DFloatArray; FromRow, ToRow:Int32): T2DFloatArray; overload;');
+  AddCommand(@exp_GetRowsD, 'function exp_GetRows(const Mat:T2DDoubleArray; FromRow, ToRow:Int32): T2DDoubleArray; overload;');
+  AddCommand(@exp_GetRowsE, 'function exp_GetRows(const Mat:T2DExtArray; FromRow, ToRow:Int32): T2DExtArray; overload;');
+
+  AddCommand(@exp_FlipMatB, 'function exp_Flip(const Mat:T2DByteArray): T2DByteArray;');
+  AddCommand(@exp_FlipMatI, 'function exp_Flip(const Mat:T2DIntArray): T2DIntArray; overload;');
+  AddCommand(@exp_FlipMatF, 'function exp_Flip(const Mat:T2DFloatArray): T2DFloatArray; overload;');
+  AddCommand(@exp_FlipMatD, 'function exp_Flip(const Mat:T2DDoubleArray): T2DDoubleArray; overload;');
+  AddCommand(@exp_FlipMatE, 'function exp_Flip(const Mat:T2DExtArray): T2DExtArray; overload;');
+
 end;
 
 

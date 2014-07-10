@@ -79,6 +79,7 @@ var
   OS: TObjOS;
 
   
+  
 //LoadLibrary from current folder 
 {$IFNDEF CODEINSIGHT}
   {$loadlib \..\includes\simbaext\simbaext.dll}
@@ -144,4 +145,17 @@ begin
       end;
   end;
   {$ENDIF}
+end;
+
+
+
+function SimbaExt.GetException(): String;
+begin
+  exp_GetException(Result);
+end;
+
+
+function SimbaExt.GetException(out Msg:String): Boolean; overload;
+begin
+  Result := exp_GetException(Msg);
 end;

@@ -13,6 +13,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   WrapAroundBox(B, W+1,H+1);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
@@ -36,6 +39,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   WrapAroundBox(B, W+1,H+1);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
@@ -60,6 +66,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   WrapAroundBox(B, W+1,H+1);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
@@ -83,6 +92,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   WrapAroundBox(B, W+1,H+1);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
@@ -107,6 +119,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   WrapAroundBox(B, W+1,H+1);
   SetLength(Result, (B.x2-B.x1+1)*(B.y2-B.y1+1));
@@ -135,6 +150,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   SetLength(Result, (W+1)*(H+1));
   i := 0;
@@ -156,6 +174,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   SetLength(Result, (W+1)*(H+1));
   i := 0;
@@ -179,6 +200,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   SetLength(Result, (W+1)*(H+1));
   i := 0;
@@ -201,6 +225,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   SetLength(Result, (W+1)*(H+1));
   i := 0;
@@ -223,6 +250,9 @@ var
   X,Y,W,H,i: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   SetLength(Result, (W+1)*(H+1));
   i := 0;

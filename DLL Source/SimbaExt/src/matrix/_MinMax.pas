@@ -11,6 +11,9 @@ var
   X,Y,W,H: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   Min := Mat[0][0];
   Max := Mat[0][0];
@@ -27,6 +30,9 @@ var
   X,Y,W,H: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   Min := Mat[0][0];
   Max := Mat[0][0];
@@ -44,6 +50,9 @@ var
   X,Y,W,H: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   Min := Mat[0][0];
   Max := Mat[0][0];
@@ -61,6 +70,9 @@ var
   X,Y,W,H: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   Min := Mat[0][0];
   Max := Mat[0][0];
@@ -78,6 +90,9 @@ var
   X,Y,W,H: Integer;
 begin
   H := High(Mat);
+  if (length(mat) = 0) then 
+    NewException('Matrix must be initalized');
+    
   W := High(Mat[0]);
   Min := Mat[0][0];
   Max := Mat[0][0];
