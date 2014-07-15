@@ -437,20 +437,6 @@ begin
 end;
 
 
-//....
-function TFloatMatrix.Multiply(Other:TFloatMatrix): TFloatMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '*'); end;
-
-function TFloatMatrix.Add(Other:TFloatMatrix): TFloatMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '+'); end;
-
-function TFloatMatrix.Divide(Other:TFloatMatrix): TFloatMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '/'); end;
-
-function TFloatMatrix.Subtract(Other:TFloatMatrix): TFloatMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '-'); end;
-
-
 {------------|  Normalize (Matrix)  |------------}
 
 {!DOCREF} {

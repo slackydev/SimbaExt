@@ -131,27 +131,34 @@ end;
   @method: function TIntArray.Slice(Start,Stop: Int32; Step:Int32=1): TIntArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
-    Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
+    Can be used to eg reverse an array, and at the same time allows you to `step` past items.
     You can give it negative start, and stop, then it will wrap around based on length(..)
     
     If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
-
+    
     [b]Examples:[/b]
     [code=pascal]
     TIA := [0,1,2,3,4,5,6,7,8,9];
-    TIA.Slice(9,0,-1)  = [9,8,7,6,5,4,3,2,1,0]  //Copies from 9 downto 0, with a step-size of 1.
-    TIA.Slice(9,0,-2)  = [9,7,5,3,1]            //Copies from 9 downto 0, with a step-size of 2.
+    TIA.Slice(,,-1)    = [9,8,7,6,5,4,3,2,1,0]  //Copies from 9 downto 0, with a step-size of 1.
+    TIA.Slice(,,-2)    = [9,7,5,3,1]            //Copies from 9 downto 0, with a step-size of 2.
     TIA.Slice(3,7,1)   = [3,4,5,6,7]            //Copies from 2 to 7
-    TIA.Slice(0,-2,1)  = [0,1,2,3,4,5,6,7,8]    //Copies from 1 to Len-2
+    TIA.Slice(,-2)     = [0,1,2,3,4,5,6,7,8]    //Copies from 1 to Len-2
     [/code]
 
-    [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
+    [note]Don't pass positive `Step`, combined with `Start > Stop`, that is undefined[/note]
 }
-function TIntArray.Slice(Start,Stop: Int32; Step:Int32=1): TIntArray;
+function TIntArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): TIntArray;
 begin
+  if (Start = DefVar64) then
+    if Step < 0 then Start := -1
+    else Start := 0;       
+  if (Stop = DefVar64) then 
+    if Step > 0 then Stop := -1
+    else Stop := 0;
+  
   if Step = 0 then Exit;
   try Result := exp_slice(Self, Start,Stop,Step);
-  except end;
+  except SetLength(Result,0) end;
 end;
 
 

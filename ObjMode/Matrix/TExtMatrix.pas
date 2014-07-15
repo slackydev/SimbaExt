@@ -435,19 +435,6 @@ begin
   Result := exp_CombineMatrix(Self, Other, OP); 
 end;
 
-//....
-function TExtMatrix.Multiply(Other:TExtMatrix): TExtMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '*'); end;
-
-function TExtMatrix.Add(Other:TExtMatrix): TExtMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '+'); end;
-
-function TExtMatrix.Divide(Other:TExtMatrix): TExtMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '/'); end;
-
-function TExtMatrix.Subtract(Other:TExtMatrix): TExtMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '-'); end;
-
 
 {------------|  Normalize (Matrix)  |------------}
 

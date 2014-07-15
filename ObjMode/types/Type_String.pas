@@ -51,12 +51,20 @@ end;
     
     [note]Don't pass positive `Step`, combined with `Start > Stop`, that is undefined[/note]
 }
-function String.Slice(Start,Stop: Int32; Step:Int32=1): String;
+function String.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): String;
 begin
+  if (Start = DefVar64) then
+    if Step < 0 then Start := -1
+    else Start := 1;       
+  if (Stop = DefVar64) then 
+    if Step > 0 then Stop := -1
+    else Stop := 1;
+
   if (Step = 0) then Exit;
   try Result := exp_slice(Self, Start,Stop,Step);
-  except 
-    RaiseException(erOutOfRange,'Must be in range of "1..Length(Str)", given: Start: '+ToStr(Start)+', Stop: '+ToStr(Stop)+', Step: '+ToStr(Step));
+  except
+    SetLength(Result, 0);
+    RaiseException(erOutOfRange,'Must be in range of "1..Length(Self)". [Start='+ToStr(Start)+', Stop='+ToStr(Stop)+', Step='+ToStr(Step)+']');
   end;
 end;
 

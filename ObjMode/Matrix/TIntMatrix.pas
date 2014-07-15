@@ -507,19 +507,6 @@ begin
   Result := exp_CombineMatrix(Self, Other, OP); 
 end;
 
-//....
-function TIntMatrix.Multiply(Other:TIntMatrix): TIntMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '*'); end;
-
-function TIntMatrix.Add(Other:TIntMatrix): TIntMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '+'); end;
-
-function TIntMatrix.Divide(Other:TIntMatrix): TIntMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '/'); end;
-
-function TIntMatrix.Subtract(Other:TIntMatrix): TIntMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '-'); end;
-
 
 {------------|  Normalize (Matrix)  |------------}
 

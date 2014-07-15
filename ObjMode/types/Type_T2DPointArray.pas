@@ -109,11 +109,18 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function T2DPointArray.Slice(Start,Stop: Int32; Step:Int32=1): T2DPointArray;
+function T2DPointArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): T2DPointArray;
 begin
+  if (Start = DefVar64) then
+    if Step < 0 then Start := -1
+    else Start := 0;       
+  if (Stop = DefVar64) then 
+    if Step > 0 then Stop := -1
+    else Stop := 0;
+  
   if Step = 0 then Exit;
   try Result := exp_slice(Self, Start,Stop,Step);
-  except end;
+  except SetLength(Result,0) end;
 end;
 
 

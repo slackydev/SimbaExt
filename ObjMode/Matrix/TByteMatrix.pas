@@ -436,20 +436,6 @@ begin
   Result := exp_CombineMatrix(Self, Other, OP); 
 end;
 
-//....
-function TByteMatrix.Multiply(Other:TByteMatrix): TByteMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '*'); end;
-
-function TByteMatrix.Add(Other:TByteMatrix): TByteMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '+'); end;
-
-function TByteMatrix.Divide(Other:TByteMatrix): TByteMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '/'); end;
-
-function TByteMatrix.Subtract(Other:TByteMatrix): TByteMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '-'); end;
-
-
 
 {------------|  Normalize (Matrix)  |------------}
 

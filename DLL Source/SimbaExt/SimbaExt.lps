@@ -9,10 +9,11 @@
         <Filename Value="SimbaExt.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SimbaExt"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="378"/>
-        <CursorPos X="92" Y="388"/>
+        <TopLine Value="39"/>
+        <CursorPos X="11" Y="71"/>
         <UsageCount Value="218"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -61,7 +62,7 @@
         <Loaded Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="ExportWrap.pas"/>
+        <Filename Value="ExportWrap.inc"/>
         <UnitName Value="ExportWrap"/>
         <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
@@ -422,11 +423,10 @@
       <Unit49>
         <Filename Value="src\MatrixOps.pas"/>
         <UnitName Value="MatrixOps"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="112"/>
-        <CursorPos X="13" Y="129"/>
+        <CursorPos X="73" Y="122"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit49>
@@ -484,124 +484,124 @@
     </General>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="SimbaExt.lpr"/>
-        <Caret Line="33" Column="5" TopLine="4"/>
+        <Filename Value="ExportWrap.inc"/>
+        <Caret Line="829" Column="1" TopLine="811"/>
       </Position1>
       <Position2>
-        <Filename Value="ExportWrap.pas"/>
-        <Caret Line="829" Column="1" TopLine="811"/>
+        <Filename Value="src\Imaging.pas"/>
+        <Caret Line="716" Column="33" TopLine="686"/>
       </Position2>
       <Position3>
         <Filename Value="src\Imaging.pas"/>
-        <Caret Line="716" Column="33" TopLine="686"/>
+        <Caret Line="671" Column="63" TopLine="657"/>
       </Position3>
       <Position4>
-        <Filename Value="src\Imaging.pas"/>
-        <Caret Line="671" Column="63" TopLine="657"/>
-      </Position4>
-      <Position5>
         <Filename Value="src\Core\CoreMath.pas"/>
         <Caret Line="333" Column="27" TopLine="311"/>
-      </Position5>
-      <Position6>
+      </Position4>
+      <Position5>
         <Filename Value="SimbaExt.lpr"/>
         <Caret Line="88" Column="73" TopLine="58"/>
+      </Position5>
+      <Position6>
+        <Filename Value="ExportWrap.inc"/>
+        <Caret Line="77" Column="96" TopLine="45"/>
       </Position6>
       <Position7>
-        <Filename Value="ExportWrap.pas"/>
-        <Caret Line="77" Column="96" TopLine="45"/>
-      </Position7>
-      <Position8>
         <Filename Value="SimbaExt.lpr"/>
         <Caret Line="476" Column="27" TopLine="442"/>
+      </Position7>
+      <Position8>
+        <Filename Value="ExportWrap.inc"/>
+        <Caret Line="77" Column="1" TopLine="55"/>
       </Position8>
       <Position9>
-        <Filename Value="ExportWrap.pas"/>
-        <Caret Line="77" Column="1" TopLine="55"/>
-      </Position9>
-      <Position10>
         <Filename Value="SimbaExt.lpr"/>
         <Caret Line="17" Column="6" TopLine="7"/>
-      </Position10>
-      <Position11>
+      </Position9>
+      <Position10>
         <Filename Value="src\Matrix\_Normalize.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
+      </Position10>
+      <Position11>
+        <Filename Value="src\MatrixOps.pas"/>
+        <Caret Line="103" Column="15" TopLine="43"/>
       </Position11>
       <Position12>
         <Filename Value="src\MatrixOps.pas"/>
-        <Caret Line="103" Column="15" TopLine="43"/>
+        <Caret Line="90" Column="11" TopLine="69"/>
       </Position12>
       <Position13>
-        <Filename Value="src\MatrixOps.pas"/>
-        <Caret Line="90" Column="11" TopLine="69"/>
+        <Filename Value="src\CornerDet.pas"/>
+        <Caret Line="109" Column="29" TopLine="97"/>
       </Position13>
       <Position14>
         <Filename Value="src\CornerDet.pas"/>
-        <Caret Line="109" Column="29" TopLine="97"/>
+        <Caret Line="198" Column="27" TopLine="177"/>
       </Position14>
       <Position15>
-        <Filename Value="src\CornerDet.pas"/>
-        <Caret Line="198" Column="27" TopLine="177"/>
-      </Position15>
-      <Position16>
         <Filename Value="SimbaExt.lpr"/>
         <Caret Line="27" Column="8" TopLine="7"/>
-      </Position16>
-      <Position17>
+      </Position15>
+      <Position16>
         <Filename Value="src\Matrix\_Normalize.pas"/>
         <Caret Line="81" Column="80" TopLine="66"/>
-      </Position17>
-      <Position18>
+      </Position16>
+      <Position17>
         <Filename Value="src\SimpleOCR.pas"/>
         <Caret Line="38" Column="58" TopLine="20"/>
-      </Position18>
-      <Position19>
+      </Position17>
+      <Position18>
         <Filename Value="SimbaExt.lpr"/>
         <Caret Line="18" Column="9" TopLine="1"/>
-      </Position19>
-      <Position20>
+      </Position18>
+      <Position19>
         <Filename Value="src\matrix\_GetArea.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
-      </Position20>
-      <Position21>
+      </Position19>
+      <Position20>
         <Filename Value="src\MatrixOps.pas"/>
         <Caret Line="97" Column="31" TopLine="79"/>
-      </Position21>
-      <Position22>
+      </Position20>
+      <Position21>
         <Filename Value="src\matrix\_Normalize.pas"/>
         <Caret Line="98" Column="29" TopLine="66"/>
+      </Position21>
+      <Position22>
+        <Filename Value="src\matrix\_GetArea.pas"/>
+        <Caret Line="9" Column="10" TopLine="1"/>
       </Position22>
       <Position23>
         <Filename Value="src\matrix\_GetArea.pas"/>
-        <Caret Line="9" Column="10" TopLine="1"/>
+        <Caret Line="18" Column="12" TopLine="1"/>
       </Position23>
       <Position24>
-        <Filename Value="src\matrix\_GetArea.pas"/>
-        <Caret Line="18" Column="12" TopLine="1"/>
+        <Filename Value="ExportWrap.inc"/>
+        <Caret Line="1244" Column="9" TopLine="1216"/>
       </Position24>
       <Position25>
-        <Filename Value="ExportWrap.pas"/>
-        <Caret Line="1244" Column="9" TopLine="1216"/>
-      </Position25>
-      <Position26>
         <Filename Value="SimbaExt.lpr"/>
         <Caret Line="373" Column="39" TopLine="352"/>
-      </Position26>
-      <Position27>
+      </Position25>
+      <Position26>
         <Filename Value="src\matrix\_GetCols.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
-      </Position27>
-      <Position28>
+      </Position26>
+      <Position27>
         <Filename Value="src\matrix\_GetArea.pas"/>
         <Caret Line="11" Column="24" TopLine="1"/>
-      </Position28>
-      <Position29>
+      </Position27>
+      <Position28>
         <Filename Value="src\MatrixTools.pas"/>
         <Caret Line="243" Column="24" TopLine="202"/>
+      </Position28>
+      <Position29>
+        <Filename Value="ExportWrap.inc"/>
+        <Caret Line="1302" Column="21" TopLine="1276"/>
       </Position29>
       <Position30>
-        <Filename Value="ExportWrap.pas"/>
-        <Caret Line="1302" Column="21" TopLine="1276"/>
+        <Filename Value="SimbaExt.lpr"/>
+        <Caret Line="174" Column="92" TopLine="133"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

@@ -3,6 +3,10 @@
 {$DEFINE SIMBAEXT}
 {$X+} //Extended syntax
 {$C+} //Assertion 
+const
+  MaxInt64 = $7FFFFFFFFFFFFFFF {2**63-1};
+  MaxInt32 = $7FFFFFFF {2**31-1};
+  DefVar64 = MaxInt64;
 
 {$include_once SimbaExt_Core.pas}
 {$include_once ObjMode/TRafikiBitmap.pas}

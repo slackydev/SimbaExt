@@ -436,19 +436,6 @@ begin
   Result := exp_CombineMatrix(Self, Other, OP); 
 end;
 
-//....
-function TDoubleMatrix.Multiply(Other:TDoubleMatrix): TDoubleMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '*'); end;
-
-function TDoubleMatrix.Add(Other:TDoubleMatrix): TDoubleMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '+'); end;
-
-function TDoubleMatrix.Divide(Other:TDoubleMatrix): TDoubleMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '/'); end;
-
-function TDoubleMatrix.Subtract(Other:TDoubleMatrix): TDoubleMatrix;
-begin Result := exp_CombineMatrix(Self, Other, '-'); end;
-
 
 {------------|  Normalize (Matrix)  |------------}
 
