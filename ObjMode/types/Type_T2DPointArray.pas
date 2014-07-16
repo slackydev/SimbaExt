@@ -2,15 +2,6 @@
   Type » T2DPointArray
 }
 
-{!DOCREF} {
-  @method: function T2DPointArray.Clone(): T2DPointArray;
-  @desc: Returns a copy of the array
-}
-function T2DPointArray.Clone(): T2DPointArray;
-begin
-  Result := CopyATPA(Self);
-end;
-
 
 {!DOCREF} {
   @method: function T2DPointArray.Len(): Int32;
@@ -145,11 +136,7 @@ end;
   @method: function T2DPointArray.Merge(): TPointArray;
   @desc: Merges all the groups in the ATPA, and return the TPA
 }
-{$IFNDEF SRL6}
-function T2DPointArray.Merge(): TPointArray;
-{$ELSE}
-function T2DPointArray.Merge(): TPointArray; override;
-{$ENDIF}
+function T2DPointArray.Merge(): TPointArray; {$IFDEF SRL6}override;{$ENDIF}
 begin
   Result := MergeATPA(Self);
 end;
@@ -163,7 +150,7 @@ end;
 }
 function T2DPointArray.Sorted(Key:TSortKey=sort_Default): T2DPointArray;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   case Key of
     sort_Default, sort_Length: se.SortATPAByLength(Result);
     sort_Mean: se.SortATPAByMean(Result);
@@ -180,7 +167,7 @@ end;
 }
 function T2DPointArray.Sorted(Index:Integer): T2DPointArray; overload;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   se.SortATPAByIndex(Result, Index);
 end;
 
@@ -224,7 +211,7 @@ end;
 }
 function T2DPointArray.Reversed(): T2DPointArray;
 begin
-  Result := Self.Slice(-1,0,-1);
+  Result := Self.Slice(,,-1);
 end;
 
 
@@ -235,7 +222,7 @@ end;
 }
 procedure T2DPointArray.Reverse();
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 

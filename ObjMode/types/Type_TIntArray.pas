@@ -2,15 +2,6 @@
   Type » TIntArray
 }
 
-{!DOCREF} {
-  @method: function TIntArray.Clone(): TIntArray;
-  @desc: Returns a copy of the array
-}
-function TIntArray.Clone(): TIntArray;
-begin
-  Result := Copy(Self);
-end;
-
 
 {!DOCREF} {
   @method: function TIntArray.Len(): Int32;
@@ -141,7 +132,7 @@ end;
     TIA := [0,1,2,3,4,5,6,7,8,9];
     TIA.Slice(,,-1)    = [9,8,7,6,5,4,3,2,1,0]  //Copies from 9 downto 0, with a step-size of 1.
     TIA.Slice(,,-2)    = [9,7,5,3,1]            //Copies from 9 downto 0, with a step-size of 2.
-    TIA.Slice(3,7,1)   = [3,4,5,6,7]            //Copies from 2 to 7
+    TIA.Slice(3,7)     = [3,4,5,6,7]            //Copies from 2 to 7
     TIA.Slice(,-2)     = [0,1,2,3,4,5,6,7,8]    //Copies from 1 to Len-2
     [/code]
 
@@ -278,7 +269,7 @@ end;
 }
 function TIntArray.Reversed(): TIntArray;
 begin
-  Result := Self.Slice(-1,0,-1);
+  Result := Self.Slice(,,-1);
 end;
 
 
@@ -288,7 +279,7 @@ end;
 }
 procedure TIntArray.Reverse();
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 

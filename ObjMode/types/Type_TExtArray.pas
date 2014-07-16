@@ -2,15 +2,6 @@
   Type » TExtArray
 }
 
-{!DOCREF} {
-  @method: function TExtArray.Clone(): TExtArray;
-  @desc: Returns a copy of the array
-}
-function TExtArray.Clone(): TExtArray;
-begin
-  Result := Copy(Self);
-end;
-
 
 {!DOCREF} {
   @method: function TExtArray.Len(): Int32;

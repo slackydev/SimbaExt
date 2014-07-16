@@ -2,19 +2,6 @@
   Type » TStringArray
 }
 
-{!DOCREF} {
-  @method: function TStringArray.Clone(): TStringArray;
-  @desc: Returns a copy of the array
-}
-function TStringArray.Clone(): TStringArray;
-var
-  i:Int32;
-begin
-  SetLength(Result, Length(Self));
-  for i:=0 to High(Self) do
-    Result[i] := Copy(Self[i]);
-end;
-
 
 {!DOCREF} {
   @method: function TStringArray.Len(): Int32;
@@ -168,7 +155,7 @@ end;
 }
 function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   case key of
     sort_default, sort_lex: se.SortTSA(Result,IgnoreCase);
     sort_logical: se.SortTSANatural(Result);
@@ -250,7 +237,7 @@ end;
 }
 function TStringArray.Reversed(): TStringArray;
 begin
-  Result := Self.Slice(-1,0,-1);
+  Result := Self.Slice(,,-1);
 end;
 
 
@@ -260,7 +247,7 @@ end;
 }
 procedure TStringArray.Reverse();
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 
@@ -299,7 +286,7 @@ end;
 function TStringArray.Capital(): TStringArray;
 var i:Int32;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   for i:=0 to High(Self) do
     Result[i] := Capitalize(Result[i]);
 end;
@@ -312,7 +299,7 @@ end;
 function TStringArray.Lower(): TStringArray;
 var i:Int32;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   for i:=0 to High(Self) do
     Result[i] := LowerCase(Result[i]);
 end;
@@ -325,7 +312,7 @@ end;
 function TStringArray.Upper(): TStringArray;
 var i:Int32;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   for i:=0 to High(Self) do
     Result[i] := UpperCase(Result[i]);
 end;

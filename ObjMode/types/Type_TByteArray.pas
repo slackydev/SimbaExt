@@ -2,15 +2,6 @@
   Type » TByteArray
 }
 
-{!DOCREF} {
-  @method: function TByteArray.Clone(): TByteArray;
-  @desc: Returns a copy of the array
-}
-function TByteArray.Clone(): TByteArray;
-begin
-  Result := Copy(Self);
-end;
-
 
 {!DOCREF} {
   @method: function TByteArray.Len(): Int32;
@@ -264,7 +255,7 @@ end;
 }
 function TByteArray.Reversed(): TByteArray;
 begin
-  Result := Self.Slice(-1,0,-1);
+  Result := Self.Slice(,,-1);
 end;
 
 
@@ -274,7 +265,7 @@ end;
 }
 procedure TByteArray.Reverse();
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 

@@ -2,15 +2,6 @@
   Type » TBoxArray
 }
 
-{!DOCREF} {
-  @method: function TBoxArray.Clone(): TBoxArray;
-  @desc: Returns a copy of the array
-}
-function TBoxArray.Clone(): TBoxArray;
-begin
-  Result := Copy(Self);
-end;
-
 
 {!DOCREF} {
   @method: function TBoxArray.Len(): Int32;
@@ -246,7 +237,7 @@ end;
 }
 function TBoxArray.Sorted(key:TSortKey=sort_Default): TStringArray;
 begin
-  //Result := Self.Clone();
+  //Result := Self.Slice();
   //case key of
   //  sort_default, sort_lex: se.SortTSA(Result,IgnoreCase);
   //  sort_logical: se.SortTSANatural(Result);
@@ -265,7 +256,7 @@ end;
 }
 function TBoxArray.Reversed(): TBoxArray;
 begin
-  Result := Self.Slice(-1,0,-1);
+  Result := Self.Slice(,,-1);
 end;
 
 
@@ -275,7 +266,7 @@ end;
 }
 procedure TBoxArray.Reverse();
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 

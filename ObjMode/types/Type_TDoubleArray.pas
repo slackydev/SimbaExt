@@ -2,15 +2,6 @@
   Type » TDoubleArray
 }
 
-{!DOCREF} {
-  @method: function TDoubleArray.Clone(): TDoubleArray;
-  @desc: Returns a copy of the array
-}
-function TDoubleArray.Clone(): TDoubleArray;
-begin
-  Result := Copy(Self);
-end;
-
 
 {!DOCREF} {
   @method: function TDoubleArray.Len(): Int32;
@@ -263,7 +254,7 @@ end;
 }
 function TDoubleArray.Reversed(): TDoubleArray;
 begin
-  Result := Self.Slice(-1,0,-1);
+  Result := Self.Slice(,,-1);
 end;
 
 
@@ -273,7 +264,7 @@ end;
 }
 procedure TDoubleArray.Reverse();
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 

@@ -2,18 +2,6 @@
   Type » T2DIntArray
 }
 
-{!DOCREF} {
-  @method: function T2DIntArray.Clone(): T2DIntArray;
-  @desc: Returns a copy of the array
-}
-function T2DIntArray.Clone(): T2DIntArray;
-var i:Int32;
-begin
-  SetLength(Result, Length(Self));
-  for i:=0 to High(Self) do
-    Result[i] := Copy(Self[i]);
-end;
-
 
 {!DOCREF} {
   @method: function T2DIntArray.Len(): Int32;
@@ -171,7 +159,7 @@ end;
 }
 function T2DIntArray.Sorted(Key:TSortKey=sort_Default): T2DIntArray;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   case Key of
     sort_Default, sort_Length: se.SortATIAByLength(Result);
     sort_Mean: se.SortATIAByMean(Result);
@@ -188,7 +176,7 @@ end;
 }
 function T2DIntArray.Sorted(Index:Integer): T2DIntArray; overload;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   se.SortATIAByIndex(Result, Index);
 end;
 
@@ -231,7 +219,7 @@ end;
 }
 function T2DIntArray.Reversed(): T2DIntArray;
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 
@@ -241,7 +229,7 @@ end;
 }
 procedure T2DIntArray.Reverse();
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 

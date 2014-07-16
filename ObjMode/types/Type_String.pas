@@ -5,17 +5,6 @@
   Type » String
 }
 
-{!DOCREF} {
-  @method:
-    function String.Clone(): String;
-  @desc:
-    Returns a copy of the array 
-}
-function String.Clone(): String;
-begin
-  Result := Copy(Self);
-end;
-
 
 {!DOCREF} {
   @method: function String.Len(): Int32;
@@ -214,7 +203,7 @@ end;
 }
 function String.Reversed():string;
 begin
-  Result := Self.Slice(-1,1,-1);
+  Result := Self.Slice(,,-1);
 end;
 
 
@@ -224,7 +213,7 @@ end;
 }
 procedure String.Reverse();
 begin
-  Self := Self.Slice(-1,1,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 

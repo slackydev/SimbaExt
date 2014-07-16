@@ -4,16 +4,6 @@
 
 
 {!DOCREF} {
-  @method: function TPointArray.Clone(): TPointArray;
-  @desc: Returns a copy of the array
-}
-function TPointArray.Clone(): TPointArray;
-begin
-  Result := Self.Slice(0,-1);
-end;
-
-
-{!DOCREF} {
   @method: function TPointArray.Len(): Int32;
   @desc: Returns the length of the TPA. Same as `Length(TPA)`
 }
@@ -241,7 +231,7 @@ end;
 }
 function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   case Key of
     sort_Default, sort_Magnitude: se.SortTPA(Result);
     sort_ByRow: se.SortTPAByRow(Result);
@@ -259,7 +249,7 @@ end;
 }
 function TPointArray.Sorted(From:TPoint): TPointArray; overload;
 begin
-  Result := Self.Clone();
+  Result := Self.Slice();
   se.SortTPAFrom(Result, From)
 end;
 
@@ -299,7 +289,7 @@ end;
 }
 procedure TPointArray.Reverse();
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end; 
 
 
@@ -309,7 +299,7 @@ end;
 }
 function TPointArray.Reversed(): TPointArray;
 begin
-  Result := Self.Slice(-1,0,-1);
+  Result := Self.Slice(,,-1);
 end; 
 
 

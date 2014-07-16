@@ -2,15 +2,6 @@
   Type » TFloatArray
 }
 
-{!DOCREF} {
-  @method: function TFloatArray.Clone(): TFloatArray;
-  @desc: Returns a copy of the array
-}
-function TFloatArray.Clone(): TFloatArray;
-begin
-  Result := Copy(Self);
-end;
-
 
 {!DOCREF} {
   @method: function TFloatArray.Len(): Int32;
@@ -263,7 +254,7 @@ end;
 }
 function TFloatArray.Reversed(): TFloatArray;
 begin
-  Result := Self.Slice(-1,0,-1);
+  Result := Self.Slice(,,-1);
 end;
 
 
@@ -273,7 +264,7 @@ end;
 }
 procedure TFloatArray.Reverse();
 begin
-  Self := Self.Slice(-1,0,-1);
+  Self := Self.Slice(,,-1);
 end;
 
 
