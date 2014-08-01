@@ -91,7 +91,9 @@ float* matchTempl(Mat* &im, Mat* &templ, int matchMethod, int normed, Mat* &resu
 
 /**                                     SIMBA EXPORTS                           **/
 
+#if defined _WIN32 || defined _WIN64
 HMODULE module = NULL;
+#endif
 
 int GetPluginABIVersion()
 {
