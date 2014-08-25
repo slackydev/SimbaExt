@@ -9,7 +9,7 @@ unit OSUtils;
 {$inline on}
 interface
 
-uses Windows,SysUtils,CoreTypes;
+uses SysUtils,CoreTypes;
 
 function GetEnviron(const Varname:String): String; Cdecl;
 function SetEnviron(const Varname, Value:String): Boolean; Cdecl;
@@ -36,7 +36,7 @@ function IsDir(path:String): Boolean; Cdecl;
 implementation
 
 uses
-  Classes, FileUtil, DateUtils, TimeUtils, StringTools;
+  Classes, {$IFDEF WINDOWS}Windows,{$ENDIF} FileUtil, DateUtils, TimeUtils, StringTools;
 
 function GetCWD: string;
 var
@@ -137,6 +137,8 @@ end;
 // os.path.getatime(path)
 // os.path.getmtime(path)
 // os.path.getsize(path)
+
+
 // os.path.isabs(path)
 function IsAbsPath(path:String): Boolean; Cdecl;
 begin
@@ -257,9 +259,7 @@ begin
   else begin
     List := FindAllFiles(Path, '', True);
     for i:=0 to List.Count-1 do
-    begin
       Inc(Size, FileSize(List[i]));
-    end;
     List.Free;
   end;
   Result := Size;
@@ -287,10 +287,13 @@ end;
 { OS.UTime(Path:String; Times:TIntArray = [CreationTime, LastAccessTime, LastWriteTime] }
 function UTime(Path:String; Times:TIntArray): Boolean; Cdecl;
 var
+  {$IFDEF WINDOWS}
   H:THandle;
   ST1,ST2,ST3: TSystemTime;
   FT1,FT2,FT3: TFileTime;
+  {$ENDIF}
 begin
+  {$IFDEF WINDOWS}
   if not Length(Times) = 3 then Exit;
   H := FileOpen(Path, fmOpenReadWrite);
   ST1 := EpochTimeToSysTime(Times[0]);
@@ -319,20 +322,25 @@ begin
   finally 
     CloseHandle(H);
   end;
+  {$ENDIF}
 end;
 
 
 procedure TouchFile(Path:String); Cdecl;
 var
+  {$IFDEF WINDOWS}
   H:THandle;
   ST: TSystemTime;
   FT: TFileTime;
+  {$ENDIF}
 begin
+  {$IFDEF WINDOWS}
   H := FileOpen(Path, fmOpenReadWrite);
   GetSystemTime(ST);
   SystemTimeToFileTime(ST, FT);
   SetFileTime(H, nil, @FT, nil);
   CloseHandle(H);
+  {$ENDIF}
 end;
 
 

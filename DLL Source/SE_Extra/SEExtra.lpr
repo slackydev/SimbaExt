@@ -11,7 +11,6 @@ library SEExtra;
 uses
   SysUtils,
   Classes,
-  Windows,
   Math,
 
   TimeUtils,
