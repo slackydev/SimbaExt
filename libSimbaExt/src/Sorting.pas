@@ -26,6 +26,7 @@ procedure SortTFA(var Arr: TFloatArray);
 procedure SortTDA(var Arr: TDoubleArray);
 procedure SortTEA(var Arr: TExtArray);
 
+procedure __SortTPA(var Arr:TPointArray; var Weight:TIntArray; Left, Right:Int32);
 procedure SortTPA(var Arr: TPointArray);
 procedure SortTPAFrom(var Arr: TPointArray; const From:TPoint);
 procedure SortTPAbyRow(var Arr: TPointArray);
@@ -36,22 +37,26 @@ procedure SortTPAByX(var Arr: TPointArray);
 procedure SortTSA(var Arr: TStringArray; CaseInsesitive:Boolean=False); 
 procedure SortTSANatural(var Arr: TStringArray);
 
+procedure __SortATPA(var Arr:T2DPointArray; Weight:TIntArray; Left, Right:Integer);
 procedure SortATPAFrom(var Arr:T2DPointArray; point:TPoint);
 procedure SortATPAByLength(var Arr:T2DPointArray);
 procedure SortATPAByMean(var Arr:T2DPointArray);
 procedure SortATPAByFirst(var Arr:T2DPointArray);
 procedure SortATPAByIndex(var Arr:T2DPointArray; index:Int32);
 
+procedure __SortATBA(var Arr:T2DByteArray; Weight:TIntArray; Left, Right:Integer);
 procedure SortATBAByLength(var Arr:T2DByteArray);
 procedure SortATBAByMean(var Arr:T2DByteArray);
 procedure SortATBAByFirst(var Arr:T2DByteArray);
 procedure SortATBAByIndex(var Arr:T2DByteArray; index:Int32);
 
+procedure __SortATIA(var Arr:T2DIntArray; Weight:TIntArray; Left, Right:Integer);
 procedure SortATIAByLength(var Arr:T2DIntArray);
 procedure SortATIAByMean(var Arr:T2DIntArray);
 procedure SortATIAByFirst(var Arr:T2DIntArray);
 procedure SortATIAByIndex(var Arr:T2DIntArray; index:Int32);
 
+procedure __SortATEA(var Arr:T2DExtArray; Weight:TExtArray; Left, Right:Integer);
 procedure SortATEAByLength(var Arr:T2DExtArray);
 procedure SortATEAByMean(var Arr:T2DExtArray);
 procedure SortATEAByFirst(var Arr:T2DExtArray);

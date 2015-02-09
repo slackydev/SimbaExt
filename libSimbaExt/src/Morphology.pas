@@ -18,12 +18,13 @@ function TPAExpand(const TPA:TPointArray; Iterations:Int32): TPointArray;
 function TPAReduce(const TPA:TPointArray; FMin,FMax, Iterations:Int32): TPointArray;
 function DistanceTransform(const binIm:TIntArray; m,n:Int32; distanceUnit:EDistUnit): T2DIntArray;
 function DistanceTransform(const TPA:TPointArray; distanceUnit:EDistUnit): T2DIntArray; overload;
+procedure TPAHeatSort(var Arr: TPointArray; distanceUnit:EDistUnit);
 
 
 //--------------------------------------------------
 implementation
 uses 
-  PointList, PointTools, Math;
+  PointList, PointTools, Sorting, Math;
 
 
 {* __PRIVATE__ *}
@@ -378,13 +379,13 @@ begin
   w := m-1;
   for x:=0 to w do
   begin
-    if binIm[x] <> 0 then
+    if binIm[x] = 0 then
       tmp[x] := 0
     else
       tmp[x] := m+n;
 
     for y:=1 to h do
-      if (binIm[y*m+x] <> 0) then
+      if (binIm[y*m+x] = 0) then
         tmp[y*m+x] := 0
       else
         tmp[y*m+x] := 1 + tmp[(y-1)*m+x];
@@ -465,14 +466,34 @@ begin
   n := Length(TPA);
   if (n = 0) then Exit;
   area := TPABounds(TPA);
-  w := (area.x2 - area.x1) + 1;
-  h := (area.y2 - area.y1) + 1;
+  area.y1 -= 1;
+  area.x1 -= 1;
+  w := (area.x2 - area.x1) + 2;
+  h := (area.y2 - area.y1) + 2;
   SetLength(data, h*w);
   for i:=0 to n-1 do
-    with TPA[i] do
-      data[(y-area.y1)*w+(x-area.x1)] := 1;
-      
+    data[(TPA[i].y-area.y1)*w+(TPA[i].x-area.x1)] := 1;
+
   Result := DistanceTransform(data,w,h,distanceUnit);
+end;
+
+
+procedure TPAHeatSort(var Arr: TPointArray; distanceUnit:EDistUnit); 
+var
+  i: Integer;
+  matrix:T2DIntArray;
+  weights:TIntArray;
+  area:TBox;
+begin
+  if Length(Arr) <= 1 then Exit;
+  area := TPABounds(Arr);
+  matrix := DistanceTransform(arr, distanceUnit);
+  SetLength(weights, Length(arr));
+  for i:=0 to High(Arr) do
+    weights[i] := matrix[arr[i].y-area.y1+1, arr[i].x-area.x1+1];
+
+  __SortTPA(arr,weights,0,High(Arr));
+  ReverseTPA(arr);
 end;
 
 end.
