@@ -1,6 +1,12 @@
 {!DOCTOPIC}{ 
   Type » TBox
 }
+{$IFDEF SE_TOSTR}
+function ToString(x:TBox): String; override;
+begin
+  Result := Format('(%d,%d,%d,%d)', [x.x1, x.y1, x.x2, x.y2]);
+end;
+{$ENDIF}
 
 
 {!DOCREF} {
@@ -107,10 +113,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TBox.ToCoords(): TPointArray;
-  @desc: Return a TPA of the corner points (clockwise).
+  @method: function TBox.Points(): TPointArray;
+  @desc: Return a TPA of the box points (clockwise).
 }
-function TBox.ToCoords(): TPointArray;
+function TBox.Points(): TPointArray;
 begin
   Result := [Point(self.x1,self.y1), Point(self.x2,self.y1), 
              Point(self.x2,self.y2), Point(self.x1,self.y2)];

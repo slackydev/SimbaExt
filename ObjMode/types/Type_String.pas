@@ -5,12 +5,13 @@
   Type » String
 }
 
+const STR_WHITESPACE := #9#10#13#32;
 
 {!DOCREF} {
   @method: function String.Len(): Int32;
   @desc:   Returns the length of the String. Same as `Length(Str)`
 }
-function String.Len(): Int32;
+function AnsiString.Len(): Int32;
 begin
   Result := Length(Self);
 end;
@@ -20,7 +21,7 @@ end;
   @method: function String.StrLen(): Int32;
   @desc:   Returns the null-terinated length of the String.
 }
-function String.StrLen(): Int32;
+function AnsiString.StrLen(): Int32;
 var P: PChar;
 Begin
   P := @Self[1];
@@ -30,7 +31,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function String.Slice(Start,Stop: Int32; Step:Int32=1): String;
+  @method: function String.Slice(Start,Stop: Int64; Step:Int32=1): String;
   @desc:
     Slicing similar to slice in Python, tho goes from "start to and including stop"
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -40,21 +41,11 @@ end;
     
     [note]Don't pass positive `Step`, combined with `Start > Stop`, that is undefined[/note]
 }
-function String.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): String;
+function AnsiString.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): String;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 1;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 1;
-
   if (Step = 0) then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except
-    SetLength(Result, 0);
-    RaiseException(erOutOfRange,'Must be in range of "1..Length(Self)". [Start='+ToStr(Start)+', Stop='+ToStr(Stop)+', Step='+ToStr(Step)+']');
-  end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(), ERR_NOTICE); end;
 end;
 
 
@@ -62,7 +53,7 @@ end;
   @method: procedure String.Extend(Str:String);
   @desc: Extends the string with a string
 }
-procedure String.Extend(Str:String);
+procedure AnsiString.Extend(Str:String);
 begin
   Self := Self + Str;
 end; 
@@ -72,9 +63,9 @@ end;
   @method: function String.Pos(Sub:String): Int32;
   @desc:   Return the lowest index in the string where substring `Sub` is located. 0 if not found
 }
-function String.Pos(Sub:String): Int32;
+function AnsiString.Pos(Sub:String): Int32;
 begin
-  Result := se.StrPosL(Sub,Self);
+  Result := se.StrPos(Sub,Self);
 end;
 
 
@@ -82,7 +73,7 @@ end;
   @method: function String.rPos(Sub:String): Int32;
   @desc:   Return the highest index in the string where substring `Sub` is located. 0 if not found
 }
-function String.rPos(Sub:String): Int32;
+function AnsiString.rPos(Sub:String): Int32;
 begin
   Result := se.StrPosR(Sub,Self);
 end;
@@ -92,9 +83,9 @@ end;
   @method: function String.PosMulti(Sub:String): TIntArray;
   @desc:   Return all the index in the string where substring `Sub` is located. Empty is not found
 }
-function String.PosMulti(Sub:String): TIntArray;
+function AnsiString.PosMulti(Sub:String): TIntArray;
 begin
-  Result := se.StrPosEx(Sub,Self);
+  Result := se.StrPosMulti(Sub,Self);
 end;
 
 {!DOCREF} {
@@ -103,9 +94,9 @@ end;
     Searces for the given value and returns the first position from the left.
     [note] Same as `String.Pos(..)` [/note]
 }
-function String.Find(Value:String): Int32;
+function AnsiString.Find(Value:String): Int32;
 begin
-  Result := exp_Find(Self,Value);
+  Result := se.StrPos(Value, Self);
 end;
 
 
@@ -115,9 +106,9 @@ end;
     Searces for the given value and returns all the position where it was found.
     [note]Same Result as `String.PosMulti(..)` but less optimized for the task[/note]
 }
-function String.FindAll(Value:String): TIntArray; overload;
+function AnsiString.FindAll(Value:String): TIntArray; overload;
 begin
-  Result := exp_FindAll(Self,Value);
+  Result := se.StrPosMulti(Value, Self);
 end;
 
 
@@ -126,24 +117,24 @@ end;
   @method: function String.Contains(val:String): Boolean;
   @desc: Checks if the arr contains the given value c'val'
 }
-function String.Contains(val:String): Boolean;
+function AnsiString.Contains(val:String): Boolean;
 begin
-  Result := Self.Find(val) <> 0;
+  Result := se.Find(Self,val) <> 0;
 end;
 
 
 {!DOCREF} {
-  @method: function String.Count(val:String): Int32;
-  @desc: Counts all the occurances of the given value `val`
+  @method: function String.Count(Value:String): Int32;
+  @desc: Counts all the occurances of the given value `Value`
 }
-function String.Count(val:String): Int32;
+function AnsiString.Count(Value:String): Int32;
 begin
-  Result := Length(Self.PosMulti(val));
+  Result := Length(Self.PosMulti(Value));
 end;
 
 
 {!DOCREF} {
-  @method: function String.Strip(const Chars:String=' '): String;
+  @method: function String.Strip(const Chars:String=STR_WHITESPACE): String;
   @desc:
     Return a copy of the string with leading and trailing characters removed. If chars is omitted, whitespace characters are removed. 
     If chars is given, the characters in the string will be stripped from the both ends of the string this method is called on.
@@ -154,14 +145,14 @@ end;
       'example'
     [/code]
 }
-function String.Strip(const Chars:String=' '): String;
+function AnsiString.Strip(const Chars:String=STR_WHITESPACE): String;
 begin
-  Result := exp_StrStrip(Self, Chars);
+  Result := se.StrStrip(Self, Chars);
 end;
 
 
 {!DOCREF} {
-  @method: function String.lStrip(const Chars:String=' '): String;
+  @method: function String.lStrip(const Chars:String=STR_WHITESPACE): String;
   @desc:
     Return a copy of the string with leading removed. If chars is omitted, whitespace characters are removed. 
     If chars is given, the characters in the string will be stripped from the beginning  of the string this method is called on.
@@ -172,14 +163,14 @@ end;
       'example.com'
     [/code]
 }
-function String.lStrip(const Chars:String=' '): String;
+function AnsiString.lStrip(const Chars:String=STR_WHITESPACE): String;
 begin
-  Result := exp_StrStripL(Self, Chars);
+  Result := se.StrStripL(Self, Chars);
 end;
 
 
 {!DOCREF} {
-  @method: function String.rStrip(const Chars:String=' '): String;
+  @method: function String.rStrip(const Chars:String=STR_WHITESPACE): String;
   @desc:
     Return a copy of the string with trailing removed. If chars is omitted, whitespace characters are removed. 
     If chars is given, the characters in the string will be stripped from the end  of the string this method is called on.
@@ -190,9 +181,9 @@ end;
       'mississ'
     [/code]
 }
-function String.rStrip(const Chars:String=' '): String;
+function AnsiString.rStrip(const Chars:String=STR_WHITESPACE): String;
 begin
-  Result := exp_StrStripR(Self, Chars);
+  Result := se.StrStripR(Self, Chars);
 end;
 
 
@@ -201,7 +192,7 @@ end;
   @desc: Creates a reversed copy of the string
 
 }
-function String.Reversed():string;
+function AnsiString.Reversed():string;
 begin
   Result := Self.Slice(,,-1);
 end;
@@ -211,7 +202,7 @@ end;
   @method: procedure String.Reverse();
   @desc: Reverses the string
 }
-procedure String.Reverse();
+procedure AnsiString.Reverse();
 begin
   Self := Self.Slice(,,-1);
 end;
@@ -223,7 +214,7 @@ end;
     Return a copy of the string with all occurrences of substring old replaced by new.
     [note]Should be a much faster then Simbas c'Replace(...)'[/note]
 }
-function String.Replace(old, new:String; Flags:TReplaceFlags=[rfReplaceAll]): String;
+function AnsiString.Replace(old, new:String; Flags:TReplaceFlags=[rfReplaceAll]): String;
 begin
   Result := se.StrReplace(Self, old, new, Flags);
 end;
@@ -232,10 +223,10 @@ end;
 {!DOCREF} {
   @method: function String.Split(sep:String): TStringArray;
   @desc:
-    Return an array of the words in the string, using 'sep' as the delimiter string.
-    [note]Should be a tad faster then Simbas c'Explode(...)'[/note]
+    Return an array of the words in the string, using `sep` as the delimiter string.
+    [note]Should be a tad faster then Simbas `Explode(...)`[/note]
 }
-function String.Split(Sep:String=' '): TStringArray;
+function AnsiString.Split(Sep:String=' '): TStringArray;
 begin
   Result := se.StrExplode(self,sep);
 end;
@@ -247,14 +238,14 @@ end;
     Return a string which is the concatenation of the strings in the array 'TSA'. 
     The separator between elements is the string providing this method. 
 }
-function String.Join(TSA:TStringArray): String;
+function AnsiString.Join(TSA:TStringArray): String;
 begin
   Result := Implode(Self, TSA);
 end;
 //fix for single char evaulation.
 function Char.Join(TSA:TStringArray): String;
 begin
-  Result := Implode(Self, TSA);
+  Result := Implode(self, TSA);
 end;
 
 
@@ -262,7 +253,7 @@ end;
   @method: function String.Mul(x:uInt32): String;
   @desc:   Repeats the string `x` times
 }
-function String.Mul(x:Int32): String;
+function AnsiString.Mul(x:Int32): String;
 var
   i,H: Int32;
 begin
@@ -278,12 +269,12 @@ end;
 
 function Char.Mul(x:Int32): String;
 var
-  i,H: Int32;
+  i: Int32;
 begin
   Result := Self;
   dec(x);
   for i:=1 to x do
-    Result := Result + Self;
+    Result += Self;
 end;
 
 
@@ -292,16 +283,9 @@ end;
   @method: function String.StartsWith(Prefix:String): Boolean;
   @desc:   Returns True if the string starts with `Prefix`.
 }
-function String.StartsWith(Prefix:String): Boolean;
-var
-  i: Int32;
+function AnsiString.StartsWith(Prefix:String): Boolean;
 begin
-  if Length(Prefix) > Length(Self) then 
-    Exit(False);
-  Result := True;
-  for i:=1 to Length(Prefix) do
-    if (Prefix[i] <> Self[i]) then
-      Exit(False);
+  Result := Self.Pos(Prefix) = 1;
 end;
 
 
@@ -309,7 +293,7 @@ end;
   @method: function String.EndsWith(Suffix:String): Boolean;
   @desc:   Returns True if the string ends with `Suffix`.
 }
-function String.EndsWith(Suffix:String): Boolean;
+function AnsiString.EndsWith(Suffix:String): Boolean;
 var
   i,l: Int32;
 begin
@@ -327,7 +311,7 @@ end;
   @method: function String.Capital(): String;
   @desc:   Return a copy of the string with the first character in each word capitalized.
 }
-function String.Capital(): String;
+function AnsiString.Capital(): String;
 begin
   Result := Capitalize(Self);
 end;
@@ -337,7 +321,7 @@ end;
   @method: function String.Upper(): String;
   @desc:   Return a copy of the string with all the chars converted to uppercase.
 }
-function String.Upper(): String;
+function AnsiString.Upper(): String;
 begin
   Result := Uppercase(Self);
 end;
@@ -347,7 +331,7 @@ end;
   @method: function String.Lower(): String;
   @desc:   Return a copy of the string with all the chars converted to lowercase.
 }
-function String.Lower(): String;
+function AnsiString.Lower(): String;
 begin
   Result := Lowercase(Self);
 end;
@@ -358,7 +342,7 @@ end;
   @method: function String.IsAlphaNum(): Boolean;
   @desc:   Return true if all characters in the string are alphabetic or numerical and there is at least one character, false otherwise.
 }
-function String.IsAlphaNum(): Boolean;
+function AnsiString.IsAlphaNum(): Boolean;
 var ptr: PChar; hiptr:UInt32;
 begin
   if Length(Self) = 0 then Exit(False);
@@ -382,7 +366,7 @@ end;
   @method: function String.IsAlpha(): Boolean;
   @desc:   Return true if all characters in the string are alphabetic and there is at least one character, false otherwise.
 }
-function String.IsAlpha(): Boolean;
+function AnsiString.IsAlpha(): Boolean;
 var ptr: PChar; hiptr:UInt32;
 begin
   if Length(Self) = 0 then Exit(False);
@@ -406,7 +390,7 @@ end;
   @method: function String.IsDigit(): Boolean;
   @desc:   Return true if all characters in the string are digits and there is at least one character, false otherwise.
 }
-function String.IsDigit(): Boolean;
+function AnsiString.IsDigit(): Boolean;
 var ptr: PChar; hiptr:UInt32;
 begin
   if Length(Self) = 0 then Exit(False);
@@ -431,7 +415,7 @@ end;
   @method: function String.IsFloat(): Boolean;
   @desc:   Return true if all characters in the string are digits + "." and there is at least one character, false otherwise.
 }
-function String.IsFloat(): Boolean;
+function AnsiString.IsFloat(): Boolean;
 var ptr: PChar; hiptr:UInt32; i:Int32; dotAdded:Boolean;
 begin
   if Length(Self) = 0 then Exit(False);
@@ -465,7 +449,7 @@ end;
   @method: function String.GetNumbers(): TIntArray;
   @desc:   Returns all the numbers in the string, does not handle floating point numbers
 }
-function String.GetNumbers(): TIntArray;
+function AnsiString.GetNumbers(): TIntArray;
 var
   i,j,l:Int32;
   NextNum: Boolean;
@@ -496,7 +480,7 @@ end;
   @method: function String.SplitNum(): TStringArray;
   @desc:   Splits the text in to sentances, and numbers, result will EG be: `['My number is', '123', 'sometimes its', '7.5']`
 }
-function String.SplitNum(): TStringArray;
+function AnsiString.SplitNum(): TStringArray;
 var
   i,j,l:Int32;
 begin
@@ -522,7 +506,7 @@ begin
     begin
       if (Result[j] = '') and (Self[i] = ' ') then 
       begin 
-        inc(i)
+        inc(i);
         if Self[i].IsDigit() then continue;
       end;
       if not(Self[i+1].IsDigit() and (Self[i] = ' ')) then

@@ -27,7 +27,7 @@ end;
   @method: procedure TBoxArray.Append(const B:TBox);
   @desc: Add another string to the array
 }
-procedure TBoxArray.Append(const B:TBox);
+procedure TBoxArray.Append(const B:TBox); {$IFDEF SRL6}override{$ENDIF}
 var
   l:Int32;
 begin
@@ -50,7 +50,7 @@ var l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -85,7 +85,7 @@ end;
 }
 procedure TBoxArray.Remove(Value:TBox);
 begin
-  Self.Del( Self.Find(Value) );
+  Self.Del( se.Find(Self,Value) );
 end;
 
 
@@ -115,7 +115,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function TBoxArray.Slice(Start,Stop: Int32; Step:Int32=1): TBoxArray;
+  @method: function TBoxArray.Slice(Start,Stop:Int64; Step:Int32=1): TBoxArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -125,18 +125,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TBoxArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): TBoxArray;
+function TBoxArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): TBoxArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-    
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -159,7 +152,7 @@ end;
 }
 function TBoxArray.Find(Value:TBox): Int32;
 begin
-  Result := exp_Find(Self,[Value]);
+  Result := se.Find(Self,Value);
 end;
 
 
@@ -169,7 +162,7 @@ end;
 }
 function TBoxArray.Find(Sequence:TBoxArray): Int32; overload;
 begin
-  Result := exp_Find(Self,Sequence);
+  Result := se.Find(Self,Sequence);
 end;
 
 
@@ -180,7 +173,7 @@ end;
 }
 function TBoxArray.FindAll(Value:TBox): TIntArray;
 begin
-  Result := exp_FindAll(Self,[value]);
+  Result := se.FindAll(Self,Value);
 end;
 
 
@@ -190,27 +183,27 @@ end;
 }
 function TBoxArray.FindAll(Sequence:TBoxArray): TIntArray; overload;
 begin
-  Result := exp_FindAll(Self,sequence);
+  Result := se.FindAll(Self,sequence);
 end;
 
 
 {!DOCREF} {
-  @method: function TBoxArray.Contains(val:TBox): Boolean;
-  @desc: Checks if the arr contains the given value c'val'
+  @method: function TBoxArray.Contains(value:TBox): Boolean;
+  @desc: Checks if the arr contains the given value `value`
 }
-function TBoxArray.Contains(val:TBox): Boolean;
+function TBoxArray.Contains(value:TBox): Boolean;
 begin
-  Result := Self.Find(val) <> -1;
+  Result := se.Find(Self,value) <> -1;
 end;
 
 
 {!DOCREF} {
-  @method: function TBoxArray.Count(val:TBox): Int32;
-  @desc: Counts all the occurances of the given value c'val'
+  @method: function TBoxArray.Count(value:TBox): Int32;
+  @desc: Counts all the occurances of the given value `value`
 }
-function TBoxArray.Count(val:TBox): Int32;
+function TBoxArray.Count(value:TBox): Int32;
 begin
-  Result := Length(Self.FindAll(val));
+  Result := Length(se.FindAll(Self,value));
 end;
 
 
@@ -219,7 +212,7 @@ end;
   @method: procedure TBoxArray.Sort(key:TSortKey=sort_Default);
   @desc: Sorts the array [not supported]
 }
-procedure TBoxArray.Sort(key:TSortKey=sort_Default);
+procedure TBoxArray.Sort(key:ESortKey=sort_Default);
 begin
   //case key of
   //  sort_default, sort_lex: se.SortTSA(Self,IgnoreCase);
@@ -232,10 +225,10 @@ end;
 
 
 {!DOCREF} {
-  @method: function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
+  @method: function TStringArray.Sorted(key:ESortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
   @desc: Sorts and returns a copy of the array [not supported]
 }
-function TBoxArray.Sorted(key:TSortKey=sort_Default): TStringArray;
+function TBoxArray.Sorted(key:ESortKey=sort_Default): TStringArray;
 begin
   //Result := Self.Slice();
   //case key of

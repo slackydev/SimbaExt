@@ -50,7 +50,7 @@ var i,l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -79,7 +79,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DExtArray.Slice(Start,Stop: Int32; Step:Int32=1): T2DExtArray;
+  @method: function T2DExtArray.Slice(Start,Stop:Int64; Step:Int32=1): T2DExtArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -89,18 +89,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function T2DExtArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): T2DExtArray;
+function T2DExtArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): T2DExtArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -140,16 +133,16 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DExtArray.Sorted(Key:TSortKey=sort_Default): T2DExtArray;
+  @method: function T2DExtArray.Sorted(Key:ESortKey=sort_Default): T2DExtArray;
   @desc: 
     Returns a new sorted array from the input array.
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
-function T2DExtArray.Sorted(Key:TSortKey=sort_Default): T2DExtArray;
+function T2DExtArray.Sorted(Key:ESortKey=sort_Default): T2DExtArray;
 begin
   Result := Self.Slice();
   case Key of
-    sort_Default, sort_Length: se.SortATEAByLength(Result);
+    sort_Default, sort_Length: se.SortATEAByLen(Result);
     sort_Mean: se.SortATEAByMean(Result);
     sort_First: se.SortATEAByFirst(Result);
   else
@@ -170,15 +163,15 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure T2DExtArray.Sort(Key:TSortKey=sort_Default);
+  @method: procedure T2DExtArray.Sort(Key:ESortKey=sort_Default);
   @desc: 
     Sorts the array with the given key
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
-procedure T2DExtArray.Sort(Key:TSortKey=sort_Default);
+procedure T2DExtArray.Sort(Key:ESortKey=sort_Default);
 begin
   case Key of
-    sort_Default, sort_Length: se.SortATEAByLength(Self);
+    sort_Default, sort_Length: se.SortATEAByLen(Self);
     sort_Mean: se.SortATEAByMean(Self);
     sort_First: se.SortATEAByFirst(Self);
   else
@@ -239,10 +232,8 @@ end;
   @desc: Returns the sum of the 2d array
 }
 function T2DExtArray.Sum(): Extended;
-var i,L: Integer;
 begin
-  for i:=0 to High(Self) do
-    Result := Result + Self[i].Sum();
+  Result := se.Sum(Self.Merge());
 end;
 
 
@@ -251,11 +242,8 @@ end;
   @desc: Returns the mean of the 2d array
 }
 function T2DExtArray.Mean(): Extended;
-var i,L: Integer;
 begin
-  for i:=0 to High(Self) do
-    Result := Result + Self[i].Mean();
-  Result := Result / High(Self);
+  Result := se.Mean(Self.Merge());
 end;
 
 
@@ -265,7 +253,7 @@ end;
 }
 function T2DExtArray.Stdev(): Extended;
 begin
-  Result := Self.Merge().Stdev();
+  Result := se.Stdev(Self.Merge());
 end;
 
 
@@ -276,28 +264,19 @@ end;
     Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
 function T2DExtArray.Variance(): Extended;
-var
-  Arr:TExtArray;
-  avg:Extended;
-  i:Int32;
 begin
-  Arr := Self.Merge();
-  avg := Arr.Mean();
-  for i:=0 to High(Arr) do
-    Result := Result + Sqr(Arr[i] - avg);
-  Result := Result / length(Arr);
+  Result := se.Variance(Self.Merge());
 end; 
 
 
 {!DOCREF} {
-  @method: function T2DExtArray.Mode(Eps:Extended=0.0000001): Extended;
+  @method: function T2DExtArray.Mode(): Extended;
   @desc:
     Returns the sample mode of the array, which is the most frequently occurring value in the array.
     When there are multiple values occurring equally frequently, mode returns the smallest of those values.
-    Takes an extra parameter c'Eps', can be used to allow some tolerance in the floating point comparison.
 }
-function T2DExtArray.Mode(Eps:Extended=0.0000001): Extended;
+function T2DExtArray.Mode(): Extended;
 begin
-  Result := Self.Merge().Mode(Eps);
+  Result := se.Mode(Self.Merge());
 end;
 

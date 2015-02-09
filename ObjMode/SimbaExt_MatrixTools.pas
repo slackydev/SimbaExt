@@ -1,10 +1,6 @@
-{!DOCTOPIC}{ 
-  Matrix functions
-} 
-
-{$I Matrix/General.pas}
-{$I Matrix/TByteMatrix.pas}
-{$I Matrix/TIntMatrix.pas}
-{$I Matrix/TFloatMatrix.pas}
-{$I Matrix/TDoubleMatrix.pas}
-{$I Matrix/TExtMatrix.pas}
+{$I Matrix/Type_Matrix.pas}
+{$I Matrix/Type_TByteMatrix.pas}
+{$I Matrix/Type_TIntMatrix.pas}
+{$I Matrix/Type_TFloatMatrix.pas}
+{$I Matrix/Type_TDoubleMatrix.pas}
+{$I Matrix/Type_TExtMatrix.pas}

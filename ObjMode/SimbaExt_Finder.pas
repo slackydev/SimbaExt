@@ -1,6 +1,7 @@
 {!DOCTOPIC} {
   Finder functions 
 }
+{$F-}
 
 const
   TM_SQDIFF        = 0;
@@ -80,73 +81,72 @@ end;
 
 
 {!DOCREF} {
-  @method: function se.MatchColor(Image:TRafBitmap; Color:Int32; MatchAlgo:TCCorrMode; Colorspace:TColorSpace): TFloatMatrix;
+  @method: function se.MatchColor(Image:TRafBitmap; Color:Int32; MatchAlgo:EColorDistance): TFloatMatrix;
   @desc: 
     Correlates the color with the given image and stores the comparison results in the `Result`.
     [params]
      Image:      Image to search in
      Color:      Color to search for
-     MatchAlgo:  Algorithm used to compute difference: `CC_EUCLID`, `CC_EUCLID_NORMED`, `CC_EUCLID_SQUARED`, `CC_CHEB` or `CC_CHEB_NORMED`
-     ColorSpace: Color-space used in computation: `_RGB_`, `_XYZ_`, `_LAB_` or `_LCH_`
+     MatchAlgo:  Algorithm used to compute difference
     [/params]
 }
-function SimbaExt.MatchColor(Image:TRafBitmap; Color:Int32; MatchAlgo:TCCorrMode; ColorSpace:TColorSpace): TFloatMatrix;
-var Mat:TIntMatrix;
+function SimbaExt.MatchColor(Image:TRafBitmap; Color:Int32; MatchAlgo: EColorDistance): TFloatMatrix; overload;
+var
+  Mat:TIntMatrix;
+  OldFunc:TColorDistFunc;
+  OldSpace: Int32;
 begin
   Mat := Image.ToMatrix();
-  case ColorSpace of
-    _RGB_: Result := exp_MatchColorRGB(Mat, Color, MatchAlgo);
-    _XYZ_: Result := exp_MatchColorXYZ(Mat, Color, MatchAlgo);
-    _LAB_: Result := exp_MatchColorLAB(Mat, Color, MatchAlgo);
-    _LCH_: Result := exp_MatchColorLCH(Mat, Color, MatchAlgo);
-  end;
+  Finder.GetCompareInfo(OldFunc,OldSpace);
+  Finder.SetComparePreset(MatchAlgo);
+  Result := Finder.MatchColor(Mat, Color);
+  Finder.SetCompareInfo(OldFunc,OldSpace);
 end;
 
 
 
 {!DOCREF} {
-  @method: function se.FindColorEx(var TPA:TPointArray; Color:Integer; Area:TBox; Similarity:Single; Colorspace:TColorSpace): Boolean;
+  @method: function se.FindColorEx(var TPA:TPointArray; Color:Integer; Area:TBox; Similarity:Single; MatchAlgo:EColorDistance): Boolean;
   @desc:
     Search for a spesific color on your screen with a tolerance.[br]
-    
-    `_LAB_` should be very fast compared to CTS(3) in simba. I assume around 7-9x faster in general.
-    `_LCH_` which is LAB-color measured another way should also be very fast, almost as fast as `_LAB_` for most uses.
-    Due to the way this function works, `_RGB_` correlation is slower then `CTS(1)`, and `CTS(0)`.
     
     [params]
      TPA:        The resulting points
      Color:      The color to search for
      Area:       A `TBox` of where to search.
-     Similarity: `0.0` to `1.0` where `+/-1.0` should be exact match.    
-     Colorspace: Colorspace used in computation: `_RGB_, _XYZ_, _LAB_ and _LCH_`
+     Similarity: Depends on `MatchAlgo`, but for any NORMED method: `0.0` to `1.0` where `1.0` should be exact match.
+     MatchAlgo:  Algorithm used to compute difference
     [/params]
 }
-function SimbaExt.FindColorEx(var TPA:TPointArray; Color:Int32; Area:TBox; Similarity:Single; Colorspace:TColorSpace): Boolean;
+function SimbaExt.FindColorEx(var TPA:TPointArray; Color:Int32; Area:TBox; Similarity:Single; MatchAlgo:EColorDistance): Boolean;
 var 
   W,H:Int32;
   Corr: TFloatMatrix;
+  Mat:TIntMatrix;
   BMP:TRafBitmap;
+  OldFunc:TColorDistFunc;
+  OldSpace: Int32;
 begin
   Result := False;
   GetClientDimensions(W,H);
   
-  if (Area.X2 >= W) or (Area.X2 <= -1) then Area.X2 := W-1;
-  if (Area.Y2 >= H) or (Area.Y2 <= -1) then Area.Y2 := H-1;
+  if (Area.X2 <= -1) then Area.X2 := W-Area.X2;
+  if (Area.Y2 <= -1) then Area.Y2 := H-Area.Y2;
   if (Area.X1 > Area.X2) or (Area.Y1 > Area.Y2) then Exit;
-  
+
   BMP.FromClient(Area.X1,Area.Y1,Area.X2,Area.Y2);
-  case Colorspace of   
-    _RGB_: Corr := exp_MatchColorRGB(BMP.ToMatrix(), Color, CC_EUCLID_NORMED);
-    _XYZ_: Corr := exp_MatchColorXYZ(BMP.ToMatrix(), Color, CC_EUCLID_NORMED);
-    _LAB_: Corr := exp_MatchColorLAB(BMP.ToMatrix(), Color, CC_EUCLID_NORMED);
-    _LCH_: Corr := exp_MatchColorLCH(BMP.ToMatrix(), Color, CC_EUCLID_NORMED);
-  end;
+  Mat := BMP.ToMatrix();
   BMP.Free();
-  
-  TPA := Corr.Indices(Similarity, __GE__);  
+
+  Finder.GetCompareInfo(OldFunc,OldSpace);
+  Finder.SetComparePreset(MatchAlgo);
+  Corr := Finder.MatchColor(Mat, Color);
+  Finder.SetCompareInfo(OldFunc,OldSpace);
+
+  TPA := Corr.Indices(Similarity, CMP_GTE);
   Result := Length(TPA) < 0;
-  
-  if not(Result) or (Area.X1=0) and (Area.Y1 = 0) then Exit;
+
+  if not(Result) or ((Area.X1=0) and (Area.Y1 = 0)) then Exit;
   OffsetTPA(TPA, Point(Area.X1, Area.Y1));
 end;
   
@@ -172,6 +172,7 @@ var
   Screen:TRafBitmap;
   templ,img:CVMat; 
 begin
+  PT := [-1,-1];
   if (MatchAlgo = 0) or (MatchAlgo = 2) or (MatchAlgo = 4) then begin
     RaiseWarning('se.FindTemplate only supports NORMED MatchAlgo: 1, 3 or 5', ERR_WARNING);
     Exit();
@@ -187,14 +188,17 @@ begin
   templ := __cvLoadFromMatrix(Template.ToMatrix());   
   
   Corr := __MatchTemplate(img,templ,MatchAlgo,False);
-  case (MatchAlgo = TM_SQDIFF_NORMED) and True of
-    True:  PT := Corr.ArgMin();
-    False: PT := Corr.ArgMax();
+  if (Corr.width() > 0) and (Corr.height() > 0) then
+  begin
+    case (MatchAlgo = TM_SQDIFF_NORMED) and True of
+      True:  PT := Corr.ArgMin();
+      False: PT := Corr.ArgMax();
+    end;
+    
+    Result := Corr[PT.y][PT.x] > Similarity;  
+    PT.y := PT.y + Area.x1;
+    PT.x := PT.x + Area.y1;
   end;
-  
-  Result := Corr[PT.y][PT.x] > Similarity;  
-  PT.y := PT.y + Area.x1;
-  PT.x := PT.x + Area.y1;
   
   Screen.Free();
   __cvFreeMatrix(img);
@@ -288,8 +292,8 @@ begin
 
   Corr := __MatchTemplate(img,patch,MatchAlgo,False);
   case (MatchAlgo = TM_SQDIFF_NORMED) and True of
-    True:  TPA := Corr.Indices(1.0-Similarity,__LE__);
-    False: TPA := Corr.Indices(Similarity,__GE__);
+    True:  TPA := Corr.Indices(1.0-Similarity, CMP_LTE);
+    False: TPA := Corr.Indices(Similarity, CMP_GTE);
   end;
 
   Result := Length(TPA) > 0;
@@ -363,8 +367,8 @@ begin
   
   Corr := __MatchTemplate(img,patch,MatchAlgo,False);
   case (MatchAlgo = TM_SQDIFF_NORMED) and True of
-    True:  TPA := Corr.Indices(1.0-Similarity,__LE__);
-    False: TPA := Corr.Indices(Similarity,__GE__);
+    True:  TPA := Corr.Indices(1.0-Similarity, CMP_LTE);
+    False: TPA := Corr.Indices(Similarity, CMP_GTE);
   end;
   
   Result := Length(TPA) > 0;
@@ -385,7 +389,7 @@ end;
   @method: function se.MatchTemplate(Image, Templ:TRafBitmap;  MatchAlgo: UInt8; Normalize:Boolean=False): TFloatMatrix;
   @desc:
     The function slides through `image`, compares the overlapped patches of size w*h against `templ` using the specified method and stores the comparison results in the `Result`.
-
+    Exists overloads that take two matrices instead of bitmaps.
     [params]
      Image:   Image where the search is running.
      Templ:   Searched template. It must be not greater than the source image.
@@ -408,48 +412,18 @@ begin
 end;
 
 
-
-
-
-{!DOCREF} {
-  @method: function se.ImFindColorTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, Tol:Integer): Boolean;
-  @desc: Deprecated, will raise a deprecation-warning.
-}
-function SimbaExt.ImFindColorTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, Tol:Integer): Boolean;
+function SimbaExt.MatchTemplate(Image, Templ:TIntMatrix;  MatchAlgo: UInt8; Normalize:Boolean=False): TFloatMatrix; overload;
+var
+  W,H:Int32;
+  patch,img:CVMat;
 begin
-  RaiseWarning('ImFindColorTolEx is deprecated and will be removed, use "se.FindColorEx', ERR_DEPRECATED);
-  Result := exp_ImFindColorTolEx(ImgArr, TPA, Color, Tol);
+  img := __cvLoadFromMatrix(Image);
+  patch := __cvLoadFromMatrix(Templ);
+
+  Result := __MatchTemplate(img,patch,MatchAlgo,Normalize);
+
+  __cvFreeMatrix(img);
+  __cvFreeMatrix(patch);
 end;
 
-
-{!DOCREF} {
-  @method: function se.ImFindColorsTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
-  @desc: Deprecated, will raise a deprecation-warning.
-}
-function SimbaExt.ImFindColorsTolEx(const ImgArr:TIntMatrix; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
-begin
-  RaiseWarning('ImFindColorsTolEx is deprecated and will be removed, use "se.FindColorEx', ERR_DEPRECATED);
-  Result := exp_ImFindColorsTolEx(ImgArr, TPA, Colors, Tol);
-end;
-
-
-{!DOCREF} {
-  @method: function se.ImFindColorsTolExLCH(const ImgArr:TIntMatrix; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
-  @desc: Deprecated, will raise a deprecation-warning.
-}
-function SimbaExt.ImFindColorTolExLCH(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
-begin
-  RaiseWarning('ImFindColorTolExLCH is deprecated and will be removed, use "se.FindColorEx', ERR_DEPRECATED);
-  Result := exp_ImFindColorTolExLCH(ImgArr, TPA, Color, ColorTol, LightTol);
-end;
-
-
-{!DOCREF} {
-  @method: function se.ImFindColorsTolExLAB(const ImgArr:TIntMatrix; var TPA:TPointArray; Colors:TIntegerArray; Tol:Integer): Boolean;
-  @desc: Deprecated, will raise a deprecation-warning.
-}
-function SimbaExt.ImFindColorTolExLAB(const ImgArr:TIntMatrix; var TPA:TPointArray; Color, ColorTol, LightTol:Integer): Boolean;
-begin
-  RaiseWarning('ImFindColorTolExLAB is deprecated and will be removed, use "se.FindColorEx"', ERR_DEPRECATED);
-  Result := exp_ImFindColorTolExLAB(ImgArr, TPA, Color, ColorTol, LightTol);
-end;
+{$F+}

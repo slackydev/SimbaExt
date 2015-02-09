@@ -27,13 +27,8 @@ end;
   @method: procedure TPointArray.Append(const PT:TPoint);
   @desc: Add another TP to the TPA
 }
-{$IFNDEF SRL6}
-procedure TPointArray.Append(const PT:TPoint);
-{$ELSE}
-procedure TPointArray.Append(const PT:TPoint); override;
-{$ENDIF}
-var
-  l:Int32;
+procedure TPointArray.Append(const PT:TPoint); {$IFDEF SRL6}override;{$ENDIF}
+var l:Int32;
 begin
   l := Length(Self);
   SetLength(Self, l+1);
@@ -54,7 +49,7 @@ var l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -89,7 +84,7 @@ end;
 }
 procedure TPointArray.Remove(Value:TPoint);
 begin
-  Self.Del( Self.Find(Value) );
+  Self.Del( se.Find(Self,Value) );
 end;
 
 
@@ -121,7 +116,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function TPointArray.Slice(Start,Stop: Int32; Step:Int32=1): TPointArray;
+  @method: function TPointArray.Slice(Start,Stop:Int64; Step:Int32=1): TPointArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -131,18 +126,11 @@ end;
     
     [note]Don't pass positive `Step`, combined with `Start > Stop`, that is undefined[/note]
 }
-function TPointArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): TPointArray;
+function TPointArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): TPointArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -165,8 +153,7 @@ end;
 }
 function TPointArray.Find(Value:TPoint): Int32;
 begin
-  if Self.Len() = 0 then Exit(-1);
-  Result := exp_Find(Self,[Value]);
+  Result := se.Find(Self,Value);
 end;
 
 
@@ -176,8 +163,7 @@ end;
 }
 function TPointArray.Find(Sequence:TPointArray): Int32; overload;
 begin
-  if Self.Len() = 0 then Exit(-1);
-  Result := exp_Find(Self,Sequence);
+  Result := se.Find(Self,Sequence);
 end;
 
 
@@ -187,8 +173,7 @@ end;
 }
 function TPointArray.FindAll(Value:TPoint): TIntArray;
 begin
-  if Self.Len() = 0 then Exit();
-  Result := exp_FindAll(Self,[Value]);
+  Result := se.FindAll(Self,Value);
 end;
 
 
@@ -198,42 +183,41 @@ end;
 }
 function TPointArray.FindAll(Sequence:TPointArray): TIntArray; overload;
 begin
-  if Self.Len() = 0 then Exit();
-  Result := exp_FindAll(Self,sequence);
+  Result := se.FindAll(Self,sequence);
 end;
 
 
 {!DOCREF} {
-  @method: function TPointArray.Contains(Pt:TPoint): Boolean;
-  @desc: Checks if the TPA contains the given TPoint `PT`
+  @method: function TPointArray.Contains(value:TPoint): Boolean;
+  @desc: Checks if the TPA contains the given value `value`
 }
-function TPointArray.Contains(Pt:TPoint): Boolean;
+function TPointArray.Contains(value:TPoint): Boolean;
 begin
-  Result := Self.Find(PT) <> -1;
+  Result := se.Find(Self,value) <> -1;
 end;
 
 
 {!DOCREF} {
-  @method: function TPointArray.Count(Pt:TPoint): Boolean;
-  @desc: Checks if the TPA contains the given TPoint `PT`
+  @method: function TPointArray.Count(Value:TPoint): Boolean;
+  @desc: Counts all the occurances of the given value `Value`
 }
-function TPointArray.Count(Pt:TPoint): Boolean;
+function TPointArray.Count(Value:TPoint): Boolean;
 begin
-  Result := Length(Self.FindAll(PT));
+  Result := Length(se.FindAll(self, value));
 end;
 
 
 {!DOCREF} {
-  @method: function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
+  @method: function TPointArray.Sorted(Key:ESortKey=sort_Default): TPointArray;
   @desc: 
     Sorts a copy of the TPA
     Supported keys: `sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY`
 }
-function TPointArray.Sorted(Key:TSortKey=sort_Default): TPointArray;
+function TPointArray.Sorted(Key:ESortKey=sort_Default): TPointArray;
 begin
   Result := Self.Slice();
   case Key of
-    sort_Default, sort_Magnitude: se.SortTPA(Result);
+    sort_Default, sort_Magnitude: se.SortTPA(Result);     //anything more?
     sort_ByRow: se.SortTPAByRow(Result);
     sort_ByColumn: se.SortTPAByColumn(Result);
     sort_ByX: se.SortTPAByX(Result);
@@ -255,12 +239,12 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TPointArray.Sort(Key:TSortKey=sort_Default);
+  @method: procedure TPointArray.Sort(Key:ESortKey=sort_Default);
   @desc: 
     Sorts the TPA
     Supported keys: c'sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
 }
-procedure TPointArray.Sort(Key:TSortKey=sort_Default);
+procedure TPointArray.Sort(Key:ESortKey=sort_Default);
 begin
   case Key of
     sort_Default, sort_Magnitude: se.SortTPA(Self);
@@ -307,12 +291,12 @@ end;
 
 
 
-{=============================================================================}
+{==============================================================================}
 // The functions below this line is not in the standard array functionality
 //
 // By "standard array functionality" I mean, functions that all standard
 // array types should have.
-{=============================================================================}
+{==============================================================================}
 
 
 
@@ -406,7 +390,7 @@ end;
 }
 function TPointArray.Partition(Width, Height:Int32): T2DPointArray;
 begin
-  se.TPAPartition(Self, Width, Height);
+  Result := se.TPAPartition(Self, Width, Height);
 end;
 
 
@@ -416,17 +400,17 @@ end;
 }
 function TPointArray.Mean(): TPoint;
 begin
-  Result := MiddleTPA(Self); 
+  Result := se.TPACenter(Self, ECA_Mean);
 end;
 
 
 {!DOCREF} {
-  @method: function TPointArray.Center(Method:TCenterAlgo): TPoint;
+  @method: function TPointArray.Center(Method:ECenterAlgo): TPoint;
   @desc: Returns the center of the TPA, defined by the given method
 }
-function TPointArray.Center(Method:TCenterAlgo): TPoint;
+function TPointArray.Center(Method:ECenterAlgo): TPoint;
 begin
-  Result := se.TPACenter(Self, method, False); 
+  Result := se.TPACenter(Self, method);
 end;
 
 

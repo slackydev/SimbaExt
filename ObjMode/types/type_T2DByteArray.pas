@@ -50,7 +50,7 @@ var i,l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -90,7 +90,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DByteArray.Slice(Start,Stop: Int32; Step:Int32=1): T2DByteArray;
+  @method: function T2DByteArray.Slice(Start,Stop:Int64; Step:Int32=1): T2DByteArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -100,18 +100,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function T2DByteArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): T2DByteArray;
+function T2DByteArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): T2DByteArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -152,16 +145,16 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DByteArray.Sorted(Key:TSortKey=sort_Default): T2DByteArray;
+  @method: function T2DByteArray.Sorted(Key:ESortKey=sort_Default): T2DByteArray;
   @desc: 
     Returns a new sorted array from the input array.
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
-function T2DByteArray.Sorted(Key:TSortKey=sort_Default): T2DByteArray;
+function T2DByteArray.Sorted(Key:ESortKey=sort_Default): T2DByteArray;
 begin
   Result := Self.Slice();
   case Key of
-    sort_Default, sort_Length: se.SortATBAByLength(Result);
+    sort_Default, sort_Length: se.SortATBAByLen(Result);
     sort_Mean: se.SortATBAByMean(Result);
     sort_First: se.SortATBAByFirst(Result);
   else
@@ -182,15 +175,15 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure T2DByteArray.Sort(Key:TSortKey=sort_Default);
+  @method: procedure T2DByteArray.Sort(Key:ESortKey=sort_Default);
   @desc: 
     Sorts the ATBA with the given key, returns a copy
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
-procedure T2DByteArray.Sort(Key:TSortKey=sort_Default);
+procedure T2DByteArray.Sort(Key:ESortKey=sort_Default);
 begin
   case Key of
-    sort_Default, sort_Length: se.SortATBAByLength(Self);
+    sort_Default, sort_Length: se.SortATBAByLen(Self);
     sort_Mean: se.SortATBAByMean(Self);
     sort_First: se.SortATBAByFirst(Self);
   else
@@ -247,26 +240,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DByteArray.Sum(): Int32;
-  @desc: Returns the sum of the 2d array (32 bit version only goes ~2,147,483,647)
-}
-function T2DByteArray.Sum(): Int32;
-var i,L: Integer;
-begin
-  for i:=0 to High(Self) do
-    Result := Result + Self[i].Sum();
-end;
-
-
-{!DOCREF} {
-  @method: function T2DByteArray.Sum64(): Int64;
+  @method: function T2DByteArray.Sum(): Int64;
   @desc: Returns the sum of the 2d array
 }
-function T2DByteArray.Sum64(): Int64;
-var i,L: Integer;
+function T2DByteArray.Sum(): Int64;
 begin
-  for i:=0 to High(Self) do
-    Result := Result + Self[i].Sum64();
+  Result := se.Sum(Self.Merge());   
 end;
 
 
@@ -275,11 +254,8 @@ end;
   @desc: Returns the mean of the 2d array
 }
 function T2DByteArray.Mean(): Extended;
-var i,L: Integer;
 begin
-  for i:=0 to High(Self) do
-    Result := Result + Self[i].Mean();
-  Result := Result / High(Self);
+  Result := se.Mean(Self.Merge());   
 end;
 
 
@@ -289,7 +265,7 @@ end;
 }
 function T2DByteArray.Stdev(): Extended;
 begin
-  Result := Self.Merge().Stdev();
+  Result := se.Stdev(Self.Merge());   
 end;
 
 
@@ -297,20 +273,13 @@ end;
   @method: function T2DByteArray.Variance(): Extended;
   @desc: 
     Return the sample variance. 
-    Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
+    Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. 
+    A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
 function T2DByteArray.Variance(): Extended;
-var
-  Arr:TByteArray;
-  avg:Extended;
-  i:Int32;
 begin
-  Arr := Self.Merge();
-  avg := Arr.Mean();
-  for i:=0 to High(Arr) do
-    Result := Result + Sqr(Arr[i] - avg);
-  Result := Result / length(Arr);
-end; 
+  Result := se.Variance(Self.Merge());   
+end;
 
 {!DOCREF} {
   @method: function T2DByteArray.Mode(): Byte;
@@ -320,5 +289,5 @@ end;
 }
 function T2DByteArray.Mode(): Byte;
 begin
-  Result := Self.Merge().Mode();
+  Result := se.Mode(Self.Merge());   
 end;

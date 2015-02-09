@@ -50,7 +50,7 @@ var i,l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -61,6 +61,22 @@ begin
   for i:=l downto idx+1 do
     Self[i] := Self[i-1];
   Self[i] := Value;
+end;
+
+
+{!DOCREF} {
+  @method: procedure T2DPointArray.Del(idx:Int32);
+  @desc: Removes the element at the given index `idx`
+}
+procedure T2DPointArray.Del(idx:Int32);
+var i,l:Int32;
+begin
+  l := Length(Self);
+  if (l <= idx) or (idx < 0) then
+    Exit();
+  if (L-1 <> idx) then
+    MemMove(Self[idx+1], Self[idx], (L-Idx)*SizeOf(TPointArray));
+  SetLength(Self, l-1);
 end;
 
 
@@ -90,7 +106,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DPointArray.Slice(Start,Stop: Int32; Step:Int32=1): T2DPointArray;
+  @method: function T2DPointArray.Slice(Start,Stop:Int64; Step:Int32=1): T2DPointArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -100,18 +116,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function T2DPointArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): T2DPointArray;
+function T2DPointArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): T2DPointArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -143,16 +152,16 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DPointArray.Sorted(Key:TSortKey=sort_Default): T2DPointArray;
+  @method: function T2DPointArray.Sorted(Key:ESortKey=sort_Default): T2DPointArray;
   @desc: 
     Sorts a copy of the ATPA with the given key, returns a copy
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
-function T2DPointArray.Sorted(Key:TSortKey=sort_Default): T2DPointArray;
+function T2DPointArray.Sorted(Key:ESortKey=sort_Default): T2DPointArray;
 begin
   Result := Self.Slice();
   case Key of
-    sort_Default, sort_Length: se.SortATPAByLength(Result);
+    sort_Default, sort_Length: se.SortATPAByLen(Result);
     sort_Mean: se.SortATPAByMean(Result);
     sort_First: se.SortATPAByFirst(Result);
   else
@@ -173,15 +182,15 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure T2DPointArray.Sort(Key:TSortKey=sort_Default);
+  @method: procedure T2DPointArray.Sort(Key:ESortKey=sort_Default);
   @desc: 
     Sorts the ATPA with the given key, returns a copy
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
-procedure T2DPointArray.Sort(Key:TSortKey=sort_Default);
+procedure T2DPointArray.Sort(Key:ESortKey=sort_Default);
 begin
   case Key of
-    sort_Default, sort_Length: se.SortATPAByLength(Self);
+    sort_Default, sort_Length: se.SortATPAByLen(Self);
     sort_Mean: se.SortATPAByMean(Self);
     sort_First: se.SortATPAByFirst(Self);
   else
@@ -224,8 +233,6 @@ procedure T2DPointArray.Reverse();
 begin
   Self := Self.Slice(,,-1);
 end;
-
-
 
 
 

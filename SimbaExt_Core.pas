@@ -1,13 +1,12 @@
-//Define types used in SimbaExt 
+//Define types
 type
   PInt8  = ^Int8;
-  PInt16 = ^Int16;
-  PInt32 = ^Int32;
-  PInt64 = ^Int64;
-  
   PUInt8  = ^UInt8;
+  PInt16 = ^Int16;
   PUInt16 = ^UInt16;
+  PInt32 = ^Int32;
   PUInt32 = ^UInt32;
+  PInt64 = ^Int64;
   PUInt64 = ^UInt64;
 
   Float32 = Single;
@@ -18,25 +17,15 @@ type
   PFloat80 = ^Extended;
   
   
-  //Arr
-  TIntArray    = TIntegerArray; //arg...
-  TFloatArray  = Array of Float32;
-  TDoubleArray = Array of Float64;
-  TExtArray    = Array of Float80;
-  
-  
-  //Spesific names
-  TInt8Array   = Array of Int8;
-  TInt16Array  = Array of Int16;
-  TInt32Array  = Array of Int32;
-  TInt64Array  = Array of Int64;
-  TFloat32Array  = Array of Float32;
-  TFloat64Array  = Array of Float64;
-  TFloat80Array  = Array of Float80;
+  //Array
+  TIntArray    = TIntegerArray; 
+  TFloatArray  = Array of Single;
+  TDoubleArray = Array of Double;
+  TExtArray    = Array of Extended;
   
   
   //Array of Array ..
-  //T2DIntArray     = Array of TIntArray; //arg...
+  //T2DIntArray     = Array of TIntArray;
   T2DExtArray     = Array of TExtArray;
   T2DFloatArray   = Array of TFloatArray;
   T2DDoubleArray  = Array of TDoubleArray;
@@ -52,56 +41,28 @@ type
 
   
   //Other ..
-  TColorSpace = (_LAB_, _LCH_, _XYZ_, _RGB_);
-  TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
+  EWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE, ERR_FATAL);
   
-  TSortKey = (sort_Default, sort_Magnitude, sort_ByColumn, sort_ByRow, sort_ByX,
+  ESortKey = (sort_Default, sort_Magnitude, sort_ByColumn, sort_ByRow, sort_ByX,
               sort_ByY, sort_Length, sort_First, sort_Index, sort_Mean, sort_Lex, sort_Logical);
-  
-  
-  TSize2D = packed record W,H:Int32; end;
-  TSize3D = packed record W,H,D:Int32; end;
 
   
 {|=====| Prefixes for SimbaExt modules |=====}
-type
-  SimbaExt = type Pointer;                          //SE.***
-  TObjMath = type Pointer;                          //Math.***
-  TObjRandom = type Pointer;                        //Rand.***
-  TObjTime = type Pointer;                          //Time.***
-  TObjOSPath = type Pointer;                        //OS.*** & OS.Path.***
-  TObjOS = record path: TObjOSPath; end; 
-var  
-  SE: SimbaExt; 
-  Math: TObjMath; 
-  {$IFDEF SRL6}Randm{$ELSE}Rand{$ENDIF}: TObjRandom;
-  TimeUtils: TObjTime;
-  OS: TObjOS;
-
-  
+type SimbaExt = type Pointer;                          //SE.***
   
 //LoadLibrary from current folder 
-{$IFNDEF CODEINSIGHT}
-  {$loadlib \..\includes\simbaext\simbaext.dll}
-  {$loadlib \..\includes\simbaext\seextra.dll}
-  {$loadlib \..\includes\simbaext\matchTempl.dll}
-{$ELSE}
-//Types are exported from SimbaExt.dll, we should show am in codeinsight:
-  type TAlignAlgo  = (AA_BOUNDS, AA_CHULL, AA_BBOX);
-  type TThreshAlgo = (TA_MEAN, TA_MINMAX);
-  type TCenterAlgo = (CA_BOUNDS, CA_BBOX, CA_MEAN, CA_MEDIAN);
-  type TResizeAlgo = (RA_NEAREST, RA_BILINEAR, RA_BICUBIC);
-  type TCCorrMode  = (CC_EUCLID, CC_EUCLID_NORMED, CC_EUCLID_SQUARED, CC_CHEB, CC_CHEB_NORMED);
-  type TComparator = (__LT__, __GT__, __EQ__, __NE__, __GE__, __LE__);
-{$ENDIF}
+{$loadlib \..\includes\simbaext_beta\simbaext.dll}
+{$loadlib \..\includes\simbaext_beta\matchTempl.dll}
 
+var 
+  SE: SimbaExt;
+  Finder: TFinder;
+  
+  
+  
 
 // IntToBox is to long, and [x1,y1,x2,y2] fails whenever used with a overloaded method..
-{$IFNDEF AeroLib}
-function ToBox(x1,y1,x2,y2: Integer): TBox;
-{$ELSE}
-function ToBox(x1,y1,x2,y2: Integer): TBox; override;
-{$ENDIF}
+function ToBox(x1,y1,x2,y2: Integer): TBox; {$IFDEF AeroLib}override;{$ENDIF}
 begin
   Result := [x1,y1,x2,y2];
 end;
@@ -114,48 +75,56 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure RaiseWarning(WarningMessage:String; Warn: TWarningType);
+  @method: procedure RaiseWarning(message:String; eType: EWarningType);
   @desc: Used internally to raise a warning-message
 }
-procedure RaiseWarning(WarningMessage:String; Warn: TWarningType);
+procedure RaiseWarning(message:String; eType: EWarningType);
 begin
-  {$IFNDEF ERR_HIDE_ALL}
-  case Warn of
-    ERR_DEPRECATED: 
-      begin
-        {$IFNDEF ERR_HIDE_DEPRECATED}
-        WriteLn('DEPRECATED: ' + WarningMessage);
-        {$ENDIF}
-      end;
-    ERR_WARNING: 
-      begin
-        {$IFNDEF ERR_HIDE_WARNINGS}
-          {$IFDEF ERR_REAL_EXCEPTION}
-            RaiseException(erException, 'WARNING: '+WarningMessage);
-          {$ELSE}
-            WriteLn('WARNING: ' + WarningMessage);
-          {$ENDIF}
-        {$ENDIF}
-      end;
-    ERR_NOTICE:  
-      begin    
-        {$IFNDEF ERR_HIDE_NOTICE}
-        WriteLn('NOTICE: ' + WarningMessage);
-        {$ENDIF}
-      end;
+  {$IFNDEF E_HIDE_ALL}
+  case eType of
+    ERR_DEPRECATED:
+      {$IFNDEF E_HIDE_DEPRECATED}
+      WriteLn('DEPRECATED: ' + message);
+      {$ENDIF}
+    ERR_WARNING:
+      {$IFNDEF E_HIDE_WARNING}
+      WriteLn('WARNING: ' + message);
+      {$ENDIF}
+    ERR_NOTICE:
+      {$IFNDEF E_HIDE_NOTICE}
+      WriteLn('NOTICE: ' + message);
+      {$ENDIF}
+    ERR_FATAL:
+      {$IFNDEF E_HIDE_FATAL}
+      WriteLn('FATAL: ' + message);
+      {$ENDIF}
   end;
   {$ENDIF}
+  
+  if eType = ERR_FATAL then
+    TerminateScript();
 end;
 
 
 
-function SimbaExt.GetException(): String;
+function SimbaExt.GetException(): String; overload;
 begin
-  exp_GetException(Result);
+  se.GetException(Result);
 end;
 
 
-function SimbaExt.GetException(out Msg:String): Boolean; overload;
+
+procedure __SE_FREE_MEM;
 begin
-  Result := exp_GetException(Msg);
+  Finder.Free();
+end;
+
+var
+  cores:Int32;
+begin
+  //windows only
+  cores := StrToInt64Def( GetEnvironmentVariable('NUMBER_OF_PROCESSORS'), 8);
+  //linux cores := SysConf(83);
+  Finder := se.InitFinder(ECD_RGB_NORMED, cores);
+  AddOnTerminate('__SE_FREE_MEM');
 end;

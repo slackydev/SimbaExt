@@ -1,0 +1,121 @@
+{=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=]
+ Copyright (c) 2014, Jarl K. <Slacky> Holta || http://github.com/WarPie
+ All rights reserved.
+ For more info see: Copyright.txt
+ 
+ Wrap all numeric methods (related to number arrays: Numeric.pas) .
+[=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+var _____F: Extended; _____I: Int64;
+
+
+//sum
+function exp_SumA_u8(var SE:Pointer; const Arr: TU8Array): UInt64; Cdecl;
+begin Result := SumPtr(PChar(Arr), 1, length(Arr), False); end;
+
+function exp_SumA_s8(var SE:Pointer; const Arr: TS8Array): Int64; Cdecl;
+begin Result := SumPtr(PChar(Arr), 1, length(Arr), True); end;
+
+function exp_SumA_u16(var SE:Pointer; const Arr: TU16Array): UInt64; Cdecl;
+begin Result := SumPtr(PChar(Arr), 2, length(Arr), False); end;
+
+function exp_SumA_s16(var SE:Pointer; const Arr: TS16Array): Int64; Cdecl;
+begin Result := SumPtr(PChar(Arr), 2, length(Arr), True); end;
+
+function exp_SumA_u32(var SE:Pointer; const Arr: TU32Array): UInt64; Cdecl;
+begin Result := SumPtr(PChar(Arr), 4, length(Arr), False); end;
+
+function exp_SumA_s32(var SE:Pointer; const Arr: TS32Array): Int64; Cdecl;
+begin Result := SumPtr(PChar(Arr), 4, length(Arr), True); end;
+
+function exp_SumA_u64(var SE:Pointer; const Arr: TU32Array): UInt64; Cdecl;
+begin Result := SumPtr(PChar(Arr), 8, length(Arr), False); end;
+
+function exp_SumA_s64(var SE:Pointer; const Arr: TS32Array): Int64; Cdecl;
+begin Result := SumPtr(PChar(Arr), 8, length(Arr), True); end;
+
+function exp_SumA_f32(var SE:Pointer; const Arr: TFloatArray): Extended; Cdecl;
+begin Result := SumFPtr(PChar(Arr), 4, length(Arr)); end;
+
+function exp_SumA_f64(var SE:Pointer; const Arr: TDoubleArray): Extended; Cdecl;
+begin Result := SumFPtr(PChar(Arr), 8, length(Arr)); end;
+
+function exp_SumA_f80(var SE:Pointer; const Arr: TExtArray): Extended; Cdecl;
+begin Result := SumFPtr(PChar(Arr), 10, length(Arr)); end;
+
+
+//min
+function exp_MinA_u8(var SE:Pointer; const Arr: TU8Array): UInt64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 1, Length(Arr), False, Result,_____I); end;
+
+function exp_MinA_s8(var SE:Pointer; const Arr: TS8Array): Int64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 1, Length(Arr), True, Result,_____I); end;
+
+function exp_MinA_u16(var SE:Pointer; const Arr: TU16Array): UInt64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 2, Length(Arr), False, Result,_____I); end;
+
+function exp_MinA_s16(var SE:Pointer; const Arr: TS16Array): Int64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 2, Length(Arr), True, Result,_____I); end;
+
+function exp_MinA_u32(var SE:Pointer; const Arr: TU32Array): UInt64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 4, Length(Arr), False, Result,_____I); end;
+
+function exp_MinA_s32(var SE:Pointer; const Arr: TS32Array): Int64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 4, Length(Arr), True, Result,_____I); end;
+
+function exp_MinA_u64(var SE:Pointer; const Arr: TU32Array): UInt64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 8, Length(Arr), False, Result,_____I); end;
+
+function exp_MinA_s64(var SE:Pointer; const Arr: TS32Array): Int64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 8, Length(Arr), True, Result,_____I); end;
+
+function exp_MinA_f32(var SE:Pointer; const Arr: TFloatArray): Extended; Cdecl;
+begin MinMaxFPtr(PChar(Arr), 4, Length(Arr), Result, _____F); end;
+
+function exp_MinA_f64(var SE:Pointer; const Arr: TDoubleArray): Extended; Cdecl;
+begin MinMaxFPtr(PChar(Arr), 8, Length(Arr), Result, _____F); end;
+
+function exp_MinA_f80(var SE:Pointer; const Arr: TExtArray): Extended; Cdecl;
+begin MinMaxFPtr(PChar(Arr), 10, Length(Arr), Result, _____F); end;
+
+
+//max
+function exp_MaxA_u8(var SE:Pointer; const Arr: TU8Array): UInt64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 1, Length(Arr), False, _____I, Result); end;
+
+function exp_MaxA_s8(var SE:Pointer; const Arr: TS8Array): Int64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 1, Length(Arr), True, _____I, Result); end;
+
+function exp_MaxA_u16(var SE:Pointer; const Arr: TU16Array): UInt64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 2, Length(Arr), False, _____I, Result); end;
+
+function exp_MaxA_s16(var SE:Pointer; const Arr: TS16Array): Int64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 2, Length(Arr), True, _____I, Result); end;
+
+function exp_MaxA_u32(var SE:Pointer; const Arr: TU32Array): UInt64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 4, Length(Arr), False, _____I, Result); end;
+
+function exp_MaxA_s32(var SE:Pointer; const Arr: TS32Array): Int64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 4, Length(Arr), True, _____I, Result); end;
+
+function exp_MaxA_u64(var SE:Pointer; const Arr: TU32Array): UInt64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 8, Length(Arr), False, _____I, Result); end;
+
+function exp_MaxA_s64(var SE:Pointer; const Arr: TS32Array): Int64; Cdecl;
+begin MinMaxPtr(PChar(Arr), 8, Length(Arr), True, _____I, Result); end;
+
+function exp_MaxA_f32(var SE:Pointer; const Arr: TFloatArray): Extended; Cdecl;
+begin MinMaxFPtr(PChar(Arr), 4, Length(Arr), _____F, Result); end;
+
+function exp_MaxA_f64(var SE:Pointer; const Arr: TDoubleArray): Extended; Cdecl;
+begin MinMaxFPtr(PChar(Arr), 8, Length(Arr), _____F, Result); end;
+
+function exp_MaxA_f80(var SE:Pointer; const Arr: TExtArray): Extended; Cdecl;
+begin MinMaxFPtr(PChar(Arr), 10, Length(Arr), _____F, Result); end;
+
+
+//combos
+function exp_TIACombinations(var SE:Pointer; const Arr: TIntArray; Seq:Integer): T2DIntArray; cdecl;
+begin Result := TIACombinations(Arr, Seq); end;
+
+function exp_TEACombinations(var SE:Pointer; const Arr: TExtArray; Seq:Integer): T2DExtArray; cdecl;
+begin Result := TEACombinations(Arr, Seq); end;

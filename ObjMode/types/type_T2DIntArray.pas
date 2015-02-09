@@ -50,7 +50,7 @@ var i,l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -91,7 +91,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DIntArray.Slice(Start,Stop: Int32; Step:Int32=1): T2DIntArray;
+  @method: function T2DIntArray.Slice(Start,Stop:Int64; Step:Int32=1): T2DIntArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -101,18 +101,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function T2DIntArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): T2DIntArray;
+function T2DIntArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): T2DIntArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -152,16 +145,16 @@ end;
 
 
 {!DOCREF} {
-  @method: function T2DIntArray.Sorted(Key:TSortKey=sort_Default): T2DIntArray;
+  @method: function T2DIntArray.Sorted(Key:ESortKey=sort_Default): T2DIntArray;
   @desc: 
     Returns a new sorted array from the input array.
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
-function T2DIntArray.Sorted(Key:TSortKey=sort_Default): T2DIntArray;
+function T2DIntArray.Sorted(Key:ESortKey=sort_Default): T2DIntArray;
 begin
   Result := Self.Slice();
   case Key of
-    sort_Default, sort_Length: se.SortATIAByLength(Result);
+    sort_Default, sort_Length: se.SortATIAByLen(Result);
     sort_Mean: se.SortATIAByMean(Result);
     sort_First: se.SortATIAByFirst(Result);
   else
@@ -182,15 +175,15 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure T2DIntArray.Sort(Key:TSortKey=sort_Default);
+  @method: procedure T2DIntArray.Sort(Key:ESortKey=sort_Default);
   @desc: 
     Sorts the ATIA with the given key, returns a copy
     Supported keys: c'sort_Default, sort_Length, sort_Mean, sort_First'
 }
-procedure T2DIntArray.Sort(Key:TSortKey=sort_Default);
+procedure T2DIntArray.Sort(Key:ESortKey=sort_Default);
 begin
   case Key of
-    sort_Default, sort_Length: se.SortATIAByLength(Self);
+    sort_Default, sort_Length: se.SortATIAByLen(Self);
     sort_Mean: se.SortATIAByMean(Self);
     sort_First: se.SortATIAByFirst(Self);
   else
@@ -251,10 +244,8 @@ end;
   @desc: Returns the sum of the 2d array
 }
 function T2DIntArray.Sum(): Int64;
-var i,L: Integer;
 begin
-  for i:=0 to High(Self) do
-    Result := Result + Self[i].Sum();
+  Result := se.Sum(Self.Merge());    
 end;
 
 
@@ -263,11 +254,8 @@ end;
   @desc: Returns the mean of the 2d array
 }
 function T2DIntArray.Mean(): Extended;
-var i,L: Integer;
 begin
-  for i:=0 to High(Self) do
-    Result := Result + Self[i].Mean();
-  Result := Result / High(Self);
+  Result := se.Mean(Self.Merge());    
 end;
 
 
@@ -277,7 +265,7 @@ end;
 }
 function T2DIntArray.Stdev(): Extended;
 begin
-  Result := Self.Merge().Stdev();
+  Result := se.Stdev(Self.Merge());    
 end;
 
 
@@ -289,17 +277,9 @@ end;
     A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
 function T2DIntArray.Variance(): Extended;
-var
-  Arr:TIntArray;
-  avg:Extended;
-  i:Int32;
 begin
-  Arr := Self.Merge();
-  avg := Arr.Mean();
-  for i:=0 to High(Arr) do
-    Result := Result + Sqr(Arr[i] - avg);
-  Result := Result / length(Arr);
-end; 
+  Result := se.Variance(Self.Merge());    
+end;
 
 {!DOCREF} {
   @method: function T2DIntArray.Mode(): Int32;
@@ -309,5 +289,5 @@ end;
 }
 function T2DIntArray.Mode(): Int32;
 begin
-  Result := Self.Merge().Mode();
+  Result := se.Mode(Self.Merge());   
 end;

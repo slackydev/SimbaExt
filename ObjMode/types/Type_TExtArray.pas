@@ -50,7 +50,7 @@ var l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -85,7 +85,7 @@ end;
 }
 procedure TExtArray.Remove(Value:Extended);
 begin
-  Self.Del( Self.Find(Value) );
+  Self.Del( se.Find(Self,Value) );
 end;
 
 
@@ -115,7 +115,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Slice(Start,Stop: Int32; Step:Int32=1): TExtArray;
+  @method: function TExtArray.Slice(Start,Stop:Int64; Step:Int32=1): TExtArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -125,18 +125,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TExtArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): TExtArray;
+function TExtArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): TExtArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -159,7 +152,7 @@ end;
 }
 function TExtArray.Find(Value:Extended): Int32;
 begin
-  Result := exp_Find(Self,[Value]);
+  Result := se.Find(Self,Value);
 end;
 
 
@@ -169,7 +162,7 @@ end;
 }
 function TExtArray.Find(Sequence:TExtArray): Int32; overload;
 begin
-  Result := exp_Find(Self,Sequence);
+  Result := se.Find(Self,Sequence);
 end;
 
 
@@ -179,7 +172,7 @@ end;
 }
 function TExtArray.FindAll(Value:Extended): TIntArray;
 begin
-  Result := exp_FindAll(Self,[value]);
+  Result := se.FindAll(Self,Value);
 end;
 
 
@@ -189,37 +182,37 @@ end;
 }
 function TExtArray.FindAll(Sequence:TExtArray): TIntArray; overload;
 begin
-  Result := exp_FindAll(Self,sequence);
+  Result := se.FindAll(Self,sequence);
 end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Contains(val:Extended): Boolean;
-  @desc: Checks if the arr contains the given value c'val'
+  @method: function TExtArray.Contains(value:Extended): Boolean;
+  @desc: Checks if the arr contains the given value `value`
 }
-function TExtArray.Contains(val:Extended): Boolean;
+function TExtArray.Contains(value:Extended): Boolean;
 begin
-  Result := Self.Find(val) <> -1;
+  Result := se.Find(Self,value) <> -1;
 end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Count(val:Extended): Int32;
-  @desc: Counts all the occurances of the given value c'val'
+  @method: function TExtArray.Count(value:Extended): Int32;
+  @desc: Counts all the occurances of the given value `value`
 }
-function TExtArray.Count(val:Extended): Int32;
+function TExtArray.Count(value:Extended): Int32;
 begin
-  Result := Length(Self.FindAll(val));
+  Result := Length(se.FindAll(self, value));
 end;
 
 
 {!DOCREF} {
-  @method: procedure TExtArray.Sort(key:TSortKey=sort_Default);
+  @method: procedure TExtArray.Sort(key:ESortKey=sort_Default);
   @desc: 
     Sorts the array
     Supported keys: c'sort_Default'
 }
-procedure TExtArray.Sort(key:TSortKey=sort_Default);
+procedure TExtArray.Sort(key:ESortKey=sort_Default);
 begin
   case key of
     sort_default: se.SortTEA(Self);
@@ -230,12 +223,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Sorted(key:TSortKey=sort_Default): TExtArray;
+  @method: function TExtArray.Sorted(key:ESortKey=sort_Default): TExtArray;
   @desc: 
     Sorts and returns a copy of the array.
     Supported keys: c'sort_Default'
 }
-function TExtArray.Sorted(Key:TSortKey=sort_Default): TExtArray;
+function TExtArray.Sorted(Key:ESortKey=sort_Default): TExtArray;
 begin
   Result := Copy(Self);
   case key of
@@ -287,7 +280,7 @@ end;
 }
 function TExtArray.Sum(): Extended;
 begin
-  Result := exp_SumFPtr(PChar(Self),SizeOf(Extended),Length(Self));
+  Result := se.Sum(self);
 end;
 
 
@@ -298,7 +291,7 @@ end;
 }
 function TExtArray.Mean(): Extended;
 begin
-  Result := Self.Sum() / Length(Self);
+  Result := se.Mean(Self);
 end;
 
 
@@ -308,16 +301,10 @@ end;
   @desc: Returns the standard deviation of the array
 }
 function TExtArray.Stdev(): Extended;
-var
-  i:Int32;
-  avg:Extended;
-  square:TExtArray;
 begin
-  avg := Self.Mean();
-  SetLength(square,Length(Self));
-  for i:=0 to High(self) do Square[i] := Sqr(Self[i] - avg);
-  Result := sqrt(square.Mean());
+  Result := se.Stdev(Self);
 end;
+
 
 {!DOCREF} {
   @method: function TExtArray.Variance(): Extended;
@@ -326,50 +313,22 @@ end;
     Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
 function TExtArray.Variance(): Extended;
-var
-  avg:Extended;
-  i:Int32;
 begin
-  avg := Self.Mean();
-  for i:=0 to High(Self) do
-    Result := Result + Sqr(Self[i] - avg);
-  Result := Result / length(self);
-end; 
+  Result := se.Variance(Self);
+end;
 
 
 {!DOCREF} {
-  @method: function TExtArray.Mode(Eps:Extended=0.000001): Extended;
+  @method: function TExtArray.Mode(Eps:Extended=0.0000001): Extended;
   @desc:
     Returns the sample mode of the array, which is the [u]most frequently occurring value[/u] in the array.
     When there are multiple values occurring equally frequently, mode returns the smallest of those values.
-    Takes an extra parameter c'Eps', can be used to allow some tolerance in the floating point comparison.
 }
-function TExtArray.Mode(Eps:Extended=0.0000001): Extended;
-var
-  arr:TExtArray;
-  i,hits,best: Int32;
-  cur:Extended;
+function TExtArray.Mode(): Extended;
 begin
-  arr := self.sorted();
-  cur := arr[0];
-  hits := 1;
-  best := 0;
-  for i:=1 to High(Arr) do
-  begin
-    if (arr[i]-cur > eps) then //arr[i] <> cur
-    begin
-      if (hits > best) then
-      begin
-        best := hits;
-        Result := (Cur+Arr[i-1]) / 2; //Eps fix
-      end;
-      hits := 0;
-      cur := Arr[I];
-    end;
-    Inc(hits);
-  end;
-  if (hits > best) then Result := cur;
+  Result := se.Mode(Self);
 end;
+
 
 
 {!DOCREF} {
@@ -377,9 +336,8 @@ end;
   @desc: Returns the minimum value in the array
 }
 function TExtArray.VarMin(): Extended;
-var _:Extended;
 begin
-  se.MinMaxTEA(Self,Result,_);
+  Result := se.Min(Self);
 end;
 
 
@@ -389,9 +347,8 @@ end;
   @desc: Returns the maximum value in the array
 }
 function TExtArray.VarMax(): Extended;
-var _:Extended;
 begin
-  se.MinMaxTEA(Self,_,Result);
+  Result := se.Max(Self);
 end;
 
 
@@ -406,7 +363,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMin(mat).x;
+  Result := se.ArgMin(mat).x;
 end;
 
 
@@ -438,7 +395,7 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMin(mat,B).x;
+  Result := se.ArgMin(mat,B).x;
 end;
 
 
@@ -453,7 +410,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMax(mat).x;
+  Result := se.ArgMax(mat).x;
 end;
 
 
@@ -485,5 +442,5 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMax(mat,B).x;
+  Result := se.ArgMax(mat,B).x;
 end;

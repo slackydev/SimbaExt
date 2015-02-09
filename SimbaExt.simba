@@ -2,136 +2,22 @@
 {$IFDEF LAPE}
 {$DEFINE SIMBAEXT}
 {$X+} //Extended syntax
-{$C+} //Assertion 
+{$C+} //Assertion
+
 const
-  MaxInt64 = $7FFFFFFFFFFFFFFF {2**63-1};
-  MaxInt32 = $7FFFFFFF {2**31-1};
+  MaxInt64 = High(Int64);  {2**63-1}
+  MaxInt32 = High(Int32);  {2**31-1}
   DefVar64 = MaxInt64;
+
 
 {$include_once SimbaExt_Core.pas}
 {$include_once ObjMode/TRafikiBitmap.pas}
-{$include_once ObjMode/SimbaExt_Math.pas}
-{$include_once ObjMode/SimbaExt_Numeric.pas}
-{$include_once ObjMode/SimbaExt_Sorting.pas}
+{$include_once ObjMode/TRafikiDraw.pas}
 {$include_once ObjMode/SimbaExt_Finder.pas}
-{$include_once ObjMode/SimbaExt_PointTools.pas}
 {$include_once ObjMode/SimbaExt_MatrixTools.pas}
-{$include_once ObjMode/SimbaExt_Imaging.pas}
-{$include_once ObjMode/SimbaExt_Randomize.pas}
 {$include_once ObjMode/SimbaExt_StringTools.pas}
-{$include_once ObjMode/SimbaExt_Time.pas}
-{$include_once ObjMode/SimbaExt_OS.pas}
 {$include_once ObjMode/SimbaExt_Misc.pas}
 {$include_once ObjMode/SimbaExt_Std.pas}
-{$include_once ObjMode/SimbaExt_HashMap.pas}
-
-// - Documentation:
-{!DOCREF} {
-  @method: type SimbaExt = type Pointer;
-  @desc: Needed for the global c'var SE.'
-}
-
-
-{!DOCREF} {
-  @method: type TObjMath = type Pointer;
-  @desc: Needed for the global c'var Math.'
-}
-
-
-{!DOCREF} {
-  @method:type TObjRandom = type Pointer;
-  @desc: Needed for the global c'var Rand.'
-}
-
-
-{!DOCREF} {
-  @method: type TObjTime = type Pointer;
-  @desc: Needed for the global c'var TimeUtils.'
-}
-
-
-{!DOCREF} {
-  @method:type TObjOS = record path: TObjOSPath; end;
-  @desc: Needed for the global c'var OS.', also holds another var: c'OS.Path.'
-}
-
-
-{!DOCREF} {
-  @method: type TObjOSPath = type Pointer;
-  @desc: Needed for the global c'var OS.Path.'
-}
-
-
-{!DOCREF} {
-  @method:Global variables
-  @desc:
-    [code=php]
-    SE        =>  SimbaExt; 
-    Math      =>  TObjMath; 
-    Rand      =>  TObjRandom; 
-    TimeUtils =>  TObjTime;
-    OS        =>  TObjOS;
-    OS.Path   =>  TObjOSPath;
-    [/code]
-}
-
-
-{!DOCREF} {
-  @method: type TColorSpace = (_LAB_, _LCH_, _XYZ_, _RGB_);
-  @desc: Choise of colorspace
-}
-
-{!DOCREF} {
-  @method: type TWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE);
-  @desc: Used in RaiseWarning()
-}
-
-{!DOCREF} {
-  @method: type TSortKey = ...;
-  @desc:
-    Sorting keys, all sorting functions will support it.
-    [code=pascal]
-      sort_Default,         //Default to what ever type
-      - TPA
-      sort_Magnitude,       //Default: Sqr(A.x) + Sqr(A.y)
-      sort_ByPoint,
-      sort_ByColumn,
-      sort_ByRow,
-      sort_ByX,
-      sort_ByY,
-      - 2D
-      sort_Length,          //Default: Array length used in 2D-sorting
-      sort_First,
-      sort_Index,
-      sort_Mean,
-      - TSA
-      sort_Lex,              //Default: TStrArray Sorting
-      sort_Logical
-    [/code]
-}
-
-
-{!DOCREF} {
-  @method: type TComparator = (__LT__, __GT__, __EQ__, __NE__, __GE__, __LE__);
-  @desc: Choise of comperator.
-}
-
-
-{!DOCREF} {
-  @method: TMatrix
-  @desc: 
-    TMatrix = a 2D array of any given type, unlike EG: T2DIntArray each column in a TMatrix should
-    be the same length. So it's always W*H in size. It's resized using c'SetLength(Matrix, H,W)';
-    
-    Supported matrix types:
-    [code=pascal]
-      TByteMatrix    = T2DByteArray;
-      TIntMatrix    = T2DIntArray;
-      TExtMatrix    = T2DExtArray;
-      TFloatMatrix  = T2DFloatArray;
-      TDoubleMatrix = T2DDoubleArray;
-    [/code]
-}
 
 
 {$C-}

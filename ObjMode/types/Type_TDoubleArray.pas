@@ -50,7 +50,7 @@ var l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -85,7 +85,7 @@ end;
 }
 procedure TDoubleArray.Remove(Value:Double);
 begin
-  Self.Del( Self.Find(Value) );
+  Self.Del( se.Find(Self,Value) );
 end;
 
 
@@ -115,7 +115,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function TDoubleArray.Slice(Start,Stop: Int32; Step:Int32=1): TDoubleArray;
+  @method: function TDoubleArray.Slice(Start,Stop:Int64; Step:Int32=1): TDoubleArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -125,18 +125,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TDoubleArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): TDoubleArray;
+function TDoubleArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): TDoubleArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -159,7 +152,7 @@ end;
 }
 function TDoubleArray.Find(Value:Double): Int32;
 begin
-  Result := exp_Find(Self,[Value]);
+  Result := se.Find(Self,Value);
 end;
 
 
@@ -169,7 +162,7 @@ end;
 }
 function TDoubleArray.Find(Sequence:TDoubleArray): Int32; overload;
 begin
-  Result := exp_Find(Self,Sequence);
+  Result := se.Find(Self,Sequence);
 end;
 
 
@@ -179,7 +172,7 @@ end;
 }
 function TDoubleArray.FindAll(Value:Double): TIntArray;
 begin
-  Result := exp_FindAll(Self,[value]);
+  Result := se.FindAll(Self,Value);
 end;
 
 
@@ -189,37 +182,37 @@ end;
 }
 function TDoubleArray.FindAll(Sequence:TDoubleArray): TIntArray; overload;
 begin
-  Result := exp_FindAll(Self,sequence);
+  Result := se.FindAll(Self,sequence);
 end;
 
 
 {!DOCREF} {
-  @method: function TDoubleArray.Contains(val:Double): Boolean;
-  @desc: Checks if the arr contains the given value c'val'
+  @method: function TDoubleArray.Contains(value:Double): Boolean;
+  @desc: Checks if the arr contains the given value `value`
 }
-function TDoubleArray.Contains(val:Double): Boolean;
+function TDoubleArray.Contains(value:Double): Boolean;
 begin
-  Result := Self.Find(val) <> -1;
+  Result := se.Find(self, value) <> -1;
 end;
 
 
 {!DOCREF} {
-  @method: function TDoubleArray.Count(val:Double): Int32;
-  @desc: Counts all the occurances of the given value c'val'
+  @method: function TDoubleArray.Count(value:Double): Int32;
+  @desc: Counts all the occurances of the given value `value`
 }
-function TDoubleArray.Count(val:Double): Int32;
+function TDoubleArray.Count(value:Double): Int32;
 begin
-  Result := Length(Self.FindAll(val));
+  Result := Length(se.FindAll(self, value));
 end;
 
 
 {!DOCREF} {
-  @method: procedure TDoubleArray.Sort(key:TSortKey=sort_Default);
+  @method: procedure TDoubleArray.Sort(key:ESortKey=sort_Default);
   @desc: 
     Sorts the array
     Supported keys: c'sort_Default'
 }
-procedure TDoubleArray.Sort(key:TSortKey=sort_Default);
+procedure TDoubleArray.Sort(key:ESortKey=sort_Default);
 begin
   case key of
     sort_default: se.SortTDA(Self);
@@ -230,12 +223,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TDoubleArray.Sorted(key:TSortKey=sort_Default): TDoubleArray;
+  @method: function TDoubleArray.Sorted(key:ESortKey=sort_Default): TDoubleArray;
   @desc: 
     Returns a new sorted array from the input array.
     Supported keys: c'sort_Default'
 }
-function TDoubleArray.Sorted(Key:TSortKey=sort_Default): TDoubleArray;
+function TDoubleArray.Sorted(Key:ESortKey=sort_Default): TDoubleArray;
 begin
   Result := Copy(Self);
   case key of
@@ -282,22 +275,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TDoubleArray.Sum(): Double;
+  @method: function TDoubleArray.Sum(): Extended;
   @desc: Adds up the array and returns the sum
 }
-function TDoubleArray.Sum(): Double;
+function TDoubleArray.Sum(): Extended;
 begin
-  Result := exp_SumFPtr(PChar(Self),SizeOf(Double),Length(Self));
-end;
-
-
-{!DOCREF} {
-  @method: function TDoubleArray.Sum64(): Double;
-  @desc: Adds up the array and returns the sum
-}
-function TDoubleArray.Sum64(): Double;
-begin
-  Result := exp_SumFPtr(PChar(Self),SizeOf(Double),Length(Self));
+  Result := se.Sum(Self);
 end;
 
 
@@ -307,7 +290,7 @@ end;
 }
 function TDoubleArray.Mean(): Double;
 begin
-  Result := Self.Sum() / Length(Self);
+  Result := se.Mean(Self);
 end;
 
 
@@ -317,15 +300,8 @@ end;
   @desc: Returns the standard deviation of the array
 }
 function TDoubleArray.Stdev(): Double;
-var
-  i:Int32;
-  avg:Double;
-  square:TDoubleArray;
 begin
-  avg := Self.Mean();
-  SetLength(square,Length(Self));
-  for i:=0 to High(self) do Square[i] := Sqr(Self[i] - avg);
-  Result := sqrt(square.Mean());
+  Result := se.Stdev(Self);
 end;
 
 {!DOCREF} {
@@ -335,49 +311,20 @@ end;
     Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
 function TDoubleArray.Variance(): Double;
-var
-  avg:Double;
-  i:Int32;
 begin
-  avg := Self.Mean();
-  for i:=0 to High(Self) do
-    Result := Result + Sqr(Self[i] - avg);
-  Result := Result / length(self);
-end; 
+  Result := se.Variance(Self);
+end;
 
 
 {!DOCREF} {
-  @method: function TDoubleArray.Mode(Eps:Double=0.000001): Double;
+  @method: function TDoubleArray.Mode(Eps:Double=0.0000001): Double;
   @desc:
     Returns the sample mode of the array, which is the [u]most frequently occurring value[/u] in the array.
     When there are multiple values occurring equally frequently, mode returns the smallest of those values.
-    Takes an extra parameter c'Eps', can be used to allow some tolerance in the floating point comparison.
 }
-function TDoubleArray.Mode(Eps:Double=0.0000001): Double;
-var
-  arr:TDoubleArray;
-  i,hits,best: Int32;
-  cur:Double;
+function TDoubleArray.Mode(): Double;
 begin
-  arr := self.sorted();
-  cur := arr[0];
-  hits := 1;
-  best := 0;
-  for i:=1 to High(Arr) do
-  begin
-    if (arr[i]-cur > eps) then //arr[i] <> cur
-    begin
-      if (hits > best) then
-      begin
-        best := hits;
-        Result := (Cur+Arr[i-1]) / 2; //Eps fix
-      end;
-      hits := 0;
-      cur := Arr[I];
-    end;
-    Inc(hits);
-  end;
-  if (hits > best) then Result := cur;
+  Result := se.Mode(Self);
 end;
 
 
@@ -386,10 +333,8 @@ end;
   @desc: Returns the minimum value in the array
 }
 function TDoubleArray.VarMin(): Double;
-var lo,hi:Extended;
 begin
-  exp_MinMaxFPtr(Pointer(self), 4, length(self), lo,hi);
-  Result := Lo;
+  Result := se.Min(Self);
 end;
 
 
@@ -399,10 +344,8 @@ end;
   @desc: Returns the maximum value in the array
 }
 function TDoubleArray.VarMax(): Double;
-var lo,hi:Extended;
 begin
-  exp_MinMaxFPtr(Pointer(self), 4, length(self), lo,hi);
-  Result := Hi;
+  Result := se.Max(Self);
 end;
 
 
@@ -417,7 +360,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMin(mat).x;
+  Result := se.ArgMin(mat).x;
 end;
 
 
@@ -449,7 +392,7 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMin(mat,B).x;
+  Result := se.ArgMin(mat,B).x;
 end;
 
 
@@ -464,7 +407,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMax(mat).x;
+  Result := se.ArgMax(mat).x;
 end;
 
 
@@ -496,5 +439,5 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMax(mat,B).x;
+  Result := se.ArgMax(mat,B).x;
 end;

@@ -1,13 +1,15 @@
-// Unfinished work, tho it should be usable.
+{$DEFINE SE_MOUSE_UTILS}
 type
   TMouseObj = record
     Speed:Int8;
+    FOnMouseMove: TMouseMoveEvent;
   end;
 
-var
-  __MouseConvert:Array of Int8 = [1,0,2];
-  Mouse: TMouseObj;
+const
+  __MouseAction:Array of Int8 = [1,0,2];
 
+var
+  Mice: TMouseObj;
 
 function TMouseObj.GetPosition(): TPoint;
 begin
@@ -17,6 +19,8 @@ end;
 
 procedure TMouseObj.SetPosition(PT: TPoint);
 begin
+  if (@FOnMouseMove <> nil) then
+    FOnMouseMove(@Self, [], PT.X, PT.Y);
   MoveMouse(PT.x, PT.y);
 end;
 
@@ -25,7 +29,7 @@ procedure TMouseObj.ButtonDown(btn:TMouseButton);
 var PT: TPoint;
 begin
   PT := Self.GetPosition();
-  HoldMouse(PT.x,PT.y,__MouseConvert[UInt32(btn)]);
+  HoldMouse(PT.x,PT.y,__MouseAction[UInt32(btn)]);
 end;
 
 
@@ -33,13 +37,13 @@ procedure TMouseObj.ButtonUp(btn:TMouseButton);
 var PT: TPoint;
 begin
   PT := Self.GetPosition();
-  ReleaseMouse(PT.x,PT.y,__MouseConvert[UInt32(btn)]);
+  ReleaseMouse(PT.x,PT.y,__MouseAction[UInt32(btn)]);
 end;
 
 
 function TMouseObj.ButtonState(btn:TMouseButton): Int32;
 begin
-  Result := ord(IsMouseButtonDown(__MouseConvert[UInt32(btn)]));
+  Result := ord(IsMouseButtonDown(__MouseAction[UInt32(btn)]));
 end;
 
 
@@ -121,7 +125,7 @@ begin
       MoveMouse(mx, my);
     step := Hypot(xs - cx, ys - cy);
     if (i mod Speed = 0) then  begin
-      w := Rand.Gauss(2.0,stdWait);
+      w := se.Gauss(2.0,stdWait);
       if (dist < Base*0.1) then MaxStep := MaxE(MaxStep-0.05, 1.0);
       Wait(Abs(Round(Min(Ceil(Pow((dist+20),-1.005)*667),20)+w)));
     end;
@@ -136,8 +140,8 @@ procedure TMouseObj.Move(TargetX, TargetY:Int32);
 var f:Double;
 begin
   if Speed <= 0 then Speed := 7;
-  f := Rand.Gauss(0.9,0.25);
-  Self.__mouseMove(Targetx,Targety,8.9,3.0,3.0,1.0,2.0*f,8.0*f);
+  f := se.Gauss(0.9,0.25);
+  Self.__mouseMove(Targetx,Targety,8.9,3.0,3.0,0.5,2.0*f,8.0*f);
 end;
 
 
@@ -145,20 +149,20 @@ procedure TMouseObj.Move(Target:TPoint); overload;
 var f:Double;
 begin
   if Speed <= 0 then Speed := 7;
-  f := Rand.Gauss(0.9,0.25);
-  Self.__mouseMove(Target.x,Target.y,8.9,3.0,3.0,1.0,2.0*f,8.0*f);
+  f := se.Gauss(0.9,0.25);
+  Self.__mouseMove(Target.x,Target.y,8.9,3.0,3.0,0.5,2.0*f,8.0*f);
 end;
 
 
-procedure TMouseObj.Move(Target:TPoint; Rx,Ry:Int32); overload;
+procedure TMouseObj.Move(Target:TPoint; Rand:Int32); overload;
 var
   f:Double;
-  rr: TPoint
+  rr: TPoint;
 begin
   if Speed <= 0 then Speed := 7;
-  f := Rand.Gauss(0.9,0.25);
-  rr := rand.GaussPtOval(Target, Rx / 3.0, Ry / 3.0, Rx, Ry);
-  Self.__mouseMove(rr.x,rr.y,8.9,3.0,3.0,1.0,2.0*f,8.0*f);
+  f := se.Gauss(0.9,0.25);
+  rr := se.RandomPoint(Target, rand);
+  Self.__mouseMove(rr.x,rr.y,8.9,3.0,3.0,0.5,2.0*f,8.0*f);
 end;
 
 
@@ -166,18 +170,19 @@ procedure TMouseObj.Move(Target:TBox); overload;
 var
   f:Double;
   rr: TPoint;
+  W,H:Int32;
 begin
   if Speed <= 0 then Speed := 7;
-  f := Rand.Gauss(0.9,0.20);
-  rr := rand.GaussPtOval(Target.Center(), Target.Width / 5.0, Target.Height / 5.0, Target.Width/2,Target.Height/2);
-  Self.__mouseMove(rr.x,rr.y,8.9,3.0,3.0,1.0,2.0*f,8.0*f);
+  f := se.Gauss(0.9,0.20);
+  rr := se.RandomPoint(Target);
+  Self.__mouseMove(rr.x,rr.y,8.9,3.0,3.0,0.5,2.0*f,8.0*f);
 end;
 
 
 procedure TMouseObj.Click(btn:TMouseButton);
 begin
   Self.ButtonDown(btn);
-  Wait(Round(rand.Gauss(61,16)));
+  Wait(Round(se.Gauss(91,16)));
   Self.ButtonUp(btn);
 end;
 
@@ -186,7 +191,7 @@ procedure TMouseObj.Click(PT:TPoint; btn:TMouseButton); overload;
 begin
   Self.Move(PT);
   Self.ButtonDown(btn);
-  Wait(Round(rand.Gauss(61,16)));
+  Wait(Round(se.Gauss(91,16)));
   Self.ButtonUp(btn);
 end;
 
@@ -194,11 +199,10 @@ end;
 procedure TMouseObj.Click(Box:TBox; btn:TMouseButton); overload;
 var PT:TPoint;
 begin
-  PT := rand.GaussPtOval(Box.Center(), Box.Width/5.0, Box.Height/5.0,
-                                       Box.Width/2.0, Box.Height/2.0);
+  pt := se.RandomPoint(Box);
   Self.Move(PT);
   Self.ButtonDown(btn);
-  Wait(Round(rand.Gauss(61,16)));
+  Wait(Round(se.Gauss(91,16)));
   Self.ButtonUp(btn);
 end;
 
@@ -207,14 +211,17 @@ procedure TMouseObj.ClickReturn(Box:TBox; btn:TMouseButton);
 var S,PT:TPoint;
 begin
   S := Self.GetPosition();
-  PT := rand.GaussPtOval(Box.Center(), Box.Width/5.0, Box.Height/5.0,
-                                       Box.Width/2.0, Box.Height/2.0);
+  pt := se.RandomPoint(Box);
   Self.Move(PT);
   Self.ButtonDown(btn);
-  Wait(Round(rand.Gauss(61,16)));
+  Wait(Round(se.Gauss(91,16)));
   Self.ButtonUp(btn);
 
-  Wait(Round(rand.Gauss(115,26)));
+  Wait(Round(se.Gauss(115,26)));
   Self.Move(S);
 end;
 
+
+begin
+  mice.FOnMouseMove := nil;
+end;

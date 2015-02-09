@@ -1,7 +1,25 @@
 {!DOCTOPIC}{ 
   Type » TStringArray
 }
+{$IFDEF SE_TOSTR}
+function ToString(x:Array of AnsiString): String; override;
+var i:=0;
+begin
+  if High(x) = -1 then Exit();
+  Result := '['+#39+x[0]+#39;
+  for i:=1 to High(x) do Result += ', '+ #39+x[i]+#39;
+  Result += ']';
+end;
 
+function ToString(x:Array of WideString): String; override;
+var i:=0;
+begin
+  if High(x) = -1 then Exit();
+  Result := '['+#39+x[0]+#39;
+  for i:=1 to High(x) do Result += ', '+ #39+x[i]+#39;
+  Result += ']';
+end;
+{$ENDIF}
 
 {!DOCREF} {
   @method: function TStringArray.Len(): Int32;
@@ -50,7 +68,7 @@ var i,l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -90,7 +108,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function TStringArray.Slice(Start,Stop: Int32; Step:Int32=1): TStringArray;
+  @method: function TStringArray.Slice(Start,Stop:Int64; Step:Int32=1): TStringArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -100,18 +118,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TStringArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): TStringArray;
+function TStringArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): TStringArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -130,12 +141,12 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TStringArray.Sort(key:TSortKey=sort_Default; IgnoreCase:Boolean=False);
+  @method: procedure TStringArray.Sort(key:ESortKey=sort_Default; IgnoreCase:Boolean=False);
   @desc: 
     Sorts the array of strings
     Supported keys: c'sort_Default, sort_lex, sort_logical'
 }
-procedure TStringArray.Sort(key:TSortKey=sort_Default; IgnoreCase:Boolean=False);
+procedure TStringArray.Sort(key:ESortKey=sort_Default; IgnoreCase:Boolean=False);
 begin
   case key of
     sort_default, sort_lex: se.SortTSA(Self,IgnoreCase);
@@ -147,13 +158,13 @@ end;
 
 
 {!DOCREF} {
-  @method: function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
+  @method: function TStringArray.Sorted(key:ESortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
   @desc:  
     Sorts and returns a copy of the array.
     Supports the keys: c'sort_Default, sort_lex, sort_logical'
     [note]Partial, key not supported fully yet[/note]
 }
-function TStringArray.Sorted(key:TSortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
+function TStringArray.Sorted(key:ESortKey=sort_Default; IgnoreCase:Boolean=False): TStringArray;
 begin
   Result := Self.Slice();
   case key of
@@ -168,14 +179,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function StringArray.Find(Value:String): Int32;
+  @method: function StringArray.Find(value:String): Int32;
   @desc: Searces for the given value and returns the first position from the left.
 }
-function TStringArray.Find(Value:String): Int32;
-var TSA:TStringArray;
+function TStringArray.Find(value:String): Int32;
 begin
-  TSA := [Value];
-  Result := exp_Find(Self,TSA);
+  Result := se.Find(self,value);
 end;
 
 
@@ -185,7 +194,7 @@ end;
 }
 function TStringArray.Find(Sequence:TStringArray): Int32; overload;
 begin
-  Result := exp_Find(Self,Sequence);
+  Result := se.Find(Self,Sequence);
 end;
 
 
@@ -194,10 +203,8 @@ end;
   @desc: Searces for the given value and returns all the position where it was found.
 }
 function TStringArray.FindAll(Value:String): TIntArray;
-var TSA:TStringArray;
 begin
-  TSA := [Value];
-  Result := exp_FindAll(Self,TSA);
+  Result := se.FindAll(Self,Value);
 end;
 
 
@@ -207,27 +214,27 @@ end;
 }
 function TStringArray.FindAll(Sequence:TStringArray): TIntArray; overload;
 begin
-  Result := exp_FindAll(Self,sequence);
+  Result := se.FindAll(Self,Sequence);
 end;
 
 
 {!DOCREF} {
-  @method: function TStringArray.Contains(Value:String): Boolean;
-  @desc: Checks if the array contains the given `Value`.
+  @method: function TStringArray.Contains(value:String): Boolean;
+  @desc: Checks if the array contains the given value `value`.
 }
-function TStringArray.Contains(Value:String): Boolean;
+function TStringArray.Contains(value:String): Boolean;
 begin
-  Result := Self.Find(Value) <> -1;
+  Result := se.Find(Self,value) <> -1;
 end;
 
 
 {!DOCREF} {
-  @method: function TStringArray.Count(Value:String): Boolean;
-  @desc:   Counts the number of occurances of the given `Value`.
+  @method: function TStringArray.Count(value:String): Boolean;
+  @desc:   Counts the number of occurances of the given value `value`.
 }
-function TStringArray.Count(Value:String): Boolean;
+function TStringArray.Count(value:String): Boolean;
 begin
-  Result := Length(Self.FindAll(Value));
+  Result := Length(se.FindAll(self, value));
 end;
 
 
@@ -251,22 +258,6 @@ begin
 end;
 
 
-{!DOCREF} {
-  @method: function TStringArray.ToStr(Sep:String=', '): String;
-  @desc:   Convert the TSA to a string representing the items in the TSA.
-}
-function TStringArray.ToStr(Sep:String=', '): String;
-var i:=0;
-begin
-  Result := '';
-  if High(Self) = -1 then Exit('');
-  Result := '['+#39+Self[0]+#39;
-  for i:=1 to High(Self) do
-    Result := Result + sep +#39+Self[i]+#39;
-  Result := Result + ']';
-end;
-
-
 {=============================================================================}
 // The functions below this line is not in the standard array functionality
 //
@@ -275,7 +266,19 @@ end;
 {=============================================================================}
 
 
-
+{!DOCREF} {
+  @method: function TStringArray.Merge(Sep:String): String;
+  @desc: ?
+}
+function TStringArray.Merge(Sep:String): String;
+var i,hi:Int32;
+begin
+  hi := High(Self);
+  if hi = -1 then Exit('');
+  for i:=0 to hi-1 do
+    Result += Self[i] + Sep;
+  Result += Self[hi];
+end;
 
 
 

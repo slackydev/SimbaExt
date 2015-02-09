@@ -2,11 +2,10 @@
 
 
 {!DOCREF} {
-  @method: function se.IndexOf(var Haystack, Needle; HaystkLen:UInt32; ElmntSize:SizeInt): Int32;
+  @method: function se.IndexOf(var Haystack, Needle; ElmntSize:SizeInt): Int32;
   @desc:
-    Finds the position of the Needle in the Haystack. Both needle and haystack can be [u]any data-type[/u], tho haystack should always be an Array.
-    
-    Requres information about the array, and the size of the elements in the array | Use: `SizeOf(<DataType>)`.
+    Finds the position of the Needle in the Haystack. Both needle and haystack can be [i]any data-type[/i], tho haystack should always be an Array.
+    Requres the size of the elements in the array | Use: `SizeOf(<DataType>)`.
     
     [b]Example:[/b]
     [code=pascal]
@@ -15,37 +14,40 @@
       Arr := [0,2,4,6,8,10];
       Item := 8;
       
-      WriteLn( se.IndexOf(Arr[0], Item, Length(Arr), SizeOf(Integer)) );
+      WriteLn( se.IndexOf(Arr[0], Item, SizeOf(Integer)) );
     end;  
     [/code]>> `4`
     
     [params]
       [b]Haystack:[/b]  Referance to the haystack position.
       [b]Needle:[/b]    The needle.
-      [b]HaystkLen:[/b] Number of elements in haystack
-      [b]ElmntSize:[/b] Size of each element.
+      [b]ElSize:[/b] Size of each element.
+      [b]Len:[/b] (Alternative) Number of elements in haystack
     [/params]
 }
-function SimbaExt.IndexOf(var Haystack,Needle; HaystkLen:UInt32; ElmntSize:SizeInt): Int32;
+function SimbaExt.IndexOf(var Haystack, Needle; ElSize:SizeInt; Len:Int32=-1): Int32;
 var
-  i,hi,lo,ss:Int32;
-  PBData,PBSeek,P,Q:PChar;
+  i,hi,lo:Int32;
+  Data,Seek,P,Q:PChar;
 begin
-  PBData := PChar(@Haystack);
-  PBSeek := PChar(@Needle);
-  P := PBData[0];
-  Q := PBSeek[0];
-  lo := Int32(PBData[0]);
-  hi := Int32(PBData[HaystkLen*ElmntSize] - ElmntSize);
+  Data := PChar(@Haystack);
+  Seek := PChar(@Needle);
+  if Len = -1 then
+    Len := PInt32(Data[-4])^ + 1;
+
+  P := Data[0];
+  Q := Seek[0];
+  lo := Int32(Data[0]);
+  hi := Int32(Data[Len*ElSize] - ElSize);
   while hi > UInt32(P) do
   begin
     if (Q^ <> P^) then begin
-      inc(p,ElmntSize);
+      inc(p,ElSize);
       continue;
     end;
-    if CompareMem(Q, P, ElmntSize) then
-      Exit((UInt32(P)-lo) div ElmntSize);
-    inc(p,ElmntSize);
+    if CompareMem(Q, P, ElSize) then
+      Exit((UInt32(P)-lo) div ElSize);
+    inc(p,ElSize);
   end;
   Exit(-1);
 end;
@@ -74,17 +76,17 @@ end;
 }
 {$IFNDEF CODEINSIGHT}
 type
-  __TReduceTBtA = function (x,y:Byte): Int64;
-  __TReduceTIA  = function (x,y:Int32): Int64;
-  __TReduceTFA  = function (x,y:Single): Extended;
-  __TReduceTDA  = function (x,y:Double): Extended;
-  __TReduceTEA  = function (x,y:Extended): Extended;
-  __TReduceTPA  = function (x,y:TPoint): TPoint;
-  __TReduceTBA = function (x,y:TBox): TBox;
+  __TReduceTBtA = function(x,y:Byte): Int64;
+  __TReduceTIA  = function(x,y:Int32): Int64;
+  __TReduceTFA  = function(x,y:Single): Extended;
+  __TReduceTDA  = function(x,y:Double): Extended;
+  __TReduceTEA  = function(x,y:Extended): Extended;
+  __TReduceTPA  = function(x,y:TPoint): TPoint;
+  __TReduceTBA  = function(x,y:TBox): TBox;
   
-  __TReduceTBtA64 = function (x,y:Int64): Int64;
-  __TReduceTIA64  = function (x,y:Int64): Int64;
-  __TReduceTFA64  = function (x,y:Single): Extended;
+  __TReduceTBtA64 = function(x,y:Int64): Int64;
+  __TReduceTIA64  = function(x,y:Int64): Int64;
+  __TReduceTFA64  = function(x,y:Single): Extended;
 {$ENDIF}
 
 
@@ -261,13 +263,13 @@ end;
 
 {$IFNDEF CODEINSIGHT}
 type
-  __TFilterTBtA = function (x:Byte): Boolean;
-  __TFilterTIA  = function (x:Int32): Boolean;
-  __TFilterTFA  = function (x:Single): Boolean;
-  __TFilterTDA  = function (x:Double): Boolean;
-  __TFilterTEA  = function (x:Extended): Boolean;
-  __TFilterTPA  = function (x:TPoint): Boolean;
-  __TFilterTBA  = function (x:TBox): Boolean;
+  __TFilterTBtA = function(x:Byte): Boolean;
+  __TFilterTIA  = function(x:Int32): Boolean;
+  __TFilterTFA  = function(x:Single): Boolean;
+  __TFilterTDA  = function(x:Double): Boolean;
+  __TFilterTEA  = function(x:Extended): Boolean;
+  __TFilterTPA  = function(x:TPoint): Boolean;
+  __TFilterTBA  = function(x:TBox): Boolean;
 {$ENDIF}
 
 //---| TBtA |---\\
@@ -455,13 +457,13 @@ end;
 
 {$IFNDEF CODEINSIGHT}
 type
-  __TFilterExTBtA = function (x:Byte; Args:TVariantArray): Boolean;
-  __TFilterExTIA  = function (x:Int32; Args:TVariantArray): Boolean;
-  __TFilterExTFA  = function (x:Single; Args:TVariantArray): Boolean;
-  __TFilterExTDA  = function (x:Double; Args:TVariantArray): Boolean;
-  __TFilterExTEA  = function (x:Extended; Args:TVariantArray): Boolean;
-  __TFilterExTPA  = function (x:TPoint; Args:TVariantArray): Boolean;
-  __TFilterExTBA  = function (x:TBox; Args:TVariantArray): Boolean;
+  __TFilterExTBtA = function(x:Byte; Args:TVariantArray): Boolean;
+  __TFilterExTIA  = function(x:Int32; Args:TVariantArray): Boolean;
+  __TFilterExTFA  = function(x:Single; Args:TVariantArray): Boolean;
+  __TFilterExTDA  = function(x:Double; Args:TVariantArray): Boolean;
+  __TFilterExTEA  = function(x:Extended; Args:TVariantArray): Boolean;
+  __TFilterExTPA  = function(x:TPoint; Args:TVariantArray): Boolean;
+  __TFilterExTBA  = function(x:TBox; Args:TVariantArray): Boolean;
 {$ENDIF}
 
 //---| TBtA |---\\
@@ -636,13 +638,13 @@ end;
 
 {$IFNDEF CODEINSIGHT}
 type
-  __TMapTBtA = function (x:Byte): Int32;
-  __TMapTIA  = function (x:Int32): Int32;
-  __TMapTFA  = function (x:Single): Extended;
-  __TMapTDA  = function (x:Double): Extended;
-  __TMapTEA  = function (x:Extended): Extended;
-  __TMapTPA  = function (x:TPoint): TPoint;
-  __TMapTBA  = function (x:TBox): TBox;
+  __TMapTBtA = function(x:Byte): Int32;
+  __TMapTIA  = function(x:Int32): Int32;
+  __TMapTFA  = function(x:Single): Extended;
+  __TMapTDA  = function(x:Double): Extended;
+  __TMapTEA  = function(x:Extended): Extended;
+  __TMapTPA  = function(x:TPoint): TPoint;
+  __TMapTBA  = function(x:TBox): TBox;
 {$ENDIF}
 
 //---| TBtA |---\\
@@ -770,13 +772,13 @@ end;
 
 {$IFNDEF CODEINSIGHT}
 type
-  __TMapExTBtA = function (x,y:Byte): Int32;
-  __TMapExTIA  = function (x,y:Int32): Int32;
-  __TMapExTFA  = function (x,y:Single): Extended;
-  __TMapExTDA  = function (x,y:Double): Extended;
-  __TMapExTEA  = function (x,y:Extended): Extended;
-  __TMapExTPA  = function (x,y:TPoint): TPoint;
-  __TMapExTBA  = function (x,y:TBox): TBox;
+  __TMapExTBtA = function(x,y:Byte): Int32;
+  __TMapExTIA  = function(x,y:Int32): Int32;
+  __TMapExTFA  = function(x,y:Single): Extended;
+  __TMapExTDA  = function(x,y:Double): Extended;
+  __TMapExTEA  = function(x,y:Extended): Extended;
+  __TMapExTPA  = function(x,y:TPoint): TPoint;
+  __TMapExTBA  = function(x,y:TBox): TBox;
 {$ENDIF}
 
 //---| TBtA |---\\
@@ -881,128 +883,4 @@ begin
   SetLength(Result, Length(Arr1));
   for i:=0 to High(Arr1) do
     Result[i] := Def(Arr1[i],Arr2[i]);
-end;
-
-
-
-
-
-{!DOCREF} {
-  @method: function se.Range(lo,hi:Int32; step:Int32=1): TIntArray;
-  @desc: 
-    Generates an array ranging from `lo` to `hi`, with the given `step`.
-    Negative `step` will result in a reversed result.
-    Alternative methods to return other arraytypes: `RangeB` | `RangeF` | `RangeD` | `RangeE`[br]
-    
-    Examples:
-    [code=pascal]WriteLn( se.Range(0,10) );[/code] Output: `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]`[br]
-    
-    [code=pascal]WriteLn( se.Range(-100,0,-20) );[/code] Output: `[0, -20, -40, -60, -80, -100]`
-}
-function SimbaExt.Range(lo,hi:Int32; step:Int32=1): TIntArray;
-var i,j:Int32;
-begin
-  j := -1;
-  case (step > 0) and True of
-    True:
-      begin
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=lo to hi with step do
-          Result[Inc(j)] := i;
-      end;
-    False:
-      begin
-        step := abs(step);
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=hi downto lo with step do
-          Result[Inc(j)] := i;
-      end;
-  end;
-end;
-
-
-function SimbaExt.RangeB(lo,hi:Int32; step:Int32=1): TByteArray;
-var i,j:Int32;
-begin
-  j := -1;
-  case (step > 0) and True of
-    True:
-      begin
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=lo to hi with step do
-          Result[Inc(j)] := i;
-      end;
-    False:
-      begin
-        step := abs(step);
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=hi downto lo with step do
-          Result[Inc(j)] := i;
-      end;
-  end;
-end;
-
-
-function SimbaExt.RangeF(lo,hi:Int32; step:Int32=1): TFloatArray;
-var i,j:Int32;
-begin
-  j := -1;
-  case (step > 0) and True of
-    True:
-      begin
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=lo to hi with step do
-          Result[Inc(j)] := i;
-      end;
-    False:
-      begin
-        step := abs(step);
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=hi downto lo with step do
-          Result[Inc(j)] := i;
-      end;
-  end;
-end;
-
-
-function SimbaExt.RangeD(lo,hi:Int32; step:Int32=1): TDoubleArray;
-var i,j:Int32;
-begin
-  j := -1;
-  case (step > 0) and True of
-    True:
-      begin
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=lo to hi with step do
-          Result[Inc(j)] := i;
-      end;
-    False:
-      begin
-        step := abs(step);
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=hi downto lo with step do
-          Result[Inc(j)] := i;
-      end;
-  end;
-end;
-
-function SimbaExt.RangeE(lo,hi:Int32; step:Int32=1): TExtArray;
-var i,j:Int32;
-begin
-  j := -1;
-  case (step > 0) and True of
-    True:
-      begin
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=lo to hi with step do
-          Result[Inc(j)] := i;
-      end;
-    False:
-      begin
-        step := abs(step);
-        SetLength(Result, ((hi-lo) div step) + 1);
-        for i:=hi downto lo with step do
-          Result[Inc(j)] := i;
-      end;
-  end;
 end;

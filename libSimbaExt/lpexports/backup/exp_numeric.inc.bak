@@ -1,0 +1,49 @@
+{=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=]
+ Copyright (c) 2014, Jarl K. <Slacky> Holta || http://github.com/WarPie
+ All rights reserved.
+ For more info see: Copyright.txt
+ 
+ Exports numeric (number-array related) methods
+[=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
+AddMethod(@exp_SumA_u8,		'function SimbaExt.Sum(const Arr: Array of UInt8): UInt64;');
+AddMethod(@exp_SumA_s8,		'function SimbaExt.Sum(const Arr: Array of Int8): Int64; overload;');
+AddMethod(@exp_SumA_u16,	'function SimbaExt.Sum(const Arr: Array of UInt16): UInt64; overload;');
+AddMethod(@exp_SumA_s16,	'function SimbaExt.Sum(const Arr: Array of Int16): Int64; overload;');
+AddMethod(@exp_SumA_u32,	'function SimbaExt.Sum(const Arr: Array of UInt32): UInt64; overload;');
+AddMethod(@exp_SumA_s32,	'function SimbaExt.Sum(const Arr: Array of Int32): Int64; overload;');
+AddMethod(@exp_SumA_u64,	'function SimbaExt.Sum(const Arr: Array of UInt64): UInt64; overload;');
+AddMethod(@exp_SumA_s64,	'function SimbaExt.Sum(const Arr: Array of Int64): Int64; overload;');
+AddMethod(@exp_SumA_f32,	'function SimbaExt.Sum(const Arr: Array of Single): Extended; overload;');
+AddMethod(@exp_SumA_f64,	'function SimbaExt.Sum(const Arr: Array of Double): Extended; overload;');
+AddMethod(@exp_SumA_f80,	'function SimbaExt.Sum(const Arr: Array of Extended): Extended; overload;');
+
+AddMethod(@exp_MinA_u8,		'function SimbaExt.Min(const Arr: Array of UInt8): UInt64;');
+AddMethod(@exp_MinA_s8,		'function SimbaExt.Min(const Arr: Array of Int8): Int64; overload;');
+AddMethod(@exp_MinA_u16,	'function SimbaExt.Min(const Arr: Array of UInt16): UInt64; overload;');
+AddMethod(@exp_MinA_s16,	'function SimbaExt.Min(const Arr: Array of Int16): Int64; overload;');
+AddMethod(@exp_MinA_u32,	'function SimbaExt.Min(const Arr: Array of UInt32): UInt64; overload;');
+AddMethod(@exp_MinA_s32,	'function SimbaExt.Min(const Arr: Array of Int32): Int64; overload;');
+AddMethod(@exp_MinA_u64,	'function SimbaExt.Min(const Arr: Array of UInt64): UInt64; overload;');
+AddMethod(@exp_MinA_s64,	'function SimbaExt.Min(const Arr: Array of Int64): Int64; overload;');
+AddMethod(@exp_MinA_f32,	'function SimbaExt.Min(const Arr: Array of Single): Extended; overload;');
+AddMethod(@exp_MinA_f64,	'function SimbaExt.Min(const Arr: Array of Double): Extended; overload;');
+AddMethod(@exp_MinA_f80,	'function SimbaExt.Min(const Arr: Array of Extended): Extended; overload;');
+
+AddMethod(@exp_MaxA_u8,		'function SimbaExt.Max(const Arr: Array of UInt8): UInt64;');
+AddMethod(@exp_MaxA_s8,		'function SimbaExt.Max(const Arr: Array of Int8): Int64; overload;');
+AddMethod(@exp_MaxA_u16,	'function SimbaExt.Max(const Arr: Array of UInt16): UInt64; overload;');
+AddMethod(@exp_MaxA_s16,	'function SimbaExt.Max(const Arr: Array of Int16): Int64; overload;');
+AddMethod(@exp_MaxA_u32,	'function SimbaExt.Max(const Arr: Array of UInt32): UInt64; overload;');
+AddMethod(@exp_MaxA_s32,	'function SimbaExt.Max(const Arr: Array of Int32): Int64; overload;');
+AddMethod(@exp_MaxA_u64,	'function SimbaExt.Max(const Arr: Array of UInt64): UInt64; overload;');
+AddMethod(@exp_MaxA_s64,	'function SimbaExt.Max(const Arr: Array of Int64): Int64; overload;');
+AddMethod(@exp_MaxA_f32,	'function SimbaExt.Max(const Arr: Array of Single): Extended; overload;');
+AddMethod(@exp_MaxA_f64,	'function SimbaExt.Max(const Arr: Array of Double): Extended; overload;');
+AddMethod(@exp_MaxA_f80,	'function SimbaExt.Max(const Arr: Array of Extended): Extended; overload;');
+
+
+AddMethod(@exp_MinMaxTBA,	'procedure SimbaExt.MinMax(const Arr: TByteArray; var Min:Byte; var Max:Byte);');
+AddMethod(@exp_MinMaxTIA,	'procedure SimbaExt.MinMax(const Arr: TIntArray; var Min:Integer; var Max: Integer); overload;');
+AddMethod(@exp_MinMaxTEA,	'procedure SimbaExt.MinMax(const Arr: TExtArray; var Min:Extended; var Max: Extended); overload;');
+AddMethod(@exp_TIACombinations,	'function SimbaExt.Combinations(const Arr: TIntArray; Seq:Integer): T2DIntArray;');
+AddMethod(@exp_TEACombinations,	'function SimbaExt.Combinations(const Arr: TExtArray; Seq:Integer): T2DExtArray; overload;');

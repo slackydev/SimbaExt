@@ -27,11 +27,7 @@ end;
   @method: procedure TIntArray.Append(const Value:Int32);
   @desc: Add another item to the array
 }
-{$IFNDEF SRL6}
-procedure TIntArray.Append(const Value:Int32);
-{$ELSE}
-procedure TIntArray.Append(const Value:Int32); override;
-{$ENDIF}
+procedure TIntArray.Append(const Value:Int32); {$IFDEF SRL6}override;{$ENDIF}
 var
   l:Int32;
 begin
@@ -54,7 +50,7 @@ var l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -89,7 +85,7 @@ end;
 }
 procedure TIntArray.Remove(Value:Int32);
 begin
-  Self.Del( Self.Find(Value) );
+  Self.Del( se.Find(Self,Value) );
 end;
 
 
@@ -119,13 +115,13 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Slice(Start,Stop: Int32; Step:Int32=1): TIntArray;
+  @method: function TIntArray.Slice(Start,Stop:Int64; Step:Int32=1): TIntArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to `step` past items.
     You can give it negative start, and stop, then it will wrap around based on length(..)
     
-    If c'Start >= Stop', and c'Step <= -1' it will result in reversed output.
+    If `Start >= Stop`, and `Step <= -1` it will result in reversed output.
     
     [b]Examples:[/b]
     [code=pascal]
@@ -138,18 +134,11 @@ end;
 
     [note]Don't pass positive `Step`, combined with `Start > Stop`, that is undefined[/note]
 }
-function TIntArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): TIntArray;
+function TIntArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): TIntArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -172,7 +161,7 @@ end;
 }
 function TIntArray.Find(Value:Int32): Int32;
 begin
-  Result := exp_Find(Self,[Value]);
+  Result := se.Find(Self,Value);
 end;
 
 
@@ -182,7 +171,7 @@ end;
 }
 function TIntArray.Find(Sequence:TIntArray): Int32; overload;
 begin
-  Result := exp_Find(Self,Sequence);
+  Result := se.Find(Self,Sequence);
 end;
 
 
@@ -193,7 +182,7 @@ end;
 }
 function TIntArray.FindAll(Value:Int32): TIntArray; overload;
 begin
-  Result := exp_FindAll(Self,[value]);
+  Result := se.FindAll(Self,Value);
 end;
 
 
@@ -203,39 +192,39 @@ end;
 }
 function TIntArray.FindAll(Sequence:TIntArray): TIntArray; overload;
 begin
-  Result := exp_FindAll(Self,sequence);
+  Result := se.FindAll(Self,sequence);
 end;
 
 
 
 {!DOCREF} {
-  @method: function TIntArray.Contains(val:Int32): Boolean;
-  @desc: Checks if the arr contains the given value c'val'
+  @method: function TIntArray.Contains(value:Int32): Boolean;
+  @desc: Checks if the arr contains the given value `Value`
 }
-function TIntArray.Contains(val:Int32): Boolean;
+function TIntArray.Contains(value:Int32): Boolean;
 begin
-  Result := Self.Find(val) <> -1;
+  Result := se.Find(Self,value) <> -1;
 end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Count(val:Int32): Int32;
-  @desc: Counts all the occurances of the given value c'val'
+  @method: function TIntArray.Count(Value:Int32): Int32;
+  @desc: Counts all the occurances of the given value `Value`
 }
-function TIntArray.Count(val:Int32): Int32;
+function TIntArray.Count(value:Int32): Int32;
 begin
-  Result := Length(Self.FindAll(val));
+  Result := Length( se.FindAll(Self,value) );
 end;
 
 
 
 {!DOCREF} {
-  @method: procedure TIntArray.Sort(key:TSortKey=sort_Default);
+  @method: procedure TIntArray.Sort(key:ESortKey=sort_Default);
   @desc: 
     Sorts the array
     Supports the keys: c'sort_Default'
 }
-procedure TIntArray.Sort(key:TSortKey=sort_Default);
+procedure TIntArray.Sort(key:ESortKey=sort_Default);
 begin
   case key of
     sort_default: se.SortTIA(Self);
@@ -246,12 +235,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TIntArray.Sorted(key:TSortKey=sort_Default): TIntArray;
+  @method: function TIntArray.Sorted(key:ESortKey=sort_Default): TIntArray;
   @desc: 
     Returns a new sorted array from the input array.
     Supports the keys: c'sort_Default'
 }
-function TIntArray.Sorted(Key:TSortKey=sort_Default): TIntArray;
+function TIntArray.Sorted(Key:ESortKey=sort_Default): TIntArray;
 begin
   Result := Copy(Self);
   case key of
@@ -298,13 +287,9 @@ end;
   @method: function TIntArray.Sum(): Int64;
   @desc: Adds up the TIA and returns the sum
 }
-{$IFNDEF SRL6}
-function TIntArray.Sum(): Int64;
-{$ELSE}
-function TIntArray.Sum(): Int32; override;
-{$ENDIF}
+function TIntArray.Sum(): {$IFNDEF SRL6}Int64;{$ELSE}Int32; override;{$ENDIF}
 begin
-  Result := exp_SumPtr(PChar(Self),SizeOf(Int32),Length(Self),False);
+  Result := se.Sum(Self);
 end;
 
 
@@ -314,7 +299,7 @@ end;
 }
 function TIntArray.Mean(): Extended;
 begin
-  Result := Self.Sum() / Length(Self);
+  Result := se.Mean(Self);
 end;
 
 
@@ -324,15 +309,8 @@ end;
   @desc: Returns the standard deviation of the array
 }
 function TIntArray.Stdev(): Extended;
-var
-  i:Int32;
-  avg:Extended;
-  square:TExtArray;
 begin
-  avg := Self.Mean();
-  SetLength(square,Length(Self));
-  for i:=0 to High(self) do Square[i] := Sqr(Self[i] - avg);
-  Result := sqrt(square.Mean());
+  Result := se.Stdev(Self);
 end;
 
 
@@ -343,14 +321,8 @@ end;
     Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
 function TIntArray.Variance(): Extended;
-var
-  avg:Extended;
-  i:Int32;
 begin
-  avg := Self.Mean();
-  for i:=0 to High(Self) do
-    Result := Result + Sqr(Self[i] - avg);
-  Result := Result / length(self);
+  Result := se.Variance(Self);
 end; 
 
 
@@ -362,29 +334,8 @@ end;
     When there are multiple values occurring equally frequently, mode returns the smallest of those values.
 }
 function TIntArray.Mode(): Int32;
-var
-  arr:TIntArray;
-  i,cur,hits,best: Int32;
 begin
-  arr := self.sorted();
-  cur := arr[0];
-  hits := 1;
-  best := 0;
-  for i:=1 to High(Arr) do
-  begin
-    if (cur <> arr[i]) then
-    begin
-      if (hits > best) then
-      begin
-        best := hits;
-        Result := cur;
-      end;
-      hits := 0;
-      cur := Arr[I];
-    end;
-    Inc(hits);
-  end;
-  if (hits > best) then Result := cur;
+  Result := se.Mode(Self);
 end;
 
 
@@ -396,7 +347,7 @@ end;
 function TIntArray.VarMin(): Int32;
 var _:Int32;
 begin
-  se.MinMaxTIA(Self,Result,_);
+  Result := se.Min(Self);
 end;
 
 
@@ -408,7 +359,7 @@ end;
 function TIntArray.VarMax(): Int32;
 var _:Int32;
 begin
-  se.MinMaxTIA(Self,_,Result);
+  Result := se.Max(Self);
 end;
 
 
@@ -423,7 +374,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMin(mat).x;
+  Result := se.ArgMin(mat).x;
 end;
 
 
@@ -455,7 +406,7 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMin(mat,B).x;
+  Result := se.ArgMin(mat,B).x;
 end;
 
 
@@ -470,7 +421,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMax(mat).x;
+  Result := se.ArgMax(mat).x;
 end;
 
 
@@ -502,17 +453,8 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMax(mat,B).x;
+  Result := se.ArgMax(mat,B).x;
 end;
-
-
-
-
-
-
-
-
-
 
 
 

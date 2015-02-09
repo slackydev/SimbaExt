@@ -50,7 +50,7 @@ var l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -85,7 +85,7 @@ end;
 }
 procedure TByteArray.Remove(Value:Byte);
 begin
-  Self.Del( Self.Find(Value) );
+  Self.Del( se.Find(Self,Value) );
 end;
 
 
@@ -116,7 +116,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function TByteArray.Slice(Start,Stop: Int32; Step:Int32=1): TByteArray;
+  @method: function TByteArray.Slice(Start,Stop:Int64; Step:Int32=1): TByteArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -126,18 +126,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TByteArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): TByteArray;
+function TByteArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): TByteArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -160,7 +153,7 @@ end;
 }
 function TByteArray.Find(Value:Byte): Int32; 
 begin
-  Result := exp_Find(Self,TByteArray([Value]));
+  Result := se.Find(Self,Value);
 end;
 
 
@@ -170,7 +163,7 @@ end;
 }
 function TByteArray.Find(Sequence:TByteArray): Int32; overload;
 begin
-  Result := exp_Find(Self,Sequence);
+  Result := se.Find(Self,Sequence);
 end;
 
 
@@ -180,7 +173,7 @@ end;
 }
 function TByteArray.FindAll(Value:Byte): TIntArray; 
 begin
-  Result := exp_FindAll(Self,TByteArray([value]));
+  Result := se.FindAll(self,value);
 end;
 
 
@@ -190,37 +183,37 @@ end;
 }
 function TByteArray.FindAll(Sequence:TByteArray): TIntArray; overload;
 begin
-  Result := exp_FindAll(Self,sequence);
+  Result := se.FindAll(Self,sequence);
 end;
 
 
 {!DOCREF} {
-  @method: function TByteArray.Contains(val:Byte): Boolean;
-  @desc: Checks if the arr contains the given value c'val'
+  @method: function TByteArray.Contains(value:Byte): Boolean;
+  @desc: Checks if the arr contains the given value `value`
 }
-function TByteArray.Contains(val:Byte): Boolean;
+function TByteArray.Contains(value:Byte): Boolean;
 begin
-  Result := Self.Find(val) <> -1;
+  Result := se.Find(Self,value) <> -1;
 end;
 
 
 {!DOCREF} {
-  @method: function TByteArray.Count(val:Byte): Int32;
-  @desc: Counts all the occurances of val
+  @method: function TByteArray.Count(value:Byte): Int32;
+  @desc: Counts all the occurances of given value `value` 
 }
-function TByteArray.Count(val:Byte): Int32;
+function TByteArray.Count(value:Byte): Int32;
 begin
-  Result := Length(Self.FindAll(val));
+  Result := Length(se.FindAll(self, value));
 end;
 
 
 {!DOCREF} {
-  @method: procedure TByteArray.Sort(key:TSortKey=sort_Default);
+  @method: procedure TByteArray.Sort(key:ESortKey=sort_Default);
   @desc: 
     Sorts the array
     Supports the keys: c'sort_Default'
 }
-procedure TByteArray.Sort(key:TSortKey=sort_Default);
+procedure TByteArray.Sort(key:ESortKey=sort_Default);
 begin
   case key of
     sort_default: se.SortTBA(Self);
@@ -231,12 +224,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TByteArray.Sorted(key:TSortKey=sort_Default): TByteArray;
+  @method: function TByteArray.Sorted(key:ESortKey=sort_Default): TByteArray;
   @desc: 
     Sorts and returns a copy of the array.
     Supports the keys: c'sort_Default'
 }
-function TByteArray.Sorted(Key:TSortKey=sort_Default): TByteArray;
+function TByteArray.Sorted(Key:ESortKey=sort_Default): TByteArray;
 begin
   Result := Copy(Self);
   case key of
@@ -283,22 +276,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TByteArray.Sum(): Int32;
+  @method: function TByteArray.Sum(): Int64;
   @desc: Adds up the TIA and returns the sum
 }
-function TByteArray.Sum(): Int32;
+function TByteArray.Sum(): Int64;
 begin
-  Result := exp_SumPtr(PChar(Self),SizeOf(Byte),Length(Self),True);
-end;
-
-
-{!DOCREF} {
-  @method: function TByteArray.Sum64(): Int64;
-  @desc: Adds up the TBA and returns the sum
-}
-function TByteArray.Sum64(): Int64;
-begin
-  Result := exp_SumPtr(PChar(Self),SizeOf(Byte),Length(Self),True);
+  Result := se.Sum(Self);
 end;
 
 
@@ -308,7 +291,7 @@ end;
 }
 function TByteArray.Mean(): Extended;
 begin
-  Result := Self.Sum64() / Length(Self);
+  Result := se.Mean(Self);
 end;
 
 
@@ -318,15 +301,8 @@ end;
   @desc: Returns the standard deviation of the array
 }
 function TByteArray.Stdev(): Extended;
-var
-  i:Int32;
-  avg:Extended;
-  square:TExtArray;
 begin
-  avg := Self.Mean();
-  SetLength(square,Length(Self));
-  for i:=0 to High(self) do Square[i] := Sqr(Self[i] - avg);
-  Result := sqrt(square.Mean());
+  Result := se.Stdev(Self);
 end;
 
 
@@ -337,15 +313,9 @@ end;
     Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
 function TByteArray.Variance(): Extended;
-var
-  avg:Extended;
-  i:Int32;
 begin
-  avg := Self.Mean();
-  for i:=0 to High(Self) do
-    Result := Result + Sqr(Self[i] - avg);
-  Result := Result / length(self);
-end; 
+  Result := se.Variance(Self);
+end;
 
 
 
@@ -356,30 +326,8 @@ end;
     When there are multiple values occurring equally frequently, mode returns the smallest of those values.
 }
 function TByteArray.Mode(): Byte;
-var
-  arr:TByteArray;
-  cur:Byte;
-  i,hits,best: Int32;
 begin
-  arr := self.sorted();
-  cur := arr[0];
-  hits := 1;
-  best := 0;
-  for i:=1 to High(Arr) do
-  begin
-    if (cur <> arr[i]) then
-    begin
-      if (hits > best) then
-      begin
-        best := hits;
-        Result := cur;
-      end;
-      hits := 0;
-      cur := Arr[I];
-    end;
-    Inc(hits);
-  end;
-  if (hits > best) then Result := cur;
+  Result := se.Mode(Self);
 end;
 
 
@@ -391,7 +339,7 @@ end;
 function TByteArray.VarMin(): Byte;
 var _:Byte;
 begin
-  se.MinMaxTBA(Self,Result,_);
+  Result := se.Min(Self);
 end;
 
 
@@ -403,7 +351,7 @@ end;
 function TByteArray.VarMax(): Byte;
 var _:Byte;
 begin
-  se.MinMaxTBA(Self,_,Result);
+  Result := se.Max(Self);
 end;
 
 
@@ -418,7 +366,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMin(mat).x;
+  Result := se.ArgMin(mat).x;
 end;
 
 
@@ -450,7 +398,7 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMin(mat,B).x;
+  Result := se.ArgMin(mat,B).x;
 end;
 
 
@@ -465,7 +413,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMax(mat).x;
+  Result := se.ArgMax(mat).x;
 end;
 
 
@@ -497,7 +445,7 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMax(mat,B).x;
+  Result := se.ArgMax(mat,B).x;
 end;
 
 

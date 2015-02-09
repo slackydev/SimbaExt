@@ -1,6 +1,13 @@
 {!DOCTOPIC}{ 
   Type » TPoint
 }
+{$IFDEF SE_TOSTR}
+function ToString(x:TPoint): String; override;
+begin
+  Result := Format('(%d,%d)', [x.x, x.y]);
+end;
+{$ENDIF}
+
 
 {!DOCREF} {
   @method: function TPoint.Magnitude(): Extended;
@@ -40,7 +47,7 @@ end;
 }
 function TPoint.DistanceTo(Pt:TPoint): Extended;
 begin
-  Result := Math.DistEuclidean(Self, Pt);
+  Result := se.DistEuclidean(Self, Pt);
 end;
 
 
@@ -50,7 +57,7 @@ end;
 }
 function TPoint.DistanceToLine(sA, sB:TPoint): Extended;
 begin
-  Result := Math.DistToLine(Self, sA, sB);
+  Result := se.DistToLine(Self, sA, sB);
 end;
 
 
@@ -121,17 +128,17 @@ end;
 
 
 {!DOCREF} {
-  @method: function TPoint.Compare(Pt:TPoint): TComparator;
-  @desc: Compares the two points. Result = (__LT__,__EQ__,__GT__);
+  @method: function TPoint.Compare(Pt:TPoint): Int32;
+  @desc: Compares the two points. Result = (-1,0,1);
 }
-function TPoint.Compare(Pt:TPoint): TComparator;
+function TPoint.Compare(Pt:TPoint): Int32;
 begin
   if (Self.x = PT.x) and (Self.y = PT.y) then
-    Exit(__EQ__);
+    Exit(0);
   if (Self.X <= PT.X) and (Self.Y <= PT.Y) then
-    Exit(__LT__) 
+    Exit(-1)
   else
-    Exit(__GT__); 
+    Exit(1);
 end;
 
 
@@ -157,58 +164,6 @@ end;
 function TPoint.InBox(B:TBox): Boolean;
 begin
   Result := InRange(Self.x, B.x1, B.x2) and InRange(Self.y, B.y1, B.y2);
-end;
-
-{$IFNDEF SRL6}
-{!DOCREF} {
-  @method: function TPoint.RandRange(lo,hi:Int32): TPoint;
-  @desc: Randomizes a point by the given lower and upper bounds.
-}
-function TPoint.RandRange(lo,hi:Int32): TPoint;
-begin
-  Result.x := Self.x + Rand.RandInt(lo,hi);
-  Result.y := Self.y + Rand.RandInt(lo,hi);
-end;
-
-{!DOCREF} {
-  @method: function TPoint.RandRange(x1,y1,x2,y2:Int32): TPoint; overload;
-  @desc: Randomizes a point by the given lower and upper bounds for each axis.
-}
-function TPoint.RandRange(x1,y1,x2,y2:Int32): TPoint; overload;
-begin
-  Result.x := Self.x + Rand.RandInt(x1,x2);
-  Result.y := Self.y + Rand.RandInt(y1,y2);
-end;
-{$ENDIF}
-
-
-{!DOCREF} {
-  @method: function TPoint.Gauss(Stddev: Extended): TPoint;
-  @desc: Generates a gaussian ("normally" distributed) TPoint using Box-Muller transform.
-}
-function TPoint.Gauss(Stddev: Extended): TPoint;
-begin
-  {$IFDEF SRL6}
-  Result := Randm.GaussPt(Self,Stddev);
-  {$ELSE}
-  Result := Rand.GaussPt(Self,Stddev);
-  {$ENDIF}
-end;
-
-
-{!DOCREF} {
-  @method: function TPoint.Gauss(Stddev,MaxDev: Extended): TPoint; overload;
-  @desc: 
-    Generates a gaussian ("normally" distributed) TPoint using Box-Muller transform.
-    Takes an extra parameter to encapsule the point within a given range (maxDev).
-}
-function TPoint.Gauss(Stddev,MaxDev: Extended): TPoint; overload;
-begin
-  {$IFDEF SRL6}
-  Result := Randm.GaussPt(Self,StdDev, MaxDev);
-  {$ELSE}
-  Result := Rand.GaussPt(Self,StdDev, MaxDev);
-  {$ENDIF}
 end;
 
 

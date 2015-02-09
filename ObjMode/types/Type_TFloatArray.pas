@@ -50,7 +50,7 @@ var l:Int32;
 begin
   l := Length(Self);
   if (idx < 0) then
-    idx := math.modulo(idx,l);
+    idx := se.modulo(idx,l);
 
   if (l <= idx) then begin
     self.append(value);
@@ -85,7 +85,7 @@ end;
 }
 procedure TFloatArray.Remove(Value:Single);
 begin
-  Self.Del( Self.Find(Value) );
+  Self.Del( se.Find(Self,Value) );
 end;
 
 
@@ -115,7 +115,7 @@ end;
 
 
 {!DOCREF} {
-  @method: function TFloatArray.Slice(Start,Stop: Int32; Step:Int32=1): TFloatArray;
+  @method: function TFloatArray.Slice(Start,Stop:Int64; Step:Int32=1): TFloatArray;
   @desc:
     Slicing similar to slice in Python, tho goes from 'start to and including stop'
     Can be used to eg reverse an array, and at the same time allows you to c'step' past items.
@@ -125,18 +125,11 @@ end;
     
     [note]Don't pass positive c'Step', combined with c'Start > Stop', that is undefined[/note]
 }
-function TFloatArray.Slice(Start:Int64=DefVar64; Stop: Int64=DefVar64; Step:Int64=1): TFloatArray;
+function TFloatArray.Slice(Start,Stop:Int64=High(Int64); Step:Int32=1): TFloatArray;
 begin
-  if (Start = DefVar64) then
-    if Step < 0 then Start := -1
-    else Start := 0;       
-  if (Stop = DefVar64) then 
-    if Step > 0 then Stop := -1
-    else Stop := 0;
-  
   if Step = 0 then Exit;
-  try Result := exp_slice(Self, Start,Stop,Step);
-  except SetLength(Result,0) end;
+  try Result := se.slice(Self, Start,Stop,Step);
+  except RaiseWarning(se.GetException(),ERR_NOTICE); end;
 end;
 
 
@@ -159,7 +152,7 @@ end;
 }
 function TFloatArray.Find(Value:Single): Int32;
 begin
-  Result := exp_Find(Self,[Value]);
+  Result := se.Find(Self,Value);
 end;
 
 
@@ -169,7 +162,7 @@ end;
 }
 function TFloatArray.Find(Sequence:TFloatArray): Int32; overload;
 begin
-  Result := exp_Find(Self,Sequence);
+  Result := se.Find(Self,Sequence);
 end;
 
 
@@ -179,7 +172,7 @@ end;
 }
 function TFloatArray.FindAll(Value:Single): TIntArray;
 begin
-  Result := exp_FindAll(Self,[value]);
+  Result := se.FindAll(Self,Value);
 end;
 
 
@@ -189,37 +182,37 @@ end;
 }
 function TFloatArray.FindAll(Sequence:TFloatArray): TIntArray; overload;
 begin
-  Result := exp_FindAll(Self,sequence);
+  Result := se.FindAll(Self,sequence);
 end;
 
 
 {!DOCREF} {
-  @method: function TFloatArray.Contains(val:Single): Boolean;
-  @desc: Checks if the arr contains the given value c'val'
+  @method: function TFloatArray.Contains(value:Single): Boolean;
+  @desc: Checks if the arr contains the given value `value`
 }
-function TFloatArray.Contains(val:Single): Boolean;
+function TFloatArray.Contains(value:Single): Boolean;
 begin
-  Result := Self.Find(val) <> -1;
+  Result := se.Find(Self,value) <> -1;
 end;
 
 
 {!DOCREF} {
-  @method: function TFloatArray.Count(val:Single): Int32;
-  @desc: Counts all the occurances of the given value c'val'
+  @method: function TFloatArray.Count(value:Single): Int32;
+  @desc: Counts all the occurances of the given value `value`
 }
-function TFloatArray.Count(val:Single): Int32;
+function TFloatArray.Count(value:Single): Int32;
 begin
-  Result := Length(Self.FindAll(val));
+  Result := Length(se.FindAll(self, value));
 end;
 
 
 {!DOCREF} {
-  @method: procedure TFloatArray.Sort(key:TSortKey=sort_Default);
+  @method: procedure TFloatArray.Sort(key:ESortKey=sort_Default);
   @desc: 
     Sorts the array
     Supported keys: c'sort_Default'
 }
-procedure TFloatArray.Sort(key:TSortKey=sort_Default);
+procedure TFloatArray.Sort(key:ESortKey=sort_Default);
 begin
   case key of
     sort_default: se.SortTFA(Self);
@@ -230,12 +223,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TFloatArray.Sorted(key:TSortKey=sort_Default): TFloatArray;
+  @method: function TFloatArray.Sorted(key:ESortKey=sort_Default): TFloatArray;
   @desc: 
     Returns a new sorted array from the input array.
     Supported keys: c'sort_Default'
 }
-function TFloatArray.Sorted(Key:TSortKey=sort_Default): TFloatArray;
+function TFloatArray.Sorted(Key:ESortKey=sort_Default): TFloatArray;
 begin
   Result := Copy(Self);
   case key of
@@ -280,12 +273,12 @@ end;
 
 
 {!DOCREF} {
-  @method: function TFloatArray.Sum(): Double;
+  @method: function TFloatArray.Sum(): Extended;
   @desc: Adds up the array and returns the sum
 }
-function TFloatArray.Sum(): Double;
+function TFloatArray.Sum(): Extended;
 begin
-  Result := exp_SumFPtr(PChar(Self),SizeOf(Single),Length(Self));
+  Result := se.Sum(Self);
 end;
 
 
@@ -295,7 +288,7 @@ end;
 }
 function TFloatArray.Mean(): Single;
 begin
-  Result := Self.Sum() / Length(Self);
+  Result := se.Mean(Self);
 end;
 
 
@@ -304,15 +297,8 @@ end;
   @desc: Returns the standard deviation of the array
 }
 function TFloatArray.Stdev(): Single;
-var
-  i:Int32;
-  avg:Single;
-  square:TFloatArray;
 begin
-  avg := Self.Mean();
-  SetLength(square,Length(Self));
-  for i:=0 to High(self) do Square[i] := Sqr(Self[i] - avg);
-  Result := sqrt(square.Mean());
+  Result := se.Stdev(Self);
 end;
 
 {!DOCREF} {
@@ -322,49 +308,20 @@ end;
     Variance, or second moment about the mean, is a measure of the variability (spread or dispersion) of the array. A large variance indicates that the data is spread out; a small variance indicates it is clustered closely around the mean.
 }
 function TFloatArray.Variance(): Double;
-var
-  avg:Single;
-  i:Int32;
 begin
-  avg := Self.Mean();
-  for i:=0 to High(Self) do
-    Result := Result + Sqr(Self[i] - avg);
-  Result := Result / length(self);
+  Result := se.Variance(Self);
 end; 
 
 
 {!DOCREF} {
-  @method: function TFloatArray.Mode(Eps:Single=0.000001): Single;
+  @method: function TFloatArray.Mode(): Single;
   @desc:
     Returns the sample mode of the array, which is the [u]most frequently occurring value[/u] in the array.
     When there are multiple values occurring equally frequently, mode returns the smallest of those values.
-    Takes an extra parameter c'Eps', can be used to allow some tolerance in the floating point comparison.
 }
-function TFloatArray.Mode(Eps:Single=0.0000001): Single;
-var
-  arr:TFloatArray;
-  i,hits,best: Int32;
-  cur:Single;
+function TFloatArray.Mode(): Single;
 begin
-  arr := self.sorted();
-  cur := arr[0];
-  hits := 1;
-  best := 0;
-  for i:=1 to High(Arr) do
-  begin
-    if (arr[i]-cur > eps) then //arr[i] <> cur
-    begin
-      if (hits > best) then
-      begin
-        best := hits;
-        Result := (Cur+Arr[i-1]) / 2; //Eps fix
-      end;
-      hits := 0;
-      cur := Arr[I];
-    end;
-    Inc(hits);
-  end;
-  if (hits > best) then Result := cur;
+  Result := se.Mode(Self)
 end;
 
 
@@ -373,10 +330,8 @@ end;
   @desc: Returns the minimum value in the array
 }
 function TFloatArray.VarMin(): Single;
-var lo,hi:Extended;
 begin
-  exp_MinMaxFPtr(Pointer(self), 4, length(self), lo,hi);
-  Result := Lo;
+  Result := se.Min(Self);
 end;
 
 
@@ -386,10 +341,8 @@ end;
   @desc: Returns the maximum value in the array
 }
 function TFloatArray.VarMax(): Single;
-var lo,hi:Extended;
 begin
-  exp_MinMaxFPtr(Pointer(self), 4, length(self), lo,hi);
-  Result := Hi;
+  Result := se.Max(Self);
 end;
 
 
@@ -404,7 +357,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMin(mat).x;
+  Result := se.ArgMin(mat).x;
 end;
 
 
@@ -436,7 +389,7 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMin(mat,B).x;
+  Result := se.ArgMin(mat,B).x;
 end;
 
 
@@ -451,7 +404,7 @@ var
 begin
   SetLength(Mat,1);
   mat[0] := Self;
-  Result := exp_ArgMax(mat).x;
+  Result := se.ArgMax(mat).x;
 end;
 
 
@@ -483,5 +436,9 @@ begin
   SetLength(Mat,1);
   mat[0] := Self;
   B := [lo,0,hi,0];
-  Result := exp_ArgMax(mat,B).x;
+  Result := se.ArgMax(mat,B).x;
 end;
+
+
+
+
