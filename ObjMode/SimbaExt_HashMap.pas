@@ -229,6 +229,21 @@ begin
   Result := False;
 end;
 
+function THashMap.Get(Key: Variant; var Value: Boolean): Boolean;  overload;
+var
+  h,i,l: Int32;
+begin
+  if FLen = 0 then RaiseException('THashMap: Not yet initalized');
+  h := Self.Hash(Key);
+  l := High(Self.FTable[h]);
+  for i:=0 to l do
+    if CompareVarKeys(self.FTable[h][i].Key, Key)  then
+    begin
+      Value := Self.FTable[h][i].Value;
+      Exit(True);
+    end;
+  Result := False;
+end;
 
 function THashMap.Get(Key: Variant; var Value: Double): Boolean;  overload;
 var
@@ -379,6 +394,20 @@ begin
     if CompareVarKeys(self.FTable[h][i].Key, Key)  then
       Exit(Self.FTable[h][i].Value);
   RaiseException('THashMap: Key "'+Key+'" was not found');
+end;
+
+function THashMap.Get(Key: Boolean): Variant; overload;
+var
+  h,i,l: Int32;
+begin
+  if FLen = 0 then RaiseException('THashMap: Not yet initalized');
+  h := Self.Hash(Key);
+  l := High(Self.FTable[h]);
+  for i:=0 to l do
+    if CompareVarKeys(self.FTable[h][i].Key, Key)  then
+      Exit(Self.FTable[h][i].Value);
+
+  RaiseException(String('THashMap: Key '+ToString(Key)+' was not found'));
 end;
 
 function THashMap.Get(Key: Int32): Variant; overload;
