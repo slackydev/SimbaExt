@@ -120,17 +120,19 @@ type
   
   // Comperison operator
   EComparator = (__LT__, __GT__, __EQ__, __NE__, __GE__, __LE__);
-
+  PComparator = ^EComparator;
 
   // Distance units
   EDistUnit = (duEuclidean, duManhatten, duChebyshev);
   
   TChars = Array of T2DIntArray;
   TCharsArray = Array of TChars;
-  
-  
+
   PRGB32 = ^TRGB32;
-  TRGB32 = packed record B, G, R, A: UInt8; end;
+  TRGB32 = packed record R, G, B, A: UInt8; end;
+  
+  PBGR32 = ^TBGR32;
+  TBGR32 = packed record B, G, R, A: UInt8; end;
   
   
   //--| Lape related |--------------------------------------------
@@ -209,6 +211,8 @@ function TPAToTPFA(Arr:TPointArray): TPointFArray;
 
 operator = (Left, Right: TPoint): Boolean;
 operator = (Left, Right: TBox): Boolean;
+
+function ParamArray(arr:array of Pointer): TParamArray;
 
 //-----------------------------------------------------------------------
 implementation
@@ -294,6 +298,13 @@ operator = (Left, Right: TBox): Boolean;
 begin
   Result := (Left.x1 = Right.x1) and (Left.y1 = Right.y1) and
             (Left.x2 = Right.x2) and (Left.y2 = Right.y2);
+end;
+
+
+function ParamArray(arr:Array of Pointer):TParamArray;
+var i:Int32;
+begin
+  for i:=0 to High(arr) do Result[i] := arr[i];
 end;
 
 end.

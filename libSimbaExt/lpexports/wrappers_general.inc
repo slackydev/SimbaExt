@@ -6,16 +6,6 @@
  Wrap all other methods.
 [=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 
-
-{*-----------------------------------------------------------------------------|
-| SimpleOCR.pas                                                                |
-|-----------------------------------------------------------------------------*}
-function exp_ImGetText(var SE:Pointer; ImgArr:T2DIntArray; Font:TChars; MinCharSpace, MinSpace, TextPixTol: Integer; Range:AnsiString): AnsiString; Cdecl;
-begin
-  Result := ImGetText(ImgArr, Font, MinCharSpace, MinSpace, TextPixTol, Range);
-end;
-
-
 {*-----------------------------------------------------------------------------|
 | MatrixTools.pas                                                                   |
 |-----------------------------------------------------------------------------*}
@@ -80,17 +70,9 @@ end;
 
 
 
-
-
 {*-----------------------------------------------------------------------------|
 | Just some other stuff                                                        |
 |-----------------------------------------------------------------------------*}
-(*
-function exp_GetMemManager(var SE:Pointer): Pointer; cdecl;
-begin
-  Result := @NewMemoryManager;
-end;
-
 function exp_LoadLibrary(var SE:Pointer; Lib:AnsiString): NativeInt; cdecl;
 begin
   Result := LoadLibrary(Lib);
@@ -105,4 +87,3 @@ procedure exp_FreeLibrary(var SE:Pointer; Handle:NativeInt); cdecl;
 begin
   FreeLibrary(Handle);
 end;
-*)

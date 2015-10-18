@@ -81,8 +81,8 @@ end;
 }
 function TBox.Overlaps(Other:TBox): Boolean;
 begin
-  Result:= (self.x2 > other.x1) and (self.x1 < other.x2) and
-           (self.y1 < other.y2) and (self.y2 > other.y1);
+  Result:= (self.x2 >= other.x1) and (self.x1 <= other.x2) and
+           (self.y1 <= other.y2) and (self.y2 >= other.y1);
 end;
 
 

@@ -150,7 +150,7 @@ begin
   end;
   Queue.Free;
   SetLength(Face, 0);
-  Result := Res.Clone;
+  Result := Res.Finalize;
   Res.Free;
 end;
 

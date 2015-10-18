@@ -45,9 +45,9 @@ begin
   Result := TPAExtremes(TPA);
 end;
 
-function exp_TPABBox(var SE:Pointer; const TPA:TPointArray): TPointArray; cdecl;
+function exp_MinAreaRect(var SE:Pointer; const TPA:TPointArray): TPointArray; cdecl;
 begin
-  Result := TPABBox(TPA);
+  Result := MinAreaRect(TPA);
 end;
 
 function exp_TPACenter(var SE:Pointer; const TPA: TPointArray; Method: ECenterAlgo): TPoint; Cdecl;
@@ -181,7 +181,7 @@ begin
   Result := TPABorder(TPA);
 end;
 
-function exp_FloodFillPolygon(var SE:Pointer; const Poly:TPointArray; EightWay:LongBool): TPointArray; cdecl;
+function exp_FloodFillPoly(var SE:Pointer; const Poly:TPointArray; EightWay:LongBool): TPointArray; cdecl;
 begin
   Result := FloodFillPolygon(Poly, EightWay);
 end;
@@ -241,6 +241,10 @@ begin
   Result := DistanceTransform(TPA, distanceUnit);
 end;
 
+procedure exp_TPAHeatSort(var SE:Pointer; var Arr: TPointArray; distanceUnit:EDistUnit); cdecl;
+begin
+  TPAHeatSort(Arr, distanceUnit);
+end;
 
 {*-----------------------------------------------------------------------------|
 | DensityMap.pas                                                               |

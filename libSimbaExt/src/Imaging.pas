@@ -8,43 +8,43 @@ Unit Imaging;
 {$modeswitch advancedrecords}
 {$macro on}
 {$inline on}
+{$IFDEF CPU386} {$ASMMODE intel} {$ENDIF}
 
 interface
 uses
   SysUtils, Math, CoreTypes, CoreMisc;
 
 
-procedure ImGetRGB(const Img: T2DIntArray; out R,G,B:T2DIntArray);
-function ImMergeRGB(const R,G,B:T2DIntArray): T2DIntArray;
-procedure ImGrayscale(const ImgArr:T2DIntArray; var Dest:T2DIntArray);
+procedure GetRGB(const Img: T2DIntArray; out R,G,B:T2DIntArray);
+function MergeRGB(const R,G,B:T2DIntArray): T2DIntArray;
+procedure Grayscale(const image:T2DIntArray; var Dest:T2DIntArray);
 function GaussKernel(KernelRadius:Int32; Sigma:Single): T2DFloatArray;
 function GaussKernel1D(KernelRadius:Int32; Sigma:Single): TFloatArray;
-procedure ImBlur(const ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Int32);
-function ImMedianBlur(const ImgArr: T2DIntArray; Radius:Integer): T2DIntArray; 
-function ImBrighten(const ImgArr:T2DIntArray; Amount:Extended): T2DIntArray; 
-procedure ImThreshold(var ImgArr:T2DIntArray; Threshold:Byte; Alpha, Beta:Int32);
-procedure ImThresholdAdaptive(var ImgArr:T2DIntArray; Alpha, Beta: Int32; Method:EThreshAlgo; C:Int32);
-function ImFindContours(const ImgArr:T2DIntArray; Threshold:Int32=127): T2DPointArray;
-function ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray; 
-function ImSobel(const ImgArr: T2DIntArray): T2DIntArray; 
-function ImSobel(const ImgArr: T2DIntArray; Axis:Int8): T2DIntArray; overload;
-function ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;
-procedure ImGaussBlur(const ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single);
-function ImBlend(const Img1, Img2: T2DIntArray; Alpha:Single=0.5): T2DIntArray;
-function ImCompareAt(large,small:T2DIntArray; pt:TPoint; tol:Int32): Single;
-procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:EResizeAlgo);
-function ImSample(ImgArr:T2DIntArray; Scale:Int32): T2DIntArray;
-function ImRotate(const Mat:T2DIntArray; Angle:Single; Expand:Boolean; BiLinear:Boolean=True): T2DIntArray;
+procedure Blur(const image:T2DIntArray; var Dest:T2DIntArray; Radius:Int32);
+function MedianBlur(const image: T2DIntArray; Radius:Integer): T2DIntArray; 
+function Brighten(const image:T2DIntArray; Amount:Extended): T2DIntArray; 
+procedure Threshold(var image:T2DIntArray; Thresh:Byte; Alpha, Beta:Int32);
+procedure ThresholdAdaptive(var image:T2DIntArray; Alpha, Beta: Int32; Method:EThreshAlgo; C:Int32);
+function FindContours(const image:T2DIntArray; Thresh:Int32=127): T2DPointArray;
+function CEdges(const image: T2DIntArray; MinDiff: Integer): TPointArray; 
+function Sobel(const image: T2DIntArray): T2DIntArray; 
+function Sobel(const image: T2DIntArray; Axis:Int8): T2DIntArray; overload;
+function Convolve(const image:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;
+procedure GaussBlur(const image:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single);
+function Blend(const Img1, Img2: T2DIntArray; Alpha:Single=0.5): T2DIntArray;
+function CompareAt(large,small:T2DIntArray; pt:TPoint; tol:Int32): Single;
+procedure Resize(var image:T2DIntArray; NewW, NewH: Integer; Method:EResizeAlgo);
+function Sample(image:T2DIntArray; Scale:Int32): T2DIntArray;
+function Rotate(const Mat:T2DIntArray; Angle:Single; Expand:Boolean; BiLinear:Boolean=True): T2DIntArray;
 
 
-  
 function TestResizeBI(Src:T2DIntArray; NewW,NewH:int32): T2DIntArray; cdecl;
 
 //--------------------------------------------------
 implementation
 
 uses
-  PointTools, ColorMath, MatrixMath;
+  CoreMath, PointTools, ColorMath, MatrixMath, ThreadPool;
   
   
 function GetMatrixSize(Mat:T2DIntArray; out W,H:Int32): Boolean; Inline;
@@ -70,11 +70,10 @@ begin
 end;
 
   
-  
 {*
- Converts the ImMatrix to separate arrays for each channel (R,G,B).
+ Converts the image matrix to separate arrays for each channel (R,G,B).
 *} 
-procedure ImGetRGB(const Img: T2DIntArray; out R,G,B:T2DIntArray);
+procedure GetRGB(const Img: T2DIntArray; out R,G,B:T2DIntArray);
 var W,H,x,y:Int32;
 begin
   if not(GetMatrixSize(Img, W,H)) then Exit();
@@ -83,9 +82,9 @@ begin
   SetLength(B, H,W);
   for y:=0 to H-1 do
     for x:=0 to W-1 do begin
-      R[y][x] := Img[y][x] and $FF;
-      G[y][x] := Img[y][x] shr 8 and $FF;
-      B[y][x] := Img[y][x] shr 16 and $FF;
+      R[y,x] := Img[y,x] and $FF;
+      G[y,x] := Img[y,x] shr 8 and $FF;
+      B[y,x] := Img[y,x] shr 16 and $FF;
     end;
 end;
 
@@ -93,7 +92,7 @@ end;
 {*
  Takes three channels (R,G,B), one for each color, merges them in to a Image-matrix.
 *} 
-function ImMergeRGB(const R,G,B:T2DIntArray): T2DIntArray;
+function MergeRGB(const R,G,B:T2DIntArray): T2DIntArray;
 var W,H,x,y:Int32;
 begin
   if not(GetMatrixSize(R, W,H)) then Exit();
@@ -109,15 +108,15 @@ end;
 {*
  Converts a colored image to grayscale (using only the first byte as representation)
 *} 
-procedure ImGrayscale(const ImgArr:T2DIntArray; var Dest:T2DIntArray);
+procedure Grayscale(const image:T2DIntArray; var Dest:T2DIntArray);
 var W,H,x,y:Int32;
 begin
-  if not(GetMatrixSize(ImgArr, W,H)) then Exit();
+  if not(GetMatrixSize(image, W,H)) then Exit();
   CheckResizeMatrix(Dest, H,W);
   dec(W);
   for y:=0 to H-1 do
     for x:=0 to W do
-      Dest[y,x] := ColorIntensity(ImgArr[y,x]);
+      Dest[y,x] := ColorIntensity(image[y,x]);
 end;
   
   
@@ -164,17 +163,17 @@ begin
     Result[i] := Exp(-(Sqr((i-KernelRadius) / sigma)) / 2.0);
     sum += Result[i];
   end;
-  WriteLn(Sum);
+
   for i:=0 to size do
     Result[i] /= sum;
 end;
 
 
 {*
- Returns a (box) blurred version of the Matrix/ImgArr.
+ Returns a (box) blurred version of the Matrix/image.
  Block is the radius of the blur: 1,2,3,4...
 *}
-procedure ImBlur(const ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Int32);
+procedure Blur(const image:T2DIntArray; var Dest:T2DIntArray; Radius:Int32);
 type TFRGB = record R,G,B:Single; end;
 var
   x,y,wid,hei,xx,yy,offset,dia,width:Int32;
@@ -184,7 +183,7 @@ var
 begin
   dia := Radius * 2 + 1;
   kval := 1.0 / dia;
-  if not(GetMatrixHigh(ImgArr, Wid,Hei)) then Exit();
+  if not(GetMatrixHigh(image, Wid,Hei)) then Exit();
   width := wid + 1;
 
   if Hei <> High(Dest) then {if Dest is not pre-initalized then initalize it}
@@ -201,9 +200,9 @@ begin
       begin
         xx := (x-Radius)+offset;
         if (xx < 0) then xx := 0 else if (xx > wid) then xx := wid;
-        ptr^.R += (ImgArr[y,xx] and $FF) * kval;
-        ptr^.G += (ImgArr[y,xx] shr 8 and $FF) * kval;
-        ptr^.B += (ImgArr[y,xx] shr 16 and $FF) * kval;
+        ptr^.R += (image[y,xx] and $FF) * kval;
+        ptr^.G += (image[y,xx] shr 8 and $FF) * kval;
+        ptr^.B += (image[y,xx] shr 16 and $FF) * kval;
         inc(ptr);
       end;
     inc(offset);
@@ -230,37 +229,35 @@ end;
 
 
 {*
- Filter a matrix/ImgArr with a Median Filter.
+ Filter a matrix/image with a Median Filter.
  Block is the radius of the filter, 1,2,3,4...
 *}
-{** __PRIVATE__ **}
-procedure __SortRGB(var Arr, Weight: TIntArray); Inline;
-var CurIdx, TmpIdx, Hi: Integer;
-begin
-  Hi := High(Arr);
-  for CurIdx := 1 to Hi do
-    for TmpIdx := CurIdx downto 1 do
-    begin
-      if not (Weight[TmpIdx] < Weight[TmpIdx - 1]) then
-        Break;
-      Exch(Arr[TmpIdx], Arr[TmpIdx - 1]);
-      Exch(Weight[TmpIdx], Weight[TmpIdx - 1]);
-    end;
-end;
-
-function ImMedianBlur(const ImgArr: T2DIntArray; Radius:Integer):T2DIntArray; 
+function MedianBlur(const image: T2DIntArray; Radius:Integer):T2DIntArray;
+  procedure __SortRGB(var Arr, Weight: TIntArray); Inline;
+  var CurIdx, TmpIdx, Hi: Integer;
+  begin
+    Hi := High(Arr);
+    for CurIdx := 1 to Hi do
+      for TmpIdx := CurIdx downto 1 do
+      begin
+        if not (Weight[TmpIdx] < Weight[TmpIdx - 1]) then
+          Break;
+        Exch(Arr[TmpIdx], Arr[TmpIdx - 1]);
+        Exch(Weight[TmpIdx], Weight[TmpIdx - 1]);
+      end;
+  end;
 var
   W,H,j,x,y,fx,fy,low,mid,size,color,block:Integer;
   lx,ly,hx,hy:Integer;
-  Filter,Colors:TIntArray;
+  filter,colors:TIntArray;
 begin
-  if not(GetMatrixHigh(ImgArr, W,H)) then Exit();
+  if not(GetMatrixHigh(image, W,H)) then Exit();
   Block := Radius*2+1;
   Size := Block * Block;
   if (Size<=1) or (Block mod 2 = 0) then Exit;
   SetLength(Result, H+1,W+1);
-  SetLength(Filter, Size+1);
-  SetLength(Colors, Size+1);
+  SetLength(filter, Size+1);
+  SetLength(colors, Size+1);
   low := Block div 2;
   mid := Size div 2;
   
@@ -276,13 +273,13 @@ begin
       for fy:=ly to hy do
         for fx:=lx to hx do
         begin
-          Color := ImgArr[fy][fx];
-          Filter[j] := ColorToGray(Color);
-          Colors[j] := Color;
+          color := image[fy][fx];
+          filter[j] := ColorToGray(Color);
+          colors[j] := Color;
           Inc(j);
         end;
-      __SortRGB(Colors, Filter);
-      Result[y][x] := Colors[mid];
+      __SortRGB(colors, filter);
+      Result[y,x] := colors[mid];
     end;
   end;
   SetLength(Colors, 0);
@@ -293,12 +290,12 @@ end;
 {*
  Brightens the image or darkens if negative "amount" is given.
 *}
-function ImBrighten(const ImgArr:T2DIntArray; Amount:Extended): T2DIntArray; 
+function Brighten(const image:T2DIntArray; Amount:Extended): T2DIntArray; 
 var
   W,H,x,y,R,G,B,AmountL:Integer;
   Color:ColorRGB;
 begin
-  if not(GetMatrixSize(ImgArr, W,H)) then Exit();
+  if not(GetMatrixSize(image, W,H)) then Exit();
   SetLength(Result, H,W);
 
   Dec(W); 
@@ -307,7 +304,7 @@ begin
   for y:=0 to H do
     for x:=0 to W do
     begin
-      Color := ColorToRGB(ImgArr[y][x]);
+      Color := ColorToRGB(image[y][x]);
       R := Color.R + AmountL;
       if (R > 255) then R:=255
       else if (R < 0) then R:=0;
@@ -333,20 +330,20 @@ end;
     Beta: Maxvalue for result
     Invert: Bellow Mean is set to Beta, rather then Alpha.
 *}
-procedure ImThreshold(var ImgArr:T2DIntArray; Threshold:Byte; Alpha, Beta: Int32);
+procedure Threshold(var image:T2DIntArray; Thresh:Byte; Alpha, Beta: Int32);
 var
   W,H,x,y:Integer;
 begin
   if Alpha = Beta then Exit;
-  if not(GetMatrixHigh(ImgArr, W,H)) then Exit();
+  if not(GetMatrixHigh(image, W,H)) then Exit();
 
   for y:=0 to H do
     for x:=0 to W do
     begin
-      if ColorIntensity(ImgArr[y,x]) < Threshold then
-        ImgArr[y][x] := Alpha
+      if ColorIntensity(image[y,x]) < Thresh then
+        image[y][x] := Alpha
       else 
-        ImgArr[y][x] := Beta;
+        image[y][x] := Beta;
     end;
 end;
 
@@ -362,14 +359,14 @@ end;
     Method: TM_Mean or TM_MinMax
     C: Substract or add to the mean.
 *}
-procedure ImThresholdAdaptive(var ImgArr:T2DIntArray; Alpha, Beta: Int32; Method:EThreshAlgo; C:Int32);
+procedure ThresholdAdaptive(var image:T2DIntArray; Alpha, Beta: Int32; Method:EThreshAlgo; C:Int32);
 var
   W,H,x,y:Int32;
   Color,IMin,IMax: Byte;
   Threshold,Counter: Int64;
 begin
   if Alpha = Beta then Exit;
-  if not(GetMatrixHigh(ImgArr, W,H)) then Exit();
+  if not(GetMatrixHigh(image, W,H)) then Exit();
 
   //Finding the threshold - While at it convert image to grayscale.
   Threshold := 0;
@@ -382,8 +379,8 @@ begin
         Counter := 0;
         for x:=0 to W do
         begin
-          Color := ColorIntensity(ImgArr[y,x]);
-          ImgArr[y,x] := Color;
+          Color := ColorIntensity(image[y,x]);
+          image[y,x] := Color;
           Counter += Color;
         end;
         Threshold += (Counter div (W+1));
@@ -394,13 +391,13 @@ begin
     //Middle of Min- and Max-value
     ETA_MINMAX:
     begin
-      IMin := ColorIntensity(ImgArr[0,0]);
+      IMin := ColorIntensity(image[0,0]);
       IMax := IMin;
       for y:=0 to H do
         for x:=0 to W do
         begin
-          Color := ColorIntensity(ImgArr[y,x]);
-          ImgArr[y,x] := Color;
+          Color := ColorIntensity(image[y,x]);
+          image[y,x] := Color;
           if Color < IMin then
             IMin := Color
           else if Color > IMax then
@@ -413,10 +410,10 @@ begin
   for y:=0 to H do
     for x:=0 to W do
     begin
-      if ImgArr[y,x] < Threshold then
-        ImgArr[y,x] := Alpha
+      if image[y,x] < Threshold then
+        image[y,x] := Alpha
       else 
-        ImgArr[y,x] := Beta;
+        image[y,x] := Beta;
     end;
 end;
 
@@ -428,18 +425,18 @@ end;
     instead of the current where we reduce it to a binary image (2 colors).
     Write an algorithm able to reduce the colors in an image.
 }
-function ImFindContours(const ImgArr:T2DIntArray; Threshold:Int32=127): T2DPointArray;
+function FindContours(const image:T2DIntArray; Thresh:Int32=127): T2DPointArray;
 var
   W,H,j,i,x,y:Int32;
   TPA:TPointArray;
   Mat:T2DIntArray;
 begin
-  W := Length(ImgArr[0]);
-  H := Length(ImgArr);
+  W := Length(image[0]);
+  H := Length(image);
   SetLength(Mat, H);
   for i:=0 to H-1 do
-    Mat[i] := Copy(ImgArr[i],0,W);
-  ImThreshold(Mat, Threshold, 255, 0);
+    Mat[i] := Copy(image[i],0,W);
+  Threshold(Mat, Thresh, 255, 0);
 
   SetLength(TPA, W*H);
   j := 0;
@@ -466,13 +463,13 @@ end;
   The result is an Array of TPoint (TPointArray).
   Uses RGB and R,G and B are weighted equally.
 }
-function ImCEdges(const ImgArr: T2DIntArray; MinDiff: Integer): TPointArray; 
+function CEdges(const image: T2DIntArray; MinDiff: Integer): TPointArray; 
 var
   X,Y,Width,Height,Len,QSize: Integer;
   C1,C2:ColorRGB;
   Hit:Boolean;
 begin
-  if not(GetMatrixHigh(ImgArr, Width,Height)) then Exit();
+  if not(GetMatrixHigh(image, Width,Height)) then Exit();
   MinDiff := Sqr(MinDiff) * 3;
   QSize := Min(1000, Width*Height);
   SetLength(Result, QSize+1);
@@ -482,17 +479,17 @@ begin
     for X:=0 to Width do
     begin
       Hit := False;
-      C1 := ColorToRGB(ImgArr[Y][X]);
+      C1 := ColorToRGB(image[Y][X]);
       if ((X+1) < Width) then
       begin
-        C2 := ColorToRGB(ImgArr[Y][X+1]);
+        C2 := ColorToRGB(image[Y][X+1]);
         if Sqr(C1.R-C2.R)+Sqr(C1.G-C2.G)+Sqr(C1.B-C2.B) >= MinDiff then
           Hit := True;
       end;
 
       if ((Y+1) < Height) and Not(Hit) then 
       begin
-        C2 := ColorToRGB(ImgArr[Y+1][X]);
+        C2 := ColorToRGB(image[Y+1][X]);
         if Sqr(C1.R-C2.R)+Sqr(C1.G-C2.G)+Sqr(C1.B-C2.B) >= MinDiff then
           Hit := True;
       end;
@@ -517,20 +514,20 @@ end;
 
 
 {*
- Applies a sobel overator on the image, and returns it (in gray scale).
+ Applies a sobel operator on the image, and returns it (in grey scale).
 *}
-function ImSobel(const ImgArr: T2DIntArray): T2DIntArray;
+function Sobel(const image: T2DIntArray): T2DIntArray;
 var
   x,y,xx,yy,W,H,color,gx,gy:Int32;
   opx,opy: T2DIntArray;
   Gray:T2DByteArray;
 begin
-  if not(GetMatrixHigh(ImgArr, W,H)) then Exit();
+  if not(GetMatrixHigh(image, W,H)) then Exit();
 
   SetLength(Gray, H+1, W+1);
   for y:=0 to H do
     for x:=0 to W do
-      Gray[y,x] := ColorToGray( ImgArr[y,x] );
+      Gray[y,x] := ColorToGray( image[y,x] );
 
   SetLength(opx, 3,3);
   opx[0][0] := -1; opx[0][1] := 0; opx[0][2] := 1;
@@ -556,24 +553,24 @@ begin
           gx := gx + (opx[yy][xx] * Gray[y + yy - 1][x + xx - 1]);
           gy := gy + (opy[yy][xx] * Gray[y + yy - 1][x + xx - 1]);
         end;
-      Color := Trunc(Sqrt(gx*gx + gy*gy));
+      Color := ftoi(sqrt(gx*gx + gy*gy));
       if (Color < 0) then Color:=0 else if (Color > 255) then Color := 255;
       Result[y][x] := Color or (Color shl 8) or (Color shl 16);
     end;
 end; 
 
 
-function ImSobel(const ImgArr:T2DIntArray; Axis:Int8): T2DIntArray;
+function Sobel(const image:T2DIntArray; Axis:Int8): T2DIntArray;
 var
   W,H,x,y: Integer;
   mask: Array of TS8Array;
   Gray:T2DByteArray;
 begin
-  if not(GetMatrixHigh(ImgArr, W,H)) then Exit();
+  if not(GetMatrixHigh(image, W,H)) then Exit();
   SetLength(Gray, H+1, W+1);
   for y:=0 to H do
     for x:=0 to W do
-      Gray[y,x] := ColorToGray( ImgArr[y,x] );
+      Gray[y,x] := ColorToGray( image[y,x] );
 
   SetLength(mask, 3,3);
   if Axis = 0 then
@@ -604,13 +601,13 @@ end;
  Performs full convolution of Source, with the given mask (Srouce?mask). 
  Be warned: Mask should not be very large, as that would be really slow to proccess.
 *}
-function ImConvolve(const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;
+function Convolve(const image:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray;
 var
   W,H,x,y,yy,xx,cx,cy,dW,dH: Int32;
   mW,mH,mid:Int32;
   valR,valG,valB: Double;
 
-  procedure ForceInBounds(const x,y, Wid,Hig: Int32; out cx,cy: Int32); Inline;
+  procedure GuardInBounds(const x,y, Wid,Hig: Int32; out cx,cy: Int32); Inline;
   begin
     cx := x; cy := y;
     if cx >= Wid then   cx := Wid-1
@@ -620,7 +617,7 @@ var
   end;
 
 begin
-  if not(GetMatrixSize(ImgArr, W,H)) then Exit();
+  if not(GetMatrixSize(image, W,H)) then Exit();
   SetLength(Result, H,W);
 
   mW := High(mask[0]);
@@ -637,17 +634,15 @@ begin
       for yy:=0 to mH do
         for xx:=0 to mW do
         begin
-          ForceInBounds(x+xx-mid, y+yy-mid, W,H, cx,cy);
-          valR := valR + (mask[yy,xx] * (ImgArr[cy,cx] and $FF));
-          valG := valG + (mask[yy,xx] * (ImgArr[cy,cx] shr 8 and $FF));
-          valB := valB + (mask[yy,xx] * (ImgArr[cy,cx] shr 16 and $FF));
+          GuardInBounds(x+xx-mid, y+yy-mid, W,H, cx,cy);
+          valR := valR + (mask[yy,xx] * (image[cy,cx] and $FF));
+          valG := valG + (mask[yy,xx] * (image[cy,cx] shr 8 and $FF));
+          valB := valB + (mask[yy,xx] * (image[cy,cx] shr 16 and $FF));
         end;
       if valR > 255 then valR := 255 else if valR < 0 then valR := 0;
       if valG > 255 then valG := 255 else if valG < 0 then valG := 0;
       if valB > 255 then valB := 255 else if valB < 0 then valB := 0;
-      Result[y][x] := (Round(valR)) or 
-                      (Round(valG) shl 8) or 
-                      (Round(valB) shl 16);
+      Result[y,x] := ftoi(valR) or ftoi(valG) shl 8 or ftoi(valB) shl 16;
   end;
 end;
 
@@ -656,29 +651,29 @@ end;
 
 
 {*
-  Returns a gaussian blured version of the Matrix/ImgArray.
+  Returns a gaussian blured version of the Matrix/imageay.
   @parmas:
     Radius can be any number. 1..11 is usually a normal.
     Sigma is usually set around 1.0-3.0.
 *}
-procedure ImGaussBlur(const ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single);
+procedure GaussBlur(const image:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single);
 type TFRGB = record R,G,B:Single; end;
 var
   x,y,wid,hei,xx,yy,s,offset,dia,width:Int32;
   ptr:^TFRGB; f:TFRGB;
   tmp:Array of TFRGB;
-  kernel:TFloatArray; 
+  kernel:TFloatArray;
 begin
-  if not(GetMatrixHigh(ImgArr, Wid,Hei)) then Exit();
-  
-  dia := Radius * 2 + 1;
+  if not(GetMatrixHigh(image, Wid,Hei)) then Exit();
+
+  dia := radius * 2 + 1;
   width := wid + 1;
   s := (hei+1) * width;
 
-  if Hei <> High(Dest) then {if Dest is not pre-initalized then initalize it}
+  if Hei <> High(Dest) then {if Dest is not allocated then allocate it}
     SetLength(Dest, hei+1,wid+1);
 
-  kernel := GaussKernel1D(Radius, Sigma);
+  kernel := GaussKernel1D(radius, sigma);
   SetLength(tmp, s);
 
   // y direction
@@ -688,11 +683,11 @@ begin
     for y:=0 to hei do
       for x:=0 to wid do
       begin
-        xx := (x-Radius)+offset;
+        xx := (x-radius)+offset;
         if (xx < 0) then xx := 0 else if (xx > wid) then xx := wid;
-        ptr^.R += (ImgArr[y,xx] and $FF) * kernel[offset];
-        ptr^.G += ((ImgArr[y,xx] shr 8) and $FF) * kernel[offset];
-        ptr^.B += ((ImgArr[y,xx] shr 16) and $FF) * kernel[offset];
+        ptr^.R += (image[y,xx] and $FF) * kernel[offset];
+        ptr^.G += ((image[y,xx] shr 8) and $FF) * kernel[offset];
+        ptr^.B += ((image[y,xx] shr 16) and $FF) * kernel[offset];
         inc(ptr);
       end;
     inc(offset);
@@ -706,7 +701,7 @@ begin
       ptr := @f;
       offset := 0;
       repeat
-        yy := (y-Radius)+offset;
+        yy := (y-radius)+offset;
         if (yy < 0) then yy := 0 else if (yy > hei) then yy := hei;
         ptr^.R += tmp[yy*width+x].R * kernel[offset];
         ptr^.G += tmp[yy*width+x].G * kernel[offset];
@@ -718,11 +713,10 @@ begin
 end;
 
 
-
 {*
  Blends the two images in to a single image. Both images must be the same size.
 *}
-function ImBlend(const Img1, Img2: T2DIntArray; Alpha:Single=0.5): T2DIntArray;
+function Blend(const Img1, Img2: T2DIntArray; Alpha:Single=0.5): T2DIntArray;
 var
   R1,G1,B1,R2,G2,B2:T2DIntArray;
   wA,wB:Single;
@@ -730,10 +724,10 @@ begin
   if (Length(Img1) <> Length(Img2)) then Exit();
   wA := Min(Max(Alpha, 0), 1.0);
   wB := 1.0-wA;
-  ImGetRGB(Img1,R1,G1,B1);
-  ImGetRGB(Img2,R2,G2,B2);
+  GetRGB(Img1,R1,G1,B1);
+  GetRGB(Img2,R2,G2,B2);
 
-  Result := ImMergeRGB(
+  Result := MergeRGB(
               ToInt((R1 * wA) + (R2 * wB)),
               ToInt((G1 * wA) + (G2 * wB)),
               ToInt((B1 * wA) + (B2 * wB))
@@ -744,7 +738,7 @@ end;
 (*
  Counts the number of matches end returns the num of hits in the range 0 to 1.
 *)
-function ImCompareAt(large,small:T2DIntArray; pt:TPoint; tol:Int32): Single;
+function CompareAt(large,small:T2DIntArray; pt:TPoint; tol:Int32): Single;
 var
   x,y,w,h,SAD:Int32;
   c1,c2:TRGB32;
@@ -771,97 +765,124 @@ end;
 (*
  NEAREST NEIGHBOR
 *)
-function ResizeMat_NEAREST(const ImgArr:T2DIntArray; NewW, NewH: Integer): T2DIntArray;
+function ResizeMat_NEAREST(const image:T2DIntArray; NewW, NewH: Integer): T2DIntArray;
 var
-  W,H,x,y,i,j: Integer;
+  W,H,i,j:Int32;
+  row:TIntArray;
   ratioX,ratioY: Single;
 begin
-  if not(GetMatrixSize(ImgArr, W,H)) then Exit();
+  if not(GetMatrixSize(image, W,H)) then Exit();
   ratioX := (W-1) / NewW;
   ratioY := (H-1) / NewH;
   SetLength(Result, NewH, NewW);
   Dec(NewW);
-  for i:=0 to NewH-1 do 
-  for j:=0 to NewW do
+  for i:=0 to NewH-1 do
   begin
-    x := Trunc(ratioX * j);
-    y := Trunc(ratioY * i);
-    Result[i][j] := ImgArr[y][x];
+    row := image[ftoi(ratioY * i)];
+    for j:=0 to NewW do
+      Result[i,j] := row[ftoi(ratioX * j)];
+  end;
+end;
+
+
+(*
+ BILINEAR
+*)
+function ResizeMat_BILINEAR(const image:T2DIntArray; NewW, NewH: Integer): T2DIntArray;
+type
+  TImageLine = Array of TRGB32;
+var
+  W,H,x,y,i,j: Int32;
+  ratioX,ratioY,dx,dy: Single;
+  ds0,ds1,ds2,ds3,R,G,B: Single;
+  yy0,yy1: TImageLine;
+  p0,p1,p2,p3:TRGB32;
+  lookup:Array of record x:Int32; dx:Single; end;
+  wr,wg,wb:Int16;
+begin
+  if not(GetMatrixSize(image, W,H)) then Exit();
+
+  ratioX := (W-1) / NewW;
+  ratioY := (H-1) / NewH;
+  SetLength(Result, NewH, NewW);
+  Dec(NewW);
+
+  SetLength(lookup, newW);
+  for j:=0 to newW do begin
+    lookup[j].x := ftoi(ratioX * j);
+    lookup[j].dx:= ratioX * j - lookup[j].x;
+  end;
+
+  for i:=0 to NewH-1 do
+  begin 
+    y := ftoi(ratioY * i);
+    dY := ratioY * i - y;
+    yy0 := TImageLine(image[y]);
+    yy1 := TImageLine(image[y+1]);
+
+    for j:=0 to NewW do
+    begin
+      x := lookup[j].x;
+      dx := lookup[j].dx;
+
+      p0 := yy0[x];
+      p1 := yy0[x+1];
+      p2 := yy1[x];
+      p3 := yy1[x+1];
+
+      ds0 := (1-dX) * (1-dY);
+      ds1 := dX * (1-dY);
+      ds2 := dY * (1-dX);
+      ds3 := dX * dY;
+
+      R := p0.R * ds0 +
+           p1.R * ds1 +
+           p2.R * ds2 +
+           p3.R * ds3;
+
+      G := p0.G * ds0 +
+           p1.G * ds1 +
+           p2.G * ds2 +
+           p3.G * ds3;
+           
+      B := p0.B * ds0 +
+           p1.B * ds1 +
+           p2.B * ds2 +
+           p3.B * ds3;
+
+      asm //sse3+
+        fld	R
+        fisttp	wR
+        fld	G
+        fisttp	wG
+        fld	B
+        fisttp	wB
+      end;
+      Result[i,j] := wR or wG shl 8 or wB shl 16;
+    end;
   end;
 end;
 
 
 
 
-(*
- BILINEAR: I guess one could call the result decent.. But honestly, for
-           upscaling, I almost rather see my self scaling with NN + GaussBlur.
-*)
-function ResizeMat_BILINEAR(const ImgArr:T2DIntArray; NewW, NewH: Integer): T2DIntArray;
-var
-  W,H,x,y,p0,p1,p2,p3,i,j: Int32;
-  ratioX,ratioY,dx,dy: Single;
-  R,G,B: Single;
-begin
-  if not(GetMatrixSize(ImgArr, W,H)) then Exit();
-
-  ratioX := (W-1) / NewW;
-  ratioY := (H-1) / NewH;
-  SetLength(Result, NewH, NewW);
-  Dec(NewW);
-  for i:=0 to NewH-1 do 
-    for j:=0 to NewW do
-    begin
-      x := Trunc(ratioX * j);
-      y := Trunc(ratioY * i);
-      dX := ratioX * j - x;
-      dY := ratioY * i - y;
-
-      p0 := ImgArr[y][x];
-      p1 := ImgArr[y][x+1];
-      p2 := ImgArr[y+1][x];
-      p3 := ImgArr[y+1][x+1];
-
-      R := (p0 and $FF) * (1-dX) * (1-dY) +
-           (p1 and $FF) * (dX * (1-dY)) +
-           (p2 and $FF) * (dY * (1-dX)) +
-           (p3 and $FF) * (dX * dY);
-
-      G := ((p0 shr 8) and $FF) * (1-dX) * (1-dY) +
-           ((p1 shr 8) and $FF) * (dX * (1-dY)) +
-           ((p2 shr 8) and $FF) * (dY * (1-dX)) +
-           ((p3 shr 8) and $FF) * (dX * dY); 
-           
-      B := ((p0 shr 16) and $FF) * (1-dX) * (1-dY) +
-           ((p1 shr 16) and $FF) * (dX * (1-dY)) +
-           ((p2 shr 16) and $FF) * (dY * (1-dX)) +
-           ((p3 shr 16) and $FF) * (dX * dY);
-
-      Result[i][j] := Trunc(R) or Trunc(G) shl 8 or Trunc(B) shl 16;
-    end;
-end;
-
-
-
-
 //Used in bicubic interpolation.
-//I could reqrite it to function without this, and gain some speed, but...
-function _ImGetColor(const ImgArr:T2DIntArray; W,H, X,Y, C:Integer): Byte; Inline;
+//I could rewrite it to function without this, and gain some speed, but...
+function _ImGetColor(const image:T2DIntArray; W,H, X,Y, C:Integer): Byte; Inline;
 begin
   Result := 0;
   if (x > -1) and (x < W) and (y > -1) and (y < H) then
     case C of
-      0: Result := ImgArr[y][x] and $FF;
-      1: Result := (ImgArr[y][x] shr 8) and $FF;
-      2: Result := (ImgArr[y][x] shr 16) and $FF;  
+      0: Result := image[y][x] and $FF;
+      1: Result := (image[y][x] shr 8) and $FF;
+      2: Result := (image[y][x] shr 16) and $FF;  
     end; 
 end; 
 
 (*
- BICUBIC: This got slower then expected, also worse result then expected...
-          Tho I get that it's not faster, no real optimizations are used.
+ BICUBIC: This ended up being quite slow, also not as good as expected.
 *)
-function ResizeMat_BICUBIC(const ImgArr:T2DIntArray; NewW, NewH: Integer): T2DIntArray;
+function ResizeMat_BICUBIC(const image:T2DIntArray; NewW, NewH: Integer): T2DIntArray;
 var
   W,H,x,y,i,j,k,jj,yy,col: Int32;
   a0,a1,a2,a3,d0,d2,d3:Single;
@@ -869,7 +890,7 @@ var
   C: Array of Single;
   Chan:TByteArray;
 begin
-  if not(GetMatrixSize(ImgArr, W,H)) then Exit();
+  if not(GetMatrixSize(image, W,H)) then Exit();
 
   ratioX := (W-1) / NewW;
   ratioY := (H-1) / NewH;
@@ -883,18 +904,18 @@ begin
   for i:=0 to NewH do 
     for j:=0 to NewW do
     begin
-      x := Trunc(ratioX * j);
-      y := Trunc(ratioY * i);
+      x := ftoi(ratioX * j);
+      y := ftoi(ratioY * i);
       dX := ratioX * j - x;
       dY := ratioY * i - y;
       for k := 0 to 2 do
         for jj:= 0 to 3 do
         begin
           yy := y - 1 + jj;
-          a0 := _ImGetColor(ImgArr, W, H, x+0, yy, k);
-          d0 := _ImGetColor(ImgArr, W, H, x-1, yy, k) - a0;
-          d2 := _ImGetColor(ImgArr, W, H, x+1, yy, k) - a0;
-          d3 := _ImGetColor(ImgArr, W, H, x+2, yy, k) - a0;
+          a0 := _ImGetColor(image, W, H, x+0, yy, k);
+          d0 := _ImGetColor(image, W, H, x-1, yy, k) - a0;
+          d2 := _ImGetColor(image, W, H, x+1, yy, k) - a0;
+          d3 := _ImGetColor(image, W, H, x+2, yy, k) - a0;
           a1 := (-1.0 / 3 * d0 + d2 - 1.0 / 6 * d3);
           a2 := (1.0 / 2 * d0 + 1.0 / 2 * d2);
           a3 := (-1.0 / 6 * d0 - 1.0 / 2 * d2 + 1.0 / 6 * d3);
@@ -906,13 +927,13 @@ begin
           a1 := (-1.0 / 3 * d0 + d2 -1.0 / 6 * d3);
           a2 := (1.0 / 2 * d0 + 1.0 / 2 * d2);
           a3 := (-1.0 / 6 * d0 - 1.0 / 2 * d2 + 1.0 / 6 * d3);
-          Col := Trunc(C[1] + a1 * dy + a2 * dy * dy + a3 * dy * dy * dy);
+          Col := ftoi(C[1] + a1 * dy + a2 * dy * dy + a3 * dy * dy * dy);
           if (Col>255) then Col := 255
           else if (Col<0) then Col := 0;
           Chan[k] := Col;
         end;
       
-      Result[i][j] := (Chan[0]) or (Chan[1] shl 8) or (Chan[2] shl 16);
+      Result[i,j] := (Chan[0]) or (Chan[1] shl 8) or (Chan[2] shl 16);
     end;
 end;
 
@@ -921,12 +942,12 @@ end;
  Resize a matrix/ImArray
  @Methods: RM_NEAREST, RM_BILINEAR and RM_BICUBIC.
 *)
-procedure ImResize(var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:EResizeAlgo);
+procedure Resize(var image:T2DIntArray; NewW, NewH: Integer; Method:EResizeAlgo);
 begin
   case Method of
-    ERA_NEAREST: ImgArr := ResizeMat_NEAREST(ImgArr, NewW, NewH);
-    ERA_BILINEAR:ImgArr := ResizeMat_BILINEAR(ImgArr, NewW, NewH);
-    ERA_BICUBIC: ImgArr := ResizeMat_BICUBIC(ImgArr, NewW, NewH);
+    ERA_NEAREST: image := ResizeMat_NEAREST(image, NewW, NewH);
+    ERA_BILINEAR:image := ResizeMat_BILINEAR(image, NewW, NewH);
+    ERA_BICUBIC: image := ResizeMat_BICUBIC(image, NewW, NewH);
   end;
 end;
 
@@ -935,62 +956,62 @@ end;
 
 
 (*
- Resize a matrix/ImArray
- *** TEST ***
- Meh.. it didn't yield that much better result, and its quite hacky (will fail at some stuff).
- - I am keeping it in here to remind my self.
+ Resize a image matrix (test)
+ | Integer-maths seems to gain no notable speedup.
+ | http://codereview.stackexchange.com/questions/28645/bilinear-resizing-algorithm
 *)
-function TestResizeBI(Src:T2DIntArray; NewW,NewH:int32): T2DIntArray; cdecl;
+function TestResizeBI(src:T2DIntArray; NewW, NewH: Integer): T2DIntArray; cdecl;
+type
+  TImageLine = Array of TRGB32;
 var
-  fr,sx,sy,offs,i,x,y,W,H,nW1:Int32;
-  a,b:TRGB32;
-  rowptr,ptr:PRGB32;
-  Tmp: Array of TRGB32;
+  wcoef,hcoef,hc1, hc2, wc1, wc2: UInt32;
+  wstep,hstep:UInt32;
+  i,j,x,y,W,H:Int32;
+  r, g, b:Byte;
+  yy0,yy1: TImageLine;
+  p0,p1,p2,p3:TRGB32;
 begin
-  if not(GetMatrixSize(Src, W,H)) then Exit();
+  if not(GetMatrixSize(src, W,H)) then Exit();
 
-  //horizontal streching
-  i := trunc(65536 * ((W-1) / NewW));
-  SetLength(Tmp,H*NewW);
-  ptr := @tmp[0];
-  nW1 := NewW - 1;
-  for y:=0 to H-1 do
-  begin
-    offs := 0;
-    rowptr := @src[y,0];
-    for x:=0 to nW1 do
-    begin
-      sx := offs shr 16;
-      fr := offs and $FFFF;
-      a := rowptr[sx];
-      b := rowptr[sx+1];
+  SetLength(result, newH,newW);
 
-      ptr^.R := a.r + ((b.r-a.r) * fr) shr 16;
-      ptr^.G := a.g + ((b.g-a.g) * fr) shr 16;
-      ptr^.B := a.b + ((b.b-a.b) * fr) shr 16;
-      inc(offs,i);
-      inc(ptr);
-    end;
-  end;
-
-
-  //vertical streching
-  SetLength(Result,NewH,NewW);
-  i := trunc(65536 * ((H-1) / NewH));
-  offs := 0;
+  wstep := ((W - 1) shl 16)  div (newW - 1);
+  hstep := ((H - 1) shl 16) div (newH - 1);
+  hcoef := 0;
   for y:=0 to NewH-1 do
   begin
-    sy := (offs shr 16) * NewW;
-    fr := offs and $FFFF;
-    for x:=0 to nW1 do
+    i := (hcoef shr 16);
+    hc2 := (hcoef shr 9) and byte(127);
+    hc1 := 128 - hc2;
+
+    yy0 := TImageLine(src[i]);
+    yy1 := TImageLine(src[i+1]);
+    wcoef := 0;
+    for x:=0 to NewW-1 do
     begin
-      a := Tmp[sy+x];
-      b := Tmp[sy+x+NewW];
-      Result[y,x] := (a.b + ((b.b-a.b) * fr) shr 16) or
-                     (a.g + ((b.g-a.g) * fr) shr 16) shl 8 or
-                     (a.r + ((b.r-a.r) * fr) shr 16) shl 16;
+      j := (wcoef shr 16);
+      wc2 := (wcoef shr 9) and byte(127);
+      wc1 := 128 - wc2;
+
+      p0 := yy0[j];
+      p1 := yy1[j];
+      p2 := yy0[j+1];
+      p3 := yy1[j+1];
+
+      r := ((p0.R * hc1 + p1.R * hc2) * wc1 +
+            (p2.R * hc1 + p3.R * hc2) * wc2) shr 14;
+
+      g := ((p0.g * hc1 + p1.g * hc2) * wc1 +
+            (p2.g * hc1 + p3.g * hc2) * wc2) shr 14;
+
+      b := ((p0.b * hc1 + p1.b * hc2) * wc1 +
+            (p2.b * hc1 + p3.b * hc2) * wc2) shr 14;
+
+      Result[y,x] := R or G shl 8 or B shl 16;
+
+      Inc(wcoef, wstep);
     end;
-    offs += i;
+    Inc(hcoef, hstep);
   end;
 end;
 
@@ -998,14 +1019,14 @@ end;
 (*
  High quality downsampling algorithm.
 *)
-function ImSample(ImgArr:T2DIntArray; Scale:Int32): T2DIntArray;
+function Sample(image:T2DIntArray; Scale:Int32): T2DIntArray;
 type
   TRGBMatrix = Array of Array of TRGB32;
 var
   x,y,ys,W,H,nW,nH,sqscale:Int32;
   mat: TRGBMatrix;
   
-  function GetAreaColor(ImgArr:TRGBMatrix; px,py,scale,sqscale:Int32): Int32; inline;
+  function GetAreaColor(image:TRGBMatrix; px,py,scale,sqscale:Int32): Int32; inline;
   var
     x,y:Int32;
     R:Int32=0; G:Int32=0; B:Int32=0;
@@ -1013,9 +1034,9 @@ var
     for y:=py to py+scale-1 do
       for x:=px to px+scale-1 do
       begin
-        R += ImgArr[y,x].R;
-        G += ImgArr[y,x].G;
-        B += ImgArr[y,x].B;
+        R += image[y,x].R;
+        G += image[y,x].G;
+        B += image[y,x].B;
       end;
     R := R div sqscale;
     G := G div sqscale;
@@ -1024,12 +1045,12 @@ var
   end;
 
 begin
-  if not(GetMatrixHigh(ImgArr, W,H)) then Exit();
+  if not(GetMatrixHigh(image, W,H)) then Exit();
   nW := W div Scale;
   nH := H div Scale;
   sqscale := Scale*Scale;
   SetLength(Result, nH,nW);
-  mat := TRGBMatrix(ImgArr);
+  mat := TRGBMatrix(image);
   for y:=0 to nH-1 do
   begin
     ys := y*scale;
@@ -1067,14 +1088,14 @@ end;
 (*
  Rotates the bitmap using bilinear interpolation
 *)
-function __RotateBI(const ImgArr:T2DIntArray; Angle:Single): T2DIntArray;
+function __RotateBI(const image:T2DIntArray; Angle:Single): T2DIntArray;
 var
   i,j,R,G,B,mx,my,W,H,fX,fY,cX,cY: Int32;
   rX,rY,dX,dY,cosa,sina:Single;
   p0,p1,p2,p3: TRGB32;
   topR,topG,topB,BtmR,btmG,btmB:Single;
 begin
-  if not(GetMatrixHigh(ImgArr, W,H)) then Exit();
+  if not(GetMatrixHigh(image, W,H)) then Exit();
 
   SetLength(Result, H, W);
   cosa := Cos(Angle);
@@ -1089,10 +1110,10 @@ begin
       rx := (mx + cosa * (j - mx) - sina * (i - my));
       ry := (my + sina * (j - mx) + cosa * (i - my));
 
-      fX := Trunc(rX);
-      fY := Trunc(rY);
-      cX := Ceil(rX);
-      cY := Ceil(rY);
+      fX := ftoi(rX);
+      fY := ftoi(rY);
+      cX := ceil(rX);
+      cY := ceil(rY);
 
       if not((fX < 0) or (cX < 0) or (fX > W) or (cX > W) or
              (fY < 0) or (cY < 0) or (fY > H) or (cY > H)) then
@@ -1100,10 +1121,10 @@ begin
         dx := rX - fX;
         dy := rY - fY;
 
-        p0 := TRGB32(ImgArr[fY, fX]);
-        p1 := TRGB32(ImgArr[fY, cX]);
-        p2 := TRGB32(ImgArr[cY, fX]);
-        p3 := TRGB32(ImgArr[cY, cX]);
+        p0 := TRGB32(image[fY, fX]);
+        p1 := TRGB32(image[fY, cX]);
+        p2 := TRGB32(image[cY, fX]);
+        p3 := TRGB32(image[cY, cX]);
 
         TopR := (1 - dx) * p0.R + dx * p1.R;
         TopG := (1 - dx) * p0.G + dx * p1.G;
@@ -1112,9 +1133,9 @@ begin
         BtmG := (1 - dx) * p2.G + dx * p3.G;
         BtmB := (1 - dx) * p2.B + dx * p3.B;
 
-        R := Round((1 - dy) * TopR + dy * BtmR);
-        G := Round((1 - dy) * TopG + dy * BtmG);
-        B := Round((1 - dy) * TopB + dy * BtmB);
+        R := ftoi((1 - dy) * TopR + dy * BtmR);
+        G := ftoi((1 - dy) * TopG + dy * BtmG);
+        B := ftoi((1 - dy) * TopB + dy * BtmB);
 
         if (R < 0) then R := 0
         else if (R > 255)then R := 255;
@@ -1123,7 +1144,7 @@ begin
         if (B < 0) then B := 0
         else if (B > 255)then B := 255;
 
-        Result[i,j] := B or (G shl 8) or (R shl 16);
+        Result[i,j] := B or G shl 8 or R shl 16;
       end;
     end;
   end;
@@ -1133,7 +1154,7 @@ end;
 (*
  Rotates the bitmap using bilinear interpolation, does expand
 *)
-function __RotateExpandBI(const ImgArr:T2DIntArray; Angle:Single): T2DIntArray;
+function __RotateExpandBI(const image:T2DIntArray; Angle:Single): T2DIntArray;
 var
   i,j,R,G,B,mx,my,W,H,nW,nH,fX,fY,cX,cY: Int32;
   rX,rY,dX,dY,cosa,sina:Single;
@@ -1141,7 +1162,7 @@ var
   p0,p1,p2,p3: TRGB32;
   NewB:TBox;
 begin
-  if not(GetMatrixSize(ImgArr, W,H)) then Exit();
+  if not(GetMatrixSize(image, W,H)) then Exit();
 
   NewB := __GetNewSizeRotated(W,H,Angle);
   nW := NewB.Width;
@@ -1157,10 +1178,10 @@ begin
       rx := (mx + cosa * (j - mx) - sina * (i - my));
       ry := (my + sina * (j - mx) + cosa * (i - my));
 
-      fX := (Trunc(rX)+ NewB.x1);
-      fY := (Trunc(rY)+ NewB.y1);
-      cX := (Ceil(rX) + NewB.x1);
-      cY := (Ceil(rY) + NewB.y1);
+      fX := (ftoi(rX) + NewB.x1);
+      fY := (ftoi(rY) + NewB.y1);
+      cX := (ceil(rX) + NewB.x1);
+      cY := (ceil(rY) + NewB.y1);
 
       if not((fX < 0) or (cX < 0) or (fX >= W) or (cX >= W) or
              (fY < 0) or (cY < 0) or (fY >= H) or (cY >= H)) then
@@ -1168,10 +1189,10 @@ begin
         dx := rX - (fX - NewB.x1);
         dy := rY - (fY - NewB.y1);
 
-        p0 := TRGB32(ImgArr[fY, fX]);
-        p1 := TRGB32(ImgArr[fY, cX]);
-        p2 := TRGB32(ImgArr[cY, fX]);
-        p3 := TRGB32(ImgArr[cY, cX]);
+        p0 := TRGB32(image[fY, fX]);
+        p1 := TRGB32(image[fY, cX]);
+        p2 := TRGB32(image[cY, fX]);
+        p3 := TRGB32(image[cY, cX]);
 
         TopR := (1 - dx) * p0.R + dx * p1.R;
         TopG := (1 - dx) * p0.G + dx * p1.G;
@@ -1180,9 +1201,9 @@ begin
         BtmG := (1 - dx) * p2.G + dx * p3.G;
         BtmB := (1 - dx) * p2.B + dx * p3.B;
 
-        R := Round((1 - dy) * TopR + dy * BtmR);
-        G := Round((1 - dy) * TopG + dy * BtmG);
-        B := Round((1 - dy) * TopB + dy * BtmB);
+        R := ftoi((1 - dy) * TopR + dy * BtmR);
+        G := ftoi((1 - dy) * TopG + dy * BtmG);
+        B := ftoi((1 - dy) * TopB + dy * BtmB);
 
         if (R < 0) then R := 0
         else if (R > 255) then R := 255;
@@ -1191,7 +1212,7 @@ begin
         if (B < 0) then B := 0
         else if (B > 255) then B := 255;
 
-        Result[i,j] := (B or (G shl 8) or (R shl 16));
+        Result[i,j] := B or G shl 8 or R shl 16;
       end;
     end;
   end;
@@ -1199,7 +1220,7 @@ end;
 
 
 (*
- Rotates the bitmap using nearest neighbor
+ Rotates the bitmap using nearest neighbour
 *)
 function __RotateNN(const Mat:T2DIntArray; Angle:Single): T2DIntArray;
 var
@@ -1225,7 +1246,7 @@ end;
 
 
 (*
- Rotates the bitmap using nearest neighbor, does expand
+ Rotates the bitmap using nearest neighbour, does expand
 *)
 function __RotateExpandNN(const Mat:T2DIntArray; Angle:Single): T2DIntArray;
 var
@@ -1256,7 +1277,7 @@ begin
 end;
 
 
-function ImRotate(const Mat:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray;
+function Rotate(const Mat:T2DIntArray; Angle:Single; Expand:Boolean; Bilinear:Boolean=True): T2DIntArray;
 begin
   case Expand of
     True:

@@ -4,7 +4,7 @@
 {$IFDEF SE_TOSTR}
 function ToString(x:TPoint): String; override;
 begin
-  Result := Format('(%d,%d)', [x.x, x.y]);
+  Result := Format('[%d,%d]', [x.x, x.y]);
 end;
 {$ENDIF}
 

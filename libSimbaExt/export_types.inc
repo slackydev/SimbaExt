@@ -22,16 +22,16 @@ AddType('EColorDistance', '(ECD_RGB, ECD_RGB_SQRD, ECD_RGB_NORMED, '+
                            'ECD_DELTAE, ECD_DELTAE_NORMED);');
 AddType('TColorDistFunc', 'function(Color1:Pointer; Color2:Int32): Single;');
 AddType('TFinder',	'record                    '+
-                        '  FCompareFunc:Pointer;   '+
-                        '  FNumThreads: Int32;     '+
-                        '  FColorInfo : Pointer;   '+
-                        '  FColorSpace: Int32;     '+
-                        '  FUseLookup : Boolean;   '+
-                        '  FLookupTable : ^Single; '+
-                        'end;');
+                    '  FCompareFunc:Pointer;   '+
+                    '  FNumThreads: Int32;     '+
+                    '  FColorInfo : Pointer;   '+
+                    '  FColorSpace: Int32;     '+
+                    'end;');
 
-AddType('TChars', 'Array of T2DIntArray;');
 
+AddType('PSlackTree',    'pointer');
+AddType('TSlackNodeArr', 'Array of PSlackTree;');
+AddType('TSlackTree',    'packed record split: TPoint; l,r: PSlackTree; deleted:ByteBool; end;');
 
 //AddType('SEBitmap', 'record FData: TByteArray; Width,Height: UInt32; Initialized:Boolean; Index,NativeIndex:PRGB32; end;');
 

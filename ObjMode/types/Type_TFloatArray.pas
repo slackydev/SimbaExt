@@ -321,7 +321,7 @@ end;
 }
 function TFloatArray.Mode(): Single;
 begin
-  Result := se.Mode(Self)
+  Result := se.Mode(Self);
 end;
 
 

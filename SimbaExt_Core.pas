@@ -43,21 +43,20 @@ type
   //Other ..
   EWarningType = (ERR_DEPRECATED, ERR_WARNING, ERR_NOTICE, ERR_FATAL);
   
-  ESortKey = (sort_Default, sort_Magnitude, sort_ByColumn, sort_ByRow, sort_ByX,
+  ESortKey = (sort_Default, sort_Magnetude, sort_ByColumn, sort_ByRow, sort_ByX,
               sort_ByY, sort_Length, sort_First, sort_Index, sort_Mean, sort_Lex, sort_Logical);
 
   
 {|=====| Prefixes for SimbaExt modules |=====}
-type SimbaExt = type Pointer;                          //SE.***
+type SimbaExt = type Pointer;   //se.method
   
 //LoadLibrary from current folder 
 {$loadlib \..\includes\simbaext_beta\simbaext.dll}
 {$loadlib \..\includes\simbaext_beta\matchTempl.dll}
 
 var 
-  SE: SimbaExt;
-  Finder: TFinder;
-  
+  se: SimbaExt;
+  finder: TFinder;
   
   
 
@@ -123,7 +122,7 @@ var
   cores:Int32;
 begin
   //windows only
-  cores := StrToInt64Def( GetEnvironmentVariable('NUMBER_OF_PROCESSORS'), 8);
+  cores := StrToInt64Def( GetEnvironmentVariable('NUMBER_OF_PROCESSORS'), 6);
   //linux cores := SysConf(83);
   Finder := se.InitFinder(ECD_RGB_NORMED, cores);
   AddOnTerminate('__SE_FREE_MEM');

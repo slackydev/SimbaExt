@@ -19,6 +19,8 @@
     [/code]
 }
 
+
+{$IFNDEF CodeInsight}
 var
   //Search paths
   SE_BITMAP_PATHS = ['Tests/', 'Scripts/', 'Includes/'];
@@ -26,7 +28,6 @@ var
   //Log every created bitmap, free if not freed once script ends.
   SE_BITMAP_LOG: TIntArray;
 
-{$IFNDEF CodeInsight}
 procedure __LOG_BITMAP(B:Int32);
 begin
   SE_BITMAP_LOG.Append(B);
@@ -50,6 +51,7 @@ begin
   end;
 end;
 {$ENDIF}
+
 
 type
   PRafBitmap = ^TRafBitmap;
@@ -499,7 +501,7 @@ var
 begin
   if not(Self.IsLoaded('TRafBitmap.Grayscale()')) then Exit;
   Matrix := Self.ToMatrix();
-  se.ImGrayscale(Matrix, Matrix);
+  se.Grayscale(Matrix, Matrix);
   Self.FromMatrix(Matrix);
 end;
 
@@ -512,7 +514,7 @@ function TRafBitmap.Sample(Scale:Int32): TRafBitmap;
 var Mat:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.Sample()')) then Exit;
-  Mat := se.ImSample(Self.ToMatrix(), Scale);
+  Mat := se.Sample(Self.ToMatrix(), Scale);
   Result.FromMatrix(Mat);
 end;
 
@@ -525,7 +527,7 @@ procedure TRafBitmap.LazySample(Scale:Int32);
 var Mat:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.Sample()')) then Exit;
-  Mat := se.ImSample(Self.ToMatrix(), Scale);
+  Mat := se.Sample(Self.ToMatrix(), Scale);
   Self.FromMatrix(Mat);
 end;
 
@@ -552,7 +554,7 @@ var Mat:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.ResizeEx()')) then Exit;
   Mat := Self.ToMatrix();
-  se.ImResize(Mat, NewWidth, NewHeight, Resampler);
+  se.Resize(Mat, NewWidth, NewHeight, Resampler);
   Self.FromMatrix(Mat); 
 end;
 
@@ -571,7 +573,7 @@ function TRafBitmap.Rotate(Angle:Extended; Expand:Boolean; Smooth:Boolean=True):
 var Mat:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.RotateCopy()')) then Exit;
-  Mat := se.ImRotate(Self.ToMatrix(), Angle, Expand, Smooth);
+  Mat := se.Rotate(Self.ToMatrix(), Angle, Expand, Smooth);
   Result.FromMatrix(Mat);
 end;
 
@@ -590,7 +592,7 @@ procedure TRafBitmap.LazyRotate(Angle:Extended; Expand:Boolean; Smooth:Boolean=T
 var Mat:TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.RotateCopy()')) then Exit;
-  Mat := se.ImRotate(Self.ToMatrix(), Angle, Expand, Smooth);
+  Mat := se.Rotate(Self.ToMatrix(), Angle, Expand, Smooth);
   Self.FromMatrix(Mat);
 end;
 
@@ -638,7 +640,7 @@ begin
 
   Matrix := Self.ToMatrix();
   for i:=1 to Iter do
-    se.ImBlur(Matrix, Matrix, Radius);
+    se.Blur(Matrix, Matrix, Radius);
   Self.FromMatrix(Matrix); 
 end;
 
@@ -653,7 +655,7 @@ var
 begin
   if not(Self.IsLoaded('TRafBitmap.Median()')) then Exit;
 
-  Matrix := se.ImMedianBlur(Self.ToMatrix(), Radius);
+  Matrix := se.MedianBlur(Self.ToMatrix(), Radius);
   Self.FromMatrix(Matrix); 
 end;
 
@@ -668,7 +670,7 @@ var i:Int32;
 begin
   if not(Self.IsLoaded('TRafBitmap.GaussianBlur()')) then Exit();
   SetLength(Matrix, Self.Height,Self.Width);
-  se.ImGaussBlur(Self.ToMatrix(), Matrix, Radius, sigma);
+  se.GaussBlur(Self.ToMatrix(), Matrix, Radius, sigma);
   Self.FromMatrix(Matrix); 
 end;
 
@@ -685,7 +687,7 @@ begin
   if not(Self.IsLoaded('TRafBitmap.Brightness()')) then Exit;
   Matrix := Self.ToMatrix();
   
-  Matrix := se.ImBrighten(Matrix, Amount);
+  Matrix := se.Brighten(Matrix, Amount);
   Self.FromMatrix(Matrix);
 end;
 
@@ -709,7 +711,7 @@ begin
   if not(Other.Width=Self.Width) or not(Other.Height=Self.Height) then 
     RaiseException(erException, 'Bitmaps must have the same size'); 
 
-  Matrix := se.ImBlend(Self.ToMatrix(), Other.ToMatrix(), Alpha);
+  Matrix := se.Blend(Self.ToMatrix(), Other.ToMatrix(), Alpha);
   Result.FromMatrix(Matrix);
 end;
 
@@ -738,11 +740,11 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.Pad(Pixels:Int32);
+  @method: procedure TRafBitmap.Pad(pixels:Int32);
   @desc:
-    Pads the contents of the image `Pixels` from the center.
+    Pads the contents of the image `pixels` from the center.
 }
-procedure TRafBitmap.Pad(Pixels:Int32);
+procedure TRafBitmap.Pad(pixels:Int32);
 var
   TMP:TRafBitmap;
 begin
@@ -755,16 +757,16 @@ end;
 
 
 {!DOCREF} {
-  @method: procedure TRafBitmap.ThresholdAdaptive(Alpha,Beta:Int32; Method:EThreshAlgo; c:Int32);
+  @method: procedure TRafBitmap.ThresholdAdaptive(alpha,beta:Int32; method:EThreshAlgo; c:Int32);
   @desc:
     Threshold the image
 }
-procedure TRafBitmap.ThresholdAdaptive(Alpha,Beta:Int32; Method:EThreshAlgo; c:Int32);
+procedure TRafBitmap.ThresholdAdaptive(alpha,beta:Int32; method:EThreshAlgo; c:Int32);
 var
   Matrix:TIntMatrix;
 begin
   Matrix := Self.ToMatrix();
-  se.ImThresholdAdaptive(Matrix,Alpha,Beta,Method,c);
+  se.ThresholdAdaptive(Matrix,Alpha,Beta,Method,c);
   Self.FromMatrix(Matrix);
 end;
 

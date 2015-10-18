@@ -12,7 +12,8 @@ interface
 
 uses
   Math, SysUtils, CoreTypes;
-  
+
+function ftoi(x:double): Int32;
   
 function Radians(Dgrs: Double): Double; inline;
 function Degrees(Rads: Double): Double; inline;
@@ -83,6 +84,24 @@ const
 implementation
 uses CoreMisc;
 
+{*
+  Faster alternative to Trunc. Well.. when available
+  ftoi = FloatToInt
+*}
+function ftoi(x:double): Int32;
+begin
+  {$IFDEF CPU386}
+  {$ASMMODE intel} //SSE3
+  asm
+    fld		x
+    fisttp	Result
+  end;
+  {$ELSE}
+    //Fallback
+    Result := Trunc(x);
+  {$ENDIF}
+end;
+
 
 {* Converts Degrees in to radian *}
 function Radians(Dgrs: Double): Double; Inline;
@@ -116,16 +135,16 @@ end;
 {*
  "Real" modulus function as seen in: WolframAlpha, MatLab and Python, and other "modern" programming languages.
 *}
-function Modulo(X,Y:Double): Double; Inline; overload;
+function Modulo(X,Y:Double): Double; inline; overload;
 begin Result := X - Floor(X / Y) * Y; end;
 
-function Modulo(X,Y:Single): Single; Inline; overload;
+function Modulo(X,Y:Single): Single; inline; overload;
 begin Result := X - Floor(X / Y) * Y; end;
 
-function Modulo(X,Y:Int32): Int32; Inline; overload;
+function Modulo(X,Y:Int32): Int32; inline; overload;
 begin Result := X - Floor(X / Y) * Y; end;
 
-function Modulo(X,Y:Int64): Int64; Inline; overload;
+function Modulo(X,Y:Int64): Int64; inline; overload;
 begin Result := X - Floor(X / Y) * Y; end;
 
 
@@ -144,10 +163,10 @@ end;
 
 
 {*
- Extremly fast "approximation" of cuberoot (Accuracy ±0.001%) using SSE
+ Fast "approximation" of cuberoot (Accuracy ±0.001%) using SSE2
  Falls back to using `Power` if SSE is not available
  
- Most x86 Intel/AMD/VIA CPU produced in+after 2004 got SSE
+ Most x86 Intel/AMD/VIA CPU produced in+after 2004 got SSE2
 *}
 function fCbrt(x:Single): Single;
 const
@@ -159,7 +178,7 @@ begin
     mov		eax,	x
     movss	xmm2,	x
     movss	xmm1,	three
-    mov		ecx,	eax		//Int32 magic
+    mov		ecx,	eax		//Int magic
     and		eax,	$7FFFFFFF
     sub		eax,	$3F800000
     sar		eax,	10
@@ -203,7 +222,7 @@ end;
 {*
  Computes the delta of two angles. The result is in range of -180..180.
 *}
-function DeltaAngle(DegA,DegB:Double): Double; Inline; 
+function DeltaAngle(DegA,DegB:Double): Double; inline;
 begin
   Result := Modulo((DegA - DegB + 180), 360) - 180;
 end;
@@ -218,7 +237,7 @@ end;
 {*
  Manhattan distance is a simple, and cheap way to get distnace between two points
 *}
-function DistManhattan(const pt1,pt2: TPoint): Double; Inline; 
+function DistManhattan(const pt1,pt2: TPoint): Double; inline;
 begin
   Result := (Abs(pt1.x - pt2.x) + Abs(pt1.y - pt2.y));
 end;
@@ -227,7 +246,7 @@ end;
  Distance measured in a streight line from pt1 to pt2.
  Uses pythagorean theorem... 
 *}
-function DistEuclidean(const pt1,pt2: TPoint): Double; Inline; 
+function DistEuclidean(const pt1,pt2: TPoint): Double; inline;
 begin
   Result := Sqrt(Sqr(pt1.x - pt2.x) + Sqr(pt1.y - pt2.y));
 end;
@@ -236,7 +255,7 @@ end;
  Distance in the form of "amount of steps" in a any direction. 
  EG: Think of the 8 possible moves the King can do on a chessboard, that = 1 distnace. 
 *}
-function DistChebyshev(const pt1,pt2: TPoint): Double; Inline; 
+function DistChebyshev(const pt1,pt2: TPoint): Double; inline;
 begin
   Result := Max(Abs(pt1.x - pt2.x), Abs(pt1.y - pt2.y));
 end;
@@ -246,7 +265,7 @@ end;
  This results in eight 45degr corners, aka a octagon. 
  It's close to as fast as Chebyshev, and Manhattan.
 *}
-function DistOctagonal(const pt1,pt2: TPoint): Double; Inline; 
+function DistOctagonal(const pt1,pt2: TPoint): Double; inline;
 var dx,dy:Int32;
 const SQRT2_M1 = 0.414213562;
 begin
@@ -260,7 +279,7 @@ end;
 {*
  Distance from Pt to the line-segment defined by sA-sB.
 *}
-function DistToLine(Pt, sA, sB: TPoint): Double; Inline;
+function DistToLine(Pt, sA, sB: TPoint): Double; inline;
 var
   dx,dy,d:Int32;
   f: Single;
@@ -287,7 +306,7 @@ end;
 {*
  Check if a point is within a circle.
 *}
-function InCircle(const Pt, Center: TPoint; Radius: Int32): Boolean; Inline; 
+function InCircle(const Pt, Center: TPoint; Radius: Int32): Boolean; inline;
 begin
   Result := Sqr(Pt.X - Center.X) + Sqr(Pt.Y - Center.Y) <= Sqr(Radius);
 end;
@@ -297,7 +316,7 @@ end;
 {*
  Check if a point is within a ellipse.
 *}
-function InEllipse(const Pt,Center:TPoint; YRad, XRad: Int32): Boolean; Inline; 
+function InEllipse(const Pt,Center:TPoint; YRad, XRad: Int32): Boolean; inline;
 var
   X, Y: Int32;
 begin
@@ -311,7 +330,7 @@ end;
  Is the coordiants within a rectangle (defined by four points)?
  > C is not actually used, but for future extension/changes, i'll leave it here.
 *}
-function InRect(const Pt:TPoint; const A,B,C,D:TPoint): Boolean; Inline; 
+function InRect(const Pt:TPoint; const A,B,C,D:TPoint): Boolean; inline;
 var
   Vec:TPoint; 
   Dot:Extended;
@@ -331,7 +350,7 @@ end;
 {*
  Is the coordiants within a box aligned with the axes?
 *}
-function InBox(const Pt:TPoint; X1,Y1, X2,Y2: Int32): Boolean; Inline;
+function InBox(const Pt:TPoint; X1,Y1,X2,Y2:Int32): Boolean; inline;
 begin
   Result:= (Pt.X >= X1) and (Pt.X <= X2) and
            (Pt.Y >= Y1) and (Pt.Y <= Y2);
@@ -343,7 +362,7 @@ end;
  The points must be in order, as if you would draw a line trough each point.
  @note: Ray casting combined with Winding number algorithm
 *}
-function InPoly(x,y:Int32; const Poly:TPointArray): Boolean; Inline; 
+function InPoly(x,y:Int32; const Poly:TPointArray): Boolean; inline;
 var
   WN,H,i,j:Int32;
   RC:Boolean;
@@ -377,7 +396,7 @@ end;
  The points must be in order, as if you would draw a line trough each point.
  @note: Ray casting algorithm
 *}
-function InPolyR(x,y:Int32; const Poly:TPointArray): Boolean; Inline; 
+function InPolyR(x,y:Int32; const Poly:TPointArray): Boolean; inline;
 var j,i,H: Int32;
 begin
   H := High(poly);
@@ -397,7 +416,7 @@ end;
  The points must be in order, as if you would draw a line trough each point.
  @note: Winding number algorithm
 *}
-function InPolyW(x,y:Int32; const Poly:TPointArray): Boolean; Inline; 
+function InPolyW(x,y:Int32; const Poly:TPointArray): Boolean; inline;
 var
   wn,H,i,j:Int32;
 begin
@@ -421,7 +440,7 @@ begin
 end;
 
 
-function InTriangle(const Pt, v1, v2, v3:TPoint): Boolean; Inline;
+function InTriangle(const Pt, v1, v2, v3:TPoint): Boolean; inline;
 var
   b1,b2,b3: Boolean;
   p1,p2,p3: TPoint;
@@ -442,7 +461,7 @@ end;
 //============================================================================\\
 {=================================== GENERAL ==================================}
 {==============================================================================}
-function IsPrime(n: Int32): Boolean; Inline;
+function IsPrime(n: Int32): Boolean; inline;
 var i:Int32; Hi: Single;
 begin
   if (n = 2) then Exit(True);
@@ -472,7 +491,7 @@ begin
 end;
 
 
-function NextPow2m1(n: Int32): Int32; Inline;
+function NextPow2m1(n: Int32): Int32; inline;
 begin
   n := n - 1;
   n := n or (n shr 1);
@@ -489,44 +508,44 @@ end;
 
 
 {* Select min of 3 values. *}
-function Min(X,Y,Z:Double): Double; Inline; overload;
+function Min(X,Y,Z:Double): Double; inline; overload;
 begin
   Result := Min(x,Min(y,z));
 end;
 
-function Min(X,Y,Z:Single): Single; Inline; overload;
+function Min(X,Y,Z:Single): Single; inline; overload;
 begin
   Result := Min(x,Min(y,z));
 end;
 
-function Min(X,Y,Z:Int64): Int64; Inline; overload;
+function Min(X,Y,Z:Int64): Int64; inline; overload;
 begin
   Result := Min(x,Min(y,z));
 end;
 
-function Min(X,Y,Z:Int32): Int32; Inline; overload;
+function Min(X,Y,Z:Int32): Int32; inline; overload;
 begin
   Result := Min(x,Min(y,z));
 end;
 
 
 {* Select max of 3 values. *}
-function Max(X,Y,Z:Double): Double; Inline; overload;
+function Max(X,Y,Z:Double): Double; inline; overload;
 begin
   Result := Max(x,Max(y,z));
 end;
 
-function Max(X,Y,Z:Single): Single; Inline; overload;
+function Max(X,Y,Z:Single): Single; inline; overload;
 begin
   Result := Max(x,Max(y,z));
 end;
 
-function Max(X,Y,Z:Int64): Int64; Inline; overload;
+function Max(X,Y,Z:Int64): Int64; inline; overload;
 begin
   Result := Max(x,Max(y,z));
 end;
 
-function Max(X,Y,Z:Int32): Int32; Inline; overload;
+function Max(X,Y,Z:Int32): Int32; inline; overload;
 begin
   Result := Max(x,Max(y,z));
 end;

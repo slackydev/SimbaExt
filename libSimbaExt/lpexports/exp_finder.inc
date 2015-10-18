@@ -12,7 +12,5 @@ AddMethod(@TFinder_SetCompareInfo,	'procedure TFinder.SetCompareInfo(Cmp: TColor
 AddMethod(@TFinder_GetCompareInfo,	'procedure TFinder.GetCompareInfo(out Cmp: TColorDistFunc; out ColorSpace:Int32);');
 AddMethod(@TFinder_SetNumThreads,	'procedure TFinder.SetNumThreads(N:Int32);');
 AddMethod(@TFinder_GetNumThreads,	'function TFinder.GetNumThreads(): Int32;');
-AddMethod(@TFinder_SetUseLookup,	'procedure TFinder.SetUseLookup(Use:LongBool);');
-AddMethod(@TFinder_GetUseLookup,	'function TFinder.GetUseLookup(): LongBool;');
 AddMethod(@TFinder_MatchColor,		'function TFinder.MatchColor(var ImgArr:TIntMatrix; Color:Int32): TFloatMatrix;');
 AddMethod(@TFinder_SafeMatchColor,	'function TFinder.SafeMatchColor(var ImgArr:TIntMatrix; Color:Int32): TFloatMatrix;');

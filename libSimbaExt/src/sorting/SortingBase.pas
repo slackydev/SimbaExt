@@ -174,3 +174,48 @@ begin
     end;
 end;
 
+
+(*
+ Allows you to select the nth element in a TPA 
+*)
+function TPASelectNth_Axis(arr:TPointArray; k, start, stop:Int32; axis:Byte=0): TPoint;    
+var
+  l,r:Int32;
+  tmp,mid:TPoint;
+begin
+  if stop-start < 0 then Exit();
+
+  while (start < stop) do
+  begin
+    l := start;
+    r := stop;
+    mid := arr[(l + r) div 2];
+    if axis = 0 then
+    begin
+      while (l < r) do
+        if (arr[l].x >= mid.x) then
+        begin
+          tmp := arr[r];
+          arr[r] := arr[l];
+          arr[l] := tmp;
+          Dec(r);
+        end else
+          Inc(l);
+    end else
+      while (l < r) do
+        if (arr[l].y >= mid.y) then
+        begin
+          tmp := arr[r];
+          arr[r] := arr[l];
+          arr[l] := tmp;
+          Dec(r);
+        end else
+          Inc(l);
+
+    if (axis = 0) and (arr[l].x > mid.x) then Dec(l);
+    if (axis = 1) and (arr[l].y > mid.y) then Dec(l);
+    if (k <= l) then stop := l else start := l + 1;
+  end;
+
+  Result := arr[k];
+end;

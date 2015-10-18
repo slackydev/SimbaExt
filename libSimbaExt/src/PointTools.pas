@@ -12,10 +12,9 @@ interface
 
 uses
   CoreTypes, Math;
-  
-function SamePoints(P1, P2:TPoint):Boolean; Inline;
-procedure GetAdjacent(var adj:TPointArray; n:TPoint; EightWay:Boolean); Inline;
-procedure RotatingAdjecent(var Adj:TPointArray;const Curr:TPoint; const Prev:TPoint); Inline;
+
+procedure GetAdjacent(var adj:TPointArray; n:TPoint; const EightWay:Boolean); Inline;
+procedure RotatingAdjacent(var Adj:TPointArray;const Curr:TPoint; const Prev:TPoint); Inline;
 function ScalePoint(const Center, Pt:TPoint; Radius:Integer): TPoint; Inline;
 function SumTPA(const Arr: TPointArray): TPoint; Inline;
 procedure TPASplitAxis(const TPA: TPointArray; out X:TIntArray; out Y:TIntArray);
@@ -24,7 +23,7 @@ function TPAMax(const TPA: TPointArray): TPoint;
 function TPABounds(const TPA: TPointArray): TBox; Inline;
 function TPACenter(const TPA: TPointArray; Method: ECenterAlgo): TPoint;
 function TPAExtremes(const TPA:TPointArray): TPointArray;
-function TPABBox(const TPA:TPointArray): TPointArray;
+function MinAreaRect(const TPA:TPointArray): TPointArray;
 procedure TPAFilterBounds(var TPA: TPointArray; x1,y1,x2,y2:Integer);
 procedure TPAFilter(var TPA: TPointArray; const Shape:TPointArray; const From:TPoint);
 procedure ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:Boolean);
@@ -70,19 +69,11 @@ implementation
 uses 
   CoreMath, Spline, MatrixTools, Sorting, PointList;
 
-{*
- Compares two TPoints, to se if they are the same or not.
-*}
-function SamePoints(P1, P2:TPoint):Boolean; Inline;
-begin
-  Result := (P1.x = P2.x) and (P1.y = P2.y);
-end;
-
 
 {*
  Return the neighbours of the given TPoint defined by `n`.
 *}
-procedure GetAdjacent(var adj:TPointArray; n:TPoint; EightWay:Boolean); Inline;
+procedure GetAdjacent(var adj:TPointArray; n:TPoint; const EightWay:Boolean); Inline;
 begin
   adj[0] := Point(n.x-1,n.y);
   adj[1] := Point(n.x,n.y-1);
@@ -99,9 +90,9 @@ end;
 
 
 {*
- Walk around current, from previous. It's 8way.
+ Walk around current, from previous. Returns the 8 adjacent points.
 *}    
-procedure RotatingAdjecent(var Adj:TPointArray;const Curr:TPoint; const Prev:TPoint); Inline;
+procedure RotatingAdjacent(var Adj:TPointArray;const Curr:TPoint; const Prev:TPoint); Inline;
 var
   i: Integer;
   dx,dy,x,y:Single;
@@ -282,7 +273,7 @@ begin
     end;
   ECA_BBOX:
     begin
-      TMP := TPABBox(TPA);
+      TMP := MinAreaRect(TPA);
       Result.x := Round((TMP[0].x + TMP[2].x) / 2);
       Result.y := Round((TMP[1].y + TMP[3].y) / 2);
       SetLength(TMP, 0);
@@ -315,90 +306,69 @@ end;
  Returns the minimum bounding rectangle around the given TPA. 
  The function is a little clumsy written, but it does the trick.
 *}
-function TPABBox(const TPA:TPointArray): TPointArray;
+function MinAreaRect(const TPA:TPointArray): TPointArray;
 var
-  L,i,j,v,c,edge_x,edge_y:Integer;
-  X,Y,cosA,cosAP,CosAM: Double;
-  xl,yl,xh,yh,Area,Angle:Double;
-  Shape:TPointArray;
-  Angles,BBox:TDoubleArray;
-  added:Boolean;
-  pt:TPoint;
+  x,y,cosA,cosAP,cosAM,xl,yl,xh,yh,area,angle: Double;
+  angles: TDoubleArray;
+  l,i,ii,j,c: Int32;
+  added: Boolean;
+  arr: TPointArray;
 const
-  halfpi = PI / 2.0;
+  PI_OVER_TWO = PI / 2;
 begin
-  SetLength(Result, 4); 
+  SetLength(Result, 4);
   if Length(TPA) <= 1 then Exit;
-
-  Shape := ConvexHull(TPA);
-  L := High(Shape);
+  arr := ConvexHull(TPA);
+  L := High(arr);
   SetLength(angles, L);
-  
-  j := 0;    
+
+  j := 0;
   for i:=0 to (L-1) do
   begin
-    Angles[j] := PI; //Init with number greater then halfpi
-    Added := False;
-    edge_x := Shape[i+1].x - Shape[i].x;
-    edge_y := Shape[i+1].y - Shape[i].y; 
-    Angle := Abs(Modulo(ArcTan2(edge_y, edge_x), halfpi));
+    angles[j] := High(Int32);
+    added := False;
+    angle := Abs(Modulo(ArcTan2(arr[i+1].y-arr[i].y, arr[i+1].x-arr[i].x), PI_OVER_TWO));
     for c:=0 to j do
-      if (Angles[c] = Angle) then Added := True;
-    if not(Added) then begin 
-      Angles[j] := Angle;
+      if (angles[c] = angle) then
+        added := True;
+
+    if not(added) then
+    begin
+      angles[j] := angle;
       Inc(j);
-    end;     
+    end;
   end;
 
-  SetLength(angles, j); 
-  SetLength(BBox, 6);
-  BBox[1] := MaxInt;
+  area := High(Int32);
   for i:=0 to j-1 do
-  begin  
-    CosA := Cos(Angles[i]);
-    CosAP := Cos(Angles[i]+halfpi);
-    CosAM := Cos(Angles[i]-halfpi);
-    xl := (CosA*Shape[0].x) + (CosAM*Shape[0].y);
-    yl := (CosAP*Shape[0].x) + (CosA*Shape[0].y);
+  begin
+    CosA  := Cos(Angles[i]);
+    CosAP := Cos(Angles[i] + PI_OVER_TWO);
+    CosAM := Cos(Angles[i] - PI_OVER_TWO);
+    xl := (CosA*arr[0].x) + (CosAM*arr[0].y);
+    yl := (CosAP*arr[0].x) + (CosA*arr[0].y);
     xh := xl;
     yh := yl;
-    for v:=0 to L do
+
+    for ii:=0 to L do
     begin
-      pt := Shape[v];
-      x  := (CosA*pt.x) + (CosAM*pt.y);
-      y  := (CosAP*pt.x) + (CosA*pt.y);
+      x := (CosA * arr[ii].x) + (CosAM * arr[ii].y);
+      y := (CosAP * arr[ii].x) + (CosA * arr[ii].y);
       if (x > xh) then xh := x
       else if (x < xl) then xl := x;
       if (y > yh) then yh := y
       else if (y < yl) then yl := y;
     end;
-    Area := (xh-xl)*(yh-yl);
-    if (Area < bbox[1]) then begin
-      BBox[0] := Angles[i];
-      BBox[1] := Area;
-      BBox[2] := xl;
-      BBox[3] := xh;
-      BBox[4] := yl;
-      BBox[5] := yh;
+
+    if (xh-xl)*(yh-yl) < area then
+    begin
+      area := (xh-xl)*(yh-yl);
+      Result[0] := Point(Round((cosAP*yl) + (cosA*xh)), Round((cosA*yl) + (cosAM*xh)));
+      Result[1] := Point(Round((cosAP*yl) + (cosA*xl)), Round((cosA*yl) + (cosAM*xl)));
+      Result[2] := Point(Round((cosAP*yh) + (cosA*xl)), Round((cosA*yh) + (cosAM*xl)));
+      Result[3] := Point(Round((cosAP*yh) + (cosA*xh)), Round((cosA*yh) + (cosAM*xh)));
     end;
   end;
-
-  Angle := bbox[0];   
-  cosA  := Cos(Angle);
-  cosAP := Cos(Angle+halfpi);
-  cosAM := Cos(Angle-halfpi);
-  xl := bbox[2];
-  xh := bbox[3];
-  yl := bbox[4];
-  yh := bbox[5];
-  Result[0] := Point(Round((cosAP*yl) + (cosA*xh)), Round((cosA*yl) + (cosAM*xh)));
-  Result[1] := Point(Round((cosAP*yl) + (cosA*xl)), Round((cosA*yl) + (cosAM*xl)));
-  Result[2] := Point(Round((cosAP*yh) + (cosA*xl)), Round((cosA*yh) + (cosAM*xl)));
-  Result[3] := Point(Round((cosAP*yh) + (cosA*xh)), Round((cosA*yh) + (cosAM*xh)));
-
-  SetLength(angles, 0); 
-  SetLength(BBox, 0);
-  SetLength(Shape, 0);
 end;
 
 
@@ -567,7 +537,7 @@ end;
 {*
  Reverses the order of the TPointArray.
 *}
-procedure ReverseTPA(var TPA: TPointArray);//StdCall; 
+procedure ReverseTPA(var TPA: TPointArray);
 var 
   i, Hi, Mid: Integer;
   tmp:TPoint;
@@ -602,7 +572,7 @@ end;
 {*
  Removing all duplicates in the TPA.
 *}
-procedure TPARemoveDupes(var TPA: TPointArray);//StdCall;
+procedure TPARemoveDupes(var TPA: TPointArray);
 var
   i, j, H: Integer;
   Matrix: T2DBoolArray;
@@ -626,9 +596,9 @@ end;
 
 
 {*
- Given a Polygon defined by atleast two points, this function will find the longest side.
+ Given a Polygon defined by at least two points, this function will find the longest side.
 *}
-procedure LongestPolyVector(const Poly:TPointArray; var A,B:TPoint);//StdCall;
+procedure LongestPolyVector(const Poly:TPointArray; var A,B:TPoint);
 var
   I,j,L: Integer;
   Dist,tmp: Single;
@@ -686,9 +656,10 @@ end;
 
 
 {*
- Unlike RotatePoints found in SCAR-Divi and Simba this function keep the TPA filled even after rotation.
+ Unlike RotatePoints found in SCAR-Divi and Simba this will treat the shape
+ as if it's an image, resulting in "better" result after rotation.
 *}
-function RotateTPA(const TPA:TPointArray; Rad:Extended): TPointArray;
+function RotateTPA(const TPA:TPointArray; rad:Extended): TPointArray;
 var
   x,y,w,h,neww,newh,ox,oy,i: Int32;
   mid: TPoint;
@@ -697,12 +668,11 @@ var
   B,NewB: TBox;
   Corners : TPointArray;
 
-function Rotate(p: TPoint; angle, mx, my: Extended): TPoint;
-begin
-  Result.X := Ceil(mx + cos(angle) * (p.x - mx) - sin(angle) * (p.y - my));
-  Result.Y := Ceil(my + sin(angle) * (p.x - mx) + cos(angle) * (p.y - my));
-end;
-
+  function Rotate(p: TPoint; angle, mx, my: Extended): TPoint;
+  begin
+    Result.X := Ceil(mx + cos(angle) * (p.x - mx) - sin(angle) * (p.y - my));
+    Result.Y := Ceil(my + sin(angle) * (p.x - mx) + cos(angle) * (p.y - my));
+  end;
 begin
   if High(TPA) < 0 then Exit; 
   B := TPABounds(TPA);
@@ -711,9 +681,9 @@ begin
   mid := Point((w-1) shr 1,(h-1) shr 1);
 
   // init mat
-  SetLength(Tmp, h, w);
+  SetLength(tmp, h, w);
   for i:=0 to High(TPA) do
-    Tmp[TPA[i].y-B.y1][TPA[i].x-B.x1] := True;
+    tmp[TPA[i].y-B.y1][TPA[i].x-B.x1] := True;
 
   // get new bounds
   SetLength(Corners, 4);
@@ -736,7 +706,7 @@ begin
       ox := Round(Mid.x + CosA * (x + NewB.x1 - Mid.x) - SinA * (y + NewB.y1 - Mid.y));
       oy := Round(Mid.y + SinA * (x + NewB.x1 - Mid.x) + CosA * (y + NewB.y1 - Mid.y));
       if ((ox >= 0) and (ox < w) and (oy >= 0) and (oy < h)) then
-        if Tmp[oy][ox] then
+        if tmp[oy,ox] then
         begin
           SetLength(Result, i+1);
           Result[i] := Point(x+NewB.x1+B.x1, y+NewB.y1+B.y1);
@@ -785,8 +755,8 @@ var
 begin
   case Method of
     EAA_BOUNDS:Shape := TPAExtremes(TPA);
-    EAA_CHULL:  Shape := ConvexHull(TPA);
-    EAA_BBOX:    Shape := TPABBox(TPA);
+    EAA_CHULL: Shape := ConvexHull(TPA);
+    EAA_BBOX:  Shape := MinAreaRect(TPA);
   end;
   LongestPolyVector(Shape, A,B);
   Angle := ArcTan2(-(B.y-A.y),(B.x-A.x));
@@ -825,7 +795,7 @@ begin
   idx := 0;
   for y := 0 to Area.Y2 do
     for x := 0 to Area.X2 do
-      if Matrix[y][x] = True then
+      if Matrix[y,x] then
       begin
         Result[idx] := Point((X+Area.X1), (Y+Area.Y1));
         Inc(idx);
@@ -939,7 +909,7 @@ end;
 
 
 {*
- Creates all the points needed to define a simple polygon.
+ Creates all the points needed to define a simple (convex) polygon.
 *}
 function XagonPoints(const Center:TPoint; Sides:Integer; const Dir:TPoint): TPointArray; Inline;
 var
@@ -1157,69 +1127,41 @@ end;
 {*
  A 2D-implementation of ConvexHull. ConvexHull can be explained with simple words:
  | Given an Array of Points, imagine that you where to put a rubber band around them...
- | The points which strech the rubber band are the points returned by this algorithm.
+ | The points which stretch the rubber band are the points returned by this algorithm.
 *}
-function __VectorTurn(const p, q, r: TPoint): Boolean; Inline;
-begin
-  Result := (((q.x*r.y + p.x*q.y + r.x*p.y) - (q.x*p.y + r.x*q.y + p.x*r.y)) < 0);
-end;
- 
-function ConvexHull(const TPA:TPointArray): TPointArray;//StdCall;
+function ConvexHull(const TPA:TPointArray): TPointArray;
 var
-  Pts, Lower: TPointArray;
-  LH,H,I,UH:Integer;
+  pts: TPointArray;
+  h,i,k,u: Int32;
+  function CrossProd(constref r, p, q: TPoint): Int32; inline;
+  begin //cross-product of rp and rq vectors.
+    Result := (p.x-r.x) * (q.y-r.y) - (p.y-r.y) * (q.x-r.x);
+  end;
 begin
-  if High(TPA) < 0 then Exit;
-  // Get a local list copy of the points, and remove dupes.
-  Pts := CleanSortTPA(TPA);
-  H := High(Pts);
-  if H <= 2 then
+  if High(TPA) <= 2 then Exit(TPA);
+  pts := Copy(TPA);
+  SortTPAByX(pts);
+
+  k := 0;
+  H := High(pts);
+  SetLength(result, 2 * (h+1));
+  for i:=0 to h do
   begin
-    Result := Pts;
-    Exit;
+    while (k >= 2) and (CrossProd(result[k-2], result[k-1], pts[i]) <= 0) do
+      Dec(k);
+    Result[k] := pts[i];
+    Inc(k);
   end;
 
-  (* Upper half.. *)
-  UH := 2;
-  SetLength(Result, H+1);
-  Result[0] := Pts[0];
-  Result[1] := Pts[1];
-  for i:=2 to H do
+  u := k+1;
+  for i:=h-1 downto 0 do
   begin
-    Result[UH] := Pts[i];
-    Inc(UH);
-    while (UH > 2) do
-    begin
-      if __VectorTurn(Result[UH-3], Result[UH-2], Result[UH-1]) then Break;
-      Dec(UH);
-      Result[UH-1] := Result[UH];
-    end;
+    while (k >= u) and (CrossProd(result[k-2], result[k-1], pts[i]) <= 0) do
+      Dec(k);
+    Result[k] := pts[i];
+    Inc(k);
   end;
-
-  (* Lower half.. *)
-  LH := 2;
-  SetLength(Lower, H+1);
-  Lower[0] := Pts[H];
-  Lower[1] := Pts[H-1];
-  for i:=2 to H do
-  begin
-    Lower[LH] := Pts[H-i];
-    Inc(LH);
-    while (LH > 2) do
-    begin
-      if __VectorTurn(Lower[LH-3], Lower[LH-2], Lower[LH-1]) then Break;
-      Dec(LH);
-      Lower[LH-1] := Lower[LH];
-    end;
-  end;
-
-  Dec(LH);
-  SetLength(Result, UH+LH);
-  for i:=UH to (UH+LH)-1 do
-    Result[i] := Lower[i-UH];
-
-  SetLength(Lower, 0);
-  SetLength(Pts, 0);
+  SetLength(result, k);
 end;
 
 
@@ -1269,9 +1211,9 @@ begin
       y := face[j].y;
       if ((x >= 0) and (y >= 0) and (x <= Area.x2) and (y <= Area.y2)) then
       begin
-        if Matrix[y][x] <> True then
+        if Matrix[y,x] <> True then
         begin
-          Matrix[y][x] := True;
+          Matrix[y,x] := True;
           Queue.Append(face[j]);
           Result[i] := Point((x + Area.x1), (y + Area.y1));
           Inc(I);
@@ -1337,7 +1279,7 @@ begin
       if hit = 1 then Break;
       Inc(hit);
     end;
-    RotatingAdjecent(adj, start, prev);
+    RotatingAdjacent(adj, start, prev);
     for j:=0 to 7 do begin
       x := adj[j].x;
       y := adj[j].y;
@@ -1356,7 +1298,7 @@ begin
         end;
     end;
   end;
-  Result := List.Clone;
+  Result := List.Finalize;
   List.Free;
   SetLength(Adj, 0);
   SetLength(Matrix, 0);
@@ -1419,7 +1361,7 @@ begin
       if hit = 1 then Break;
       Inc(hit);
     end;
-    RotatingAdjecent(adj, start, prev);
+    RotatingAdjacent(adj, start, prev);
     for j:=0 to 7 do begin
       x := adj[j].x;
       y := adj[j].y;
@@ -1439,7 +1381,7 @@ begin
         end;
     end;
   end;
-  Result := List.Clone;
+  Result := List.Finalize;
   List.Free;
   SetLength(Adj, 0);
   SetLength(Matrix, 0);
@@ -1458,12 +1400,12 @@ end;
 
 
 {*
- ClusterTPA is a `complex` function, it's action is the same as SplitTPA(Ex) seen in
- Simba, and SCAR (Macro-programs), but unlike those, this one performce in O(n)-time, while
- SplitTPA(ex) has a time-complexity of O(n^2).
+ ClusterTPA is a `complex` function, it's action is the same as SplitTPAEx seen in
+ Simba, and SCAR (Macro-programs), but unlike those, this one executes in linear-time on average, 
+ while SplitTPAEx has a time-complexity of O(n^2).
  
  In short this algorithm uses a 2D-Matrix to cluster together the points that are 
- within a given distance (Distx,Disty) from each other. It then returns 2D TPoint Array (T2DPointArray).
+ within a given distance (distx,disty) from each other. It then returns a 2D Array containing the groups.
 *}
 function ClusterTPAEx(const TPA: TPointArray; Distx,Disty: Integer; EightWay:Boolean): T2DPointArray;
 var
@@ -1488,7 +1430,7 @@ begin
   L := High(TPA);
   SetLength(Matrix, H+2, W+2);
 
-  //Meh.. Generate some pattern to floodfill.
+  //Generate pattern to floodfill.
   case (RW*RH*8 < L*(distx+disty)) of
    False:
     begin
@@ -1651,7 +1593,7 @@ begin
     end;
   end;
   
-  Result := List.Clone;
+  Result := List.Finalize;
   List.Free;
 end;
 

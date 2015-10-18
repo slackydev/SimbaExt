@@ -14,7 +14,7 @@ AddMethod(@exp_TPAFilter,	'procedure SimbaExt.TPAFilter(var TPA: TPointArray; co
 AddMethod(@exp_TPAFilterBounds,	'procedure SimbaExt.TPAFilterBounds(var TPA: TPointArray; x1,y1,x2,y2:Integer);');
 AddMethod(@exp_ATPAFilter,	'procedure SimbaExt.ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:LongBool);');
 AddMethod(@exp_TPAExtremes,	'function SimbaExt.TPAExtremes(const TPA:TPointArray): TPointArray;');
-AddMethod(@exp_TPABBox,		'function SimbaExt.TPABBox(const TPA:TPointArray): TPointArray;');
+AddMethod(@exp_MinAreaRect,	'function SimbaExt.MinAreaRect(const TPA:TPointArray): TPointArray;');
 AddMethod(@exp_TPACenter,	'function SimbaExt.TPACenter(const TPA: TPointArray; Method: ECenterAlgo=ECA_MEAN): TPoint;');
 AddMethod(@exp_GetAdjacent,	'procedure SimbaExt.GetAdjacent(var adj:TPointArray; n:TPoint; EightWay:LongBool); native;');
 AddMethod(@exp_TPACircularity,	'function SimbaExt.TPACircularity(const TPA: TPointArray): Extended; native;');
@@ -43,7 +43,7 @@ AddMethod(@exp_FloodFillTPAEx,	'function SimbaExt.FloodFillTPAEx(const TPA:TPoin
 AddMethod(@exp_FloodFillTPA,	'function SimbaExt.FloodFillTPA(const TPA:TPointArray; const Start:TPoint; EightWay:LongBool): TPointArray;');
 AddMethod(@exp_TPAOutline,	'function SimbaExt.TPAOutline(const TPA:TPointArray): TPointArray;');
 AddMethod(@exp_TPABorder,	'function SimbaExt.TPABorder(const TPA:TPointArray): TPointArray;');
-AddMethod(@exp_FloodFillPolygon,	'function SimbaExt.FloodFillPolygon(const Poly:TPointArray; EightWay:LongBool): TPointArray;');
+AddMethod(@exp_FloodFillPoly,	'function SimbaExt.FloodFillPoly(const Poly:TPointArray; EightWay:LongBool): TPointArray;');
 AddMethod(@exp_ClusterTPAEx,	'function SimbaExt.ClusterTPAEx(const TPA: TPointArray; Distx,Disty: Int32; EightWay:LongBool): T2DPointArray;');
 AddMethod(@exp_ClusterTPA,	'function SimbaExt.ClusterTPA(const TPA: TPointArray; Distance: Int32; EightWay:LongBool): T2DPointArray;');
 AddMethod(@exp_TPAEdges,	'function SimbaExt.TPAEdges(const TPA: TPointArray): TPointArray;');
@@ -54,8 +54,9 @@ AddMethod(@exp_Spline,	'function SimbaExt.Spline(TPA:TPointArray; Tension:Double
 AddMethod(@exp_TPASkeleton,	'function SimbaExt.TPASkeleton(const TPA:TPointArray; FMin,FMax:Integer): TPointArray;');
 AddMethod(@exp_TPAReduce,	'function SimbaExt.TPAReduce(const TPA:TPointArray; FMin,FMax, Iterations:Integer): TPointArray;');
 AddMethod(@exp_TPAExpand,	'function SimbaExt.TPAExpand(const TPA:TPointArray; Iterations:Integer): TPointArray;');
-AddMethod(@exp_DistTransform, 'function SimbaExt.DistTransform(const data:TIntArray; w,h:Int32; distanceUnit:EDistUnit): T2DIntArray;');
-AddMethod(@exp_DistTransformP,'function SimbaExt.DistTransform(const TPA:TPointArray; distanceUnit:EDistUnit): T2DIntArray; overload;');
+AddMethod(@exp_DistTransform,	'function SimbaExt.DistTransform(const data:TIntArray; w,h:Int32; distanceUnit:EDistUnit): T2DIntArray;');
+AddMethod(@exp_DistTransformP,	'function SimbaExt.DistTransform(const TPA:TPointArray; distanceUnit:EDistUnit): T2DIntArray; overload;');
+AddMethod(@exp_TPAHeatSort,	'procedure SimbaExt.TPAHeatSort(var Arr: TPointArray; distanceUnit:EDistUnit);');
 
 //densitymap
 AddMethod(@exp_TPADensitySort,	'procedure SimbaExt.DensitySort(var Arr: TPointArray; Radius, Passes:Int32); ');

@@ -5,9 +5,9 @@
  
  Wrap imaging methods (Imaging.pas)
 [=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
-procedure exp_ImGrayscale(var SE:Pointer; const ImgArr:T2DIntArray; var Dest:T2DIntArray); cdecl;
+procedure exp_Grayscale(var SE:Pointer; const image:T2DIntArray; var Dest:T2DIntArray); cdecl;
 begin
-  ImGrayscale(ImgArr, Dest);
+  Grayscale(image, Dest);
 end;
 
 function exp_GaussKernel(var SE:Pointer; KernelRadius:Integer; Sigma:Single): T2DFloatArray; cdecl;
@@ -15,80 +15,80 @@ begin
   Result := GaussKernel(KernelRadius, Sigma);
 end;
 
-procedure exp_ImBlur(var SE:Pointer; const ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Integer); cdecl;
+procedure exp_Blur(var SE:Pointer; const image:T2DIntArray; var Dest:T2DIntArray; Radius:Integer); cdecl;
 begin
-  ImBlur(ImgArr, Dest, Radius);
+  Blur(image, Dest, Radius);
 end;
 
-function exp_ImMedianBlur(var SE:Pointer; const ImgArr: T2DIntArray; Radius:Int32): T2DIntArray; cdecl;
+function exp_MedianBlur(var SE:Pointer; const image: T2DIntArray; Radius:Int32): T2DIntArray; cdecl;
 begin
-  Result := ImMedianBlur(ImgArr, Radius);
+  Result := MedianBlur(image, Radius);
 end;
 
-function exp_ImBrighten(var SE:Pointer; const ImgArr:T2DIntArray; Amount:Extended): T2DIntArray; cdecl;
+function exp_Brighten(var SE:Pointer; const image:T2DIntArray; Amount:Extended): T2DIntArray; cdecl;
 begin
-  Result := ImBrighten(ImgArr, Amount);
+  Result := Brighten(image, Amount);
 end;
 
-procedure exp_ImThreshold(var SE:Pointer; var ImgArr:T2DIntArray; Threshold:Byte; Alpha, Beta:Int32); cdecl;
+procedure exp_Threshold(var SE:Pointer; var image:T2DIntArray; Thresh:Byte; Alpha, Beta:Int32); cdecl;
 begin
-  ImThreshold(ImgArr, Threshold, Alpha, Beta);
+  Threshold(image, Thresh, Alpha, Beta);
 end;
 
-procedure exp_ImThresholdAdaptive(var SE:Pointer; var ImgArr:T2DIntArray; Alpha, Beta: Int32; Method:EThreshAlgo; C:Int32); cdecl;
+procedure exp_ThresholdAdap(var SE:Pointer; var image:T2DIntArray; Alpha, Beta: Int32; Method:EThreshAlgo; C:Int32); cdecl;
 begin
-  ImThresholdAdaptive(ImgArr, Alpha, Beta, Method, C);
+  ThresholdAdaptive(image, Alpha, Beta, Method, C);
 end;
 
-function exp_ImFindContours(var SE:Pointer; const ImgArr: T2DIntArray; Threshold: Int32): T2DPointArray; cdecl;
+function exp_FindContours(var SE:Pointer; const image: T2DIntArray; Thresh: Int32): T2DPointArray; cdecl;
 begin
-  Result := ImFindContours(ImgArr, Threshold);
+  Result := FindContours(image, Thresh);
 end;
 
-function exp_ImCEdges(var SE:Pointer; const ImgArr: T2DIntArray; MinDiff: Int32): TPointArray; cdecl;
+function exp_CEdges(var SE:Pointer; const image: T2DIntArray; MinDiff: Int32): TPointArray; cdecl;
 begin
-  Result := ImCEdges(ImgArr, MinDiff);
+  Result := CEdges(image, MinDiff);
 end;
 
-function exp_ImSobel(var SE:Pointer; const ImgArr: T2DIntArray; Axis:Int8): T2DIntArray; cdecl;
+function exp_Sobel(var SE:Pointer; const image: T2DIntArray; Axis:Int8): T2DIntArray; cdecl;
 begin
   if Axis in [0,1] then
-    Result := ImSobel(ImgArr,axis)
+    Result := Sobel(image,axis)
   else
-    Result := ImSobel(ImgArr);
+    Result := Sobel(image);
 end;
 
-function exp_ImConvolve(var SE:Pointer; const ImgArr:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray; cdecl;
+function exp_Convolve(var SE:Pointer; const image:T2DIntArray; const Mask:T2DFloatArray): T2DIntArray; cdecl;
 begin
-  Result := ImConvolve(ImgArr, Mask);
+  Result := Convolve(image, Mask);
 end;
 
-procedure exp_ImGaussBlur(var SE:Pointer; const ImgArr:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single); cdecl;
+procedure exp_GaussBlur(var SE:Pointer; const image:T2DIntArray; var Dest:T2DIntArray; Radius:Int32; Sigma:Single); cdecl;
 begin
-  ImGaussBlur(ImgArr, Dest, Radius, Sigma);
+  GaussBlur(image, Dest, Radius, Sigma);
 end;
 
-function exp_ImBlend(var SE:Pointer; const ImgArr1,ImgArr2: T2DIntArray; Alpha: Single): T2DIntArray; cdecl;
+function exp_Blend(var SE:Pointer; const image1,image2: T2DIntArray; Alpha: Single): T2DIntArray; cdecl;
 begin
-  Result := ImBlend(ImgArr1, ImgArr2, Alpha);
+  Result := Blend(image1, image2, Alpha);
 end;
 
-function exp_ImCompareAt(var SE:Pointer; const large,small:T2DIntArray; pt:TPoint; tol:Int32): Single; cdecl;
+function exp_CompareAt(var SE:Pointer; const large,small:T2DIntArray; pt:TPoint; tol:Int32): Single; cdecl;
 begin
-  Result := ImCompareAt(large, small, pt, tol);
+  Result := CompareAt(large, small, pt, tol);
 end;
 
-procedure exp_ImResize(var SE:Pointer; var ImgArr:T2DIntArray; NewW, NewH: Integer; Method:EResizeAlgo); Cdecl;
+procedure exp_Resize(var SE:Pointer; var image:T2DIntArray; NewW, NewH: Integer; Method:EResizeAlgo); Cdecl;
 begin
-  ImResize(ImgArr, NewW, NewH, Method);
+  Resize(image, NewW, NewH, Method);
 end;
 
-function exp_ImSample(var SE:Pointer; ImgArr:T2DIntArray; SampleScale:Int32): T2DIntArray; Cdecl;
+function exp_Sample(var SE:Pointer; image:T2DIntArray; SampleScale:Int32): T2DIntArray; Cdecl;
 begin
-  Result := ImSample(ImgArr, SampleScale);
+  Result := Sample(image, SampleScale);
 end;
 
-function exp_ImRotate(var SE:Pointer; const ImgArr:T2DIntArray; Angle:Single; Expand:LongBool; Bilinear:LongBool=True): T2DIntArray; Cdecl;
+function exp_Rotate(var SE:Pointer; const image:T2DIntArray; Angle:Single; Expand:LongBool; Bilinear:LongBool=True): T2DIntArray; Cdecl;
 begin
-  Result := ImRotate(ImgArr, Angle, Expand, Bilinear);
+  Result := Rotate(image, Angle, Expand, Bilinear);
 end;

@@ -40,16 +40,6 @@ begin
   Result := Finder.GetNumThreads();
 end;
 
-procedure TFinder_SetUseLookup(var Finder:TFinder; Use:LongBool); cdecl;
-begin
-  Finder.SetUseLookup(Use);
-end;
-
-function TFinder_GetUseLookup(var Finder:TFinder): LongBool; cdecl;
-begin
-  Result := Finder.GetUseLookup();
-end;
-
 function TFinder_MatchColor(var Finder:TFinder; var ImgArr:T2DIntArray; Color:Int32): T2DFloatArray; cdecl;
 begin
   Result := Finder.MatchColor(ImgArr, Color);

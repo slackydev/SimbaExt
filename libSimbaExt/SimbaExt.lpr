@@ -7,11 +7,13 @@ library SimbaExt;
 {$mode objfpc}{$H+}
 {$macro on}
 {$inline on}
+{$fputype sse2}
 
 uses
   SysUtils,
   Classes,
   Math,
+  dynlibs,
 
   CoreMath,
   CoreTypes,
@@ -29,10 +31,11 @@ uses
   Std,
   Sorting,
   Statistics,
-  SimpleOCR,
   Spline,
   StringTools,
-  TimeUtils;
+  TimeUtils,
+  Trees,
+  Tests;
 
 
 var

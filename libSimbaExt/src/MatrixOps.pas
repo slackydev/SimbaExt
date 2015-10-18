@@ -47,17 +47,17 @@ function ArgMin(Mat: T2DDoubleArray; B: TBox): TPoint; overload;
 function ArgMin(Mat: T2DFloatArray; B: TBox): TPoint; overload;
 
 
-function indices(const Mat: T2DByteArray; B: TBox; Value: byte; const Comparator: EComparator): TPointArray; overload;
-function indices(const Mat: T2DIntArray; B: TBox; Value: integer; const Comparator: EComparator): TPointArray; overload;
-function indices(const Mat: T2DExtArray; B: TBox; Value: extended; const Comparator: EComparator): TPointArray; overload;
-function indices(const Mat: T2DDoubleArray; B: TBox; Value: double; const Comparator: EComparator): TPointArray; overload;
-function indices(const Mat: T2DFloatArray; B: TBox; Value: single; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DByteArray; B: TBox; Value: byte; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DIntArray; B: TBox; Value: integer; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DExtArray; B: TBox; Value: extended; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DDoubleArray; B: TBox; Value: double; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DFloatArray; B: TBox; Value: single; const Comparator: EComparator): TPointArray; overload;
 
-function indices(const Mat: T2DByteArray; Value: byte; const Comparator: EComparator): TPointArray; overload;
-function indices(const Mat: T2DIntArray; Value: integer; const Comparator: EComparator): TPointArray; overload;
-function indices(const Mat: T2DExtArray; Value: extended; const Comparator: EComparator): TPointArray; overload;
-function indices(const Mat: T2DDoubleArray; Value: double; const Comparator: EComparator): TPointArray; overload;
-function indices(const Mat: T2DFloatArray; Value: single; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DByteArray; Value: byte; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DIntArray; Value: integer; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DExtArray; Value: extended; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DDoubleArray; Value: double; const Comparator: EComparator): TPointArray; overload;
+function Indices(const Mat: T2DFloatArray; Value: single; const Comparator: EComparator): TPointArray; overload;
 
 
 procedure MinMax(Mat: T2DByteArray; var Min, Max: byte); overload;
@@ -157,7 +157,8 @@ implementation
 uses
   Math, CoreMath, CoreMisc,
   PointList, SimpleHeap, MatrixMath,
-  BoxTools, ExceptionMgr;
+  BoxTools, ExceptionMgr,
+  ThreadPool;
 
 {$I Matrix/_FillMatrix.pas}
 {$I Matrix/_ArgMinMax.pas}

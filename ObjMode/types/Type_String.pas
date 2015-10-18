@@ -274,7 +274,7 @@ begin
   Result := Self;
   dec(x);
   for i:=1 to x do
-    Result += Self;
+    Result := Result + Self;
 end;
 
 

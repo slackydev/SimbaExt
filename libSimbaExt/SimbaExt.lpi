@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="9"/>
@@ -33,17 +33,19 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <Units Count="2">
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCLBase"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="1">
       <Unit0>
         <Filename Value="SimbaExt.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SimbaExt"/>
       </Unit0>
-      <Unit1>
-        <Filename Value="..\Test\junk.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="junk"/>
-      </Unit1>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -65,8 +67,8 @@
     <CodeGeneration>
       <RelocatableUnit Value="True"/>
       <Optimizations>
-        <VariablesInRegisters Value="True"/>
         <OptimizationLevel Value="3"/>
+        <VariablesInRegisters Value="False"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
@@ -78,11 +80,6 @@
       <Verbosity>
         <ShowHints Value="False"/>
       </Verbosity>
-      <CompilerMessages>
-        <MsgFileName Value=""/>
-      </CompilerMessages>
-      <CustomOptions Value="-CfSSE2"/>
-      <CompilerPath Value="$(CompPath)"/>
     </Other>
   </CompilerOptions>
   <Debugging>

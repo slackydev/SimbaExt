@@ -21,7 +21,7 @@ function FindCornerMidPoints(const Mat:T2DIntArray; GaussDev:Single; KSize:Integ
 //-----------------------------------------------------------------------
 implementation
 uses
-  Imaging, PointList, MatrixMath, MatrixOps, PointTools, Math;
+  Imaging, PointList, MatrixMath, MatrixOps, PointTools, Math, TimeUtils, ThreadPool;
 
 
 (*=============================================================================|
@@ -49,24 +49,29 @@ end;
 (*=============================================================================|
  2D Convolution
 |=============================================================================*)
-function SobelConvolve(const Source:T2DIntArray; Mask:T2DIntArray): T2DIntArray;
+procedure SobelConvolve_Thread(Params:PParamArray);
 var
-  W,H,x,y: Integer;
+  x,y,wid,hei:Int32;
+  dest,data,mask:P2DIntArray;
+  b:TBox;
 begin
-  W := High(source[0]);
-  H := High(source);
-  SetLength(Result, H+1,W+1);
-  for y:=0 to H do
-    Move(Source[y][0],Result[y][0], (W+1)*SizeOf(Int32));
+  data := Params^[0];
+  mask := Params^[1];
+  dest := Params^[2];
+  b := PBox(Params^[3])^;
+  hei := High(data^);
+  wid := High(data^[0]);
+  if b.x1 = 0 then b.x1+=1;
+  if b.y1 = 0 then b.y1+=1;
+  if b.x2 >= wid then b.x2 := wid-1;
+  if b.y2 >= hei then b.y2 := hei-1;
 
-  W := W-1;
-  H := H-1;
-  for y:=1 to H do
-    for x:=1 to W do
-      Result[y,x] := (
-        (mask[0][0] * source[y-1][x-1]) + (mask[0][1] * source[y-1][x+0]) + (mask[0][2] * source[y-1][x+1]) +
-        (mask[1][0] * source[y+0][x-1]) + (mask[1][1] * source[y+0][x+0]) + (mask[1][2] * source[y+0][x+1]) +
-        (mask[2][0] * source[y+1][x-1]) + (mask[2][1] * source[y+1][x+0]) + (mask[2][2] * source[y+1][x+1])
+  for y:=b.y1 to b.y2 do
+    for x:=b.x1 to b.x2 do
+      dest^[y,x] := (
+        (mask^[0][0] * data^[y-1][x-1]) + (mask^[0][1] * data^[y-1][x+0]) + (mask^[0][2] * data^[y-1][x+1]) +
+        (mask^[1][0] * data^[y+0][x-1]) + (mask^[1][1] * data^[y+0][x+0]) + (mask^[1][2] * data^[y+0][x+1]) +
+        (mask^[2][0] * data^[y+1][x-1]) + (mask^[2][1] * data^[y+1][x+0]) + (mask^[2][2] * data^[y+1][x+1])
       );
 end;
 
@@ -76,108 +81,180 @@ end;
 |=============================================================================*)
 function Sobel(const Mat:T2DIntArray; Axis:Char): T2DIntArray;
 var
-  xmask, ymask: T2DIntArray;
+  mask: T2DIntArray;
+  W,H,x,y: Int32;
 begin
-  SetLength(xmask, 3,3);
-  xmask[0,0] := -1; xmask[0,1] := 0; xmask[0,2] := 1;
-  xmask[1,0] := -2; xmask[1,1] := 0; xmask[1,2] := 2;
-  xmask[2,0] := -1; xmask[2,1] := 0; xmask[2,2] := 1;
-  
-  SetLength(ymask, 3,3);
-  ymask[0,0] := -1; ymask[0,1] := -2; ymask[0,2] := -1;
-  ymask[1,0] :=  0; ymask[1,1] :=  0; ymask[1,2] := 0;
-  ymask[2,0] :=  1; ymask[2,1] :=  2; ymask[2,2] := 1;
+  SetLength(mask, 3,3);
+  if Axis = 'z' then
+  begin
+    mask[0,0] := -1; mask[0,1] := 0; mask[0,2] := 1;
+    mask[1,0] := -2; mask[1,1] := 0; mask[1,2] := 2;
+    mask[2,0] := -1; mask[2,1] := 0; mask[2,2] := 1;
+  end else begin
+    mask[0,0] := -1; mask[0,1] := -2; mask[0,2] := -1;
+    mask[1,0] :=  0; mask[1,1] :=  0; mask[1,2] := 0;
+    mask[2,0] :=  1; mask[2,1] :=  2; mask[2,2] := 1;
+  end;
 
-  if axis = 'y' then Result := SobelConvolve(Mat,ymask);
-  if axis = 'x' then Result := SobelConvolve(Mat,xmask);
+  W := Length(mat[0]);
+  H := Length(mat);
+  SetLength(Result, H,W);
+  for y:=0 to H-1 do
+  begin
+    Result[y][0] := mat[y][0];
+    Result[y][W-1] := mat[y][W-1];
+  end;
+  for x:=0 to W-1 do
+  begin
+    Result[0][x] := mat[0][x];
+    Result[H-1][x] := mat[H-1][x];
+  end;
+
+  ThreadPool.MatrixFunc(@SobelConvolve_Thread, [@mat, @mask, @result], W,H);
 end; 
 
 
 (*=============================================================================|
- Gassuian blur and related functions
+ Gaussian blur
 |=============================================================================*)
+procedure Gaussian_Thread_Y(params:PParamArray);
+var
+  ofs,xx,x,y,wid,dia,rad:Int32;
+  data:P2DIntArray;
+  dest:P2DFloatArray;
+  mask:PFloatArray;
+  gauss:Single;
+  b:TBox;
+begin
+  data := Params^[0];
+  mask := Params^[1];
+  dest := Params^[2];
+  dia := PInt32(Params^[3])^;
+  rad := PInt32(Params^[4])^;
+  b := PBox(Params^[5])^;
+  wid := High(data^[0]);
+
+  for y:=b.y1 to b.y2 do
+    for x:=b.x1 to b.x2 do
+    begin
+      gauss := 0.0;
+      for ofs:=0 to dia do
+      begin
+        xx := (x-rad)+ofs;
+        if (xx < 0) then xx := 0 else if (xx > wid) then xx := wid;
+        gauss += data^[y, xx] * mask^[ofs];
+      end;
+      dest^[y,x] := gauss;
+    end;
+end;
+
+
+procedure Gaussian_Thread_X(params:PParamArray);
+var
+  ofs,yy,x,y,hei,dia,rad:Int32;
+  data:P2DFloatArray;
+  dest:P2DIntArray;
+  mask:PFloatArray;
+  gauss:Single;
+  b:TBox;
+begin
+  data := Params^[0];
+  mask := Params^[1];
+  dest := Params^[2];
+  dia := PInt32(Params^[3])^;
+  rad := PInt32(Params^[4])^;
+  b := PBox(Params^[5])^;
+  hei := High(data^);
+
+  for y:=b.y1 to b.y2 do
+    for x:=b.x1 to b.x2 do
+    begin
+      gauss := 0.0;
+      for ofs:=0 to dia do
+      begin
+        yy := (y-rad)+ofs;
+        if (yy < 0) then yy := 0 else if (yy > hei) then yy := hei;
+        gauss += data^[yy, x] * mask^[ofs];
+      end;
+      dest^[y,x] := round(gauss);
+    end;
+end;
+
 function GaussianBlur(ImArr:T2DIntArray; Radius:Int32; Sigma:Single): T2DIntArray;
 var
-  x,y,wid,hei,xx,yy,offset,block:Int32;
-  gauss:Single;
-  tmp:T2DFloatArray;
+  wid,hei,dia:Int32;
+  tmpRes:T2DFloatArray;
   kernel:TFloatArray;
-
 begin
-  block := Radius*2;
-  Wid := High(ImArr[0]);
-  Hei := High(ImArr);
-  SetLength(Result, hei+1,wid+1);
-  SetLength(tmp, hei+1,wid+1);
+  dia := radius*2;
+  wid := Length(ImArr[0]);
+  hei := Length(ImArr);
+  SetLength(Result, hei,wid);
+  SetLength(tmpRes, hei,wid);
+  kernel := GaussKernel1D(Radius, Sigma);
 
-  kernel := GaussKernel1D(Radius, Sigma); // Compute our gaussian 1d kernel
-
-  // y direction
-  for y:=0 to hei do
-    for x:=0 to wid do
-    begin
-      gauss := 0.0;
-      for offset:=0 to block do
-      begin
-        xx := (x-Radius)+offset;
-        if (xx < 0) then xx := 0 else if (xx > wid) then xx := wid;
-        gauss += ImArr[y, xx] * kernel[offset];
-      end;
-      tmp[y,x] := gauss;
-    end;
-
-  // x direction
-  for y:=0 to hei do
-    for x:=0 to wid do
-    begin
-      gauss := 0.0;
-      for offset:=0 to block do
-      begin
-        yy := (y-Radius)+offset;
-        if (yy < 0) then yy := 0 else if (yy > hei) then yy := hei;
-        gauss += tmp[yy, x] * kernel[offset];
-      end;
-      Result[y,x] := Round(gauss);
-    end;
+  ThreadPool.MatrixFunc(@Gaussian_Thread_Y, [@imarr,  @kernel, @tmpRes, @dia, @radius], wid,hei);
+  ThreadPool.MatrixFunc(@Gaussian_Thread_X, [@tmpRes, @kernel, @result, @dia, @radius], wid,hei);
 end;  
 
 
-function BoxBlur3(Mat:T2DIntArray): T2DFloatArray;
-var W,H,x,y:Int32;
+(*=============================================================================|
+ Box blur
+|=============================================================================*)
+procedure BoxBlur3_Thread(Params:PParamArray);
+var
+  x,y,wid,hei:Int32;
+  data:P2DIntArray;
+  dest:P2DFloatArray;
+  b:TBox;
 begin
-  W := High(Mat[0]);
-  H := High(Mat);
-  SetLength(Result, H+1,W+1);
-  for y:=0 to H do
-    Move(Mat[y][0],Result[y][0], (W+1)*SizeOf(Int32));
-  Dec(W); Dec(H);
-  for y:=1 to H do
-    for x:=1 to W do
-      Result[y][x] := (
-          Mat[y-1][x]   + Mat[y+1][x]   + Mat[y][x-1] +
-          Mat[y][x+1]   + Mat[y-1][x-1] + Mat[y+1][x+1] +
-          Mat[y-1][x+1] + Mat[y+1][x-1] + Mat[y][x]
+  data := Params^[0];
+  dest := Params^[1];
+  b := PBox(Params^[2])^;
+  hei := High(data^);
+  wid := High(data^[0]);
+  if b.x1 = 0 then b.x1+=1;
+  if b.y1 = 0 then b.y1+=1;
+  if b.x2 >= wid then b.x2 := wid-1;
+  if b.y2 >= hei then b.y2 := hei-1;
+
+  for y:=b.y1 to b.y2 do
+    for x:=b.x1 to b.x2 do
+      dest^[y][x] := (
+          data^[y-1][x]   + data^[y+1][x]   + data^[y][x-1] +
+          data^[y][x+1]   + data^[y-1][x-1] + data^[y+1][x+1] +
+          data^[y-1][x+1] + data^[y+1][x-1] + data^[y][x]
       ) div 9;
+end;
+
+function BoxBlur3(mat:T2DIntArray): T2DFloatArray;
+var W,H:Int32;
+begin
+  W := Length(mat[0]);
+  H := Length(mat);
+  SetLength(result, H,W);
+  ThreadPool.MatrixFunc(@BoxBlur3_Thread, [@mat, @result], W,H);
 end;
 
 
 (*=============================================================================|
- Computing harris response of grayscale (0-255) matrix.
+ Computing harris response of greyscale (0-255) matrix.
 |=============================================================================*)
 function CornerResponse(const Mat:T2DIntArray; GaussDev:Single; KSize:Integer): T2DFloatArray;
 var
   blur,imx,imy:T2DIntArray;
   wxx,wyy,wxy: T2DFloatArray;
 begin
-  blur := GaussianBlur(Intesity(Mat), KSize, GaussDev);
-  imx := Sobel(blur, 'x');
-  imy := Sobel(blur, 'y');
+  blur := GaussianBlur(Intesity(Mat), KSize, GaussDev); //45+15ms
 
-  Wxx := BoxBlur3(imx*imx);
-  Wyy := BoxBlur3(imy*imy);
-  Wxy := BoxBlur3(imx*imy);
+  imx := Sobel(blur, 'x'); //25ms
+  imy := Sobel(blur, 'y'); //..
 
-  Result := ((Wxx*Wyy) - (Wxy*Wxy)) / (Wxx+Wyy);
+  Wxx := BoxBlur3(imx*imx);  //25ms
+  Wyy := BoxBlur3(imy*imy);  //..
+  Wxy := BoxBlur3(imx*imy);  //..
+
+  Result := ((Wxx*Wyy) - (Wxy*Wxy)) / (Wxx+Wyy);   //45ms
 end; 
 
 
@@ -248,7 +325,7 @@ begin
       if (Mat2[y][x] > aTresh) then
         TPL.Append(x,y);
 
-  ATPA := ClusterTPA(TPL.Clone(), MinDist, True);
+  ATPA := ClusterTPA(TPL.Finalize, MinDist, True);
   SetLength(Result, Length(ATPA));
   for x:=0 to High(ATPA) do
     Result[x] := TPACenter(ATPA[x], ECA_MEAN);

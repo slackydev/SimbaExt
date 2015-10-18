@@ -217,7 +217,7 @@ function TPointArray.Sorted(Key:ESortKey=sort_Default): TPointArray;
 begin
   Result := Self.Slice();
   case Key of
-    sort_Default, sort_Magnitude: se.SortTPA(Result);     //anything more?
+    sort_Default, sort_Magnetude: se.SortTPA(Result);     //anything more?
     sort_ByRow: se.SortTPAByRow(Result);
     sort_ByColumn: se.SortTPAByColumn(Result);
     sort_ByX: se.SortTPAByX(Result);
@@ -234,7 +234,7 @@ end;
 function TPointArray.Sorted(From:TPoint): TPointArray; overload;
 begin
   Result := Self.Slice();
-  se.SortTPAFrom(Result, From)
+  se.SortTPAFrom(Result, From);
 end;
 
 
@@ -242,12 +242,12 @@ end;
   @method: procedure TPointArray.Sort(Key:ESortKey=sort_Default);
   @desc: 
     Sorts the TPA
-    Supported keys: c'sort_Default, sort_Magnitude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
+    Supported keys: c'sort_Default, sort_Magnetude, sort_ByRow, sort_ByColumn, sort_ByX, sort_ByY'
 }
 procedure TPointArray.Sort(Key:ESortKey=sort_Default);
 begin
   case Key of
-    sort_Default, sort_Magnitude: se.SortTPA(Self);
+    sort_Default, sort_Magnetude: se.SortTPA(Self);
     sort_ByRow: se.SortTPAByRow(Self);
     sort_ByColumn: se.SortTPAByColumn(Self);
     sort_ByX: se.SortTPAByX(Self);
@@ -263,7 +263,7 @@ end;
 }
 procedure TPointArray.Sort(From:TPoint); overload;
 begin
-  se.SortTPAFrom(Self, From)
+  se.SortTPAFrom(Self, From);
 end;
 
 
@@ -332,7 +332,7 @@ end;
 }
 function TPointArray.BoundingBox(): TPointArray;
 begin
-  Result := se.TPABBox(Self);
+  Result := se.MinAreaRect(Self);
 end;
 
 
