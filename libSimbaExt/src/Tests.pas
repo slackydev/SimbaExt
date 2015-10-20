@@ -100,22 +100,6 @@ begin
       Inc(i);
     end;
 end;
-  
-procedure FillNodeArray(var root:TSlackTree; var Arr:TSlackNodeArr);
-var
-  i:Int32;
-  procedure Fill(node:PSlackTree);
-  begin
-    Arr[i] := node;
-    Inc(i);
-    //WriteLn(i);
-    if Node^.R <> nil then Fill(node^.R);
-    if Node^.L <> nil then Fill(node^.L);
-  end;
-begin
-  i := 0;
-  Fill(@root);
-end;
 
 //meh... It was worth a try
 function ClusterTest(TPA:TPointArray; dist:Int32): T2DPointArray; cdecl;
@@ -123,13 +107,12 @@ var
   i,hi,curr,rc,n,group:Int32;
   range,tmp:TPointArray;
   tree:TSlackTree;
-  pts:TSlackNodeArr;
+  pts:TNodeRefArray;
   pt:TPoint;
 begin
   // Builds structure
   tree.Init(TPA);
-  SetLength(pts, Length(TPA));
-  FillNodeArray(tree,pts);
+  pts := tree.RefArray();
   
   // prepare for war
   hi := High(pts);

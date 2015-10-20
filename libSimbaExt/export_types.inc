@@ -28,10 +28,13 @@ AddType('TFinder',	'record                    '+
                     '  FColorSpace: Int32;     '+
                     'end;');
 
-
-AddType('PSlackTree',    'pointer');
-AddType('TSlackNodeArr', 'Array of PSlackTree;');
-AddType('TSlackTree',    'packed record split: TPoint; l,r: PSlackTree; deleted:ByteBool; end;');
+         
+AddType('TSlackNode', 'packed record split: TPoint; l,r: Int32; deleted: Boolean; end;');
+AddType('PSlackNode', '^TSlackNode');
+AddType('TSlackArray', 'Array of TSlackNode;');
+AddType('TSlackRefArray', 'Array of PSlackNode;');
+AddType('TSlackTree', 'packed record data: TSlackArray; size: Int32; end;');
+                    
 
 //AddType('SEBitmap', 'record FData: TByteArray; Width,Height: UInt32; Initialized:Boolean; Index,NativeIndex:PRGB32; end;');
 

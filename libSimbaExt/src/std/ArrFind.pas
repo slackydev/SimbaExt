@@ -9,10 +9,11 @@
 
 //========| 1-dimesional  |===================================================|
 {$define FindExBody :=
-  len := Length(Arr);
-  Seqlen := High(Seq);
-  upper := len-Seqlen;
-  i := 0;  j := 0;
+  len := High(arr);
+  seqLen := High(seq);
+  upper := len-seqLen;
+  i := 0;
+  j := 0;
   while (i <= upper) do begin
     if (Arr[i] <> Seq[j]) then begin
       inc(i);
@@ -20,9 +21,9 @@
     end;
     j := 0;
     while (Arr[i] = Seq[j]) do begin
-     Inc(i);
-     Inc(j);
-     if j > Seqlen then Exit(i-Seqlen-1);
+      Inc(i);
+      Inc(j);
+      if j > seqLen then Exit(i-seqLen-1);
     end;
   end;
   Result := -1;

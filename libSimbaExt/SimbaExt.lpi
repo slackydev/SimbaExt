@@ -67,8 +67,7 @@
     <CodeGeneration>
       <RelocatableUnit Value="True"/>
       <Optimizations>
-        <OptimizationLevel Value="3"/>
-        <VariablesInRegisters Value="False"/>
+        <OptimizationLevel Value="2"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>

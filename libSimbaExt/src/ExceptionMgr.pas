@@ -49,7 +49,7 @@ end;
 
 function exp_PopException(SE:Pointer; out Msg:String): LongBool; cdecl;
 begin
-  PopException(Msg);
+  Result := PopException(Msg);
 end;
 
 

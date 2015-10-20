@@ -19,7 +19,7 @@ procedure InsSortTDA(var Arr:TDoubleArray; Left, Right:Integer); Inline;
 procedure InsSortTFA(var Arr:TFloatArray; Left, Right:Integer); Inline;
 procedure InsSortTPA(var Arr:TPointArray; Weight:TIntArray; Left, Right:Integer); Inline;
 
-function TPASelectNth_Axis(arr:TPointArray; k,start,stop:Int32; axis:Byte=0): TPoint;
+function TPASelectNth_Axis(var arr:TPointArray; k,start,stop:Int32; axis:Byte=0): TPoint;
 
 procedure SortTBA(var Arr: CoreTypes.TByteArray);
 procedure SortTIA(var Arr: TIntArray);

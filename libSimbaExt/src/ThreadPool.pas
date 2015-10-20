@@ -139,7 +139,7 @@ end;
 
 procedure MatrixFunc(Method:TThreadMethod; Args: Array of Pointer; W,H:Int32; nThreads:UInt8=0; fallback:Int32=50000);
 var
-  i,j,lo,hi,dev: Int32;
+  i,lo,hi,dev: Int32;
   threads:Array of record id:TThreadId; box:TBox; end;
   params:TParamArray;
   area:TBox;

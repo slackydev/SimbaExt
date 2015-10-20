@@ -178,7 +178,7 @@ end;
 (*
  Allows you to select the nth element in a TPA 
 *)
-function TPASelectNth_Axis(arr:TPointArray; k, start, stop:Int32; axis:Byte=0): TPoint;    
+function TPASelectNth_Axis(var arr:TPointArray; k, start, stop:Int32; axis:Byte=0): TPoint;
 var
   l,r:Int32;
   tmp,mid:TPoint;
