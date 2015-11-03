@@ -5,7 +5,7 @@
  
  Wrap finder module (finder.pas)
 [=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
-function TFinder_Init(var SE:Pointer; ComparePreset:EColorDistance; NumThreads:Int8): TFinder; cdecl;
+function TFinder_Init(var se:SExt; ComparePreset:EColorDistance; NumThreads:Int8): TFinder; cdecl;
 begin
   Result.Init(ComparePreset, NumThreads);
 end;

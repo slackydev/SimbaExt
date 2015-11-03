@@ -19,7 +19,7 @@ function StrPosL(const SubStr, Text: String): Integer;
 function StrPosR(const SubStr, Text: String): Integer;
 
 function StrReplace(const Text, SubStr, RepStr: String; Flags:TReplaceFlags): String;
-function StrExplode(const Text, Sep: String): TStrArray;
+function StrExplode(const Text, Sep: String): TStringArray;
 
 //-----------------------------------------------------------------------
 implementation
@@ -221,7 +221,7 @@ end;
  StrExplode lets you take a string and blow it up into smaller pieces, at each
  occurance of the given seperator `Sep`. 
 *}
-function StrExplode(const Text, Sep: String): TStrArray;
+function StrExplode(const Text, Sep: String): TStringArray;
 var
   Subs:TIntArray;
   Hi,i,Curr,Prev,HiSep: UInt32;

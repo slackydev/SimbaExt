@@ -10,11 +10,11 @@ Unit Randomize;
 
 interface
 uses
-  CoreTypes, Math, SysUtils;
+  Math, SysUtils, CoreTypes;
   
-function RandomTPA(Amount:Integer; MinX,MinY,MaxX,MaxY:Integer): TPointArray; ////StdCall;
-function RandomCenterTPA(Amount:Integer; CX,CY,RadX,RadY:Integer): TPointArray; //StdCall;
-function RandomTIA(Amount:Integer; Low,Hi:Integer): TIntArray; //StdCall;
+function RandomTPA(amount:Int32; MinX,MinY,MaxX,MaxY:Int32): TPointArray;
+function RandomCenterTPA(amount:Int32; CX,CY,RadX,RadY:Int32): TPointArray;
+function RandomTIA(amount:Int32; Low,Hi:Int32): TIntArray;
 
 
 //--------------------------------------------------
@@ -24,7 +24,7 @@ implementation
 (*
   Simple random tpa, with some extra parameters compared to what SCAR offers.
 *)
-function RandomTPA(Amount:Integer; MinX,MinY,MaxX,MaxY:Integer): TPointArray; //StdCall;
+function RandomTPA(Amount:Int32; MinX,MinY,MaxX,MaxY:Int32): TPointArray;
 var i:Integer;
 begin
   SetLength(Result, Amount);
@@ -37,7 +37,7 @@ end;
   TPA with a "gravity" that goes towards the mean (center). 
   Similar to gaussian distribution of the TPoints.
 *)
-function RandomCenterTPA(Amount:Integer; CX,CY,RadX,RadY:Integer): TPointArray; //StdCall;
+function RandomCenterTPA(Amount:Int32; CX,CY,RadX,RadY:Int32): TPointArray;
 var
   i:Integer;
   x,y,xstep,ystep: Single;
@@ -58,7 +58,7 @@ end;
 (*
   Simple random TIA, with some extra parameters compared to what SCAR offers.
 *)
-function RandomTIA(Amount:Integer; Low,Hi:Integer): TIntArray; //StdCall;
+function RandomTIA(amount:Int32; low,hi:Int32): TIntArray;
 var i:Integer;
 begin
   SetLength(Result, Amount);

@@ -55,7 +55,7 @@
       <Filename Value="SimbaExt"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir);lpexports;src\core\matrixMath"/>
+      <IncludeFiles Value="$(ProjOutDir);lpexports;lpexports\arrays;src\core\matrixMath"/>
       <OtherUnitFiles Value="src;src\core;src\matrix;src\core\matrixMath;src\sorting;src\std"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>

@@ -8,8 +8,8 @@
 
 AddMethod(@exp_ScalePoint,	'function SimbaExt.ScalePoint(const Center, Pt:TPoint; Radius:Integer): TPoint; native;');
 AddMethod(@exp_SumTPA,		'function SimbaExt.SumTPA(const TPA: TPointArray): TPoint;');
-AddMethod(@exp_TPASplitAxis,	'procedure SimbaExt.TPASplitAxis(const TPA: TPointArray; var X:TIntegerArray; var Y:TIntArray);');
-AddMethod(@exp_TPAJoinAxis,	'procedure SimbaExt.TPAJoinAxis(const X:TIntegerArray; const Y:TIntegerArray; var TPA:TPointArray);');
+AddMethod(@exp_TPASplitAxis,	'procedure SimbaExt.TPASplitAxis(const TPA: TPointArray; var X:TIntArray; var Y:TIntArray);');
+AddMethod(@exp_TPAJoinAxis,	'procedure SimbaExt.TPAJoinAxis(const X:TIntArray; const Y:TIntArray; var TPA:TPointArray);');
 AddMethod(@exp_TPAFilter,	'procedure SimbaExt.TPAFilter(var TPA: TPointArray; const Shape:TPointArray; const TopLeft:TPoint);');
 AddMethod(@exp_TPAFilterBounds,	'procedure SimbaExt.TPAFilterBounds(var TPA: TPointArray; x1,y1,x2,y2:Integer);');
 AddMethod(@exp_ATPAFilter,	'procedure SimbaExt.ATPAFilter(var ATPA: T2DPointArray; MinLength, MinW, MinH, MaxW, MaxH: Integer; Align:LongBool);');

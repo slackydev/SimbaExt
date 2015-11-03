@@ -14,7 +14,8 @@ uses
   Math, SysUtils, CoreTypes;
 
 function ftoi(x:double): Int32;
-  
+function ftoi(x:Int64): Int32; inline; overload; //dummy
+
 function Radians(Dgrs: Double): Double; inline;
 function Degrees(Rads: Double): Double; inline;
 
@@ -102,6 +103,10 @@ begin
   {$ENDIF}
 end;
 
+function ftoi(x:Int64): Int32; overload;
+begin
+  Result := x;
+end;
 
 {* Converts Degrees in to radian *}
 function Radians(Dgrs: Double): Double; Inline;

@@ -11,12 +11,13 @@ interface
 uses
   CoreTypes, Math, SysUtils;
 
-
-function __Tangent(const p0,p1:TPointF; T:Double): TPointF; Inline;
-function Tangents(const Points:TPointFArray; Tension:Double): TPointFArray; Inline;
-function Interpolate(t:Double; const p0,m0,p1,m1:TPointF): TPointF; Inline;
-function SplinePoints(const p0,m0,p1,m1:TPointF): TPointFArray; Inline;
-function SplineEx(const Pts:TPointFArray; Tension:Double): TPointFArray;
+type
+  TPointF = packed record
+    X:Double;
+    Y:Double;
+  end;
+  TPointFArray = array of TPointF;
+  
 function Spline(TPA:TPointArray; Tension:Double; Connect:Boolean): TPointArray;
 
 //--------------------------------------------------
@@ -24,14 +25,40 @@ implementation
 uses
   PointTools;
 
+function Point(X,Y:Double): TPointF; inline;
+begin
+  Result.X := X;
+  Result.Y := Y;
+end;
+  
+function TPFAToTPA(Arr:TPointFArray): TPointArray;
+var i:Int32;
+begin
+  SetLength(Result, Length(Arr));
+  for i:=0 to High(Arr) do
+    Result[i] := CoreTypes.Point(Round(Arr[i].x), Round(Arr[i].y));
+end;
 
-function __Tangent(const p0,p1:TPointF; T:Double): TPointF; Inline;
+
+function TPAToTPFA(Arr:TPointArray): TPointFArray;
+var i:Int32;
+begin
+  SetLength(Result, Length(Arr));
+  for i:=0 to High(Arr) do
+  begin
+    Result[i].x := Arr[i].x;
+    Result[i].y := Arr[i].y;
+  end;
+end;
+
+
+function __Tangent(const p0,p1:TPointF; T:Double): TPointF; inline;
 begin
   Result := Point(T * (p1.x - p0.x), T * (p1.y - p0.y));
 end;
 
 
-function Tangents(const Points:TPointFArray; Tension:Double): TPointFArray; Inline;
+function Tangents(const Points:TPointFArray; Tension:Double): TPointFArray; inline;
 var
   L,i: Integer;
 begin
@@ -51,7 +78,7 @@ begin
   Result[L-1] := __Tangent(points[L-2], points[L-1], tension);  
 end;
 
-function Interpolate(t:Double; const p0,m0,p1,m1:TPointF): TPointF; Inline;
+function Interpolate(t:Double; const p0,m0,p1,m1:TPointF): TPointF; inline;
 var
   fa,fb,fc,fd:Double;
 begin
@@ -64,7 +91,7 @@ begin
 end;
 
 
-function SplinePoints(const p0,m0,p1,m1:TPointF): TPointFArray; Inline;
+function SplinePoints(const p0,m0,p1,m1:TPointF): TPointFArray; inline;
 var
   L,i: Integer;
   delta, t:Double;

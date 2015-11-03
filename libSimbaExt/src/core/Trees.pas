@@ -8,7 +8,6 @@ Unit Trees;
 {$macro on}
 {$inline on}
 {$modeswitch advancedrecords}
-{$rangechecks on}
 
 interface
 
@@ -47,7 +46,7 @@ type
 
     function InitBranch(): Int32; inline; //dummy
 
-    procedure Init(var TPA:TPointArray);
+    procedure Init(TPA:TPointArray);
     procedure Free();
 
     function IndexOf(p:TPoint): Int32;
@@ -71,7 +70,7 @@ type
 
 
 
-procedure TSlackTree_Init(var tree:TSlackTree; var TPA:TPointArray); cdecl;
+procedure TSlackTree_Init(var tree:TSlackTree; TPA:TPointArray); cdecl;
 procedure TSlackTree_Free(var tree:TSlackTree); cdecl;
 function TSlackTree_IndexOf(var tree:TSlackTree; p:TPoint): Int32; cdecl;
 function TSlackTree_Find(var tree:TSlackTree; p:TPoint): PNode; cdecl;
@@ -79,6 +78,8 @@ procedure TSlackTree_Delete(var tree:TSlackTree; idx:Int32); cdecl;
 function TSlackTree_Delete2(var tree:TSlackTree; pt:TPoint): LongBool; cdecl;
 function TSlackTree_Nearest_N(var tree:TSlackTree; pt:TPoint; notEqual:LongBool=False): PNode; cdecl;
 function TSlackTree_Nearest(var tree:TSlackTree; pt:TPoint; notEqual:LongBool=False): TPoint; cdecl;
+function TSlackTree_kNearest_N(var tree:TSlackTree; pt:TPoint; k:Int32; notEqual:LongBool=False): TNodeRefArray; cdecl;
+function TSlackTree_kNearest(var tree:TSlackTree; pt:TPoint; k:Int32; notEqual:LongBool=False): TPointArray; cdecl;
 function TSlackTree_RangeQuery_N(var tree:TSlackTree; B:TBox): TNodeRefArray; cdecl;
 function TSlackTree_RangeQuery(var tree:TSlackTree; B:TBox; remove:LongBool=False): TPointArray;  cdecl;
 function TSlackTree_RangeQuery2(var tree:TSlackTree; query:TPoint; xRad,yRad:Double; remove:LongBool=False): TPointArray; cdecl;
@@ -121,7 +122,7 @@ begin
 end;
 
 
-procedure TSlackTree.Init(var TPA:TPointArray);
+procedure TSlackTree.Init(TPA:TPointArray);
   procedure __build(var node:TNode; left, right:Int32; depth:Int32=0);
   var mid: Int32;
   begin
@@ -141,6 +142,7 @@ procedure TSlackTree.Init(var TPA:TPointArray);
     end;
   end;
 begin
+  Self.Size := 0;
   SetLength(self.data, Length(TPA));
   __build(self.data[InitBranch()], 0, High(TPA));
 end;
@@ -275,7 +277,7 @@ begin
      inc(c);
   end;
 
-  for i:=0 to c do Result[i]^.deleted := False;
+  for i:=0 to c-1 do Result[i]^.deleted := False;
   SetLength(Result, c);
 end;
 
@@ -400,7 +402,7 @@ end;
   
 //---------| Export friendly methods |-------------------------------
 
-procedure TSlackTree_Init(var tree:TSlackTree; var TPA:TPointArray); cdecl;
+procedure TSlackTree_Init(var tree:TSlackTree; TPA:TPointArray); cdecl;
 begin
  tree.Init(TPA);
 end;
@@ -439,6 +441,17 @@ function TSlackTree_Nearest(var tree:TSlackTree; pt:TPoint; notEqual:LongBool=Fa
 begin
   result := tree.Nearest(pt, notEqual);
 end;
+
+function TSlackTree_kNearest_N(var tree:TSlackTree; pt:TPoint; k:Int32; notEqual:LongBool=False): TNodeRefArray; cdecl;
+begin
+  result := tree.kNearest_N(pt, k, notEqual);
+end;
+
+function TSlackTree_kNearest(var tree:TSlackTree; pt:TPoint; k:Int32; notEqual:LongBool=False): TPointArray; cdecl;
+begin
+  result := tree.kNearest(pt, k, notEqual);
+end;
+
 
 function TSlackTree_RangeQuery_N(var tree:TSlackTree; B:TBox): TNodeRefArray; cdecl;
 begin

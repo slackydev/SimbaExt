@@ -396,7 +396,7 @@ end;
 function TRafBitmap.ToMatrix(): TIntMatrix;
 begin
   if not(Self.IsLoaded('TRafBitmap.ToMatrix()')) then Exit;
-  Result := BitmapToMatrix(Self.Bitmap);
+  Result := TIntMatrix(BitmapToMatrix(Self.Bitmap));
 end;
 
 

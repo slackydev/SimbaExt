@@ -7,24 +7,26 @@ library SimbaExt;
 {$mode objfpc}{$H+}
 {$macro on}
 {$inline on}
-{$fputype sse2}
+{$define experiments}
 
 uses
   SysUtils,
   Classes,
   Math,
   dynlibs,
-
+  DeclManager,
+  
+  Arrays,
   CoreMath,
+  CoreMisc,
   CoreTypes,
   CornerDet,
   DensityMap,
+  Dictionary,
   ExceptionMgr,
   Finder,
   Imaging,
-  MatrixMath,
   MatrixOps,
-  MatrixTools,
   Morphology,
   PointTools,
   Randomize,
@@ -34,21 +36,42 @@ uses
   Spline,
   StringTools,
   TimeUtils,
-  Trees,
-  Tests;
-
+  Trees{$IFDEF experiments},{$ELSE};{$ENDIF}
+  {$IFDEF experiments}tests;{$ENDIF}
 
 var
-  Methods: array of record ProcAddr: Pointer; ProcDef:PChar; end;
+  Methods: array of record ProcAddr: Pointer; ProcDef:AnsiString; end;
   MethodsLoaded: Boolean = False;
   TypeDefs: array of record TypeName, TypeDef:PChar; end;
   TypesLoaded: Boolean = False;
 
+  ClassManager: TManagedDeclarations;
+  
+var
   OldMemoryManager: TMemoryManager;
   MemIsset: Boolean = False;
 
 
+type
+  SExt = NativeInt;
+  
+  
+//used for debugging exports
+function MethodList(var se:SExt): TStringArray; cdecl;
+var i:Int32;
+begin
+  SetLength(Result, Length(methods));
+  for i:=0 to High(Methods) do Result[i] := Methods[i].ProcDef;
+end;
+
+procedure FreeDeclarations(var se:SExt); cdecl;
+begin
+  ClassManager.ReleaseThread(se);
+end;
+
+
 //Include export wrappers
+{$I lpexports/wrap_arrays.inc}
 {$I lpexports/wrap_std.inc}
 {$I lpexports/wrap_math.inc}
 {$I lpexports/wrap_finder.inc}
@@ -61,7 +84,7 @@ var
 {$I lpexports/wrappers_general.inc}
 
 
-procedure AddMethod(ProcAddr: Pointer; ProcDef: PChar);
+procedure AddMethod(ProcAddr: Pointer; ProcDef: AnsiString);
 var L: Integer;
 begin
   L := Length(Methods);
@@ -82,6 +105,8 @@ end;
 
 
 procedure LoadMethods;
+var
+  _TYPENAME,_T,_TOvf:String;
 begin
   MethodsLoaded := True;
   {$I export_methods.inc}
@@ -92,20 +117,6 @@ procedure LoadTypes;
 begin
   TypesLoaded := True;
   {$I export_types.inc}
-end;
-
-
-procedure FreeMethods;
-begin
-  SetLength(Methods, 0);
-  MethodsLoaded := False;
-end;
-
-
-procedure FreeTypes;
-begin
-  SetLength(TypeDefs, 0);
-  TypesLoaded := False;
 end;
 
 
@@ -145,8 +156,6 @@ begin
   begin
     ProcAddr := Methods[x].procAddr;
     StrPCopy(ProcDef, Methods[x].ProcDef);
-    if (x = High(Methods)) then
-      FreeMethods;
   end;
 end;
 
@@ -166,8 +175,6 @@ begin
   begin
     StrPCopy(TypeName, TypeDefs[x].TypeName);
     StrPCopy(TypeDef,  TypeDefs[x].TypeDef);
-    if (x = High(TypeDefs)) then
-      FreeTypes;
   end;
 end;
 
@@ -182,4 +189,7 @@ exports GetFunctionInfo;
 exports OnDetach;
 
 
+
+initialization
+  ClassManager := TManagedDeclarations.Create();
 end.

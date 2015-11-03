@@ -1,0 +1,5 @@
+Some functions fail when compiling using FPC 3.0.1
+EG:
+- se.RandomTIA just doesn't work as it should - arguments seems to be.. fucked
+
+Seems as tho calling convention is somehow fucked, but I am not sure wtf is going on

@@ -28,6 +28,8 @@
     else Stop := 0;
 
   h := Length(Arr);
+  if h = 0 then Exit();
+  
   case (Step > 0) of
     True:  if (Stop >= h) then Stop := h-1;
     False: if (Start >= h) then Start := h-1;
@@ -41,8 +43,8 @@
   SetLength(Result, ((Stop-Start) div step)+1);
   P := @Arr[start];
   R := @Result[0];
-  L := PtrUInt(@Result[Length(Result)]);
-  while PtrUInt(R) < L do
+  L := PtrUInt(@Result[High(Result)]);
+  while PtrUInt(R) <= L do
   begin
     R^ := P^;
     Inc(R);

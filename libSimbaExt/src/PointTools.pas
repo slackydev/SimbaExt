@@ -67,7 +67,7 @@ function TPAEdges(const TPA: TPointArray): TPointArray;
 implementation
 
 uses 
-  CoreMath, Spline, MatrixTools, Sorting, PointList;
+  CoreMath, Spline, Sorting, PointList;
 
 
 {*

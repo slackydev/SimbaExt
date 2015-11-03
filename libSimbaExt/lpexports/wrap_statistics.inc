@@ -3,12 +3,11 @@
  All rights reserved.
  For more info see: Copyright.txt
  
- Wrap all numeric methods (related to number arrays: Numeric.pas) .
+ Wrap all statistics methods (Statistics.pas) .
 [=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=}
 var _____F: Extended; _____I: Int64;
 
-
-//sum
+//-- sum
 function exp_SumA_u8(var SE:Pointer; const Arr: TU8Array): Int64; Cdecl;
 begin Result := Statistics.SumPtr(Pointer(Arr), 1, False); end;
 
@@ -327,8 +326,8 @@ begin Result := Statistics.MedianFPtr(Pointer(Arr), 10); end;
 
 
 //combos
-function exp_TIACombinations(var SE:Pointer; const Arr: TIntArray; Seq:Integer): T2DIntArray; cdecl;
+function exp_TIACombinations(var se:SExt; const Arr: TIntArray; Seq:Integer): T2DIntArray; cdecl;
 begin Result := TIACombinations(Arr, Seq); end;
 
-function exp_TEACombinations(var SE:Pointer; const Arr: TExtArray; Seq:Integer): T2DExtArray; cdecl;
+function exp_TEACombinations(var se:SExt; const Arr: TExtArray; Seq:Integer): T2DExtArray; cdecl;
 begin Result := TEACombinations(Arr, Seq); end;

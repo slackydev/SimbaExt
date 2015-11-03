@@ -11,8 +11,7 @@ interface
 
 uses SysUtils;
 
-function MarkTime(): Double; cdecl;
-function exp_MarkTime(var SE:Pointer): Double; cdecl;
+function MarkTime(): Double; inline;
 
 //------------------------------------------------------------------------------
 implementation
@@ -20,30 +19,10 @@ implementation
 uses
   DateUtils, Math,{$IFDEF WINDOWS}Windows{$ELSE}BaseUnix,Unix{$ENDIF};
 
-function MarkTime(): Double; cdecl;
+function MarkTime(): Double;
 var 
   frequency,count:Int64;
   {$IFDEF UNIX} 
-  TV:TTimeVal; TZ:PTimeZone;
-  {$ENDIF}
-begin
-  {$IFDEF WINDOWS}
-  QueryPerformanceFrequency(frequency);
-  QueryPerformanceCounter(count);
-  Result := count / frequency * 1000;
-  {$ELSE}
-  TZ := nil;
-  fpGetTimeOfDay(@TV, TZ);
-  count := Int64(TV.tv_sec) * 1000000 + Int64(TV.tv_usec);
-  Result := count / 1000;
-  {$ENDIF} 
-end;
-
-//expo version
-function exp_MarkTime(var SE:Pointer): Double; cdecl;
-var 
-  frequency,count:Int64;
-  {$IFDEF UNIX}
   TV:TTimeVal; TZ:PTimeZone;
   {$ENDIF}
 begin

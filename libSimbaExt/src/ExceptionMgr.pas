@@ -12,7 +12,6 @@ var Errors:TStringArray;
 const EMaxErrors = 32;
 
 function PopException(var Msg:String): LongBool; cdecl;
-function exp_PopException(SE:Pointer; out Msg:String): LongBool; cdecl;
 procedure NewException(Msg:String);
 procedure NewExceptionFmt(Msg:String; Args:Array of Const);
 
@@ -44,12 +43,6 @@ begin
     SetLength(Errors, High(Errors));
     Result := True;
   end;
-end;
-
-
-function exp_PopException(SE:Pointer; out Msg:String): LongBool; cdecl;
-begin
-  Result := PopException(Msg);
 end;
 
 

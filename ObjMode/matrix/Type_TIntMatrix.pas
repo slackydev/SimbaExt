@@ -229,41 +229,6 @@ end;
 //---------------------------------------------------------------------------------------------------\\
 
 
-{!DOCREF} {
-  @method: function se.MatrixFromTPA(const TPA:TPointArray; Value:Int32; Align:Boolean): TIntMatrix;
-  @desc:
-    Converts a TPA to a matrix, where each element in the TPA will be given a value, and the rest will be 0.
-    Align must be true if you want to fir each point to the start of the matrix.
-
-}
-
-
-
-{!DOCREF} {
-  @method: function se.MatrixFromTPA(const TPA:TPointArray; Init, Value:Integer; Align:Boolean=True): TIntMatrix; overload;
-  @desc:
-    Converts a TPA to a matrix, where each element in the TPA will be given a value, and the rest will be the value of c'init'.
-    Align must be true if you want to fir each point to the start of the matrix.
-}
-
-
-{!DOCREF} {
-  @method: function se.MatrixFromTIA(const Arr:TIntegerArray; Width,Height:Integer):  TIntMatrix; 
-  @desc: Converts a TIntArray to a TIntMatrix of the given width, and height.
-}
-
-{!DOCREF} {
-  @method: function TIntMatrix.FloodFill(const Start:TPoint; EightWay:Boolean): TPointArray;
-  @desc: Follows a value in the matrix and fills the result with all those indices.
-}
-function TIntMatrix.FloodFill(const Start:TPoint; EightWay:Boolean): TPointArray;  
-begin
-  Result := se.FloodFillMatrix(Self, Start, EightWay);
-end;
-
-
-
-
 {------------|  GetArea, GetCols, GetRows  |------------}
 {!DOCREF} {
   @method: function TIntMatrix.Area(X1,Y1,X2,Y2:Int32): TIntMatrix;  

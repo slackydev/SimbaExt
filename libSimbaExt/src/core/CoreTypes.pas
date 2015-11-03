@@ -15,36 +15,26 @@ uses
   SysUtils;
 
 type
-  //TPoint of Float
-  TPointF = packed record
-    X:Double;
-    Y:Double;
-  end;
-
-
-  //TPoint
   TPoint = packed record
-    X: Int32;
-    Y: Int32;
-    function InBox(x1,y1,x2,y2:Int32): Boolean;
+    x,y: Int32;
   end;
 
   TPointArray = array of TPoint;
   T2DPointArray = array of TPointArray;
   T3DPointArray = array of T2DPointArray;
 
-
-  //TBox
+  
   TBox = packed record
-    X1, Y1, X2, Y2: Int32;
+    x1,y1,x2,y2: Int32;
   private
     function GetWidth: Int32; inline;
     function GetHeight: Int32; inline;
   public
     property Width: Int32 read GetWidth;
     property Height: Int32 read GetHeight;
-    function Center: TPoint;
-    procedure Expand(const SizeChange: Int32);
+    function Center: TPoint; inline;
+    procedure Expand(const SizeChange: Int32); inline;
+    function Contains(pt:TPoint): Boolean; inline;
   end;
 
 
@@ -59,14 +49,12 @@ type
   TExtArray    = array of Extended;
   
   TStringArray = array of String;
-  TStrArray    = array of String;
   TCharArray   = array of Char;  
   
   TBoxArray    = array of TBox;
-  TPointFArray = array of TPointF;
+  
 
-
-  //-- less used (and aliases)
+  //-- less used names
   TU8Array  = array of UInt8;
   TS8Array  = array of Int8;
   TU16Array = array of UInt16;
@@ -87,16 +75,6 @@ type
   T2DExtArray    = array of TExtArray;
   T2DBoxArray    = array of TBoxArray;
   
-  
-  //--| 3D Array defs |------------------------------------------
-  T3DBoolArray = array of T2DBoolArray;
-  T3DByteArray = array of T2DByteArray;  
-  T3DIntArray  = array of T2DIntArray;
-  T3DFloatArray  = array of T2DFloatArray;
-  T3DDoubleArray = array of T2DDoubleArray;
-  T3DExtArray  = array of T2DExtArray;
-
-  
 
   //Aliases
   Float32 = Single;
@@ -110,7 +88,7 @@ type
   ECenterAlgo = (ECA_BOUNDS, ECA_BBOX, ECA_MEAN, ECA_MEDIAN);
   EResizeAlgo = (ERA_NEAREST, ERA_BILINEAR, ERA_BICUBIC);
 
-  // Color correlation algorithm
+  // Colour correlation algorithm
   EColorDistance = (ECD_RGB, ECD_RGB_SQRD, ECD_RGB_NORMED,
                     ECD_HSV, ECD_HSV_SQRD, ECD_HSV_NORMED,
                     ECD_XYZ, ECD_XYZ_SQRD, ECD_XYZ_NORMED,
@@ -118,7 +96,7 @@ type
                     ECD_DELTAE, ECD_DELTAE_NORMED);
 
   
-  // Comperison operator
+  // Comparison operator
   EComparator = (__LT__, __GT__, __EQ__, __NE__, __GE__, __LE__);
   PComparator = ^EComparator;
 
@@ -135,7 +113,7 @@ type
   TBGR32 = packed record B, G, R, A: UInt8; end;
   
   
-  //--| Lape related |--------------------------------------------
+  //--| parameter passing |---------------------------------------
   PParamArray = ^TParamArray;
   TParamArray = array[Word] of Pointer;
   
@@ -159,36 +137,28 @@ type
   
   PIntArray = ^TIntArray;
   P2DIntArray = ^T2DIntArray;
-  P3DIntArray = ^T3DIntArray;
 
   PByteArray = ^TByteArray;
   P2DByteArray = ^T2DByteArray;
-  P3DByteArray = ^T3DByteArray;  
 
   PBoolArray = ^TBoolArray;
   P2DBoolArray = ^T2DBoolArray;
-  P3DBoolArray = ^T3DBoolArray;
 
   PExtArray = ^TExtArray;
   P2DExtArray = ^T2DExtArray;
-  P3DExtArray = ^T3DExtArray;
 
   PDoubleArray = ^TDoubleArray;
   P2DDoubleArray = ^T2DDoubleArray;
-  P3DDoubleArray = ^T3DDoubleArray;
 
   PFloatArray = ^TFloatArray;
   P2DFloatArray = ^T2DFloatArray;
-  P3DFloatArray = ^T3DFloatArray;
 
   PStringArray = ^TStringArray;
-  PStrArray    = ^TStrArray;
   PCharArray   = ^TCharArray;
 
   PPoint = ^TPoint; 
   PPointArray = ^TPointArray;
   P2DPointArray = ^T2DPointArray;
-  P3DPointArray = ^T3dPointArray;
   
   PBox = ^TBox;
   PBoxArray = ^TBoxArray;
@@ -205,18 +175,23 @@ const
 
 function Box(const x1,y1,x2,y2:Integer): TBox; inline;
 function Point(const x,y:Integer): TPoint; inline;
-function Point(const x,y:Double):TPointF; overload; inline;
-function TPFAToTPA(Arr:TPointFArray): TPointArray;
-function TPAToTPFA(Arr:TPointArray): TPointFArray;
 
-operator = (Left, Right: TPoint): Boolean;
-operator = (Left, Right: TBox): Boolean;
+
+operator = (left, right: TPoint): Boolean;
+operator = (left, right: TBox): Boolean;
+
 
 function ParamArray(arr:array of Pointer): TParamArray;
 
 //-----------------------------------------------------------------------
 implementation
 uses math;
+
+function ParamArray(arr:Array of Pointer):TParamArray;
+var i:Int32;
+begin
+  for i:=0 to High(arr) do Result[i] := arr[i];
+end;
 
 function TBox.GetWidth: Int32;
 begin 
@@ -242,10 +217,13 @@ begin
   Self.Y2 := Self.Y2 + SizeChange;
 end;
 
-function TPoint.InBox(x1,y1,x2,y2:Int32): Boolean;
+
+function TBox.Contains(pt:TPoint): Boolean;
 begin
-  Result := InRange(Self.x, x1, x2) and InRange(Self.y, y1, y2);
+  with self do
+    Result := InRange(pt.x, x1, x2) and InRange(pt.y, y1, y2);
 end;
+
 
 function Box(const X1,Y1,X2,Y2:Int32): TBox;
 begin
@@ -253,41 +231,15 @@ begin
   Result.y1 := y1;
   Result.x2 := x2;
   Result.y2 := y2;
-end;    
+end;
+    
   
 function Point(const X, Y: Int32): TPoint;
 begin
   Result.X := X;
   Result.Y := Y;
 end;  
-  
-function Point(const X,Y:Double): TPointF;
-begin
-  Result.X := X;
-  Result.Y := Y;
-end; 
  
- 
-function TPFAToTPA(Arr:TPointFArray): TPointArray;
-var i:Int32;
-begin
-  SetLength(Result, Length(Arr));
-  for i:=0 to High(Arr) do
-    Result[i] := Point(Round(Arr[i].x), Round(Arr[i].y));
-end;
-
-
-function TPAToTPFA(Arr:TPointArray): TPointFArray;
-var i:Int32;
-begin
-  SetLength(Result, Length(Arr));
-  for i:=0 to High(Arr) do
-  begin
-    Result[i].x := Arr[i].x;
-    Result[i].y := Arr[i].y;
-  end;
-end;
-
 
 operator = (Left, Right: TPoint): Boolean;
 begin
@@ -300,11 +252,5 @@ begin
             (Left.x2 = Right.x2) and (Left.y2 = Right.y2);
 end;
 
-
-function ParamArray(arr:Array of Pointer):TParamArray;
-var i:Int32;
-begin
-  for i:=0 to High(arr) do Result[i] := arr[i];
-end;
 
 end.

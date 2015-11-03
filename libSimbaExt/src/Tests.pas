@@ -18,11 +18,53 @@ function ClusterTest(TPA:TPointArray; dist:Int32): T2DPointArray; cdecl;
 function ApprCluster(pts:TPointArray; xrad,yrad:Int32; fastAppr:Boolean): T2DPointArray; cdecl;
 procedure GaussianBlur_(const image:T2DIntArray; var dest:T2DIntArray; radius:Int32; sigma:Single);cdecl;
 
+procedure TestLookupSpeed(TPA:TPointArray); cdecl;
+
 //--------------------------------------------------
 implementation
 uses 
-  Sorting, Math, CoreMath, CoreMisc, Trees, PointTools, PointList, imaging, timeutils;
+  Math, CoreMath, Trees, PointTools, PointList, Imaging, TimeUtils, Arrays,
+  Dictionary;
   
+
+procedure TestLookupSpeed(TPA:TPointArray); cdecl;
+type
+  TPointDict = specialize TDictionary<TPoint, Boolean>;
+var 
+  dict:TPointDict;
+  mat:T2DBoolArray;
+  i:Int32;
+  t,tt:Double;
+  exists:Boolean;
+  B:TBox;
+begin
+  tt := MarkTime();
+  dict := TPointDict.Create(@HashPoint);
+  dict.SetSize(ftoi(1.3 * Length(TPA)));
+  dict.Resizable:=False;
+
+  for i:=0 to High(TPA) do dict[TPA[i]] := True;
+   
+  t := MarkTime();  
+  for i:=0 to High(TPA) do
+    exists := dict[TPA[i]];
+  WriteLn(FloatToStr(MarkTime() - t)+'ms, total: '+ FloatToStr(MarkTime()-tt)+'ms');
+  dict.Free();
+
+  tt := MarkTime();
+  B := TPABounds(TPA);
+  SetLength(mat, B.Height, B.Width); 
+  for i:=0 to High(TPA) do mat[TPA[i].y-B.y1,TPA[i].x-B.x1] := True;
+   
+  t := MarkTime();  
+  for i:=0 to High(TPA) do
+    exists := mat[TPA[i].y-B.y1,TPA[i].x-B.x1];
+  WriteLn(FloatToStr(MarkTime() - t) +'ms, total: '+ FloatToStr(MarkTime()-tt)+'ms');
+end;
+
+
+
+//--------------------
 
 function AsGray(mat:T2DIntArray): TFloatArray;
 var
@@ -106,15 +148,13 @@ function ClusterTest(TPA:TPointArray; dist:Int32): T2DPointArray; cdecl;
 var
   i,hi,curr,rc,n,group:Int32;
   range,tmp:TPointArray;
-  tree:TSlackTree;
+  tree:TSlackTree = (Data:nil; Size:0);
   pts:TNodeRefArray;
   pt:TPoint;
 begin
-  // Builds structure
   tree.Init(TPA);
   pts := tree.RefArray();
   
-  // prepare for war
   hi := High(pts);
   SetLength(Result, hi+1);
   group := 0;

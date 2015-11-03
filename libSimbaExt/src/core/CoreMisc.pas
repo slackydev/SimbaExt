@@ -27,68 +27,77 @@ type
 
 
 // Post-Increse and Post-Decrease but with a result (Similar to i++, and i-- in C)
-function Asc(var i: Int32): Int32; Inline; overload; //i++
-function Asc(var i: uInt32): uInt32; Inline;  overload; //i++
-function Asc(var i: Int64): Int64; Inline;  overload; //i++
-function Asc(var i: uInt64): uInt64; Inline;  overload; //i++
+function Asc(var i: Int32): Int32; inline; overload; //i++
+function Asc(var i: uInt32): uInt32; inline;  overload; //i++
+function Asc(var i: Int64): Int64; inline;  overload; //i++
+function Asc(var i: uInt64): uInt64; inline;  overload; //i++
 
-function Desc(var i: Int32): Int32; Inline; overload; //i--
-function Desc(var i: uInt32): uInt32; Inline; overload; //i--
-function Desc(var i: Int64): Int64; Inline; overload; //i--
-function Desc(var i: uInt64): uInt64; Inline; overload; //i--
+function Desc(var i: Int32): Int32; inline; overload; //i--
+function Desc(var i: uInt32): uInt32; inline; overload; //i--
+function Desc(var i: Int64): Int64; inline; overload; //i--
+function Desc(var i: uInt64): uInt64; inline; overload; //i--
 
 
 // Swapping / exchanging
-procedure Exch(var A,B:uInt8); Inline; overload;
-procedure Exch(var A,B:uInt16); Inline; overload;
-procedure Exch(var A,B:uInt32); Inline; overload;
-procedure Exch(var A,B:uInt64); Inline; overload;
+procedure Exch(var A,B:uInt8); inline; overload;
+procedure Exch(var A,B:uInt16); inline; overload;
+procedure Exch(var A,B:uInt32); inline; overload;
+procedure Exch(var A,B:uInt64); inline; overload;
 
-procedure Exch(var A,B:Int8); Inline; overload;
-procedure Exch(var A,B:Int16); Inline; overload;
-procedure Exch(var A,B:Int32); Inline; overload;
-procedure Exch(var A,B:Int64); Inline; overload;
+procedure Exch(var A,B:Int8); inline; overload;
+procedure Exch(var A,B:Int16); inline; overload;
+procedure Exch(var A,B:Int32); inline; overload;
+procedure Exch(var A,B:Int64); inline; overload;
 
-procedure Exch(var A,B:Extended); Inline; overload;
-procedure Exch(var A,B:Double); Inline; overload;
-procedure Exch(var A,B:Single); Inline; overload;
+procedure Exch(var A,B:Extended); inline; overload;
+procedure Exch(var A,B:Double); inline; overload;
+procedure Exch(var A,B:Single); inline; overload;
 
-procedure Exch(var A,B:TPoint); Inline; overload;
-procedure Exch(var A,B:TBox); Inline; overload;
+procedure Exch(var A,B:TPoint); inline; overload;
+procedure Exch(var A,B:TBox); inline; overload;
 
 
 // Excahnging values: only if condition is true
-procedure ExchIf(cond:Boolean; var a,b:UInt8); Inline; overload;
-procedure ExchIf(cond:Boolean; var a,b:UInt16); Inline; overload;
-procedure ExchIf(cond:Boolean; var a,b:UInt32); Inline; overload;
-procedure ExchIf(cond:Boolean; var a,b:UInt64); Inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:UInt8); inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:UInt16); inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:UInt32); inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:UInt64); inline; overload;
 
-procedure ExchIf(cond:Boolean; var a,b:Int8); Inline; overload;
-procedure ExchIf(cond:Boolean; var a,b:Int16); Inline; overload;
-procedure ExchIf(cond:Boolean; var a,b:Int32); Inline; overload;
-procedure ExchIf(cond:Boolean; var a,b:Int64); Inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:Int8); inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:Int16); inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:Int32); inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:Int64); inline; overload;
 
-procedure ExchIf(cond:Boolean; var a,b:Single); Inline; overload;
-procedure ExchIf(cond:Boolean; var a,b:Double); Inline; overload;
-procedure ExchIf(cond:Boolean; var a,b:Extended); Inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:Single); inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:Double); inline; overload;
+procedure ExchIf(cond:Boolean; var a,b:Extended); inline; overload;
 
 
 // Return the median of the 3 values
-function MedianOfThree(a,b,c:uInt8): uInt8; Inline; overload;
-function MedianOfThree(a,b,c:Int8): Int8; Inline; overload;
-function MedianOfThree(a,b,c:Int32): Int32; Inline; overload;
-function MedianOfThree(a,b,c:Single): Single; Inline; overload;
-function MedianOfThree(a,b,c:Double): Double; Inline; overload;
-function MedianOfThree(a,b,c:Extended): Extended; Inline; overload;
+function MedianOfThree(a,b,c:uInt8): uInt8; inline; overload;
+function MedianOfThree(a,b,c:Int8): Int8; inline; overload;
+function MedianOfThree(a,b,c:Int32): Int32; inline; overload;
+function MedianOfThree(a,b,c:Single): Single; inline; overload;
+function MedianOfThree(a,b,c:Double): Double; inline; overload;
+function MedianOfThree(a,b,c:Extended): Extended; inline; overload;
 
 
 // Return the median of the 5 values
-function MedianOfFive(a,b,c,d,e:uInt8): uInt8; Inline; overload;
-function MedianOfFive(a,b,c,d,e:Int8): Int8; Inline; overload;
-function MedianOfFive(a,b,c,d,e:Int32): Int32; Inline; overload;
-function MedianOfFive(a,b,c,d,e:Single): Single; Inline; overload;
-function MedianOfFive(a,b,c,d,e:Double): Double; Inline; overload;
-function MedianOfFive(a,b,c,d,e:Extended): Extended; Inline; overload;
+function MedianOfFive(a,b,c,d,e:uInt8): uInt8; inline; overload;
+function MedianOfFive(a,b,c,d,e:Int8): Int8; inline; overload;
+function MedianOfFive(a,b,c,d,e:Int32): Int32; inline; overload;
+function MedianOfFive(a,b,c,d,e:Single): Single; inline; overload;
+function MedianOfFive(a,b,c,d,e:Double): Double; inline; overload;
+function MedianOfFive(a,b,c,d,e:Extended): Extended; inline; overload;
+
+
+function cmpUI8(x,y:UInt8): Int32; inline;
+function cmpI32(x,y:Int32): Int32; inline;
+function cmpI64(x,y:Int64): Int32; inline;
+function cmpF32(x,y:Single): Int32; inline;
+function cmpF64(x,y:Double): Int32; inline;
+function cmpF80(x,y:Extended): Int32; inline;
+function cmpPoint(x,y:TPoint): Int32; inline; 
 
 
 //-----------------------------------------------------------------------
@@ -101,31 +110,31 @@ uses Math;
   Increase of the value (value+1), returning the current value (i++)
 *)
 function Asc(var i: Int32): Int32; Inline;
-begin Result:=i;  i+=1; end;
+begin Result:=i; i+=1; end;
 
 function Asc(var i: uInt32): uInt32; Inline;
-begin Result:=i;  i+=1; end;
+begin Result:=i; i+=1; end;
 
 function Asc(var i: Int64): Int64; Inline;
 begin Result:=i; i+=1; end;
 
 function Asc(var i: uInt64): uInt64; Inline;
-begin Result:=i;  i+=1; end;
+begin Result:=i; i+=1; end;
 
 (* 
   Decrease the value (value+1), returning the current value (i--)
 *)
 function Desc(var i: Int32): Int32; Inline;
-begin Result:=i;  i-=1; end;
+begin Result:=i; i-=1; end;
  
 function Desc(var i: uInt32): uInt32; Inline;
-begin Result:=i;  i-=1; end;
+begin Result:=i; i-=1; end;
 
 function Desc(var i: Int64): Int64; Inline;
-begin Result:=i;  i-=1; end;
+begin Result:=i; i-=1; end;
  
 function Desc(var i: uInt64): uInt64; Inline;
-begin Result:=i;  i-=1; end;
+begin Result:=i; i-=1; end;
  
 
 //--------------------------------------------------------------------------
@@ -420,6 +429,43 @@ begin
   end;
 end;
 
+
+
+function cmpUI8(x,y:UInt8): Int32;
+begin
+  result := x-y;
+end;
+
+function cmpI32(x,y:Int32): Int32;
+begin 
+  result := x-y; 
+end;
+
+function cmpI64(x,y:Int64): Int32;
+begin
+  Result := Sign(x-y);
+end;
+
+function cmpF32(x,y:Single): Int32;
+begin
+  Result := Sign(x-y);
+end;
+
+function cmpF64(x,y:Double): Int32;
+begin
+  Result := Sign(x-y);
+end;
+
+function cmpF80(x,y:Extended): Int32;
+begin
+  Result := Sign(x-y);
+end;
+
+function cmpPoint(x,y:TPoint): Int32; //compares item-wise
+begin
+  Result := x.x - y.x;
+  if Result=0 then Result := x.y - y.y;
+end;
 
 
 end.

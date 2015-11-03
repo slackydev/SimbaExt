@@ -20,8 +20,9 @@ AddType('EColorDistance', '(ECD_RGB, ECD_RGB_SQRD, ECD_RGB_NORMED, '+
                            'ECD_XYZ, ECD_XYZ_SQRD, ECD_XYZ_NORMED, '+
                            'ECD_LAB, ECD_LAB_SQRD, ECD_LAB_NORMED, '+
                            'ECD_DELTAE, ECD_DELTAE_NORMED);');
+
 AddType('TColorDistFunc', 'function(Color1:Pointer; Color2:Int32): Single;');
-AddType('TFinder',	'record                    '+
+AddType('TFinder',  'packed record             '+
                     '  FCompareFunc:Pointer;   '+
                     '  FNumThreads: Int32;     '+
                     '  FColorInfo : Pointer;   '+
@@ -34,21 +35,11 @@ AddType('PSlackNode', '^TSlackNode');
 AddType('TSlackArray', 'Array of TSlackNode;');
 AddType('TSlackRefArray', 'Array of PSlackNode;');
 AddType('TSlackTree', 'packed record data: TSlackArray; size: Int32; end;');
-                    
+          
+          
+//---| Arrays.pas |---------------------------------------------------------------------\\
+AddType('DynIntArray',    'packed record ref:Pointer; items:^TIntArray;    end;');
+AddType('DynInt64Array',  'packed record ref:Pointer; items:^TInt64Array;  end;');
+AddType('DynFloatArray',  'packed record ref:Pointer; items:^TFloatArray;  end;');
+AddType('DynDoubleArray', 'packed record ref:Pointer; items:^TDoubleArray; end;');
 
-//AddType('SEBitmap', 'record FData: TByteArray; Width,Height: UInt32; Initialized:Boolean; Index,NativeIndex:PRGB32; end;');
-
-(*
-AddType('TObjExpo',	'type Pointer;');
-AddType('SimbaExt',	'type Pointer;');
-AddType('TObjMath',	'type Pointer;');
-AddType('TObjTime',	'type Pointer;');
-AddType('TObjOSPath',	'type Pointer;');
-AddType('TObjOS',	'record path: TObjOSPath; end;');
-
-AddVar('SERaw',		'TObjExpo');
-AddVar('SE',		'SimbaExt');
-AddVar('Math',		'TObjMath');
-AddVar('TimeUtils',	'TObjTime');
-AddVar('OS',		'TObjOS');
-*)
