@@ -1,0 +1,1 @@
+{$loadlib \..\includes\simbaext_beta\matchTempl.dll}

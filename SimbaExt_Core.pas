@@ -18,19 +18,25 @@ type
   
   
   //Array
-  TIntArray    = TIntegerArray; 
+  TIntArray    = Array of Int32; 
+  TInt64Array  = Array of Int64; 
+  {$ifndecl TFloatArray}
   TFloatArray  = Array of Single;
+  {$endif}
   TDoubleArray = Array of Double;
   TExtArray    = Array of Extended;
   
   
   //Array of Array ..
-  //T2DIntArray     = Array of TIntArray;
+ {T2DIntArray     = Array of TIntArray;}
   T2DExtArray     = Array of TExtArray;
+  {$ifndecl T2DFloatArray}
   T2DFloatArray   = Array of TFloatArray;
+  {$endif}
   T2DDoubleArray  = Array of TDoubleArray;
   T2DBoxArray     = Array of TBoxArray;
   T2DBoolArray    = Array of TBoolArray;
+  
   
   //Matrix ..
   TByteMatrix   = Array of TByteArray;
@@ -48,14 +54,16 @@ type
 
   
 {|=====| Prefixes for SimbaExt modules |=====}
-type SimbaExt = type Pointer;   //se.method
+type SimbaExt = type NativeInt;   //se.method
   
 //LoadLibrary from current folder 
 {$loadlib \..\includes\simbaext_beta\simbaext.dll}
-{$loadlib \..\includes\simbaext_beta\matchTempl.dll}
+{$ifndecl cv_MatFromData}
+  {$include_once libMatchTemplate.inc} 
+{$endif}
 
 var 
-  se: SimbaExt;
+  se: SimbaExt := GetCurrThreadID();
   finder: TFinder;
   
   
@@ -116,6 +124,7 @@ end;
 procedure __SE_FREE_MEM;
 begin
   Finder.Free();
+  se.Free();
 end;
 
 var
