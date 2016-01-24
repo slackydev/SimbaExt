@@ -361,31 +361,30 @@ end;
 *}
 procedure ThresholdAdaptive(var image:T2DIntArray; Alpha, Beta: Int32; Method:EThreshAlgo; C:Int32);
 var
-  W,H,x,y:Int32;
+  W,H,x,y,size:Int32;
   Color,IMin,IMax: Byte;
-  Threshold,Counter: Int64;
+  threshold: Int64;
 begin
   if Alpha = Beta then Exit;
   if not(GetMatrixHigh(image, W,H)) then Exit();
 
+  size := (W+1) * (H+1);
   //Finding the threshold - While at it convert image to grayscale.
-  Threshold := 0;
+  threshold := 0;
   Case Method of
     //Find the Arithmetic Mean / Average.
     ETA_MEAN:
     begin
       for y:=0 to H do
       begin
-        Counter := 0;
         for x:=0 to W do
         begin
           Color := ColorIntensity(image[y,x]);
           image[y,x] := Color;
-          Counter += Color;
+          threshold  += Color;
         end;
-        Threshold += (Counter div (W+1));
       end;
-      Threshold := (Threshold div (H+1)) + C;
+      threshold := Round(threshold / size) + C);
     end;
 
     //Middle of Min- and Max-value
@@ -403,14 +402,14 @@ begin
           else if Color > IMax then
             IMax := Color;
         end;
-      Threshold := ((IMax+IMin) shr 1) + C;
+      threshold := ((IMax+IMin) shr 1) + C;
     end;
   end;
 
   for y:=0 to H do
     for x:=0 to W do
     begin
-      if image[y,x] < Threshold then
+      if image[y,x] < threshold then
         image[y,x] := Alpha
       else 
         image[y,x] := Beta;
