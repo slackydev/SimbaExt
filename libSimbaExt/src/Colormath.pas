@@ -302,8 +302,11 @@ begin
   end;
 
   chroma := r - Min(g, b);
-  Result.h := Abs(K + (g - b) / (6.0 * chroma + 1.0e-20)) * 360;
   Result.s := chroma / (r + 1.0e-20)  * 100;
+  if Result.s < 1.0e-20 then
+    Result.h := 0
+  else
+    Result.h := Abs(K + (g - b) / (6.0 * chroma + 1.0e-20)) * 360;
   Result.v := r * 100;
 end;
 
