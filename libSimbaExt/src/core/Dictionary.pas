@@ -7,7 +7,7 @@ Unit Dictionary;
 interface
 (*
  Some very basic hashing.. You need to write your own hash function if you want
- the Key to be anything else then UInt32/Cardinal/LongWord.
+ the Key to be anything else then UInt32/Cardinal/LongWord/TPoint.
 *)
 {$mode delphi}{$H+}
 {$inline on}
@@ -25,7 +25,7 @@ const
   DICT_GROWTH_STRAT = 2;
 
   // The growth strategy when the dict grows beyond 50,000 items
-  // EG: 2 means that it will quadruple the size every time it resizes
+  // EG: 4 means that it will quadruple the size every time it resizes
   DICT_GROWTH_STRAT_50K = 4;
 
 
